@@ -12,7 +12,7 @@ const initialTasks = [
     title: "Pay Electricity Bill",
     category: "Bills",
     priority: 2,
-    dueDate: "2024-03-12",
+    dueDate: "2024-04-15",
     assignedTo: ["1", "2"],
   },
   {
@@ -20,7 +20,7 @@ const initialTasks = [
     title: "Car Maintenance",
     category: "Maintenance",
     priority: 1,
-    dueDate: "2024-04-01",
+    dueDate: "2024-04-14",
     assignedTo: ["1", "2"],
   },
   {
@@ -36,7 +36,7 @@ const initialTasks = [
     title: "Book Club Meeting",
     category: "Social",
     priority: 1,
-    dueDate: "2024-03-20",
+    dueDate: "2024-05-20",
     assignedTo: ["1", "2"],
   },
   {
