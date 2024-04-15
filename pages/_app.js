@@ -1,9 +1,8 @@
 import GlobalStyle from "../styles";
 import initialTasks from "@/db/lib/tasks";
-import { useState } from "react";
 
 export default function App({ Component, pageProps }) {
-  const [tasks, setTasks] = useState(initialTasks);
+  const tasks = initialTasks;
 
   // Sorting the task in chronological order of date
   const tasksAfterSorting = tasks.sort(
