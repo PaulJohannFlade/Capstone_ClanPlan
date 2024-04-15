@@ -6,6 +6,7 @@ const StyledList = styled.ul`
   padding: 0;
   display: flex;
   flex-direction: column;
+  margin-bottom: 6rem;
 `;
 
 const StyledListItems = styled.li`
