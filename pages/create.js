@@ -8,10 +8,6 @@ const StyledLink = styled(Link)`
   position: fixed;
   top: 0.7rem;
   left: calc(50% - 170px);
-  &:hover {
-    cursor: pointer;
-    opacity: 0.5;
-  }
 `;
 
 export default function CreatePage({ handleAddData }) {
