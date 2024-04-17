@@ -1,5 +1,6 @@
 import TasksList from "@/components/TasksList";
 import styled from "styled-components";
+import Link from "next/link";
 
 const StyledHeading = styled.h2`
   text-align: center;
@@ -9,7 +10,6 @@ const StyledMessage = styled.p`
   text-align: center;
   padding-top: 4rem;
 `;
-
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -31,19 +31,12 @@ const StyledLink = styled(Link)`
   }
 `;
 
-
 export default function HomePage({ tasks }) {
   return (
     <div>
       <StyledHeading>Family Task List</StyledHeading>
       {!tasks.length && <StyledMessage>No Tasks to display.</StyledMessage>}
       <TasksList tasks={tasks} />
-      <StyledLink href="/create" $right={true}>
-        ➕
-      </StyledLink>
-      <StyledLink href="/family" $left={true}>
-        🧑‍🧑‍🧒‍🧒
-      </StyledLink>
     </div>
   );
 }

@@ -6,21 +6,14 @@ import styled from "styled-components";
 import { StyledMessage } from "..";
 import MemberForm from "@/components/MemberForm";
 import Modal from "@/components/Modal";
+import Plus from "@/public/assets/images/plus.svg";
 
-const StyledButton = styled.button`
-  text-decoration: none;
-  text-align: center;
+const StyledPlus = styled(Plus)`
   position: fixed;
-  bottom: 1.5rem;
-  left: ${({ $left }) => $left && "calc(50% - 160px)"};
-  right: ${({ $right }) => $right && "calc(50% - 160px)"};
-  padding: 0.5rem;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 1rem;
-  font-size: 2rem;
-  width: 4rem;
-  height: 4rem;
+  bottom: 4rem;
+  right: calc(50% - 160px);
+  width: 3rem;
+  fill: grey;
 `;
 
 const StyledHeading = styled.h2`
@@ -45,9 +38,8 @@ export default function FamilyPage({
       )}
       <FamilyMembersList familyMembers={familyMembers} />
 
-      <StyledButton onClick={() => setShowModal(true)} $right={true}>
-        ➕
-      </StyledButton>
+      <StyledPlus onClick={() => setShowModal(true)} $right={true} />
+
       {showModal && (
         <Modal setShowModal={setShowModal}>
           <MemberForm onAddMember={onAddMember} familyMembers={familyMembers} />
@@ -55,13 +47,4 @@ export default function FamilyPage({
       )}
     </>
   );
-}
-{
-  /* <StyledDiv onClick={() => setModal(false)}></StyledDiv>
-          <StyledSection>
-            <MemberForm
-              onAddMember={onAddMember}
-              familyMembers={familyMembers}
-            />
-          </StyledSection> */
 }
