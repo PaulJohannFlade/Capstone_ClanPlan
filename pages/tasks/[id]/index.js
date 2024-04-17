@@ -1,6 +1,5 @@
 import TaskDetails from "@/components/TaskDetails";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
 import styled from "styled-components";
 import StyledBackLink from "@/components/StyledBackLink";

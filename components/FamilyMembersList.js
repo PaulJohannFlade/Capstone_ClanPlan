@@ -15,11 +15,6 @@ const StyledListItems = styled.li`
   margin: 0.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
-
-  &:hover {
-    opacity: 0.5;
-    cursor: pointer;
-  }
 `;
 
 export default function FamilyMembersList({ familyMembers }) {

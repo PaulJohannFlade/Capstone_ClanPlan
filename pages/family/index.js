@@ -28,7 +28,6 @@ export default function FamilyPage({
 }) {
   return (
     <>
-      <Header />
       <StyledHeading>My Family</StyledHeading>
       <StyledBackLink href="/">
         <BackArrow />
