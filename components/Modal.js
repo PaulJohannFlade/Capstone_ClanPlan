@@ -25,7 +25,6 @@ export default function Modal({ children, setShowModal }) {
   return (
     <>
       <Overlay onClick={() => setShowModal(false)} />
-
       <StyledSection>{children}</StyledSection>
     </>
   );

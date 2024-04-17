@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Link from "next/link";
 
 const StyledSection = styled.section`
   display: grid;
@@ -10,11 +11,13 @@ const StyledParagraph = styled.p`
 `;
 
 export default function TaskPreview({ task }) {
-  const { title, category, priority, dueDate } = task;
+  const { title, category, priority, dueDate, id } = task;
 
   return (
     <StyledSection>
-      <h3>{title}</h3>
+      <Link href={`tasks/${id}`}>
+        <h3>{title}</h3>
+      </Link>
       <StyledParagraph>{"🔥".repeat(priority)}</StyledParagraph>
       <p>{category}</p>
       <p>{dueDate}</p>
