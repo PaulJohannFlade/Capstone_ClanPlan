@@ -12,6 +12,7 @@ const StyledForm = styled.form`
   background-color: white;
   padding: 1rem;
   border-radius: 1rem;
+  margin-bottom: 5rem;
 `;
 
 const StyledHeading = styled.h2`
