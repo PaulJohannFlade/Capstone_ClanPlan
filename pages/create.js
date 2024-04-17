@@ -1,26 +1,15 @@
 import Form from "@/components/Form";
 import Header from "@/components/Header";
-import Link from "next/link";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
-import styled from "styled-components";
-
-const StyledLink = styled(Link)`
-  position: fixed;
-  top: 0.7rem;
-  left: calc(50% - 170px);
-  &:hover {
-    cursor: pointer;
-    opacity: 0.5;
-  }
-`;
+import StyledBackLink from "@/components/StyledBackLink";
 
 export default function CreatePage({ handleAddData }) {
   return (
     <div>
       <Header />
-      <StyledLink href="/">
+      <StyledBackLink href="/">
         <BackArrow />
-      </StyledLink>
+      </StyledBackLink>
       <Form handleAddData={handleAddData} />
     </div>
   );

@@ -17,7 +17,8 @@ const StyledLink = styled(Link)`
   text-align: center;
   position: fixed;
   bottom: 1.5rem;
-  right: calc(50% - 160px);
+  left: ${({ $left }) => $left && "calc(50% - 160px)"};
+  right: ${({ $right }) => $right && "calc(50% - 160px)"};
   padding: 0.5rem;
   background-color: white;
   border: 1px solid black;
@@ -26,7 +27,7 @@ const StyledLink = styled(Link)`
   width: 4rem;
   height: 4rem;
 
-  &:hover: {
+  &:hover {
     cursor: ponter;
   }
 `;
@@ -38,7 +39,14 @@ export default function HomePage({ tasks }) {
       <StyledHeading>Family Task List</StyledHeading>
       {!tasks.length && <StyledMessage>No Tasks to display.</StyledMessage>}
       <TasksList tasks={tasks} />
-      <StyledLink href="/create">➕</StyledLink>
+      <StyledLink href="/create" $right={true}>
+        ➕
+      </StyledLink>
+      <StyledLink href="/family" $left={true}>
+        🧑‍🧑‍🧒‍🧒
+      </StyledLink>
     </div>
   );
 }
+
+export { StyledLink, StyledMessage };
