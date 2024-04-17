@@ -6,6 +6,7 @@ const Overlay = styled.div`
   left: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
+  z-index: 9;
 `;
 const StyledSection = styled.section`
   background-color: white;
