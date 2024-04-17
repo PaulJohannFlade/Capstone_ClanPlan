@@ -21,6 +21,7 @@ export default function DetailsPage({
   setShowModal,
   onDelete,
   onCancel,
+  handleCheckboxChange,
 }) {
   const router = useRouter();
   const { id } = router.query;
@@ -40,6 +41,7 @@ export default function DetailsPage({
           setShowModal={setShowModal}
           onDelete={onDelete}
           onCancel={onCancel}
+          handleCheckboxChange={handleCheckboxChange}
         />
       ) : (
         <StyledMessage>Page not found!</StyledMessage>

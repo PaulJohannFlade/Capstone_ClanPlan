@@ -10,12 +10,12 @@ const StyledMessage = styled.p`
   padding-top: 4rem;
 `;
 
-export default function HomePage({ tasks }) {
+export default function HomePage({ tasks, handleCheckboxChange }) {
   return (
     <div>
       <StyledHeading>Family Task List</StyledHeading>
       {!tasks.length && <StyledMessage>No Tasks to display.</StyledMessage>}
-      <TasksList tasks={tasks} />
+      <TasksList tasks={tasks} handleCheckboxChange={handleCheckboxChange} />
     </div>
   );
 }

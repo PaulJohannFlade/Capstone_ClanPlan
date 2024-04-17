@@ -1,21 +1,34 @@
 import styled from "styled-components";
-import Link from "next/link";
 import StyledButton from "./StyledButton";
 import Trash from "@/public/assets/images/trash-icon.svg";
 import Modal from "./Modal";
 
 const StyledTrash = styled(Trash)`
   width: 1.5rem;
+  position: absolute;
+  top: 1rem;
+  right: 1.3rem;
 `;
 
 const StyledSection = styled.section`
+  position: relative;
+  background-color: white;
+  margin: 6rem 0.5rem 5rem 0.5rem;
   background-color: white;
   display: flex;
   flex-direction: column;
   border-radius: 2rem;
   padding: 2rem;
   gap: 1rem;
-  margin-bottom: 5rem;
+  transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
+  box-shadow: 5px 5px 15px 5px rgba(112, 107, 91, 0.83);
+  ${({ $isDone }) =>
+    $isDone &&
+    `
+      background-color: lightgray;
+      opacity: 0.5;
+      color: gray;
+    `};
 `;
 
 const ButtonContainer = styled.div`
@@ -38,23 +51,33 @@ const StyledPragraph = styled.p`
   text-align: center;
 `;
 
+const StyledCheckbox = styled.input`
+  margin-left: 2rem;
+  display: inline;
+  width: 1.5rem;
+  height: 1.5rem;
+  &:checked {
+    filter: hue-rotate(180deg);
+  }
+`;
+
 export default function TaskDetails({
   task,
   showModal,
   setShowModal,
   onDelete,
   onCancel,
+  handleCheckboxChange,
 }) {
-  const { title, category, priority, dueDate, id } = task;
+  const { title, category, priority, dueDate, id, isDone } = task;
 
   return (
-    <StyledSection>
-      <StyledTrash onClick={() => setShowModal(true)} />
+    <>
       {showModal && (
         <Modal setShowModal={setShowModal}>
           <DeleteConfirmBox>
             <StyledPragraph>
-              Are you sure your want to delete this task?
+              Are you sure you want to delete this task?
             </StyledPragraph>
             <ButtonContainer>
               <StyledButton onClick={onCancel}>No</StyledButton>
@@ -63,14 +86,27 @@ export default function TaskDetails({
           </DeleteConfirmBox>
         </Modal>
       )}
-      <p> What is to do?</p>
-      <h2>{title}</h2>
-      <p>Category: </p>
-      <h2>{category}</h2>
-      <p>Priority: </p>
-      <h2>{"🔥".repeat(priority)}</h2>
-      <p>Due Date:</p>
-      <h3>{dueDate}</h3>
-    </StyledSection>
+      <StyledSection $isDone={isDone}>
+        <StyledTrash onClick={() => setShowModal(true)} />
+
+        <p> What is to do?</p>
+        <h2>{title}</h2>
+        <p>Category: </p>
+        <h2>{category}</h2>
+        <p>Priority: </p>
+        <h2>{"🔥".repeat(priority)}</h2>
+        <p>Due Date:</p>
+        <h3>{dueDate}</h3>
+        <label htmlFor="checkbox">
+          Done:
+          <StyledCheckbox
+            type="checkbox"
+            id="checkbox"
+            checked={isDone}
+            onChange={() => handleCheckboxChange(id)}
+          />
+        </label>
+      </StyledSection>
+    </>
   );
 }
