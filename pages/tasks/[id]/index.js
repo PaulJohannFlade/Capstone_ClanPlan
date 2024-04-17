@@ -15,7 +15,13 @@ const StyledMessage = styled.p`
   padding-top: 4rem;
 `;
 
-export default function DetailsPage({ tasks }) {
+export default function DetailsPage({
+  tasks,
+  showModal,
+  setShowModal,
+  onDelete,
+  onCancel,
+}) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -28,7 +34,13 @@ export default function DetailsPage({ tasks }) {
       </StyledLink>
 
       {task ? (
-        <TaskDetails task={task} />
+        <TaskDetails
+          task={task}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          onDelete={onDelete}
+          onCancel={onCancel}
+        />
       ) : (
         <StyledMessage>Page not found!</StyledMessage>
       )}
