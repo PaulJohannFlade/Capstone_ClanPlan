@@ -1,14 +1,8 @@
 import TaskDetails from "@/components/TaskDetails";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
 import styled from "styled-components";
-
-const StyledLink = styled(Link)`
-  position: fixed;
-  top: 0.7rem;
-  left: calc(50% - 170px);
-`;
+import StyledBackLink from "@/components/StyledBackLink";
 
 const StyledMessage = styled.p`
   text-align: center;
@@ -30,9 +24,9 @@ export default function DetailsPage({
 
   return (
     <>
-      <StyledLink href="/">
+      <StyledBackLink href="/">
         <BackArrow />
-      </StyledLink>
+      </StyledBackLink>
 
       {task ? (
         <TaskDetails

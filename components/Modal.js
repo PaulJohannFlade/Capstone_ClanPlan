@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 const Overlay = styled.div`
   position: fixed;
   right: 0;
@@ -8,6 +9,7 @@ const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.7);
   z-index: 9;
 `;
+
 const StyledSection = styled.section`
   background-color: white;
   border-radius: 2rem;
@@ -20,6 +22,7 @@ const StyledSection = styled.section`
   transform: translateX(-50%);
   z-index: 10;
 `;
+
 export default function Modal({ children, setShowModal }) {
   return (
     <>
