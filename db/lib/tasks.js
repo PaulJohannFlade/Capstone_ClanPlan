@@ -6,6 +6,7 @@ const initialTasks = [
     priority: 3,
     dueDate: "2024-04-12",
     assignedTo: ["1", "2"],
+    isDone: false,
   },
   {
     id: "2",
@@ -14,6 +15,7 @@ const initialTasks = [
     priority: 2,
     dueDate: "2024-04-15",
     assignedTo: ["1", "2"],
+    isDone: false,
   },
   {
     id: "3",
@@ -22,6 +24,7 @@ const initialTasks = [
     priority: 1,
     dueDate: "2024-04-14",
     assignedTo: ["1", "2"],
+    isDone: false,
   },
   {
     id: "4",
@@ -30,6 +33,7 @@ const initialTasks = [
     priority: 3,
     dueDate: "2024-03-15",
     assignedTo: ["1", "2"],
+    isDone: false,
   },
   {
     id: "5",
@@ -38,6 +42,7 @@ const initialTasks = [
     priority: 1,
     dueDate: "2024-05-20",
     assignedTo: ["1", "2"],
+    isDone: false,
   },
   {
     id: "6",
@@ -46,6 +51,7 @@ const initialTasks = [
     priority: 2,
     dueDate: "2024-03-18",
     assignedTo: ["1", "2"],
+    isDone: false,
   },
   {
     id: "7",
@@ -54,6 +60,7 @@ const initialTasks = [
     priority: 3,
     dueDate: "2024-03-22",
     assignedTo: ["1", "2"],
+    isDone: false,
   },
   {
     id: "8",
@@ -62,6 +69,7 @@ const initialTasks = [
     priority: 2,
     dueDate: "2024-03-25",
     assignedTo: ["1", "2"],
+    isDone: false,
   },
   {
     id: "9",
@@ -70,6 +78,7 @@ const initialTasks = [
     priority: 1,
     dueDate: "2024-04-05",
     assignedTo: ["1", "2"],
+    isDone: false,
   },
   {
     id: "10",
@@ -78,6 +87,7 @@ const initialTasks = [
     priority: 2,
     dueDate: "2024-03-30",
     assignedTo: ["1", "2"],
+    isDone: false,
   },
 ];
 

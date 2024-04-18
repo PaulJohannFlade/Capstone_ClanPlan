@@ -25,18 +25,15 @@ const StyledLink = styled(Link)`
   font-size: 2rem;
   width: 4rem;
   height: 4rem;
-
-  &:hover {
-    cursor: ponter;
-  }
 `;
 
-export default function HomePage({ tasks }) {
+export default function HomePage({ tasks, onCheckboxChange }) {
+
   return (
     <div>
       <StyledHeading>Family Task List</StyledHeading>
       {!tasks.length && <StyledMessage>No Tasks to display.</StyledMessage>}
-      <TasksList tasks={tasks} />
+      <TasksList tasks={tasks} onCheckboxChange={onCheckboxChange} />
     </div>
   );
 }

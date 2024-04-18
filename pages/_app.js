@@ -30,6 +30,7 @@ export default function App({ Component, pageProps }) {
       {
         id: uid(),
         ...formData,
+        isDone: false,
       },
     ]);
     router.push("/");
@@ -55,6 +56,14 @@ export default function App({ Component, pageProps }) {
     setShowModal(false);
   }
 
+  function handleCheckboxChange(id) {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, isDone: !task.isDone } : task
+      )
+    );
+  }
+
   // Sorting the task in chronological order of date
   const tasksAfterSorting = tasks.sort(
     (a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate)
@@ -74,6 +83,7 @@ export default function App({ Component, pageProps }) {
         showModal={showModal}
         onDelete={handleDeleteTask}
         onCancel={closeModalWindow}
+        onCheckboxChange={handleCheckboxChange}
       />
     </Layout>
   );
