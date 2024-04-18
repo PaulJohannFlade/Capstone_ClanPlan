@@ -15,6 +15,26 @@ const StyledMessage = styled.p`
   padding-top: 4rem;
 `;
 
+const StyledList = styled.ul`
+  list-style: none;
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+`;
+
+const StyledClearFilterButton = styled.button`
+  color: white;
+  font-weight: 700;
+  background-color: var(--color-font);
+  padding: 0.5rem;
+  border-radius: 0.7rem;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+`;
+
 export default function HomePage({
   tasks,
   onCheckboxChange,
@@ -53,16 +73,19 @@ export default function HomePage({
         <Filter />
       </StyledButton>
       {!tasks.length && <StyledMessage>No Tasks to display.</StyledMessage>}
-      <ul>
+      <StyledList>
         {Object.keys(filters).map(
           (key) =>
             Number(filters[key]) !== 0 && (
-              <button onClick={() => handleDeleteFilterOption(key)} key={key}>
+              <StyledClearFilterButton
+                onClick={() => handleDeleteFilterOption(key)}
+                key={key}
+              >
                 ❌ {key}: {filters[key]}
-              </button>
+              </StyledClearFilterButton>
             )
         )}
-      </ul>
+      </StyledList>
       <TasksList
         tasks={tasks.filter(
           (task) =>
