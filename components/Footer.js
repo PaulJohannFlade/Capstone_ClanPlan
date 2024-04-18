@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import Home from "@/public/assets/images/home.svg";
 import Plus from "@/public/assets/images/plus.svg";
+import Family from "@/public/assets/images/family.svg";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -31,6 +32,7 @@ const StyledLink = styled(Link)`
   width: 100%;
   height: 100%;
   padding: 0.7rem;
+  border: 1px solid white;
   background-color: ${({ $isActive }) => ($isActive ? "gray" : "")};
 `;
 
@@ -49,6 +51,11 @@ export default function Footer() {
           <li>
             <StyledLink $isActive={currentPage === "/"} href="/">
               <Home />
+            </StyledLink>
+          </li>
+          <li>
+            <StyledLink $isActive={currentPage === "/family"} href="/family">
+              <Family />
             </StyledLink>
           </li>
           <li>
