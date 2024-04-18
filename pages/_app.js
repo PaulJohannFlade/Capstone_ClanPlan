@@ -58,7 +58,7 @@ export default function App({ Component, pageProps }) {
         showModal={showModal}
         onDelete={handleDeleteTask}
         onCancel={closeModalWindow}
-        handleCheckboxChange={handleCheckboxChange}
+        onCheckboxChange={handleCheckboxChange}
       />
     </Layout>
   );

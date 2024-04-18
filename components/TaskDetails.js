@@ -67,7 +67,7 @@ export default function TaskDetails({
   setShowModal,
   onDelete,
   onCancel,
-  handleCheckboxChange,
+  onCheckboxChange,
 }) {
   const { title, category, priority, dueDate, id, isDone } = task;
 
@@ -103,7 +103,7 @@ export default function TaskDetails({
             type="checkbox"
             id="checkbox"
             checked={isDone}
-            onChange={() => handleCheckboxChange(id)}
+            onChange={() => onCheckboxChange(id)}
           />
         </label>
       </StyledSection>

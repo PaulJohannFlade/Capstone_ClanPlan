@@ -24,7 +24,7 @@ const StyledParagraph = styled.p`
   text-align: center;
 `;
 
-export default function TaskPreview({ task, handleCheckboxChange }) {
+export default function TaskPreview({ task, onCheckboxChange }) {
   const { title, category, priority, dueDate, id, isDone } = task;
 
   return (
@@ -32,7 +32,7 @@ export default function TaskPreview({ task, handleCheckboxChange }) {
       <StyledCheckbox
         type="checkbox"
         checked={isDone}
-        onChange={() => handleCheckboxChange(id)}
+        onChange={() => onCheckboxChange(id)}
       />
       <StyledLink href={`tasks/${id}`}>
         <h3>{title}</h3>
