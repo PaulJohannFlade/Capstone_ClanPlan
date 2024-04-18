@@ -29,6 +29,10 @@ export default function HomePage({
     setShowModal(false);
   }
 
+  function handleDeleteFilterOption(key) {
+    setFilters({ ...filters, [key]: "" });
+  }
+
   return (
     <div>
       {showModal && (
@@ -49,6 +53,16 @@ export default function HomePage({
         <Filter />
       </StyledButton>
       {!tasks.length && <StyledMessage>No Tasks to display.</StyledMessage>}
+      <ul>
+        {Object.keys(filters).map(
+          (key) =>
+            Number(filters[key]) !== 0 && (
+              <button onClick={() => handleDeleteFilterOption(key)} key={key}>
+                ❌ {key}: {filters[key]}
+              </button>
+            )
+        )}
+      </ul>
       <TasksList
         tasks={tasks.filter(
           (task) =>
