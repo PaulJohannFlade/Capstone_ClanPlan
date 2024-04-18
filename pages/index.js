@@ -53,6 +53,14 @@ export default function HomePage({
     setFilters({ ...filters, [key]: "" });
   }
 
+  const filteredTasks = tasks.filter(
+    (task) =>
+      (!Number(filters.priority) ||
+        task.priority === Number(filters.priority)) &&
+      (!filters.category || task.category === filters.category) &&
+      (!filters.member || task.assignedTo.includes(filters.member))
+  );
+
   return (
     <div>
       {showModal && (
@@ -72,7 +80,7 @@ export default function HomePage({
       >
         <Filter />
       </StyledButton>
-      {!tasks.length && <StyledMessage>No Tasks to display.</StyledMessage>}
+      {!tasks.length && <StyledMessage>No tasks to display.</StyledMessage>}
       <StyledList>
         {Object.keys(filters).map(
           (key) =>
@@ -86,16 +94,10 @@ export default function HomePage({
             )
         )}
       </StyledList>
-      <TasksList
-        tasks={tasks.filter(
-          (task) =>
-            (!Number(filters.priority) ||
-              task.priority === Number(filters.priority)) &&
-            (!filters.category || task.category === filters.category) &&
-            (!filters.member || task.assignedTo.includes(filters.member))
-        )}
-        onCheckboxChange={onCheckboxChange}
-      />
+      {!filteredTasks.length && (
+        <StyledMessage>No tasks with this search criteria.</StyledMessage>
+      )}
+      <TasksList tasks={filteredTasks} onCheckboxChange={onCheckboxChange} />
     </div>
   );
 }
