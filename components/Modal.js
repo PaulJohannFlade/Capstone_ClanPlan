@@ -14,7 +14,7 @@ const StyledSection = styled.section`
   background-color: white;
   border-radius: 2rem;
   position: absolute;
-  top: 35%;
+  top: 15%;
   right: calc(50% - 190px);
   padding: 15px;
   left: 50%;

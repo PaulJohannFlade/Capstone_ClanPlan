@@ -7,12 +7,12 @@ import Layout from "@/components/Layout";
 
 const initialFamilyMembers = [
   {
-    id: 999,
+    id: 1,
     name: "Swetha",
     role: "Parent",
   },
   {
-    id: 998,
+    id: 2,
     name: "Lokesh",
     role: "Parent",
   },

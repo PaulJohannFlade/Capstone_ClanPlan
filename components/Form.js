@@ -93,6 +93,10 @@ export default function Form({ onTaskSubmit, title, value, isEdit }) {
         <option value="Maintenance">Maintenance</option>
         <option value="Bills">Bills</option>
         <option value="Errands">Errands</option>
+        <option value="School">School</option>
+        <option value="Pets">Pets</option>
+        <option value="Health">Health</option>
+        <option value="Social">Social</option>
       </StyledSelect>
       <StyledLabel htmlFor="priority">Priority:</StyledLabel>
       <StyledDiv>

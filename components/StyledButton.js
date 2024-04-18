@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 const StyledButton = styled.button`
+  ${({ $left }) => $left && `margin-left: ${$left};`}
   margin-top: 2rem;
   color: white;
   font-weight: 700;
-  background-color: var(--color-font);
+  background-color: ${({ $red }) => ($red ? "red" : "var(--color-font)")};
   padding: 0.5rem;
-  width: 6rem;
+  width: ${({ $width }) => ($width ? $width : "6rem")};
   align-self: center;
   border-radius: 0.7rem;
   &:hover {
