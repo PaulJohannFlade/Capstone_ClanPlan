@@ -86,7 +86,7 @@ export default function TaskDetails({
           <StyledPen />
         </Link>
       </ButtonContainer>
-
+  </StyledSection>
     <>
 
       {showModal && (
