@@ -78,18 +78,8 @@ export default function TaskDetails({
   const { title, category, priority, dueDate, id, isDone } = task;
 
   return (
-
-    <StyledSection>
-      <ButtonContainer>
-        <StyledTrash onClick={() => setShowModal(true)} />
-        <Link href={`${id}/edit`}>
-          <StyledPen />
-        </Link>
-      </ButtonContainer>
-  </StyledSection>
     <>
-
-      {showModal && (
+  {showModal && (
         <Modal setShowModal={setShowModal}>
           <DeleteConfirmBox>
             <StyledPragraph>
@@ -103,7 +93,12 @@ export default function TaskDetails({
         </Modal>
       )}
       <StyledSection $isDone={isDone}>
-        <StyledTrash onClick={() => setShowModal(true)} />
+        <ButtonContainer>
+          <StyledTrash onClick={() => setShowModal(true)} />
+          <Link href={`${id}/edit`}>
+            <StyledPen />
+          </Link>
+        </ButtonContainer>
 
         <p> What is to do?</p>
         <h2>{title}</h2>
