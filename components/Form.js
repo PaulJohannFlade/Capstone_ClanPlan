@@ -38,23 +38,14 @@ const StyledDiv = styled.div`
   justify-content: space-between;
 `;
 
-export default function Form({ handleAddData }) {
-  const [value, setValue] = useState("");
+export default function Form({ onTaskSubmit, title, value, isEdit }) {
+  const [enteredTitle, setEnteredTitle] = useState("");
   const [isValid, setIsValid] = useState(false);
 
-  const router = useRouter();
-
-  const today = new Date();
-  const year = today.getFullYear();
-  const month =
-    today.getMonth() + 1 < 10
-      ? `0${today.getMonth() + 1}`
-      : today.getMonth() + 1;
-  const day = today.getDate() < 10 ? `0${today.getDate()}` : today.getDate();
-  const formattedTodayDate = `${year}-${month}-${day}`;
+  const formattedTodayDate = new Date().toISOString().substring(0, 10);
 
   function handleChange(event) {
-    setValue(event.target.value);
+    setEnteredTitle(event.target.value);
   }
 
   function handleSubmit(event) {
@@ -69,14 +60,16 @@ export default function Form({ handleAddData }) {
       return;
     }
 
-    handleAddData(data);
-
-    router.push("/");
+    if (isEdit) {
+      onTaskSubmit({ ...data, id: value.id });
+    } else {
+      onTaskSubmit(data);
+    }
   }
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <StyledHeading>Add a new Task</StyledHeading>
+      <StyledHeading>{title}</StyledHeading>
       <StyledLabel htmlFor="title">
         <StyledSpan $left={true}>*</StyledSpan>Title:
         {isValid && <StyledSpan>Please enter valid title!</StyledSpan>}
@@ -86,12 +79,16 @@ export default function Form({ handleAddData }) {
         id="title"
         name="title"
         maxLength="150"
-        value={value}
         onChange={handleChange}
+        defaultValue={value?.title}
       ></input>
-      <StyledSpan>{150 - value.length} characters left</StyledSpan>
+      <StyledSpan>{150 - enteredTitle.length} characters left</StyledSpan>
       <StyledLabel htmlFor="category">Category:</StyledLabel>
-      <StyledSelect id="category" name="category">
+      <StyledSelect
+        id="category"
+        name="category"
+        defaultValue={value?.category}
+      >
         <option value="">Please select a category</option>
         <option value="Maintenance">Maintenance</option>
         <option value="Bills">Bills</option>
@@ -107,7 +104,7 @@ export default function Form({ handleAddData }) {
         type="range"
         id="priority"
         name="priority"
-        defaultValue="1"
+        defaultValue={isEdit ? value?.priority : "1"}
         min="1"
         max="3"
       ></input>
@@ -117,8 +114,9 @@ export default function Form({ handleAddData }) {
         id="dueDate"
         name="dueDate"
         min={formattedTodayDate}
+        defaultValue={value?.dueDate}
       ></input>
-      <StyledButton>Create</StyledButton>
+      <StyledButton>{isEdit ? "Update" : "Create"}</StyledButton>
     </StyledForm>
   );
 }

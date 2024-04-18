@@ -9,13 +9,13 @@ const StyledLink = styled(Link)`
   left: calc(50% - 170px);
 `;
 
-export default function CreatePage({ handleAddData }) {
+export default function CreatePage({ onAddTask }) {
   return (
     <div>
       <StyledLink href="/">
         <BackArrow />
       </StyledLink>
-      <Form handleAddData={handleAddData} />
+      <Form onTaskSubmit={onAddTask} title="Add a task" value="" />
     </div>
   );
 }

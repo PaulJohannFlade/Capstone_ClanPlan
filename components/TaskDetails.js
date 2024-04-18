@@ -1,10 +1,15 @@
 import styled from "styled-components";
-import Link from "next/link";
 import StyledButton from "./StyledButton";
 import Trash from "@/public/assets/images/trash-icon.svg";
+import Pen from "@/public/assets/images/edit-pen-icon.svg";
 import Modal from "./Modal";
+import Link from "next/link";
 
 const StyledTrash = styled(Trash)`
+  width: 1.5rem;
+`;
+
+const StyledPen = styled(Pen)`
   width: 1.5rem;
 `;
 
@@ -21,7 +26,7 @@ const StyledSection = styled.section`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 2rem;
 `;
 
 const DeleteConfirmBox = styled.div`
@@ -49,7 +54,13 @@ export default function TaskDetails({
 
   return (
     <StyledSection>
-      <StyledTrash onClick={() => setShowModal(true)} />
+      <ButtonContainer>
+        <StyledTrash onClick={() => setShowModal(true)} />
+        <Link href={`${id}/edit`}>
+          <StyledPen />
+        </Link>
+      </ButtonContainer>
+
       {showModal && (
         <Modal setShowModal={setShowModal}>
           <DeleteConfirmBox>
