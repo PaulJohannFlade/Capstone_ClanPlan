@@ -89,7 +89,10 @@ export default function HomePage({
                 onClick={() => handleDeleteFilterOption(key)}
                 key={key}
               >
-                ❌ {key}: {filters[key]}
+                ❌ {key}:{" "}
+                {key === "member"
+                  ? familyMembers[filters[key]].name
+                  : filters[key]}
               </StyledClearFilterButton>
             )
         )}
