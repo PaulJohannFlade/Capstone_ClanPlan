@@ -86,7 +86,7 @@ export default function TaskDetails({
   return (
     <>
       {showModal && (
-        <Modal setShowModal={setShowModal}>
+        <Modal $top="13.5rem" setShowModal={setShowModal}>
           <DeleteConfirmBox>
             <StyledPragraph>
               Are you sure you want to delete this task?

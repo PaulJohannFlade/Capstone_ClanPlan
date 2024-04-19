@@ -64,7 +64,7 @@ export default function HomePage({
   return (
     <div>
       {showModal && (
-        <Modal setShowModal={setShowModal}>
+        <Modal $top="5rem" setShowModal={setShowModal}>
           <FilterWindow
             familyMembers={familyMembers}
             onApply={handleApplyFilters}

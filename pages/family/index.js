@@ -39,7 +39,7 @@ export default function FamilyPage({
       <StyledPlus onClick={() => setShowModal(true)} $right={true} />
 
       {showModal && (
-        <Modal setShowModal={setShowModal}>
+        <Modal $top="7rem" setShowModal={setShowModal}>
           <MemberForm onAddMember={onAddMember} familyMembers={familyMembers} />
         </Modal>
       )}
