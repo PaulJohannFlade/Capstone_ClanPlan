@@ -44,8 +44,8 @@ export default function HomePage({
 }) {
   const [filters, setFilters] = useState({});
 
-  function handleApplyFilters(selectedOptions) {
-    setFilters(selectedOptions);
+  function handleApplyFilters(formData) {
+    setFilters(formData);
     setShowModal(false);
   }
 
@@ -60,9 +60,6 @@ export default function HomePage({
       (!filters.category || task.category === filters.category) &&
       (!filters.member || task.assignedTo.includes(filters.member))
   );
-
-  console.log(familyMembers);
-  console.log(filters);
 
   return (
     <div>

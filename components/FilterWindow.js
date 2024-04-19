@@ -31,19 +31,11 @@ const StyledSelect = styled.select`
   padding: 0.3rem;
 `;
 
-export default function FilterWindow({ onApply, filters, familyMembers }) {
-  const [selectedOptions, setSelectedOptions] = useState({
-    priority: filters.priority || "0",
-    category: filters.category || "",
-    member: filters.member || "",
-  });
+export default function FilterWindow({ onApply, familyMembers, filters }) {
+  const [selectedOptions, setSelectedOptions] = useState(filters);
 
   function handleClearFilter() {
-    setSelectedOptions({
-      priority: "0",
-      category: "",
-      member: "",
-    });
+    setSelectedOptions({});
   }
 
   function handleChange(field, value) {
@@ -55,13 +47,15 @@ export default function FilterWindow({ onApply, filters, familyMembers }) {
 
   function handleApplyFilter(event) {
     event.preventDefault();
-    onApply(selectedOptions);
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+    onApply(data);
   }
 
   return (
     <StyledForm onSubmit={handleApplyFilter}>
       <StyledHeading>Filter</StyledHeading>
-      <StyledButton $clear onClick={handleClearFilter}>
+      <StyledButton $clear type="reset" onClick={handleClearFilter}>
         Clear all
       </StyledButton>
       <StyledLabel htmlFor="priority">Priority:</StyledLabel>
@@ -77,7 +71,7 @@ export default function FilterWindow({ onApply, filters, familyMembers }) {
         name="priority"
         min="0"
         max="3"
-        value={selectedOptions.priority}
+        value={selectedOptions.priority || "0"}
         onChange={(event) => handleChange("priority", event.target.value)}
       ></input>
       <StyledLabel htmlFor="category">Category:</StyledLabel>
