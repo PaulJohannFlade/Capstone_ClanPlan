@@ -91,7 +91,7 @@ export default function HomePage({
               >
                 ❌ {key}:{" "}
                 {key === "member"
-                  ? familyMembers[filters[key]].name
+                  ? familyMembers[filters[key] - 1].name
                   : filters[key]}
               </StyledClearFilterButton>
             )
