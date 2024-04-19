@@ -61,6 +61,9 @@ export default function HomePage({
       (!filters.member || task.assignedTo.includes(filters.member))
   );
 
+  console.log(familyMembers);
+  console.log(filters);
+
   return (
     <div>
       {showModal && (

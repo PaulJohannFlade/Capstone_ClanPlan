@@ -2,7 +2,7 @@ import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import { useState } from "react";
 
-const StyledSection = styled.section`
+const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -53,12 +53,13 @@ export default function FilterWindow({ onApply, filters, familyMembers }) {
     });
   }
 
-  function handleApplyFilter() {
+  function handleApplyFilter(event) {
+    event.preventDefault();
     onApply(selectedOptions);
   }
 
   return (
-    <StyledSection>
+    <StyledForm onSubmit={handleApplyFilter}>
       <StyledHeading>Filter</StyledHeading>
       <StyledButton $clear onClick={handleClearFilter}>
         Clear all
@@ -109,7 +110,7 @@ export default function FilterWindow({ onApply, filters, familyMembers }) {
           </option>
         ))}
       </StyledSelect>
-      <StyledButton onClick={handleApplyFilter}>Apply</StyledButton>
-    </StyledSection>
+      <StyledButton>Apply</StyledButton>
+    </StyledForm>
   );
 }
