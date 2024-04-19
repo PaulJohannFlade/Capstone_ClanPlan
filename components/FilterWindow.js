@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
-import { useState } from "react";
 
 const StyledForm = styled.form`
   display: flex;
@@ -32,19 +31,6 @@ const StyledSelect = styled.select`
 `;
 
 export default function FilterWindow({ onApply, familyMembers, filters }) {
-  const [selectedOptions, setSelectedOptions] = useState(filters);
-
-  function handleClearFilter() {
-    setSelectedOptions({});
-  }
-
-  function handleChange(field, value) {
-    setSelectedOptions({
-      ...selectedOptions,
-      [field]: value,
-    });
-  }
-
   function handleApplyFilter(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -52,10 +38,18 @@ export default function FilterWindow({ onApply, familyMembers, filters }) {
     onApply(data);
   }
 
+  function handleReset(event) {
+    event.preventDefault();
+    event.target.reset();
+    event.target.elements.priority.value = "0";
+    event.target.elements.category.value = "";
+    event.target.elements.member.value = "";
+  }
+
   return (
-    <StyledForm onSubmit={handleApplyFilter}>
+    <StyledForm onSubmit={handleApplyFilter} onReset={handleReset}>
       <StyledHeading>Filter</StyledHeading>
-      <StyledButton $clear type="reset" onClick={handleClearFilter}>
+      <StyledButton $clear type="reset">
         Clear all
       </StyledButton>
       <StyledLabel htmlFor="priority">Priority:</StyledLabel>
@@ -71,15 +65,13 @@ export default function FilterWindow({ onApply, familyMembers, filters }) {
         name="priority"
         min="0"
         max="3"
-        value={selectedOptions.priority || "0"}
-        onChange={(event) => handleChange("priority", event.target.value)}
+        defaultValue={filters.priority || "0"}
       ></input>
       <StyledLabel htmlFor="category">Category:</StyledLabel>
       <StyledSelect
         id="category"
         name="category"
-        value={selectedOptions.category}
-        onChange={(event) => handleChange("category", event.target.value)}
+        defaultValue={filters.category}
       >
         <option value="">Choose a category</option>
         <option value="Maintenance">Maintenance</option>
@@ -91,12 +83,7 @@ export default function FilterWindow({ onApply, familyMembers, filters }) {
         <option value="Social">Social</option>
       </StyledSelect>
       <StyledLabel htmlFor="member">Assigned member:</StyledLabel>
-      <StyledSelect
-        id="member"
-        name="member"
-        value={selectedOptions.member}
-        onChange={(event) => handleChange("member", event.target.value)}
-      >
+      <StyledSelect id="member" name="member" defaultValue={filters.member}>
         <option value="">Choose a member</option>
         {familyMembers.map((member) => (
           <option key={member.id} value={member.id}>
@@ -104,7 +91,7 @@ export default function FilterWindow({ onApply, familyMembers, filters }) {
           </option>
         ))}
       </StyledSelect>
-      <StyledButton>Apply</StyledButton>
+      <StyledButton type="submit">Apply</StyledButton>
     </StyledForm>
   );
 }
