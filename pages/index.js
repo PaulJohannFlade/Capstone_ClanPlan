@@ -91,7 +91,8 @@ export default function HomePage({
               >
                 ❌ {key}:{" "}
                 {key === "member"
-                  ? familyMembers[filters[key] - 1].name
+                  ? familyMembers.find((member) => member.id === filters[key])
+                      .name
                   : filters[key]}
               </StyledClearFilterButton>
             )
