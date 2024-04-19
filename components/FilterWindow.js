@@ -10,10 +10,12 @@ const StyledSection = styled.section`
   background-color: white;
   padding: 1rem;
   border-radius: 1rem;
+  position: relative;
 `;
 
 const StyledHeading = styled.h2`
-  align-self: center;
+  align-self: left;
+  margin-bottom: 1.5rem;
 `;
 
 const StyledLabel = styled.label`
@@ -58,7 +60,7 @@ export default function FilterWindow({ onApply, filters, familyMembers }) {
   return (
     <StyledSection>
       <StyledHeading>Filter</StyledHeading>
-      <StyledButton $red onClick={handleClearFilter}>
+      <StyledButton $clear onClick={handleClearFilter}>
         Clear all
       </StyledButton>
       <StyledLabel htmlFor="priority">Priority:</StyledLabel>
