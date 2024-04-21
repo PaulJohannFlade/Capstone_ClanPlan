@@ -3,6 +3,7 @@ import Link from "next/link";
 import Home from "@/public/assets/images/home.svg";
 import Plus from "@/public/assets/images/plus.svg";
 import Family from "@/public/assets/images/family.svg";
+import Category from "@/public/assets/images/category.svg";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -56,6 +57,14 @@ export default function Footer() {
           <li>
             <StyledLink $isActive={currentPage === "/family"} href="/family">
               <Family />
+            </StyledLink>
+          </li>
+          <li>
+            <StyledLink
+              $isActive={currentPage === "/categories"}
+              href="/categories"
+            >
+              <Category />
             </StyledLink>
           </li>
           <li>

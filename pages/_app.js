@@ -7,20 +7,51 @@ import Layout from "@/components/Layout";
 
 const initialFamilyMembers = [
   {
-    id: 999,
+    id: 1,
     name: "Swetha",
     role: "Parent",
   },
   {
-    id: 998,
+    id: 2,
     name: "Lokesh",
     role: "Parent",
+  },
+];
+
+const initialCategories = [
+  {
+    id: 1,
+    category: "Bills",
+    selectedMembers: [
+      {
+        id: 2,
+        name: "Lokesh",
+        role: "Parent",
+      },
+    ],
+  },
+  {
+    id: 2,
+    category: "Maintenance",
+    selectedMembers: [
+      {
+        id: 1,
+        name: "Swetha",
+        role: "Parent",
+      },
+      {
+        id: 2,
+        name: "Lokesh",
+        role: "Parent",
+      },
+    ],
   },
 ];
 
 export default function App({ Component, pageProps }) {
   const [tasks, setTasks] = useState(initialTasks);
   const [familyMembers, setFamilyMembers] = useState(initialFamilyMembers);
+  const [categories, setCategories] = useState(initialCategories);
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
 
@@ -64,6 +95,11 @@ export default function App({ Component, pageProps }) {
     );
   }
 
+  function handleAddCategory(data) {
+    setCategories([...categories, { id: uid(), ...data }]);
+    setShowModal(false);
+  }
+
   // Sorting the task in chronological order of date
   const tasksAfterSorting = tasks.sort(
     (a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate)
@@ -84,6 +120,8 @@ export default function App({ Component, pageProps }) {
         onDelete={handleDeleteTask}
         onCancel={closeModalWindow}
         onCheckboxChange={handleCheckboxChange}
+        categories={categories}
+        onAddCategory={handleAddCategory}
       />
     </Layout>
   );

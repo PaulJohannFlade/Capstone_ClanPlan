@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
-import { useRouter } from "next/router";
 
 const StyledHeading = styled.h2`
   align-self: center;
@@ -35,9 +34,7 @@ export default function MemberForm({ onAddMember, familyMembers }) {
   const [isValidName, setIsValidName] = useState(true);
   const [isValidRole, setIsValidRole] = useState(true);
   const [isUniqueName, setIsUniqueName] = useState(true);
-  const [value, setValue] = useState("");
-
-  const router = useRouter();
+  const [enteredName, setEnteredName] = useState("");
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -68,11 +65,10 @@ export default function MemberForm({ onAddMember, familyMembers }) {
     }
 
     onAddMember(data);
-    router.push("/family");
   }
 
   function handleChange(event) {
-    setValue(event.target.value);
+    setEnteredName(event.target.value);
     setIsUniqueName(true);
     setIsValidName(true);
     setIsValidRole(true);
@@ -89,7 +85,7 @@ export default function MemberForm({ onAddMember, familyMembers }) {
         )}
       </StyledLabel>
       <input type="text" name="name" id="name" onChange={handleChange}></input>
-      <StyledSpan>{50 - value.length} characters left</StyledSpan>
+      <StyledSpan>{50 - enteredName.length} characters left</StyledSpan>
 
       <StyledLabel htmlFor="role">
         <StyledSpan $left={true}>*</StyledSpan>Role
