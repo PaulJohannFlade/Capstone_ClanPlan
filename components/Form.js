@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
@@ -127,7 +126,11 @@ export default function Form({
         defaultValue={value?.dueDate}
       ></input>
       <StyledLabel htmlFor="assignedTo">Member:</StyledLabel>
-      <StyledSelect id="assignedTo" name="assignedTo">
+      <StyledSelect
+        id="assignedTo"
+        name="assignedTo"
+        defaultValue={value?.assignedTo}
+      >
         <option value="">Select Family Member</option>
         {familyMembers.map((member) => (
           <option key={member.id} value={member.id}>
