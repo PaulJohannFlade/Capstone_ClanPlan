@@ -3,23 +3,34 @@ import { useState } from "react";
 import DownArrow from "@/public/assets/images/down-arrow.svg";
 import UpArrow from "@/public/assets/images/up-arrow.svg";
 
-const StyledSection = styled.section`
+const StyledList = styled.ul`
   display: flex;
   padding: 0;
   flex-direction: column;
   gap: 1rem;
   margin: 0.5rem;
+  list-style: none;
 `;
 
 const StyledButton = styled.button`
   display: flex;
+  flex-direction: column;
   background-color: inherit;
-  align-items: center;
-  justify-content: space-between;
   box-shadow: 5px 5px 15px 5px rgba(112, 107, 91, 0.83);
   border-radius: 2rem;
   padding: 1rem;
   border: none;
+`;
+
+const StyledListOfMembers = styled.ul`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledCategory = styled.section`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export default function CategoriesList({ categories }) {
@@ -33,24 +44,26 @@ export default function CategoriesList({ categories }) {
     setSelected(index);
   }
   return (
-    <StyledSection>
+    <StyledList>
       {categories.map((category, index) => (
-        <>
-          <StyledButton key={category.id} onClick={() => handleExpand(index)}>
-            <span>
+        <li key={category.id}>
+          <StyledButton onClick={() => handleExpand(index)}>
+            <StyledCategory>
               <strong>{category.category}</strong>
-            </span>
-            {selected === index ? <UpArrow /> : <DownArrow />}
+              {selected === index ? <UpArrow /> : <DownArrow />}
+            </StyledCategory>
+            <section>
+              {selected === index && (
+                <StyledListOfMembers>
+                  {category.selectedMembers.map((member) => (
+                    <li key={member.id}>{member.name}</li>
+                  ))}
+                </StyledListOfMembers>
+              )}
+            </section>
           </StyledButton>
-          {selected === index && (
-            <ul>
-              {category.selectedMembers.map((member) => (
-                <li key={member.id}>{member.name}</li>
-              ))}
-            </ul>
-          )}
-        </>
+        </li>
       ))}
-    </StyledSection>
+    </StyledList>
   );
 }
