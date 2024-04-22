@@ -1,5 +1,4 @@
 import FamilyMembersList from "@/components/FamilyMembersList";
-import Header from "@/components/Header";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
 import StyledBackLink from "@/components/StyledBackLink";
 import styled from "styled-components";
@@ -40,7 +39,7 @@ export default function FamilyPage({
       <StyledPlus onClick={() => setShowModal(true)} $right={true} />
 
       {showModal && (
-        <Modal setShowModal={setShowModal}>
+        <Modal $top="7rem" setShowModal={setShowModal}>
           <MemberForm onAddMember={onAddMember} familyMembers={familyMembers} />
         </Modal>
       )}

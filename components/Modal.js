@@ -13,8 +13,8 @@ const Overlay = styled.div`
 const StyledSection = styled.section`
   background-color: white;
   border-radius: 2rem;
-  position: absolute;
-  top: 35%;
+  position: fixed;
+  top: ${({ $top }) => ($top ? $top : "0")};
   right: calc(50% - 190px);
   padding: 15px;
   left: 50%;
@@ -23,11 +23,11 @@ const StyledSection = styled.section`
   z-index: 10;
 `;
 
-export default function Modal({ children, setShowModal }) {
+export default function Modal({ children, setShowModal, $top }) {
   return (
     <>
       <Overlay onClick={() => setShowModal(false)} />
-      <StyledSection>{children}</StyledSection>
+      <StyledSection $top={$top}>{children}</StyledSection>
     </>
   );
 }

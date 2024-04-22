@@ -1,6 +1,10 @@
 import TasksList from "@/components/TasksList";
 import styled from "styled-components";
-import Link from "next/link";
+import Filter from "@/public/assets/images/filter.svg";
+import StyledButton from "@/components/StyledButton";
+import Modal from "@/components/Modal";
+import FilterWindow from "@/components/FilterWindow";
+import { useState } from "react";
 
 const StyledHeading = styled.h2`
   text-align: center;
@@ -11,31 +15,95 @@ const StyledMessage = styled.p`
   padding-top: 4rem;
 `;
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  text-align: center;
-  position: fixed;
-  bottom: 1.5rem;
-  left: ${({ $left }) => $left && "calc(50% - 160px)"};
-  right: ${({ $right }) => $right && "calc(50% - 160px)"};
+const StyledList = styled.ul`
+  list-style: none;
   padding: 0.5rem;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 1rem;
-  font-size: 2rem;
-  width: 4rem;
-  height: 4rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 `;
 
-export default function HomePage({ tasks, onCheckboxChange }) {
+const StyledClearFilterButton = styled.button`
+  color: white;
+  font-weight: 700;
+  background-color: var(--color-font);
+  padding: 0.5rem;
+  border-radius: 0.7rem;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+`;
+
+export default function HomePage({
+  tasks,
+  onCheckboxChange,
+  setShowModal,
+  showModal,
+  familyMembers,
+}) {
+  const [filters, setFilters] = useState({});
+
+  function handleApplyFilters(formData) {
+    setFilters(formData);
+    setShowModal(false);
+  }
+
+  function handleDeleteFilterOption(key) {
+    setFilters({ ...filters, [key]: "" });
+  }
+
+  const filteredTasks = tasks.filter(
+    (task) =>
+      (!Number(filters.priority) ||
+        task.priority === Number(filters.priority)) &&
+      (!filters.category || task.category === filters.category) &&
+      (!filters.member || task.assignedTo.includes(filters.member))
+  );
 
   return (
     <div>
+      {showModal && (
+        <Modal $top="5rem" setShowModal={setShowModal}>
+          <FilterWindow
+            familyMembers={familyMembers}
+            onApply={handleApplyFilters}
+            filters={filters}
+          />
+        </Modal>
+      )}
       <StyledHeading>Family Task List</StyledHeading>
-      {!tasks.length && <StyledMessage>No Tasks to display.</StyledMessage>}
-      <TasksList tasks={tasks} onCheckboxChange={onCheckboxChange} />
+      <StyledButton
+        $width="4rem"
+        $left="0.5rem"
+        onClick={() => setShowModal(true)}
+      >
+        <Filter />
+      </StyledButton>
+      {!tasks.length && <StyledMessage>No tasks to display.</StyledMessage>}
+      <StyledList>
+        {Object.keys(filters).map(
+          (key) =>
+            Number(filters[key]) !== 0 && (
+              <StyledClearFilterButton
+                onClick={() => handleDeleteFilterOption(key)}
+                key={key}
+              >
+                ❌ {key}:{" "}
+                {key === "member"
+                  ? familyMembers.find((member) => member.id === filters[key])
+                      .name
+                  : filters[key]}
+              </StyledClearFilterButton>
+            )
+        )}
+      </StyledList>
+      {!filteredTasks.length && (
+        <StyledMessage>No tasks with this search criteria.</StyledMessage>
+      )}
+      <TasksList tasks={filteredTasks} onCheckboxChange={onCheckboxChange} />
     </div>
   );
 }
 
-export { StyledLink, StyledMessage };
+export { StyledMessage };
