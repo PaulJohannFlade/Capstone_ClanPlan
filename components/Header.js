@@ -11,6 +11,7 @@ const StyledHeader = styled.header`
   max-width: 375px;
   margin: auto;
   padding: 0.7rem;
+  z-index: 1;
 `;
 
 export default function Header() {
