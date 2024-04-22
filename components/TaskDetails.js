@@ -12,6 +12,12 @@ const StyledTrash = styled(Trash)`
   right: 1.3rem;
 `;
 
+const StyledLink = styled(Link)`
+  position: absolute;
+  top: 1.1rem;
+  right: 5rem;
+`;
+
 const StyledPen = styled(Pen)`
   width: 1.5rem;
 `;
@@ -79,8 +85,8 @@ export default function TaskDetails({
 
   return (
     <>
-  {showModal && (
-        <Modal setShowModal={setShowModal}>
+      {showModal && (
+        <Modal $top="13.5rem" setShowModal={setShowModal}>
           <DeleteConfirmBox>
             <StyledPragraph>
               Are you sure you want to delete this task?
@@ -93,12 +99,10 @@ export default function TaskDetails({
         </Modal>
       )}
       <StyledSection $isDone={isDone}>
-        <ButtonContainer>
-          <StyledTrash onClick={() => setShowModal(true)} />
-          <Link href={`${id}/edit`}>
-            <StyledPen />
-          </Link>
-        </ButtonContainer>
+        <StyledTrash onClick={() => setShowModal(true)} />
+        <StyledLink href={`${id}/edit`}>
+          <StyledPen />
+        </StyledLink>
 
         <p> What is to do?</p>
         <h2>{title}</h2>

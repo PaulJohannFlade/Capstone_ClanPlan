@@ -7,12 +7,13 @@ import Layout from "@/components/Layout";
 
 const initialFamilyMembers = [
   {
-    id: 1,
+
+    id: "1",
     name: "Swetha",
     role: "Parent",
   },
   {
-    id: 2,
+    id: "2",
     name: "Lokesh",
     role: "Parent",
   },
@@ -20,27 +21,27 @@ const initialFamilyMembers = [
 
 const initialCategories = [
   {
-    id: 1,
+    id: "1",
     category: "Bills",
     selectedMembers: [
       {
-        id: 2,
+        id: "2",
         name: "Lokesh",
         role: "Parent",
       },
     ],
   },
   {
-    id: 2,
+    id: "2",
     category: "Maintenance",
     selectedMembers: [
       {
-        id: 1,
+        id: "1",
         name: "Swetha",
         role: "Parent",
       },
       {
-        id: 2,
+        id: "2",
         name: "Lokesh",
         role: "Parent",
       },

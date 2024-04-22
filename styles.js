@@ -49,7 +49,7 @@ a {
   text-decoration: none;
   color:inherit;
 }
-a:hover {
+a:hover, button:hover {
   cursor: pointer;
   opacity: 0.5;
 }
