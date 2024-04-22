@@ -38,9 +38,17 @@ const StyledDiv = styled.div`
   justify-content: space-between;
 `;
 
-export default function Form({ onTaskSubmit, title, value, isEdit }) {
+export default function Form({
+  onTaskSubmit,
+  title,
+  value,
+  isEdit,
+  familyMembers,
+}) {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [isValid, setIsValid] = useState(false);
+
+  const router = useRouter();
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
 
@@ -61,7 +69,7 @@ export default function Form({ onTaskSubmit, title, value, isEdit }) {
     }
 
     if (isEdit) {
-      onTaskSubmit({ ...data, id: value.id });
+      onTaskSubmit({ ...data, id: value.id, assignedTo: [assignedTo] });
     } else {
       onTaskSubmit(data);
     }
@@ -116,6 +124,15 @@ export default function Form({ onTaskSubmit, title, value, isEdit }) {
         min={formattedTodayDate}
         defaultValue={value?.dueDate}
       ></input>
+      <StyledLabel htmlFor="assignedTo">Member:</StyledLabel>
+      <StyledSelect id="assignedTo" name="assignedTo">
+        <option value="">Select Family Member</option>
+        {familyMembers.map((member) => (
+          <option key={member.id} value={member.id}>
+            {member.name}
+          </option>
+        ))}
+      </StyledSelect>
       <StyledButton>{isEdit ? "Update" : "Create"}</StyledButton>
     </StyledForm>
   );

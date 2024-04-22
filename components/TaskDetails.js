@@ -74,12 +74,13 @@ export default function TaskDetails({
   onDelete,
   onCancel,
   onCheckboxChange,
+  familyMembers,
 }) {
-  const { title, category, priority, dueDate, id, isDone } = task;
+  const { title, category, priority, dueDate, id, isDone, assignedTo } = task;
 
   return (
     <>
-  {showModal && (
+      {showModal && (
         <Modal setShowModal={setShowModal}>
           <DeleteConfirmBox>
             <StyledPragraph>
@@ -117,6 +118,21 @@ export default function TaskDetails({
             onChange={() => onCheckboxChange(id)}
           />
         </label>
+        <p>Member:</p>
+        <h2>
+          {/* {assignedTo.map((id) => (
+            <p key={id}>
+              {familyMembers.find((member) => member.id === id).name}
+            </p>
+          ))} */}
+
+          {assignedTo[0]}
+
+          {/* {assignedTo.length &&
+            assignedTo.map((memberId) => (
+              <p key={memberId}>{familyMembers[Number(memberId) - 1].name}</p>
+            ))} */}
+        </h2>
       </StyledSection>
     </>
   );

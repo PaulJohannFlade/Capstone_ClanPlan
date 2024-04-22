@@ -10,7 +10,7 @@ const StyledLink = styled(Link)`
   left: calc(50% - 170px);
 `;
 
-export default function EditPage({ onEditData, tasks }) {
+export default function EditPage({ onEditData, tasks, familyMembers }) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -27,6 +27,7 @@ export default function EditPage({ onEditData, tasks }) {
           title="Edit a task"
           isEdit
           value={task}
+          familyMembers={familyMembers}
         />
       </div>
     </>

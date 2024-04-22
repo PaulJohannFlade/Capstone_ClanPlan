@@ -7,12 +7,12 @@ import Layout from "@/components/Layout";
 
 const initialFamilyMembers = [
   {
-    id: 999,
+    id: "1",
     name: "Swetha",
     role: "Parent",
   },
   {
-    id: 998,
+    id: "2",
     name: "Lokesh",
     role: "Parent",
   },
@@ -31,12 +31,15 @@ export default function App({ Component, pageProps }) {
         id: uid(),
         ...formData,
         isDone: false,
+        member: formData.member,
+        assignedTo: formData.assignedTo,
       },
     ]);
     router.push("/");
   }
 
   function handleEditTask(updatedData) {
+    console.log(updatedData.assignedTo);
     const id = updatedData.id;
     setTasks(tasks.map((task) => (task.id === id ? updatedData : task)));
     router.push(`/tasks/${id}`);
