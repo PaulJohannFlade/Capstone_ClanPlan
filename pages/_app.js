@@ -39,7 +39,6 @@ export default function App({ Component, pageProps }) {
   }
 
   function handleEditTask(updatedData) {
-    console.log(updatedData.assignedTo);
     const id = updatedData.id;
     setTasks(tasks.map((task) => (task.id === id ? updatedData : task)));
     router.push(`/tasks/${id}`);

@@ -120,18 +120,11 @@ export default function TaskDetails({
         </label>
         <p>Member:</p>
         <h2>
-          {/* {assignedTo.map((id) => (
+          {assignedTo.map((id) => (
             <p key={id}>
               {familyMembers.find((member) => member.id === id).name}
             </p>
-          ))} */}
-
-          {assignedTo[0]}
-
-          {/* {assignedTo.length &&
-            assignedTo.map((memberId) => (
-              <p key={memberId}>{familyMembers[Number(memberId) - 1].name}</p>
-            ))} */}
+          ))}
         </h2>
       </StyledSection>
     </>

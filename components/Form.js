@@ -48,8 +48,6 @@ export default function Form({
   const [enteredTitle, setEnteredTitle] = useState("");
   const [isValid, setIsValid] = useState(false);
 
-  const router = useRouter();
-
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
 
   function handleChange(event) {
@@ -69,7 +67,7 @@ export default function Form({
     }
 
     if (isEdit) {
-      onTaskSubmit({ ...data, id: value.id, assignedTo: [assignedTo] });
+      onTaskSubmit({ ...data, id: value.id, assignedTo: [data.assignedTo] });
     } else {
       onTaskSubmit(data);
     }
