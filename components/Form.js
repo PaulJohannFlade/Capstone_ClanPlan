@@ -61,7 +61,7 @@ export default function Form({ onTaskSubmit, title, value, isEdit }) {
     }
 
     if (isEdit) {
-      onTaskSubmit({ ...data, id: value.id });
+      onTaskSubmit({ ...data, id: value.id, isDone: value.isDone });
     } else {
       onTaskSubmit(data);
     }
