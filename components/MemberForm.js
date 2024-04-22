@@ -84,7 +84,13 @@ export default function MemberForm({ onAddMember, familyMembers }) {
           <StyledSpan>Member with this name already exists</StyledSpan>
         )}
       </StyledLabel>
-      <input type="text" name="name" id="name" onChange={handleChange}></input>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        onChange={handleChange}
+        maxLength={50}
+      ></input>
       <StyledSpan>{50 - enteredName.length} characters left</StyledSpan>
 
       <StyledLabel htmlFor="role">

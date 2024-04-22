@@ -33,6 +33,13 @@ const StyledCategory = styled.section`
   align-items: center;
 `;
 
+const StyleSpan = styled.span`
+  max-width: 270px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
 export default function CategoriesList({ categories }) {
   const [selected, setSelected] = useState(null);
 
@@ -49,7 +56,9 @@ export default function CategoriesList({ categories }) {
         <li key={category.id}>
           <StyledButton onClick={() => handleExpand(index)}>
             <StyledCategory>
-              <strong>{category.category}</strong>
+              <StyleSpan title={category.category}>
+                <strong>{category.category}</strong>
+              </StyleSpan>
               {selected === index ? <UpArrow /> : <DownArrow />}
             </StyledCategory>
             <section>

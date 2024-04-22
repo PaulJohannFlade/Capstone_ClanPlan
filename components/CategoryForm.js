@@ -106,6 +106,7 @@ export default function CategoryForm({
         name="category"
         id="category"
         onChange={handleChange}
+        maxLength={50}
       ></input>
       <StyledSpan>{50 - enteredCategory.length} characters left</StyledSpan>
 
