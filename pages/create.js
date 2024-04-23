@@ -13,7 +13,6 @@ export default function CreatePage({ onAddTask, familyMembers }) {
       <Form
         onTaskSubmit={onAddTask}
         title="Add a task"
-        value=""
         familyMembers={familyMembers}
       />
     </div>

@@ -31,7 +31,7 @@ const StyledSection = styled.section`
   flex-direction: column;
   border-radius: 2rem;
   padding: 2rem;
-  gap: 1rem;
+  gap: 0.5rem;
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   box-shadow: 5px 5px 15px 5px rgba(112, 107, 91, 0.83);
   ${({ $isDone }) =>

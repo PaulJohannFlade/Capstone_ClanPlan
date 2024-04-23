@@ -68,7 +68,7 @@ export default function Form({
     if (isEdit) {
       onTaskSubmit({ ...data, id: value.id, assignedTo: [data.assignedTo] });
     } else {
-      onTaskSubmit(data);
+      onTaskSubmit({ ...data, assignedTo: [data.assignedTo] });
     }
   }
 
@@ -129,7 +129,7 @@ export default function Form({
       <StyledSelect
         id="assignedTo"
         name="assignedTo"
-        defaultValue={value?.assignedTo}
+        defaultValue={value?.assignedTo[0]}
       >
         <option value="">Select Family Member</option>
         {familyMembers.map((member) => (

@@ -31,8 +31,6 @@ export default function App({ Component, pageProps }) {
         id: uid(),
         ...formData,
         isDone: false,
-        member: formData.member,
-        assignedTo: formData.assignedTo,
       },
     ]);
     router.push("/");
