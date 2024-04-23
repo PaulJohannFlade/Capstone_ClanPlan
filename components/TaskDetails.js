@@ -123,7 +123,9 @@ export default function TaskDetails({
           />
         </label>
         <p>Member:</p>
-        <h2>{familyMembers.find((member) => member.id === assignedTo).name}</h2>
+        <h2>
+          {familyMembers.find((member) => member.id === assignedTo)?.name}
+        </h2>
       </StyledSection>
     </>
   );
