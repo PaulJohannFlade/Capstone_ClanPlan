@@ -5,7 +5,7 @@ const initialTasks = [
     category: "Errands",
     priority: 3,
     dueDate: "2024-05-12",
-    assignedTo: ["1"],
+    assignedTo: "1",
     isDone: false,
   },
   {
@@ -15,7 +15,7 @@ const initialTasks = [
     priority: 2,
 
     dueDate: "2024-05-15",
-    assignedTo: ["1"],
+    assignedTo: "1",
     isDone: false,
   },
   {
@@ -24,7 +24,7 @@ const initialTasks = [
     category: "Maintenance",
     priority: 1,
     dueDate: "2024-05-14",
-    assignedTo: ["1"],
+    assignedTo: "1",
     isDone: false,
   },
   {
@@ -33,7 +33,7 @@ const initialTasks = [
     category: "School",
     priority: 3,
     dueDate: "2024-04-29",
-    assignedTo: ["1"],
+    assignedTo: "1",
     isDone: false,
   },
   {
@@ -42,7 +42,7 @@ const initialTasks = [
     category: "Social",
     priority: 1,
     dueDate: "2024-05-20",
-    assignedTo: ["1"],
+    assignedTo: "1",
     isDone: false,
   },
   {
@@ -51,7 +51,7 @@ const initialTasks = [
     category: "Maintenance",
     priority: 2,
     dueDate: "2024-06-18",
-    assignedTo: ["2"],
+    assignedTo: "2",
     isDone: false,
   },
   {
@@ -60,7 +60,7 @@ const initialTasks = [
     category: "Pets",
     priority: 3,
     dueDate: "2024-05-22",
-    assignedTo: ["2"],
+    assignedTo: "2",
     isDone: false,
   },
   {
@@ -69,7 +69,7 @@ const initialTasks = [
     category: "Health",
     priority: 2,
     dueDate: "2024-04-25",
-    assignedTo: ["1"],
+    assignedTo: "1",
     isDone: false,
   },
   {
@@ -78,7 +78,7 @@ const initialTasks = [
     category: "Maintenance",
     priority: 1,
     dueDate: "2024-05-05",
-    assignedTo: ["2"],
+    assignedTo: "2",
     isDone: false,
   },
   {
@@ -87,7 +87,7 @@ const initialTasks = [
     category: "Social",
     priority: 2,
     dueDate: "2024-05-30",
-    assignedTo: ["2"],
+    assignedTo: "2",
     isDone: false,
   },
 ];
