@@ -77,7 +77,7 @@ const initialTasks = [
     category: "2",
     priority: 1,
     dueDate: "2024-05-05",
-    assignedTo: "",
+    assignedTo: "2",
     isDone: false,
   },
   {

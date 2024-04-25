@@ -18,7 +18,7 @@ export default function EditPage({
     (category) => category.id === task?.category
   )?.selectedMembers;
 
-  const allocatedMembersList = allocatedMembersId.map((memberId) => ({
+  const allocatedMembersList = allocatedMembersId?.map((memberId) => ({
     id: memberId,
     name: familyMembers.find((member) => member.id === memberId).name,
   }));
