@@ -66,7 +66,7 @@ a:hover, button:hover {
 }
 
 .rbc-row-segment .rbc-event-content {
-  white-space: normal;
+  /* white-space: normal; */
   text-overflow: clip;
 }
 

@@ -7,6 +7,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useRouter } from "next/router";
 import StyledBackLink from "@/components/StyledBackLink";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
+import { useState } from "react";
 
 const localizer = globalizeLocalizer(globalize);
 const DnDCalendar = withDragAndDrop(Calendar);
@@ -35,6 +36,9 @@ export default function CalendarPage({
   onEditData,
   setDetailsBackLinkRef,
 }) {
+  const [currentView, setCurrentView] = useState("month");
+  const [currentDate, setCurrentDate] = useState(new Date());
+
   const router = useRouter();
 
   const events = tasks.map((task) => {
@@ -59,9 +63,9 @@ export default function CalendarPage({
   function onEventDrop(data) {
     const todayDate = new Date();
     const newTaskDate = data.start;
-    console.log(newTaskDate, todayDate);
+    console.log(newTaskDate.toDateString(), todayDate.toDateString());
 
-    if (newTaskDate < todayDate) return;
+    if (newTaskDate.toDateString() < todayDate.toDateString()) return;
 
     const updatedTaskId = data.event.id;
     const taskToUpdate = tasks.find((task) => task.id === updatedTaskId);
@@ -78,17 +82,10 @@ export default function CalendarPage({
     </div>
   );
 
-  /* const WeekEvent = ({ event }) => (
-    <div>
-      <span>{event.title}</span>
-    </div>
-  );
-
-  const MonthEvent = ({ event }) => (
-    <div>
-      <span>{event.title}</span>
-    </div>
-  ); */
+  function handleNavigate(date) {
+    setCurrentView("day");
+    setCurrentDate(date);
+  }
 
   return (
     <StyledSection>
@@ -105,11 +102,13 @@ export default function CalendarPage({
         onSelectEvent={handleEventClick}
         onEventDrop={onEventDrop}
         resizable={false}
-        defaultView="month"
-        views={["month", "week", "agenda"]}
+        views={["month", "week", "day", "agenda"]}
         components={{
           event: EventComponent,
         }}
+        defaultView={currentView}
+        date={currentDate}
+        onNavigate={handleNavigate}
       />
     </StyledSection>
   );
