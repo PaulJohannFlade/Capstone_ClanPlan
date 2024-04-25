@@ -41,6 +41,7 @@ export default function HomePage({
   setShowModal,
   showModal,
   familyMembers,
+  setDetailsBackLinkRef
 }) {
   const [filters, setFilters] = useState({});
 
@@ -101,7 +102,7 @@ export default function HomePage({
       {!filteredTasks.length && (
         <StyledMessage>No tasks with this search criteria.</StyledMessage>
       )}
-      <TasksList tasks={filteredTasks} onCheckboxChange={onCheckboxChange} />
+      <TasksList tasks={filteredTasks} onCheckboxChange={onCheckboxChange} setDetailsBackLinkRef={setDetailsBackLinkRef}/>
     </div>
   );
 }
