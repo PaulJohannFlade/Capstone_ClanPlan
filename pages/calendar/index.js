@@ -76,12 +76,6 @@ export default function CalendarPage({
     onEditData(updatedTask);
   }
 
-  const EventComponent = ({ event }) => (
-    <div>
-      <span>{event.title}</span>
-    </div>
-  );
-
   function handleNavigate(date) {
     setCurrentView("day");
     onChangeDate(date);
@@ -103,9 +97,6 @@ export default function CalendarPage({
         onEventDrop={onEventDrop}
         resizable={false}
         views={["month", "week", "day", "agenda"]}
-        components={{
-          event: EventComponent,
-        }}
         defaultView={currentView}
         date={currentDate}
         onNavigate={handleNavigate}
