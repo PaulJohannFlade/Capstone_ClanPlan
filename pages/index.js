@@ -53,7 +53,7 @@ export default function HomePage({
   showModal,
   familyMembers,
   setDetailsBackLinkRef,
-  categories
+  categories,
 }) {
   const [filters, setFilters] = useState({});
 
@@ -82,6 +82,7 @@ export default function HomePage({
             familyMembers={familyMembers}
             onApply={handleApplyFilters}
             filters={filters}
+            categories={categories}
           />
         </Modal>
       )}
@@ -108,6 +109,9 @@ export default function HomePage({
                 {key === "member"
                   ? familyMembers.find((member) => member.id === filters[key])
                       .name
+                  : key === "category"
+                  ? categories.find((category) => category.id === filters[key])
+                      .category
                   : filters[key]}
               </StyledClearFilterButton>
             )
