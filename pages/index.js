@@ -68,8 +68,7 @@ export default function HomePage({
 
   const filteredTasks = tasks.filter(
     (task) =>
-      (!Number(filters.priority) ||
-        task.priority === Number(filters.priority)) &&
+      (!Number(filters.priority) || task.priority === filters.priority) &&
       (!filters.category || task.category === filters.category) &&
       (!filters.member || task.assignedTo.includes(filters.member))
   );

@@ -78,6 +78,7 @@ export default function FilterWindow({
         name="category"
         defaultValue={filters.category}
       >
+        <option value="">Choose a category</option>
         {categories.map((category) => (
           <option key={category.id} value={category.id}>
             {category.category}

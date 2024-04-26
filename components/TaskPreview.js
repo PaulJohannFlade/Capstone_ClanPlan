@@ -44,7 +44,7 @@ export default function TaskPreview({
         onClick={() => setDetailsBackLinkRef("/")}
       >
         <h3>{title}</h3>
-        <StyledParagraph>{"🔥".repeat(priority)}</StyledParagraph>
+        <StyledParagraph>{"🔥".repeat(Number(priority))}</StyledParagraph>
         <p>
           {categories.find((category) => category.id === categoryId)?.category}
         </p>

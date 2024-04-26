@@ -121,7 +121,7 @@ export default function TaskDetails({
           {categories.find((category) => category.id === categoryId).category}
         </h2>
         <p>Priority: </p>
-        <h2>{"🔥".repeat(priority)}</h2>
+        <h2>{"🔥".repeat(Number(priority))}</h2>
         <p>Due Date:</p>
         <h3>{dueDate}</h3>
         <p>Assigned to:</p>
