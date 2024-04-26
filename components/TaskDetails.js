@@ -4,6 +4,7 @@ import Trash from "@/public/assets/images/trash-icon.svg";
 import Pen from "@/public/assets/images/edit-pen-icon.svg";
 import Modal from "./Modal";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const StyledTrash = styled(Trash)`
   width: 1.5rem;
@@ -93,6 +94,9 @@ export default function TaskDetails({
     assignedTo,
   } = task;
 
+  const router = useRouter();
+  const { listType } = router.query;
+
   return (
     <>
       {showModal && (
@@ -110,7 +114,7 @@ export default function TaskDetails({
       )}
       <StyledSection $isDone={isDone}>
         <StyledTrash onClick={() => setShowModal(true)} />
-        <StyledLink href={`${id}/edit`}>
+        <StyledLink href={`/tasks/${id}/edit?listType=${listType}`}>
           <StyledPen />
         </StyledLink>
 
@@ -118,7 +122,8 @@ export default function TaskDetails({
         <h2>{title}</h2>
         <p>Category: </p>
         <h2>
-          {categories.find((category) => category.id === categoryId).category}
+          {categoryId &&
+            categories.find((category) => category.id === categoryId).category}
         </h2>
         <p>Priority: </p>
         <h2>{"🔥".repeat(priority)}</h2>

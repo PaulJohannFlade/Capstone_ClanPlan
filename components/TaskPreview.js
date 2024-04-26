@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const StyledSection = styled.section`
   display: grid;
@@ -26,6 +27,8 @@ const StyledParagraph = styled.p`
 
 export default function TaskPreview({ task, onCheckboxChange, categories }) {
   const { title, category: categoryId, priority, dueDate, id, isDone } = task;
+  const router = useRouter();
+  const { listType } = router.query;
 
   return (
     <StyledSection>
@@ -34,7 +37,7 @@ export default function TaskPreview({ task, onCheckboxChange, categories }) {
         checked={isDone}
         onChange={() => onCheckboxChange(id)}
       />
-      <StyledLink href={`tasks/${id}`}>
+      <StyledLink href={`/tasks/${id}?listType=${listType}`}>
         <h3>{title}</h3>
         <StyledParagraph>{"🔥".repeat(priority)}</StyledParagraph>
         <p>

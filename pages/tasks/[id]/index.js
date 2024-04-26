@@ -2,7 +2,7 @@ import TaskDetails from "@/components/TaskDetails";
 import { useRouter } from "next/router";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
 import styled from "styled-components";
-import StyledBackLink from "@/components/StyledBackLink";
+import StyledBackButton from "@/components/StyledBackButton";
 
 const StyledMessage = styled.p`
   text-align: center;
@@ -24,11 +24,19 @@ export default function DetailsPage({
 
   const task = tasks.find((task) => task.id === id);
 
+  function handleGoBack() {
+    const pathName = router.pathname;
+    const pathArray = pathName.split("/");
+    const backRoute = `/${pathName.split("/")[pathArray.length - 2]}` || "/";
+    const { listType } = router.query;
+    router.push(`${backRoute}?listType=${listType}`);
+  }
+
   return (
     <>
-      <StyledBackLink href="/">
+      <StyledBackButton onClick={handleGoBack}>
         <BackArrow />
-      </StyledBackLink>
+      </StyledBackButton>
 
       {task ? (
         <TaskDetails

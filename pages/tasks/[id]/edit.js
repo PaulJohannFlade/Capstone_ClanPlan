@@ -2,6 +2,7 @@ import Form from "@/components/Form";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
 import { useRouter } from "next/router";
 import StyledBackLink from "@/components/StyledBackLink";
+import StyledBackButton from "@/components/StyledBackButton";
 
 export default function EditPage({
   onEditData,
@@ -23,12 +24,20 @@ export default function EditPage({
     name: familyMembers.find((member) => member.id === memberId).name,
   }));
 
+  function handleGoBack() {
+    const pathName = router.pathname;
+    const pathArray = pathName.split("/");
+    const backRoute = `/${pathName.split("/")[pathArray.length - 2]}` || "/";
+    const { listType } = router.query;
+    router.push(`${backRoute}?listType=${listType}`);
+  }
+
   return (
     <>
       <div>
-        <StyledBackLink href={`/tasks/${id}`}>
+        <StyledBackButton onClick={handleGoBack}>
           <BackArrow />
-        </StyledBackLink>
+        </StyledBackButton>
         <Form
           onTaskSubmit={onEditData}
           title="Edit a task"

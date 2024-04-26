@@ -29,7 +29,8 @@ export default function App({ Component, pageProps }) {
   function handleEditTask(updatedData) {
     const id = updatedData.id;
     setTasks(tasks.map((task) => (task.id === id ? updatedData : task)));
-    router.push(`/tasks/${id}`);
+    const { listType } = router.query;
+    router.push(`/tasks/${id}?listType=${listType}`);
   }
 
   function handleAddMember(memberFormData) {
@@ -40,7 +41,8 @@ export default function App({ Component, pageProps }) {
   function handleDeleteTask(id) {
     setTasks(tasks.filter((task) => task.id !== id));
     setShowModal(false);
-    router.push("/");
+    const { listType } = router.query;
+    router.push(`/tasks?listType=${listType}`);
   }
   function closeModalWindow() {
     setShowModal(false);
