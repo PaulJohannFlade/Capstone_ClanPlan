@@ -5,6 +5,7 @@ import StyledButton from "@/components/StyledButton";
 import Modal from "@/components/Modal";
 import FilterWindow from "@/components/FilterWindow";
 import { useState } from "react";
+import Link from "next/link";
 
 const StyledHeading = styled.h2`
   text-align: center;
@@ -35,13 +36,27 @@ const StyledClearFilterButton = styled.button`
   }
 `;
 
+const StyledLink = styled(Link)`
+  margin: 1rem;
+  color: white;
+  font-weight: 700;
+  background-color: var(--color-font);
+  padding: 0.5rem;
+  width: 8rem;
+  border-radius: 0.5rem;
+  border: 0.5px solid white;
+  position: absolute;
+  right: calc(50% - 180px);
+  text-align: center;
+`;
+
 export default function HomePage({
   tasks,
   onCheckboxChange,
   setShowModal,
   showModal,
   familyMembers,
-  setDetailsBackLinkRef
+  setDetailsBackLinkRef,
 }) {
   const [filters, setFilters] = useState({});
 
@@ -74,6 +89,7 @@ export default function HomePage({
         </Modal>
       )}
       <StyledHeading>Family Task List</StyledHeading>
+
       <StyledButton
         $width="4rem"
         $left="0.5rem"
@@ -81,6 +97,7 @@ export default function HomePage({
       >
         <Filter />
       </StyledButton>
+      <StyledLink href="/calendar">📅 Calendar</StyledLink>
       {!tasks.length && <StyledMessage>No tasks to display.</StyledMessage>}
       <StyledList>
         {Object.keys(filters).map(
@@ -102,7 +119,11 @@ export default function HomePage({
       {!filteredTasks.length && (
         <StyledMessage>No tasks with this search criteria.</StyledMessage>
       )}
-      <TasksList tasks={filteredTasks} onCheckboxChange={onCheckboxChange} setDetailsBackLinkRef={setDetailsBackLinkRef}/>
+      <TasksList
+        tasks={filteredTasks}
+        onCheckboxChange={onCheckboxChange}
+        setDetailsBackLinkRef={setDetailsBackLinkRef}
+      />
     </div>
   );
 }

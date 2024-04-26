@@ -64,7 +64,6 @@ export default function CalendarPage({
   function onEventDrop(data) {
     const todayDate = new Date();
     const newTaskDate = data.start;
-    console.log(newTaskDate.toDateString(), todayDate.toDateString());
 
     if (newTaskDate.toDateString() < todayDate.toDateString()) return;
 
