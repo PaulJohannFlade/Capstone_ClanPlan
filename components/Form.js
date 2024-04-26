@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import { useRouter } from "next/router";
+import Multiselect from "multiselect-react-dropdown";
 
 const StyledForm = styled.form`
   display: flex;
@@ -47,11 +48,14 @@ export default function Form({
   categories,
   allocatedMembersList,
 }) {
+  console.log(value?.assignedTo || "");
+
   const router = useRouter();
   const [enteredTitle, setEnteredTitle] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [allocatedMembers, setAllocatedMembers] =
     useState(allocatedMembersList);
+  const [assignedTo, setAssignedTo] = useState(value?.assignedTo || []);
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
 
@@ -72,19 +76,19 @@ export default function Form({
     }
 
     if (isEdit) {
-      onTaskSubmit({ ...data, id: value.id, isDone: value.isDone });
+      onTaskSubmit({ ...data, id: value.id, assignedTo, isDone: value.isDone });
       router.push(`/tasks/${value.id}`);
     } else {
-      onTaskSubmit(data);
+      onTaskSubmit({ ...data, assignedTo });
       router.push("/");
     }
   }
 
   function handleFamilyMembersSelection(event) {
     const selectedCategoryId = event.target.value;
-    const allocatedMembersId = categories.find(
-      (category) => category.id === selectedCategoryId
-    ).selectedMembers;
+    const allocatedMembersId =
+      categories.find((category) => category.id === selectedCategoryId)
+        ?.selectedMembers || [];
 
     setAllocatedMembers(
       allocatedMembersId.map((memberId) => ({
@@ -92,6 +96,15 @@ export default function Form({
         name: familyMembers.find((member) => member.id === memberId).name,
       }))
     );
+  }
+
+  function onSelect(selectedList) {
+    const selectedMemberIds = selectedList.map((member) => member.id);
+    setAssignedTo(selectedMemberIds);
+  }
+
+  function onRemove(removedItem) {
+    setAssignedTo(assignedTo.filter((member) => member !== removedItem.id));
   }
 
   return (
@@ -146,20 +159,25 @@ export default function Form({
         min={formattedTodayDate}
         defaultValue={value?.dueDate}
       ></input>
-      <StyledLabel htmlFor="assignedTo">Member:</StyledLabel>
-      <StyledSelect
+      <StyledLabel htmlFor="assignedTo">Assign to:</StyledLabel>
+      <Multiselect
         id="assignedTo"
         name="assignedTo"
-        defaultValue={value?.assignedTo}
-      >
-        <option value="">Select Family Member</option>
-        {allocatedMembers &&
-          allocatedMembers.map((member) => (
-            <option key={member.id} value={member.id}>
-              {member.name}
-            </option>
-          ))}
-      </StyledSelect>
+        options={allocatedMembers}
+        onSelect={onSelect}
+        onRemove={onRemove}
+        displayValue="name"
+        showCheckbox={true}
+        keepSearchTerm={true}
+        showArrow={true}
+        emptyRecordMsg="No members added"
+        placeholder="Select Family Member"
+        avoidHighlightFirstOption={true}
+        selectedValues={assignedTo.map((memberId) => ({
+          id: memberId,
+          name: familyMembers.find((member) => member.id === memberId).name,
+        }))}
+      />
       <StyledButton>{isEdit ? "Update" : "Create"}</StyledButton>
     </StyledForm>
   );
