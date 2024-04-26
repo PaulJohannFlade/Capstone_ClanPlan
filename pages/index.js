@@ -30,10 +30,6 @@ const StyledClearFilterButton = styled.button`
   background-color: var(--color-font);
   padding: 0.5rem;
   border-radius: 0.7rem;
-  &:hover {
-    cursor: pointer;
-    opacity: 0.5;
-  }
 `;
 
 const StyledLink = styled(Link)`
@@ -57,6 +53,7 @@ export default function HomePage({
   showModal,
   familyMembers,
   setDetailsBackLinkRef,
+  categories
 }) {
   const [filters, setFilters] = useState({});
 
@@ -123,6 +120,7 @@ export default function HomePage({
         tasks={filteredTasks}
         onCheckboxChange={onCheckboxChange}
         setDetailsBackLinkRef={setDetailsBackLinkRef}
+        categories={categories}
       />
     </div>
   );

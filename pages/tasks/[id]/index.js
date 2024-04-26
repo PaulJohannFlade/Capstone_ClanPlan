@@ -18,6 +18,7 @@ export default function DetailsPage({
   onCheckboxChange,
   familyMembers,
   detailsBackLinkRef,
+  categories
 }) {
   const router = useRouter();
   const { id } = router.query;
@@ -40,6 +41,7 @@ export default function DetailsPage({
           onCancel={onCancel}
           onCheckboxChange={onCheckboxChange}
           familyMembers={familyMembers}
+          categories={categories}
         />
       ) : (
         <StyledMessage>Page not found!</StyledMessage>
