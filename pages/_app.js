@@ -54,6 +54,7 @@ export default function App({ Component, pageProps }) {
   const [categories, setCategories] = useState(initialCategories);
   const [showModal, setShowModal] = useState(false);
   const [detailsBackLinkRef, setDetailsBackLinkRef] = useState("/");
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const router = useRouter();
 
@@ -100,6 +101,10 @@ export default function App({ Component, pageProps }) {
     setShowModal(false);
   }
 
+  function handleChangeDate(date) {
+    setCurrentDate(date);
+  }
+
   // Sorting the task in chronological order of date
   const tasksAfterSorting = tasks.sort(
     (a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate)
@@ -124,6 +129,8 @@ export default function App({ Component, pageProps }) {
         onAddCategory={handleAddCategory}
         detailsBackLinkRef={detailsBackLinkRef}
         setDetailsBackLinkRef={setDetailsBackLinkRef}
+        onChangeDate={handleChangeDate}
+        currentDate={currentDate}
       />
     </Layout>
   );

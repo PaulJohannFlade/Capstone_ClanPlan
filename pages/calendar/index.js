@@ -35,9 +35,10 @@ export default function CalendarPage({
   tasks,
   onEditData,
   setDetailsBackLinkRef,
+  currentDate,
+  onChangeDate,
 }) {
   const [currentView, setCurrentView] = useState("month");
-  const [currentDate, setCurrentDate] = useState(new Date());
 
   const router = useRouter();
 
@@ -84,7 +85,7 @@ export default function CalendarPage({
 
   function handleNavigate(date) {
     setCurrentView("day");
-    setCurrentDate(date);
+    onChangeDate(date);
   }
 
   return (
