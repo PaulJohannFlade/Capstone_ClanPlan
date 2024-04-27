@@ -35,12 +35,18 @@ export default function FilterWindow({
   familyMembers,
   filters,
   categories,
+  setIsFilterSet,
 }) {
   function handleApplyFilter(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
     onApply(data);
+    if (data.priority === "0" && data.category === "" && data.member === "") {
+      setIsFilterSet(false);
+    } else {
+      setIsFilterSet(true);
+    }
   }
 
   function handleReset(event) {
@@ -49,6 +55,7 @@ export default function FilterWindow({
     event.target.elements.priority.value = "0";
     event.target.elements.category.value = "";
     event.target.elements.member.value = "";
+    setIsFilterSet(false);
   }
 
   return (

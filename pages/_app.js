@@ -15,6 +15,9 @@ export default function App({ Component, pageProps }) {
   const [detailsBackLinkRef, setDetailsBackLinkRef] = useState("/");
   const [currentDate, setCurrentDate] = useState(new Date());
 
+  const [filters, setFilters] = useState({});
+  const [isFilterSet, setIsFilterSet] = useState(false);
+
   const router = useRouter();
 
   function handleAddTask(formData) {
@@ -64,6 +67,15 @@ export default function App({ Component, pageProps }) {
     setCurrentDate(date);
   }
 
+  function handleApplyFilters(formData) {
+    setFilters(formData);
+    setShowModal(false);
+  }
+
+  function handleDeleteFilterOption(key) {
+    setFilters({ ...filters, [key]: "" });
+  }
+
   // Sorting the task in chronological order of date
   const tasksAfterSorting = tasks.sort(
     (a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate)
@@ -90,6 +102,12 @@ export default function App({ Component, pageProps }) {
         setDetailsBackLinkRef={setDetailsBackLinkRef}
         onChangeDate={handleChangeDate}
         currentDate={currentDate}
+        onApplyFilters={handleApplyFilters}
+        onDeleteFilterOption={handleDeleteFilterOption}
+        filters={filters}
+        setFilters={setFilters}
+        setIsFilterSet={setIsFilterSet}
+        isFilterSet={isFilterSet}
       />
     </Layout>
   );

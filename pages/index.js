@@ -16,117 +16,34 @@ const StyledMessage = styled.p`
   padding-top: 4rem;
 `;
 
-const StyledList = styled.ul`
-  list-style: none;
-  padding: 0.5rem;
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-`;
-
-const StyledClearFilterButton = styled.button`
-  color: white;
-  font-weight: 700;
-  background-color: var(--color-font);
-  padding: 0.5rem;
-  border-radius: 0.7rem;
+const StyledSection = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 `;
 
 const StyledLink = styled(Link)`
   margin: 1rem;
-  color: white;
+  color: ${({ $redFont }) => ($redFont ? "red" : "var(--color-font)")};
   font-weight: 700;
-  background-color: var(--color-font);
+  background-color: white;
   padding: 0.5rem;
   width: 8rem;
-  border-radius: 0.5rem;
-  border: 0.5px solid white;
-  position: absolute;
-  right: calc(50% - 180px);
-  text-align: center;
+  align-self: center;
+  border-radius: 0.7rem;
 `;
 
-export default function HomePage({
-  tasks,
-  onCheckboxChange,
-  setShowModal,
-  showModal,
-  familyMembers,
-  setDetailsBackLinkRef,
-  categories,
-}) {
-  const [filters, setFilters] = useState({});
-
-  function handleApplyFilters(formData) {
-    setFilters(formData);
-    setShowModal(false);
-  }
-
-  function handleDeleteFilterOption(key) {
-    setFilters({ ...filters, [key]: "" });
-  }
-
-  const filteredTasks = tasks.filter(
-    (task) =>
-      (!Number(filters.priority) || task.priority === filters.priority) &&
-      (!filters.category || task.category === filters.category) &&
-      (!filters.member || task.assignedTo.includes(filters.member))
-  );
-
+export default function HomePage({ tasks }) {
   return (
     <div>
-      {showModal && (
-        <Modal $top="5rem" setShowModal={setShowModal}>
-          <FilterWindow
-            familyMembers={familyMembers}
-            onApply={handleApplyFilters}
-            filters={filters}
-            categories={categories}
-          />
-        </Modal>
-      )}
-      <StyledHeading>Family Task List</StyledHeading>
-
-      <StyledButton
-        $width="4rem"
-        $left="0.5rem"
-        onClick={() => setShowModal(true)}
-      >
-        <Filter />
-      </StyledButton>
-      <StyledLink href="/calendar">📅 Calendar</StyledLink>
-      {!tasks.length && <StyledMessage>No tasks to display.</StyledMessage>}
-      <StyledList>
-        {Object.keys(filters).map(
-          (key) =>
-            Number(filters[key]) !== 0 && (
-              <StyledClearFilterButton
-                onClick={() => handleDeleteFilterOption(key)}
-                key={key}
-              >
-                ❌ {key}:{" "}
-                {key === "member"
-                  ? familyMembers.find((member) => member.id === filters[key])
-                      .name
-                  : key === "category"
-                  ? categories.find((category) => category.id === filters[key])
-                      .category
-                  : filters[key]}
-              </StyledClearFilterButton>
-            )
-        )}
-      </StyledList>
-      {!filteredTasks.length && (
-        <StyledMessage>No tasks with this search criteria.</StyledMessage>
-      )}
-      <TasksList
-        tasks={filteredTasks}
-        onCheckboxChange={onCheckboxChange}
-        setDetailsBackLinkRef={setDetailsBackLinkRef}
-        categories={categories}
-      />
+      {/* <StyledLink href="/calendar">📅 Calendar</StyledLink> */}
+      <StyledSection>
+        <StyledLink href={`/tasks?listType=missed`}>Missed</StyledLink>
+        <StyledLink href={`/tasks?listType=notAssigned`}>
+          Not Assigned
+        </StyledLink>
+        <StyledLink href={`/tasks?listType=all`}>All Tasks</StyledLink>
+        <StyledLink href={`/create`}>Plus</StyledLink>
+      </StyledSection>
     </div>
   );
 }
-
-export { StyledMessage };
