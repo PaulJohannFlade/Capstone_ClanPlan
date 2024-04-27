@@ -67,7 +67,7 @@ const initialTasks = [
     title: "Dentist Appointment",
     category: "5",
     priority: "2",
-    dueDate: "2024-04-25",
+    dueDate: "2024-06-25",
     assignedTo: ["2"],
     isDone: false,
   },

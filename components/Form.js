@@ -48,14 +48,15 @@ export default function Form({
   categories,
   allocatedMembersList,
 }) {
-  console.log(value?.assignedTo || "");
-
   const router = useRouter();
   const [enteredTitle, setEnteredTitle] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [allocatedMembers, setAllocatedMembers] =
     useState(allocatedMembersList);
   const [assignedTo, setAssignedTo] = useState(value?.assignedTo || []);
+  const [assignedToEmptyMessage, setAssignedToEmptyMessage] = useState(
+    value?.category ? "No members added" : "First choose a category!"
+  );
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
 
@@ -85,7 +86,10 @@ export default function Form({
   }
 
   function handleFamilyMembersSelection(event) {
+    setAssignedTo([]);
     const selectedCategoryId = event.target.value;
+    if (!selectedCategoryId)
+      setAssignedToEmptyMessage("First choose a category!");
     const allocatedMembersId =
       categories.find((category) => category.id === selectedCategoryId)
         ?.selectedMembers || [];
@@ -170,7 +174,7 @@ export default function Form({
         showCheckbox={true}
         keepSearchTerm={true}
         showArrow={true}
-        emptyRecordMsg="No members added"
+        emptyRecordMsg={assignedToEmptyMessage}
         placeholder="Select Family Member"
         avoidHighlightFirstOption={true}
         selectedValues={assignedTo.map((memberId) => ({
