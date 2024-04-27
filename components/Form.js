@@ -48,6 +48,7 @@ export default function Form({
   allocatedMembersList,
 }) {
   const router = useRouter();
+  const { listType } = router.query;
   const [enteredTitle, setEnteredTitle] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [allocatedMembers, setAllocatedMembers] =
@@ -73,7 +74,7 @@ export default function Form({
 
     if (isEdit) {
       onTaskSubmit({ ...data, id: value.id, isDone: value.isDone });
-      router.push(`/tasks/${value.id}`);
+      router.push(`/tasks/${value.id}?listType=${listType}`);
     } else {
       onTaskSubmit(data);
       router.push("/");

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const StyledSection = styled.section`
   display: grid;
@@ -31,6 +32,8 @@ export default function TaskPreview({
   setDetailsBackLinkRef,
 }) {
   const { title, category: categoryId, priority, dueDate, id, isDone } = task;
+  const router = useRouter();
+  const { listType } = router.query;
 
   return (
     <StyledSection>
@@ -40,7 +43,7 @@ export default function TaskPreview({
         onChange={() => onCheckboxChange(id)}
       />
       <StyledLink
-        href={`tasks/${id}`}
+        href={`/tasks/${id}?listType=${listType}`}
         onClick={() => setDetailsBackLinkRef("/")}
       >
         <h3>{title}</h3>

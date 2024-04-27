@@ -1,6 +1,9 @@
 import TasksList from "@/components/TasksList";
 import styled from "styled-components";
 import Filter from "@/components/Filter";
+import StyledBackLink from "@/components/StyledBackLink";
+import BackArrow from "@/public/assets/images/back-arrow.svg";
+import { useRouter } from "next/router";
 
 const StyledHeading = styled.h2`
   text-align: center;
@@ -26,7 +29,24 @@ export default function TasksPage({
   isFilterSet,
   setIsFilterSet,
 }) {
-  const filteredTasks = tasks.filter(
+  const router = useRouter();
+  const { listType } = router.query;
+  let tasksAfterFiltering = [];
+  if (listType === "missed") {
+    tasksAfterFiltering = tasks.filter(
+      (task) =>
+        new Date(task.dueDate)?.toISOString().substring(0, 10) <
+        new Date().toISOString().substring(0, 10)
+    );
+  }
+  if (listType === "all") {
+    tasksAfterFiltering = tasks;
+  }
+  if (listType === "notAssigned") {
+    tasksAfterFiltering = tasks.filter((task) => task.assignedTo === "");
+  }
+
+  const filteredTasks = tasksAfterFiltering.filter(
     (task) =>
       (!Number(filters.priority) || task.priority === filters.priority) &&
       (!filters.category || task.category === filters.category) &&
@@ -35,6 +55,9 @@ export default function TasksPage({
 
   return (
     <div>
+      <StyledBackLink href="/">
+        <BackArrow />
+      </StyledBackLink>
       <StyledHeading>Family Task List</StyledHeading>
 
       <Filter

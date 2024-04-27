@@ -18,17 +18,18 @@ export default function DetailsPage({
   onCheckboxChange,
   familyMembers,
   detailsBackLinkRef,
-  categories
+  categories,
 }) {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, listType } = router.query;
+
   if (!id) return;
 
   const task = tasks.find((task) => task.id === id);
 
   return (
     <>
-      <StyledBackLink href={detailsBackLinkRef}>
+      <StyledBackLink href={`${detailsBackLinkRef}?listType=${listType}`}>
         <BackArrow />
       </StyledBackLink>
 
