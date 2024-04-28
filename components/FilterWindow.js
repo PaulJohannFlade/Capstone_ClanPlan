@@ -55,7 +55,6 @@ export default function FilterWindow({
     event.target.elements.priority.value = "0";
     event.target.elements.category.value = "";
     event.target.elements.member.value = "";
-    setIsFilterSet(false);
   }
 
   return (

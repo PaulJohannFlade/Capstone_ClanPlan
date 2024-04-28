@@ -1,6 +1,5 @@
 import TasksList from "@/components/TasksList";
 import styled from "styled-components";
-
 import Plus from "@/public/assets/images/plus.svg";
 import Link from "next/link";
 import Filter from "@/components/Filter";
@@ -12,6 +11,10 @@ const StyledHeading = styled.h2`
 const StyledMessage = styled.p`
   text-align: center;
   padding-top: 4rem;
+`;
+
+const StyledPlus = styled(Plus)`
+  fill: var(--color-font);
 `;
 
 const StyledSection = styled.section`
@@ -37,9 +40,20 @@ const StyledSpan = styled.span`
   display: block;
 `;
 
-const StyledPlus = styled(Plus)`
-  fill: grey;
-  width: 1.5rem;
+const StyledAnimation = styled.span`
+  @keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  animation: blink 1s steps(1, end) infinite;
 `;
 
 export default function HomePage({
@@ -80,7 +94,10 @@ export default function HomePage({
       <StyledSection>
         <StyledLink href="/tasks?listType=missed">
           <StyledSpan $redColor={true}>
-            Missed {`(${missedTasks.length})`}
+            Missed{" "}
+            {missedTasks.length && (
+              <StyledAnimation>{`(${missedTasks.length})`}</StyledAnimation>
+            )}
           </StyledSpan>
         </StyledLink>
         <StyledLink href="/tasks?listType=notAssigned">
@@ -88,6 +105,9 @@ export default function HomePage({
         </StyledLink>
         <StyledLink href="/tasks?listType=all">
           <StyledSpan>All tasks</StyledSpan>
+        </StyledLink>
+        <StyledLink href="/create">
+          <StyledPlus />
         </StyledLink>
         <StyledLink href="/calendar">📅 Calendar</StyledLink>
       </StyledSection>

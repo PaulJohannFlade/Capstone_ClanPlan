@@ -27,9 +27,14 @@ export default function DetailsPage({
 
   const task = tasks.find((task) => task.id === id);
 
+  const backLink =
+    detailsBackLinkRef === "/calendar"
+      ? "/calendar"
+      : `/tasks?listType=${listType}`;
+
   return (
     <>
-      <StyledBackLink href={`${detailsBackLinkRef}?listType=${listType}`}>
+      <StyledBackLink href={`${backLink}`}>
         <BackArrow />
       </StyledBackLink>
 

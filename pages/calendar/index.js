@@ -58,7 +58,7 @@ export default function CalendarPage({
 
   function handleEventClick(task) {
     setDetailsBackLinkRef("/calendar");
-    router.push(`/tasks/${task.id}`);
+    router.push(`/tasks/${task.id}?listType=calendar`);
   }
 
   function onEventDrop(data) {
