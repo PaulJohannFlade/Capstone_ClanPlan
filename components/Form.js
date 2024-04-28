@@ -51,12 +51,10 @@ export default function Form({
   const router = useRouter();
   const [enteredTitle, setEnteredTitle] = useState("");
   const [isValid, setIsValid] = useState(false);
-  const [allocatedMembers, setAllocatedMembers] =
-    useState(allocatedMembersList);
-  const [assignedTo, setAssignedTo] = useState(value?.assignedTo || []);
-  const [assignedToEmptyMessage, setAssignedToEmptyMessage] = useState(
-    value?.category ? "No members added" : "First choose a category!"
+  const [allocatedMembers, setAllocatedMembers] = useState(
+    allocatedMembersList || familyMembers
   );
+  const [assignedTo, setAssignedTo] = useState(value?.assignedTo || []);
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
 
@@ -88,17 +86,14 @@ export default function Form({
   function handleFamilyMembersSelection(event) {
     setAssignedTo([]);
     const selectedCategoryId = event.target.value;
-    if (!selectedCategoryId)
-      setAssignedToEmptyMessage("First choose a category!");
-    const allocatedMembersId =
-      categories.find((category) => category.id === selectedCategoryId)
-        ?.selectedMembers || [];
-
+    const allocatedMembersIds = categories.find(
+      (category) => category.id === selectedCategoryId
+    )?.selectedMembers;
     setAllocatedMembers(
-      allocatedMembersId.map((memberId) => ({
+      allocatedMembersIds?.map((memberId) => ({
         id: memberId,
-        name: familyMembers.find((member) => member.id === memberId).name,
-      }))
+        name: familyMembers?.find((member) => member.id === memberId)?.name,
+      })) || familyMembers
     );
   }
 
@@ -134,7 +129,11 @@ export default function Form({
         defaultValue={value?.category}
         onChange={handleFamilyMembersSelection}
       >
-        <option value="">Please select a category</option>
+        <option value="">
+          {categories.length
+            ? "Please select a category"
+            : "No categories added"}
+        </option>
         {categories.map((category) => (
           <option key={category.id} value={category.id}>
             {category.category}
@@ -174,7 +173,11 @@ export default function Form({
         showCheckbox={true}
         keepSearchTerm={true}
         showArrow={true}
-        emptyRecordMsg={assignedToEmptyMessage}
+        emptyRecordMsg={
+          familyMembers.length
+            ? "No members added to the category"
+            : "No members added to the family"
+        }
         placeholder="Select Family Member"
         avoidHighlightFirstOption={true}
         selectedValues={assignedTo.map((memberId) => ({
