@@ -44,7 +44,8 @@ export default function App({ Component, pageProps }) {
   function handleDeleteTask(id) {
     setTasks(tasks.filter((task) => task.id !== id));
     setShowModal(false);
-    router.push("/");
+    const { listType } = router.query;
+    router.push(`/tasks?listType=${listType}`);
   }
   function closeModalWindow() {
     setShowModal(false);

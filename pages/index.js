@@ -20,6 +20,7 @@ const StyledPlus = styled(Plus)`
 const StyledSection = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
+  justify-self: space-around;
 `;
 
 const StyledLink = styled(Link)`
