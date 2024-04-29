@@ -81,7 +81,7 @@ export default function TasksPage({
         />
       )}
 
-      {!tasks.length && !isFilterSet && (
+      {!filteredTasks.length && !isFilterSet && (
         <StyledMessage>No tasks to display.</StyledMessage>
       )}
       {!filteredTasks.length && isFilterSet && (
