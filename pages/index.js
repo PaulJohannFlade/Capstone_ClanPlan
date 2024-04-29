@@ -1,60 +1,43 @@
-import TasksList from "@/components/TasksList";
-import styled from "styled-components";
-import Plus from "@/public/assets/images/plus.svg";
-import Link from "next/link";
 import Filter from "@/components/Filter";
+import TasksList from "@/components/TasksList";
+
+import styled from "styled-components";
+
+const StyledSection = styled.section`
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const StyledSpan = styled.span`
+  color: ${({ $redColor }) => ($redColor ? "red" : "white")};
+  text-align: center;
+  display: block;
+  width: 100%;
+`;
+
+const StyledButton = styled.button`
+  background-color: ${({ $isActive }) =>
+    $isActive ? "gray" : "var(--color-font)"};
+  border: none;
+  margin-top: 1rem;
+  color: white;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  align-self: center;
+  border-radius: 0.7rem;
+`;
 
 const StyledHeading = styled.h2`
+  margin-top: 1rem;
   text-align: center;
 `;
 
 const StyledMessage = styled.p`
   text-align: center;
   padding-top: 4rem;
-`;
-
-const StyledPlus = styled(Plus)`
-  fill: var(--color-font);
-`;
-
-const StyledSection = styled.section`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-self: space-around;
-`;
-
-const StyledLink = styled(Link)`
-  margin: 1rem;
-  color: ${({ $redFont }) => ($redFont ? "red" : "var(--color-font)")};
-  font-weight: 700;
-  background-color: white;
-  padding: 0.5rem;
-  width: 8rem;
-  align-self: center;
-  border-radius: 0.7rem;
-  box-shadow: 5px 5px 15px 5px rgba(112, 107, 91, 0.83);
-`;
-
-const StyledSpan = styled.span`
-  color: ${({ $redColor }) => ($redColor ? "red" : "var(--color-font)")};
-  text-align: center;
-  display: block;
-`;
-
-const StyledAnimation = styled.span`
-  @keyframes blink {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  animation: blink 1s steps(1, end) infinite;
 `;
 
 export default function HomePage({
@@ -71,50 +54,106 @@ export default function HomePage({
   onDeleteFilterOption,
   isFilterSet,
   setIsFilterSet,
+  onButtonClick,
+  listType,
 }) {
   const missedTasks = tasks.filter(
     (task) =>
       task.dueDate &&
       new Date(task.dueDate).toISOString().substring(0, 10) <
-        new Date().toISOString().substring(0, 10)
+        new Date().toISOString().substring(0, 10) &&
+      !task.isDone
   );
 
-  const tasksAfterFiltering = tasks.filter(
+  const todaysTasks = tasks.filter(
     (task) =>
-      new Date(task?.dueDate).toDateString() === new Date().toDateString()
+      new Date(task?.dueDate).toDateString() === new Date().toDateString() &&
+      !task.isDone
   );
 
-  const filteredTasks = tasksAfterFiltering.filter(
+  const notAssignedTasks = tasks.filter(
+    (task) => task.assignedTo === "" && !task.isDone
+  );
+
+  const completedTasks = tasks.filter((task) => task.isDone);
+
+  let tasksAfterListTypeSelection = tasks;
+  if (listType === "today") {
+    tasksAfterListTypeSelection = todaysTasks;
+  } else if (listType === "missed") {
+    tasksAfterListTypeSelection = missedTasks;
+  } else if (listType === "done") {
+    tasksAfterListTypeSelection = completedTasks;
+  } else if (listType === "notAssigned") {
+    tasksAfterListTypeSelection = notAssignedTasks;
+  }
+
+  const filteredTasks = tasksAfterListTypeSelection.filter(
     (task) =>
       (!Number(filters.priority) || task.priority === filters.priority) &&
       (!filters.category || task.category === filters.category) &&
       (!filters.member || task.assignedTo.includes(filters.member))
   );
-  return (
-    <div>
-      <StyledSection>
-        <StyledLink href="/tasks?listType=missed">
-          <StyledSpan $redColor={true}>
-            Missed ({missedTasks.length})
-          </StyledSpan>
-        </StyledLink>
-        <StyledLink href="/tasks?listType=notAssigned">
-          <StyledSpan $redColor={true}>Not assigned</StyledSpan>
-        </StyledLink>
-        <StyledLink href="/tasks?listType=all">
-          <StyledSpan>All tasks</StyledSpan>
-        </StyledLink>
-        <StyledLink href="/calendar">
-          <StyledSpan>📆 Calendar</StyledSpan>
-        </StyledLink>
-      </StyledSection>
 
-      <StyledHeading>
-        {tasksAfterFiltering.length === 1
-          ? `${tasksAfterFiltering.length} Task for today`
-          : `${tasksAfterFiltering.length} Tasks for today`}
-      </StyledHeading>
-      {tasksAfterFiltering.length > 0 && (
+  return (
+    <>
+      <StyledSection>
+        <StyledButton
+          onClick={() => onButtonClick("today")}
+          $isActive={listType === "today"}
+        >
+          <StyledSpan>Today</StyledSpan>
+        </StyledButton>
+        <StyledButton
+          onClick={() => onButtonClick("all")}
+          $isActive={listType === "all"}
+        >
+          <StyledSpan>All Tasks</StyledSpan>
+        </StyledButton>
+        <StyledButton
+          onClick={() => onButtonClick("done")}
+          $isActive={listType === "done"}
+        >
+          <StyledSpan>Done</StyledSpan>
+        </StyledButton>
+        <StyledButton
+          onClick={() => onButtonClick("missed")}
+          $isActive={listType === "missed"}
+        >
+          <StyledSpan $redColor={true}>Missed {missedTasks.length}!</StyledSpan>
+        </StyledButton>
+        <StyledButton
+          onClick={() => onButtonClick("notAssigned")}
+          $isActive={listType === "notAssigned"}
+        >
+          <StyledSpan $redColor={true}>
+            Not assigned {notAssignedTasks.length}
+          </StyledSpan>
+        </StyledButton>
+      </StyledSection>
+      {listType === "today" && (
+        <StyledHeading>
+          {todaysTasks.length === 1
+            ? `${todaysTasks.length} Task for today`
+            : `${todaysTasks.length} Tasks for today`}
+        </StyledHeading>
+      )}
+      {listType === "all" && <StyledHeading>My Family Tasks</StyledHeading>}
+      {listType === "done" && (
+        <StyledHeading>Completed Tasks </StyledHeading>
+      )}{" "}
+      {listType === "notAssigned" && (
+        <StyledHeading>Not assigned Tasks </StyledHeading>
+      )}
+      {listType === "missed" && (
+        <StyledHeading>
+          You have missed&nbsp;
+          {missedTasks.length === 1
+            ? `${missedTasks.length} Task`
+            : `${missedTasks.length} Tasks`}
+        </StyledHeading>
+      )}
+      {tasksAfterListTypeSelection.length > 0 && (
         <Filter
           showModal={showModal}
           setShowModal={setShowModal}
@@ -128,9 +167,12 @@ export default function HomePage({
           setIsFilterSet={setIsFilterSet}
         />
       )}
-
-      {!tasksAfterFiltering.length && !isFilterSet && (
+      {!filteredTasks.length && !isFilterSet && listType !== "today" && (
+        <StyledMessage>No tasks to display.</StyledMessage>
+      )}
+      {!filteredTasks.length && !isFilterSet && listType === "today" && (
         <StyledMessage>
+          {" "}
           <span>Relax !!!!</span>
           <br />
           <span>No tasks for today</span>
@@ -139,13 +181,12 @@ export default function HomePage({
       {!filteredTasks.length && isFilterSet && (
         <StyledMessage>No tasks with this search criteria.</StyledMessage>
       )}
-
       <TasksList
         tasks={filteredTasks}
         onCheckboxChange={onCheckboxChange}
         setDetailsBackLinkRef={setDetailsBackLinkRef}
         categories={categories}
       />
-    </div>
+    </>
   );
 }

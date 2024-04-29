@@ -10,7 +10,7 @@ export default function EditPage({
   categories,
 }) {
   const router = useRouter();
-  const { id, listType } = router.query;
+  const { id } = router.query;
 
   const task = tasks.find((task) => task.id === id);
 
@@ -26,7 +26,7 @@ export default function EditPage({
   return (
     <>
       <div>
-        <StyledBackLink href={`/tasks/${id}?listType=${listType}`}>
+        <StyledBackLink href={`/tasks/${id}`}>
           <BackArrow />
         </StyledBackLink>
         <Form

@@ -21,16 +21,13 @@ export default function DetailsPage({
   categories,
 }) {
   const router = useRouter();
-  const { id, listType } = router.query;
+  const { id } = router.query;
 
   if (!id) return;
 
   const task = tasks.find((task) => task.id === id);
 
-  const backLink =
-    detailsBackLinkRef === "/calendar"
-      ? "/calendar"
-      : `/tasks?listType=${listType}`;
+  const backLink = detailsBackLinkRef === "/calendar" ? "/calendar" : "/";
 
   return (
     <>

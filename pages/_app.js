@@ -17,6 +17,7 @@ export default function App({ Component, pageProps }) {
 
   const [filters, setFilters] = useState({});
   const [isFilterSet, setIsFilterSet] = useState(false);
+  const [listType, setListType] = useState("today");
 
   const router = useRouter();
 
@@ -44,8 +45,7 @@ export default function App({ Component, pageProps }) {
   function handleDeleteTask(id) {
     setTasks(tasks.filter((task) => task.id !== id));
     setShowModal(false);
-    const { listType } = router.query;
-    router.push(`/tasks?listType=${listType}`);
+    router.push("/");
   }
   function closeModalWindow() {
     setShowModal(false);
@@ -75,6 +75,10 @@ export default function App({ Component, pageProps }) {
 
   function handleDeleteFilterOption(key) {
     setFilters({ ...filters, [key]: "" });
+  }
+
+  function handleButtonClick(listType) {
+    setListType(listType);
   }
 
   useEffect(() => {
@@ -119,6 +123,8 @@ export default function App({ Component, pageProps }) {
         setFilters={setFilters}
         setIsFilterSet={setIsFilterSet}
         isFilterSet={isFilterSet}
+        onButtonClick={handleButtonClick}
+        listType={listType}
       />
     </Layout>
   );

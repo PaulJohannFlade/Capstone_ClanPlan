@@ -83,9 +83,6 @@ export default function CalendarPage({
 
   return (
     <StyledSection>
-      <StyledBackLink href="/">
-        <BackArrow />
-      </StyledBackLink>
       <StyledHeading>My Calendar</StyledHeading>
       <StyledCalendar
         localizer={localizer}

@@ -95,9 +95,6 @@ export default function TaskDetails({
     assignedTo,
   } = task;
 
-  const router = useRouter();
-  const { listType } = router.query;
-
   return (
     <>
       {showModal && (
@@ -115,7 +112,7 @@ export default function TaskDetails({
       )}
       <StyledSection $isDone={isDone}>
         <StyledTrash onClick={() => setShowModal(true)} />
-        <StyledLink href={`/tasks/${id}/edit?listType=${listType}`}>
+        <StyledLink href={`/tasks/${id}/edit`}>
           <StyledPen />
         </StyledLink>
 
