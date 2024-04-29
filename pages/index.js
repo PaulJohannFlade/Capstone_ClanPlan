@@ -110,7 +110,6 @@ export default function HomePage({
         <StyledLink href="/create">
           <StyledPlus />
         </StyledLink>
-        <StyledLink href="/calendar">📅 Calendar</StyledLink>
       </StyledSection>
 
       <StyledHeading>
