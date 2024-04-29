@@ -113,9 +113,9 @@ export default function HomePage({
       </StyledSection>
 
       <StyledHeading>
-        {tasksAfterFiltering.length > 1
-          ? `${tasksAfterFiltering.length} Tasks for today`
-          : `${tasksAfterFiltering.length} Task for today`}
+        {tasksAfterFiltering.length === 1
+          ? `${tasksAfterFiltering.length} Task for today`
+          : `${tasksAfterFiltering.length} Tasks for today`}
       </StyledHeading>
       {tasksAfterFiltering.length > 0 && (
         <Filter
