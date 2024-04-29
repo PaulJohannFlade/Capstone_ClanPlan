@@ -104,8 +104,8 @@ export default function HomePage({
         <StyledLink href="/tasks?listType=all">
           <StyledSpan>All tasks</StyledSpan>
         </StyledLink>
-        <StyledLink href="/create">
-          <StyledPlus />
+        <StyledLink href="/calendar">
+          <StyledSpan>📆 Calendar</StyledSpan>
         </StyledLink>
       </StyledSection>
 

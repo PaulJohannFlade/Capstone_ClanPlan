@@ -67,6 +67,11 @@ export default function Footer() {
               <Category />
             </StyledLink>
           </li>
+          <li>
+            <StyledLink $isActive={currentPage === "/create"} href="/create">
+              <Plus />
+            </StyledLink>
+          </li>
         </StyledList>
       </nav>
     </StyledFooter>
