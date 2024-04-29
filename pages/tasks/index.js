@@ -66,19 +66,21 @@ export default function TasksPage({
           : ""}
         Family Task List
       </StyledHeading>
+      {tasks.length > 0 && (
+        <Filter
+          showModal={showModal}
+          setShowModal={setShowModal}
+          familyMembers={familyMembers}
+          onApplyFilters={onApplyFilters}
+          filters={filters}
+          categories={categories}
+          onDeleteFilterOption={onDeleteFilterOption}
+          setFilters={setFilters}
+          isFilterSet={isFilterSet}
+          setIsFilterSet={setIsFilterSet}
+        />
+      )}
 
-      <Filter
-        showModal={showModal}
-        setShowModal={setShowModal}
-        familyMembers={familyMembers}
-        onApplyFilters={onApplyFilters}
-        filters={filters}
-        categories={categories}
-        onDeleteFilterOption={onDeleteFilterOption}
-        setFilters={setFilters}
-        isFilterSet={isFilterSet}
-        setIsFilterSet={setIsFilterSet}
-      />
       {!tasks.length && !isFilterSet && (
         <StyledMessage>No tasks to display.</StyledMessage>
       )}

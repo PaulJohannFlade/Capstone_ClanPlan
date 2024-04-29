@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GlobalStyle from "../styles";
 import initialTasks from "@/db/lib/tasks";
 import initialFamilyMembers from "@/db/lib/familyMembers";
@@ -76,6 +76,16 @@ export default function App({ Component, pageProps }) {
   function handleDeleteFilterOption(key) {
     setFilters({ ...filters, [key]: "" });
   }
+
+  useEffect(() => {
+    if (
+      filters.priority === "0" &&
+      filters.category === "" &&
+      filters.member === ""
+    ) {
+      setIsFilterSet(false);
+    }
+  }, [filters.category, filters.member, filters.priority]);
 
   // Sorting the task in chronological order of date
   const tasksAfterSorting = tasks.sort(
