@@ -79,6 +79,7 @@ export default function App({ Component, pageProps }) {
 
   function handleButtonClick(listType) {
     setListType(listType);
+    setFilters({});
   }
 
   useEffect(() => {
