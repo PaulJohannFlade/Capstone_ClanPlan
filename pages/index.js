@@ -95,10 +95,7 @@ export default function HomePage({
       <StyledSection>
         <StyledLink href="/tasks?listType=missed">
           <StyledSpan $redColor={true}>
-            Missed{" "}
-            {missedTasks.length && (
-              <StyledAnimation>{`(${missedTasks.length})`}</StyledAnimation>
-            )}
+            Missed ({missedTasks.length})
           </StyledSpan>
         </StyledLink>
         <StyledLink href="/tasks?listType=notAssigned">
