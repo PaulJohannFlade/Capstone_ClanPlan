@@ -56,10 +56,12 @@ export default function CategoriesList({
   familyMembers,
   showModal,
   setShowModal,
-  onCancel,
-  onDelete,
+  modalMode,
+  setModalMode,
+  onDeleteCategory,
 }) {
   const [selected, setSelected] = useState(null);
+  const [categoryToDelete, setCategoryItemToDelete] = useState(null);
 
   function handleExpand(index) {
     if (selected === index) {
@@ -73,7 +75,13 @@ export default function CategoriesList({
       <StyledList>
         {categories.map((category, index) => (
           <StyledListItem key={category.id} onClick={() => handleExpand(index)}>
-            <StyledTrash onClick={() => setShowModal(true)} />
+            <StyledTrash
+              onClick={() => {
+                setCategoryItemToDelete(category);
+                setModalMode("delete");
+                setShowModal(true);
+              }}
+            />
             <StyleHeading title={category.title}>
               <strong>{category.title}</strong>
             </StyleHeading>
@@ -93,9 +101,14 @@ export default function CategoriesList({
           </StyledListItem>
         ))}
       </StyledList>
-      {showModal && (
+      {showModal && modalMode === "delete" && (
         <Modal $top="7rem" setShowModal={setShowModal}>
-          <DeleteConfirmBox onCancel={onCancel} onDelete={onDelete} />
+          <DeleteConfirmBox
+            message={`Are you sure you want to delete ${categoryToDelete.title}?`}
+            setShowModal={setShowModal}
+            onDelete={onDeleteCategory}
+            id={categoryToDelete.id}
+          />
         </Modal>
       )}
     </>

@@ -50,10 +50,6 @@ export default function App({ Component, pageProps }) {
     setShowModal(false);
     router.push("/");
   }
-  /* 
-  function closeModalWindow() {
-    setShowModal(false);
-  } */
 
   function handleCheckboxChange(id) {
     setTasks(
@@ -86,15 +82,15 @@ export default function App({ Component, pageProps }) {
     setFilters({});
   }
 
-  useEffect(() => {
-    if (
-      filters.priority === "0" &&
-      filters.category === "" &&
-      filters.member === ""
-    ) {
-      setIsFilterSet(false);
-    }
-  }, [filters.category, filters.member, filters.priority]);
+  function handleDeleteCategory(id) {
+    setCategories(categories.filter((category) => category.id !== id));
+    setTasks(
+      tasks.map((task) =>
+        task.category === id ? { ...task, category: "" } : task
+      )
+    );
+    setShowModal(false);
+  }
 
   // Sorting the task in chronological order of date
   const tasksAfterSorting = tasks.sort(
@@ -113,7 +109,7 @@ export default function App({ Component, pageProps }) {
         onAddMember={handleAddMember}
         setShowModal={setShowModal}
         showModal={showModal}
-        onDelete={handleDeleteTask}
+        onDeleteTask={handleDeleteTask}
         onCheckboxChange={handleCheckboxChange}
         categories={categories}
         onAddCategory={handleAddCategory}
@@ -128,6 +124,7 @@ export default function App({ Component, pageProps }) {
         isFilterSet={isFilterSet}
         onButtonClick={handleButtonClick}
         listType={listType}
+        onDeleteCategory={handleDeleteCategory}
       />
     </Layout>
   );

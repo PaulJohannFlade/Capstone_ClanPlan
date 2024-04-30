@@ -21,12 +21,15 @@ const StyledPragraph = styled.p`
   text-align: center;
 `;
 
-export default function DeleteConfirmBox({ setShowModal, onDelete, id }) {
+export default function DeleteConfirmBox({
+  setShowModal,
+  onDelete,
+  id,
+  message,
+}) {
   return (
     <StyledSection>
-      <StyledPragraph>
-        Are you sure you want to delete this task?
-      </StyledPragraph>
+      <StyledPragraph>{message}</StyledPragraph>
       <ButtonContainer>
         <StyledButton onClick={() => setShowModal(false)}>No</StyledButton>
         <StyledButton onClick={() => onDelete(id)}>Yes</StyledButton>
