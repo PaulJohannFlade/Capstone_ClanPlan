@@ -14,12 +14,17 @@ export default function App({ Component, pageProps }) {
   const [showModal, setShowModal] = useState(false);
   const [detailsBackLinkRef, setDetailsBackLinkRef] = useState("/");
   const [currentDate, setCurrentDate] = useState(new Date());
-
   const [filters, setFilters] = useState({});
-  const [isFilterSet, setIsFilterSet] = useState(false);
   const [listType, setListType] = useState("today");
 
   const router = useRouter();
+
+  const isFilterSet =
+    (filters.priority !== "0" || filters.priority == true) &&
+    filters.category == true &&
+    filters.member == true;
+
+  console.log(isFilterSet);
 
   function handleAddTask(formData) {
     setTasks([
@@ -122,7 +127,6 @@ export default function App({ Component, pageProps }) {
         onDeleteFilterOption={handleDeleteFilterOption}
         filters={filters}
         setFilters={setFilters}
-        setIsFilterSet={setIsFilterSet}
         isFilterSet={isFilterSet}
         onButtonClick={handleButtonClick}
         listType={listType}
