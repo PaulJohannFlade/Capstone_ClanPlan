@@ -25,6 +25,7 @@ export default function CategoriesPage({
   setShowModal,
   familyMembers,
   onDeleteCategory,
+  tasks,
 }) {
   const [modalMode, setModalMode] = useState("");
 
@@ -43,6 +44,7 @@ export default function CategoriesPage({
         modalMode={modalMode}
         setModalMode={setModalMode}
         onDeleteCategory={onDeleteCategory}
+        tasks={tasks}
       />
 
       <StyledPlus

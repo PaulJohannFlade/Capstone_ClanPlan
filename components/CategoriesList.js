@@ -59,9 +59,16 @@ export default function CategoriesList({
   modalMode,
   setModalMode,
   onDeleteCategory,
+  tasks,
 }) {
   const [selected, setSelected] = useState(null);
   const [categoryToDelete, setCategoryItemToDelete] = useState(null);
+
+  const categoryIsUsed =
+    categoryToDelete &&
+    tasks.filter(
+      (task) => !task.isDone && task.category === categoryToDelete.id
+    ).length > 0;
 
   function handleExpand(index) {
     if (selected === index) {
@@ -102,9 +109,13 @@ export default function CategoriesList({
         ))}
       </StyledList>
       {showModal && modalMode === "delete" && (
-        <Modal $top="7rem" setShowModal={setShowModal}>
+        <Modal $top="12rem" setShowModal={setShowModal}>
           <DeleteConfirmBox
-            message={`Are you sure you want to delete ${categoryToDelete.title}?`}
+            message={
+              categoryIsUsed
+                ? `Category "${categoryToDelete.title}" is used in active tasks. Are you sure you want to delete "${categoryToDelete.title}"?`
+                : `Are you sure you want to delete "${categoryToDelete.title}"?`
+            }
             setShowModal={setShowModal}
             onDelete={onDeleteCategory}
             id={categoryToDelete.id}
