@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import DownArrow from "@/public/assets/images/down-arrow.svg";
 import UpArrow from "@/public/assets/images/up-arrow.svg";
+import StyledTrash from "./StyledTrash";
 
 const StyledList = styled.ul`
   display: flex;
@@ -13,13 +14,14 @@ const StyledList = styled.ul`
   margin-bottom: 6rem;
 `;
 
-const StyledButton = styled.button`
+const StyledListItem = styled.li`
+  position: relative;
   display: flex;
   flex-direction: column;
   background-color: white;
   box-shadow: 5px 5px 15px 5px rgba(112, 107, 91, 0.83);
   border-radius: 2rem;
-  padding: 1rem;
+  padding: 1rem 2rem;
   border: none;
 `;
 
@@ -32,17 +34,19 @@ const StyledMemberItem = styled.li`
   text-align: left;
 `;
 
-const StyledCategory = styled.section`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const StyleSpan = styled.span`
+const StyleHeading = styled.h3`
   max-width: 270px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+`;
+
+const StyledUpArrow = styled(UpArrow)`
+  margin: auto;
+`;
+
+const StyledDownArrow = styled(DownArrow)`
+  margin: auto;
 `;
 
 export default function CategoriesList({ categories, familyMembers }) {
@@ -58,30 +62,22 @@ export default function CategoriesList({ categories, familyMembers }) {
   return (
     <StyledList>
       {categories.map((category, index) => (
-        <li key={category.id}>
-          <StyledButton onClick={() => handleExpand(index)}>
-            <StyledCategory>
-              <StyleSpan title={category.title}>
-                <strong>{category.title}</strong>
-              </StyleSpan>
-              {selected === index ? <UpArrow /> : <DownArrow />}
-            </StyledCategory>
-            <section>
-              {selected === index && (
-                <StyledListOfMembers>
-                  {category.selectedMembers.map((memberId) => (
-                    <StyledMemberItem key={memberId}>
-                      {
-                        familyMembers.find((member) => member.id === memberId)
-                          ?.name
-                      }
-                    </StyledMemberItem>
-                  ))}
-                </StyledListOfMembers>
-              )}
-            </section>
-          </StyledButton>
-        </li>
+        <StyledListItem key={category.id} onClick={() => handleExpand(index)}>
+          <StyledTrash onClick={() => setShowModal(true)} />
+          <StyleHeading title={category.title}>
+            <strong>{category.title}</strong>
+          </StyleHeading>
+          {selected === index && (
+            <StyledListOfMembers>
+              {category.selectedMembers.map((memberId) => (
+                <StyledMemberItem key={memberId}>
+                  {familyMembers.find((member) => member.id === memberId)?.name}
+                </StyledMemberItem>
+              ))}
+            </StyledListOfMembers>
+          )}
+          {selected === index ? <StyledUpArrow /> : <StyledDownArrow />}
+        </StyledListItem>
       ))}
     </StyledList>
   );

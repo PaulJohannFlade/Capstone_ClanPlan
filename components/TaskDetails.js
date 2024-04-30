@@ -1,18 +1,9 @@
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
-import Trash from "@/public/assets/images/trash-icon.svg";
+import StyledTrash from "./StyledTrash";
 import Pen from "@/public/assets/images/edit-pen-icon.svg";
 import Modal from "./Modal";
 import Link from "next/link";
-import { useReducer } from "react";
-import { useRouter } from "next/router";
-
-const StyledTrash = styled(Trash)`
-  width: 1.5rem;
-  position: absolute;
-  top: 1rem;
-  right: 1.3rem;
-`;
 
 const StyledLink = styled(Link)`
   position: absolute;

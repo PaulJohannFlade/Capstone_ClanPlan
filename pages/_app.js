@@ -24,8 +24,6 @@ export default function App({ Component, pageProps }) {
     filters.category == true &&
     filters.member == true;
 
-  console.log(isFilterSet);
-
   function handleAddTask(formData) {
     setTasks([
       ...tasks,
