@@ -66,7 +66,7 @@ export default function Filter({
                       .name
                   : key === "category"
                   ? categories.find((category) => category.id === filters[key])
-                      .category
+                      .title
                   : filters[key]}
               </StyledClearFilterButton>
             )

@@ -72,7 +72,7 @@ export default function HomePage({
   );
 
   const notAssignedTasks = tasks.filter(
-    (task) => task.assignedTo === "" && !task.isDone
+    (task) => !task.assignedTo.length && !task.isDone
   );
 
   const completedTasks = tasks.filter((task) => task.isDone);

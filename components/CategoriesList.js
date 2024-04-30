@@ -61,8 +61,8 @@ export default function CategoriesList({ categories, familyMembers }) {
         <li key={category.id}>
           <StyledButton onClick={() => handleExpand(index)}>
             <StyledCategory>
-              <StyleSpan title={category.category}>
-                <strong>{category.category}</strong>
+              <StyleSpan title={category.title}>
+                <strong>{category.title}</strong>
               </StyleSpan>
               {selected === index ? <UpArrow /> : <DownArrow />}
             </StyledCategory>

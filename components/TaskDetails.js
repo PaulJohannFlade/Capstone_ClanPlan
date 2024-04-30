@@ -120,8 +120,8 @@ export default function TaskDetails({
         <h2>{title}</h2>
         <p>Category: </p>
         <h2>
-          {categories.find((category) => category.id === categoryId)
-            ?.category || "-"}
+          {categories.find((category) => category.id === categoryId)?.title ||
+            "-"}
         </h2>
         <p>Priority: </p>
         <h2>{"🔥".repeat(Number(priority))}</h2>

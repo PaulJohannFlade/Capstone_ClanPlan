@@ -90,7 +90,7 @@ export default function FilterWindow({
         <option value="">Choose a category</option>
         {categories.map((category) => (
           <option key={category.id} value={category.id}>
-            {category.category}
+            {category.title}
           </option>
         ))}
       </StyledSelect>
