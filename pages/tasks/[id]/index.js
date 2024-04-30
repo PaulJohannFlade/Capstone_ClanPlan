@@ -41,7 +41,6 @@ export default function DetailsPage({
           showModal={showModal}
           setShowModal={setShowModal}
           onDelete={onDelete}
-          onCancel={onCancel}
           onCheckboxChange={onCheckboxChange}
           familyMembers={familyMembers}
           categories={categories}

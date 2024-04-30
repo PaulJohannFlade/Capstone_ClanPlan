@@ -3,6 +3,8 @@ import { useState } from "react";
 import DownArrow from "@/public/assets/images/down-arrow.svg";
 import UpArrow from "@/public/assets/images/up-arrow.svg";
 import StyledTrash from "./StyledTrash";
+import Modal from "./Modal";
+import DeleteConfirmBox from "./DeleteConfirmBox";
 
 const StyledList = styled.ul`
   display: flex;
@@ -49,7 +51,14 @@ const StyledDownArrow = styled(DownArrow)`
   margin: auto;
 `;
 
-export default function CategoriesList({ categories, familyMembers }) {
+export default function CategoriesList({
+  categories,
+  familyMembers,
+  showModal,
+  setShowModal,
+  onCancel,
+  onDelete,
+}) {
   const [selected, setSelected] = useState(null);
 
   function handleExpand(index) {
@@ -60,25 +69,35 @@ export default function CategoriesList({ categories, familyMembers }) {
     setSelected(index);
   }
   return (
-    <StyledList>
-      {categories.map((category, index) => (
-        <StyledListItem key={category.id} onClick={() => handleExpand(index)}>
-          <StyledTrash onClick={() => setShowModal(true)} />
-          <StyleHeading title={category.title}>
-            <strong>{category.title}</strong>
-          </StyleHeading>
-          {selected === index && (
-            <StyledListOfMembers>
-              {category.selectedMembers.map((memberId) => (
-                <StyledMemberItem key={memberId}>
-                  {familyMembers.find((member) => member.id === memberId)?.name}
-                </StyledMemberItem>
-              ))}
-            </StyledListOfMembers>
-          )}
-          {selected === index ? <StyledUpArrow /> : <StyledDownArrow />}
-        </StyledListItem>
-      ))}
-    </StyledList>
+    <>
+      <StyledList>
+        {categories.map((category, index) => (
+          <StyledListItem key={category.id} onClick={() => handleExpand(index)}>
+            <StyledTrash onClick={() => setShowModal(true)} />
+            <StyleHeading title={category.title}>
+              <strong>{category.title}</strong>
+            </StyleHeading>
+            {selected === index && (
+              <StyledListOfMembers>
+                {category.selectedMembers.map((memberId) => (
+                  <StyledMemberItem key={memberId}>
+                    {
+                      familyMembers.find((member) => member.id === memberId)
+                        ?.name
+                    }
+                  </StyledMemberItem>
+                ))}
+              </StyledListOfMembers>
+            )}
+            {selected === index ? <StyledUpArrow /> : <StyledDownArrow />}
+          </StyledListItem>
+        ))}
+      </StyledList>
+      {showModal && (
+        <Modal $top="7rem" setShowModal={setShowModal}>
+          <DeleteConfirmBox onCancel={onCancel} onDelete={onDelete} />
+        </Modal>
+      )}
+    </>
   );
 }

@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import StyledButton from "./StyledButton";
 import StyledTrash from "./StyledTrash";
 import Pen from "@/public/assets/images/edit-pen-icon.svg";
 import Modal from "./Modal";
 import Link from "next/link";
+import DeleteConfirmBox from "./DeleteConfirmBox";
 
 const StyledLink = styled(Link)`
   position: absolute;
@@ -36,26 +36,6 @@ const StyledSection = styled.section`
     `};
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-`;
-
-const DeleteConfirmBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin: 1rem;
-  background-color: white;
-  padding: 1rem;
-  border-radius: 1rem;
-`;
-
-const StyledPragraph = styled.p`
-  text-align: center;
-`;
-
 const StyledCheckbox = styled.input`
   margin-left: 2rem;
   display: inline;
@@ -71,7 +51,6 @@ export default function TaskDetails({
   showModal,
   setShowModal,
   onDelete,
-  onCancel,
   onCheckboxChange,
   familyMembers,
   categories,
@@ -90,15 +69,11 @@ export default function TaskDetails({
     <>
       {showModal && (
         <Modal $top="13.5rem" setShowModal={setShowModal}>
-          <DeleteConfirmBox>
-            <StyledPragraph>
-              Are you sure you want to delete this task?
-            </StyledPragraph>
-            <ButtonContainer>
-              <StyledButton onClick={onCancel}>No</StyledButton>
-              <StyledButton onClick={() => onDelete(id)}>Yes</StyledButton>
-            </ButtonContainer>
-          </DeleteConfirmBox>
+          <DeleteConfirmBox
+            setShowModal={setShowModal}
+            onDelete={onDelete}
+            id={id}
+          />
         </Modal>
       )}
       <StyledSection $isDone={isDone}>

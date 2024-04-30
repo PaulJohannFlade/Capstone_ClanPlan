@@ -50,9 +50,10 @@ export default function App({ Component, pageProps }) {
     setShowModal(false);
     router.push("/");
   }
+  /* 
   function closeModalWindow() {
     setShowModal(false);
-  }
+  } */
 
   function handleCheckboxChange(id) {
     setTasks(
@@ -113,7 +114,6 @@ export default function App({ Component, pageProps }) {
         setShowModal={setShowModal}
         showModal={showModal}
         onDelete={handleDeleteTask}
-        onCancel={closeModalWindow}
         onCheckboxChange={handleCheckboxChange}
         categories={categories}
         onAddCategory={handleAddCategory}
