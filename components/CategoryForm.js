@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import Multiselect from "multiselect-react-dropdown";
+import useSWR from "swr";
 
 const StyledHeading = styled.h2`
   align-self: center;
@@ -27,11 +28,7 @@ const StyledForm = styled.form`
   border-radius: 1rem;
 `;
 
-export default function CategoryForm({
-  onAddCategory,
-  familyMembers,
-  categories,
-}) {
+export default function CategoryForm({ onAddCategory, categories }) {
   const [isValidCategory, setIsValidCategory] = useState(true);
   const [isUniqueCategory, setIsUniqueCategory] = useState(true);
   const [enteredCategory, setEnteredCategory] = useState("");
@@ -39,21 +36,31 @@ export default function CategoryForm({
   const [selectedMembers, setSelectedMembers] = useState([]);
   const [isMemberSelected, setIsMemberSelected] = useState(true);
 
+  const { data: familyMembers, isLoading } = useSWR("/api/members");
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!familyMembers) {
+    return;
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    if (!data.category.trim()) {
+    if (!data.title.trim()) {
       setIsValidCategory(false);
-      event.target.category.focus();
+      event.target.title.focus();
       return;
     } else {
       setIsValidCategory(true);
       const uniqueCategoryCheck = categories.find(
         (category) =>
-          category.category.trim().toUpperCase() ===
-          data.category.trim().toUpperCase()
+          category.title.trim().toUpperCase() ===
+          data.title.trim().toUpperCase()
       );
 
       if (uniqueCategoryCheck) {
@@ -78,20 +85,20 @@ export default function CategoryForm({
   }
 
   function onSelect(selectedList) {
-    const selectedMemberIds = selectedList.map((member) => member.id);
+    const selectedMemberIds = selectedList.map((member) => member._id);
     setSelectedMembers([...selectedMemberIds]);
   }
 
-  function onRemove(removedItem) {
+  function onRemove(selectedList, removedItem) {
     setSelectedMembers(
-      selectedMembers.filter((member) => member !== removedItem.id)
+      selectedMembers.filter((member) => member !== removedItem._id)
     );
   }
 
   return (
     <StyledForm onSubmit={handleSubmit}>
       <StyledHeading>Add a new category</StyledHeading>
-      <StyledLabel htmlFor="category">
+      <StyledLabel htmlFor="title">
         <StyledSpan $left={true}>*</StyledSpan>Name:
         {!isValidCategory && (
           <StyledSpan>Please enter valid category!</StyledSpan>
@@ -104,8 +111,8 @@ export default function CategoryForm({
       </StyledLabel>
       <input
         type="text"
-        name="category"
-        id="category"
+        name="title"
+        id="title"
         onChange={handleChange}
         maxLength={50}
       ></input>

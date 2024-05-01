@@ -1,6 +1,6 @@
 import Filter from "@/components/Filter";
 import TasksList from "@/components/TasksList";
-
+import useSWR from "swr";
 import styled from "styled-components";
 
 const StyledSection = styled.section`
@@ -41,7 +41,6 @@ const StyledMessage = styled.p`
 `;
 
 export default function HomePage({
-  tasks,
   onCheckboxChange,
   setShowModal,
   showModal,
@@ -57,6 +56,16 @@ export default function HomePage({
   onButtonClick,
   listType,
 }) {
+  const { data: tasks, isLoading } = useSWR("/api/tasks");
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!tasks) {
+    return;
+  }
+
   const missedTasks = tasks.filter(
     (task) =>
       task.dueDate &&
@@ -72,7 +81,7 @@ export default function HomePage({
   );
 
   const notAssignedTasks = tasks.filter(
-    (task) => task.assignedTo === "" && !task.isDone
+    (task) => task.assignedTo.length === "0" && !task.isDone
   );
 
   const completedTasks = tasks.filter((task) => task.isDone);
@@ -172,7 +181,6 @@ export default function HomePage({
       )}
       {!filteredTasks.length && !isFilterSet && listType === "today" && (
         <StyledMessage>
-          {" "}
           <span>Relax !!!!</span>
           <br />
           <span>No tasks for today</span>

@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import GlobalStyle from "../styles";
-import initialTasks from "@/db/lib/tasks";
 import initialFamilyMembers from "@/db/lib/familyMembers";
 import initialCategories from "@/db/lib/categories";
 import { uid } from "uid";
 import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
+import { SWRConfig } from "swr";
+
+const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState([]);
   const [familyMembers, setFamilyMembers] = useState(initialFamilyMembers);
   const [categories, setCategories] = useState(initialCategories);
   const [showModal, setShowModal] = useState(false);
@@ -100,33 +102,35 @@ export default function App({ Component, pageProps }) {
   return (
     <Layout>
       <GlobalStyle />
-      <Component
-        {...pageProps}
-        tasks={tasksAfterSorting}
-        onAddTask={handleAddTask}
-        onEditData={handleEditTask}
-        familyMembers={familyMembers}
-        onAddMember={handleAddMember}
-        setShowModal={setShowModal}
-        showModal={showModal}
-        onDelete={handleDeleteTask}
-        onCancel={closeModalWindow}
-        onCheckboxChange={handleCheckboxChange}
-        categories={categories}
-        onAddCategory={handleAddCategory}
-        detailsBackLinkRef={detailsBackLinkRef}
-        setDetailsBackLinkRef={setDetailsBackLinkRef}
-        onChangeDate={handleChangeDate}
-        currentDate={currentDate}
-        onApplyFilters={handleApplyFilters}
-        onDeleteFilterOption={handleDeleteFilterOption}
-        filters={filters}
-        setFilters={setFilters}
-        setIsFilterSet={setIsFilterSet}
-        isFilterSet={isFilterSet}
-        onButtonClick={handleButtonClick}
-        listType={listType}
-      />
+      <SWRConfig value={{ fetcher }}>
+        <Component
+          {...pageProps}
+          tasks={tasksAfterSorting}
+          onAddTask={handleAddTask}
+          onEditData={handleEditTask}
+          familyMembers={familyMembers}
+          onAddMember={handleAddMember}
+          setShowModal={setShowModal}
+          showModal={showModal}
+          onDelete={handleDeleteTask}
+          onCancel={closeModalWindow}
+          onCheckboxChange={handleCheckboxChange}
+          categories={categories}
+          onAddCategory={handleAddCategory}
+          detailsBackLinkRef={detailsBackLinkRef}
+          setDetailsBackLinkRef={setDetailsBackLinkRef}
+          onChangeDate={handleChangeDate}
+          currentDate={currentDate}
+          onApplyFilters={handleApplyFilters}
+          onDeleteFilterOption={handleDeleteFilterOption}
+          filters={filters}
+          setFilters={setFilters}
+          setIsFilterSet={setIsFilterSet}
+          isFilterSet={isFilterSet}
+          onButtonClick={handleButtonClick}
+          listType={listType}
+        />
+      </SWRConfig>
     </Layout>
   );
 }

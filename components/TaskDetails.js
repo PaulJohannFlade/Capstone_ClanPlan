@@ -82,15 +82,13 @@ export default function TaskDetails({
   onDelete,
   onCancel,
   onCheckboxChange,
-  familyMembers,
-  categories,
 }) {
   const {
     title,
-    category: categoryId,
+    category,
     priority,
     dueDate,
-    id,
+    _id: id,
     isDone,
     assignedTo,
   } = task;
@@ -119,30 +117,20 @@ export default function TaskDetails({
         <p> What is to do?</p>
         <h2>{title}</h2>
         <p>Category: </p>
-        <h2>
-          {categories.find((category) => category.id === categoryId)
-            ?.category || "-"}
-        </h2>
+        <h2>{category?.title || "-"}</h2>
         <p>Priority: </p>
         <h2>{"🔥".repeat(Number(priority))}</h2>
         <p>Due Date:</p>
         <h3>{dueDate || "-"}</h3>
         <p>Assigned to:</p>
-        <h3>
-          {assignedTo
-            .map(
-              (memberId) =>
-                familyMembers.find((member) => member.id === memberId)?.name
-            )
-            .join(", ") || "-"}
-        </h3>
+        <h3>{assignedTo.map((member) => member.name).join(", ") || "-"}</h3>
         <label htmlFor="checkbox">
           Done:
           <StyledCheckbox
             type="checkbox"
             id="checkbox"
             checked={isDone}
-            onChange={() => onCheckboxChange(id)}
+            onChange={(event) => onCheckboxChange(task, event)}
           />
         </label>
       </StyledSection>

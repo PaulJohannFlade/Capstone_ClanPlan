@@ -45,7 +45,7 @@ const StyleSpan = styled.span`
   white-space: nowrap;
 `;
 
-export default function CategoriesList({ categories, familyMembers }) {
+export default function CategoriesList({ categories }) {
   const [selected, setSelected] = useState(null);
 
   function handleExpand(index) {
@@ -57,24 +57,21 @@ export default function CategoriesList({ categories, familyMembers }) {
   }
   return (
     <StyledList>
-      {categories.map((category, index) => (
-        <li key={category.id}>
+      {categories?.map((category, index) => (
+        <li key={category._id}>
           <StyledButton onClick={() => handleExpand(index)}>
             <StyledCategory>
-              <StyleSpan title={category.category}>
-                <strong>{category.category}</strong>
+              <StyleSpan title={category.title}>
+                <strong>{category.title}</strong>
               </StyleSpan>
               {selected === index ? <UpArrow /> : <DownArrow />}
             </StyledCategory>
             <section>
               {selected === index && (
                 <StyledListOfMembers>
-                  {category.selectedMembers.map((memberId) => (
-                    <StyledMemberItem key={memberId}>
-                      {
-                        familyMembers.find((member) => member.id === memberId)
-                          ?.name
-                      }
+                  {category.selectedMembers.map((member) => (
+                    <StyledMemberItem key={member._id}>
+                      {member.name}
                     </StyledMemberItem>
                   ))}
                 </StyledListOfMembers>

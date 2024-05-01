@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
 import styled from "styled-components";
 import StyledBackLink from "@/components/StyledBackLink";
+import useSWR from "swr";
 
 const StyledMessage = styled.p`
   text-align: center;
@@ -10,22 +11,39 @@ const StyledMessage = styled.p`
 `;
 
 export default function DetailsPage({
-  tasks,
   showModal,
   setShowModal,
   onDelete,
   onCancel,
-  onCheckboxChange,
   familyMembers,
   detailsBackLinkRef,
   categories,
 }) {
   const router = useRouter();
   const { id } = router.query;
+  const { data: task, isLoading, mutate } = useSWR(`/api/tasks/${id}`);
 
-  if (!id) return;
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
-  const task = tasks.find((task) => task.id === id);
+  if (!task) {
+    return;
+  }
+
+  async function handleCheckboxChange(task, event) {
+    const updatedTaskData = { ...task, isDone: event.target.checked };
+    const response = await fetch(`/api/tasks/${task._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTaskData),
+    });
+    if (response.ok) {
+      mutate();
+    }
+  }
 
   const backLink = detailsBackLinkRef === "/calendar" ? "/calendar" : "/";
 
@@ -42,7 +60,7 @@ export default function DetailsPage({
           setShowModal={setShowModal}
           onDelete={onDelete}
           onCancel={onCancel}
-          onCheckboxChange={onCheckboxChange}
+          onCheckboxChange={handleCheckboxChange}
           familyMembers={familyMembers}
           categories={categories}
         />

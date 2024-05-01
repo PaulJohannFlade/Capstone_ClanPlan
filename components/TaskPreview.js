@@ -27,17 +27,15 @@ const StyledParagraph = styled.p`
 export default function TaskPreview({
   task,
   onCheckboxChange,
-  categories,
   setDetailsBackLinkRef,
 }) {
-  const { title, category: categoryId, priority, dueDate, id, isDone } = task;
-
+  const { title, category, priority, dueDate, _id: id, isDone } = task;
   return (
     <StyledSection>
       <StyledCheckbox
         type="checkbox"
         checked={isDone}
-        onChange={() => onCheckboxChange(id)}
+        onChange={(event) => onCheckboxChange(task, event)}
       />
       <StyledLink
         href={`/tasks/${id}`}
@@ -45,9 +43,7 @@ export default function TaskPreview({
       >
         <h3>{title}</h3>
         <StyledParagraph>{"🔥".repeat(Number(priority))}</StyledParagraph>
-        <p>
-          {categories.find((category) => category.id === categoryId)?.category}
-        </p>
+        <p>{category?.title}</p>
         <p>{dueDate}</p>
       </StyledLink>
     </StyledSection>

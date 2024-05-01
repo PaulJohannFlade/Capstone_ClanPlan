@@ -3,6 +3,7 @@ import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import { useRouter } from "next/router";
 import Multiselect from "multiselect-react-dropdown";
+import useSWR from "swr";
 
 const StyledForm = styled.form`
   display: flex;
@@ -44,11 +45,14 @@ export default function Form({
   title,
   value,
   isEdit,
-  familyMembers,
-  categories,
   allocatedMembersList,
 }) {
   const router = useRouter();
+
+  const { data: categories, isLoading: isCategoryLoading } =
+    useSWR("/api/categories");
+  const { data: familyMembers, isLoading: isFamilyLoading } =
+    useSWR("/api/members");
   const [enteredTitle, setEnteredTitle] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [allocatedMembers, setAllocatedMembers] = useState(
@@ -57,6 +61,20 @@ export default function Form({
   const [assignedTo, setAssignedTo] = useState(value?.assignedTo || []);
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
+
+  if (isCategoryLoading) {
+    return <h1>Loading...</h1>;
+  }
+  if (!categories) {
+    return;
+  }
+
+  if (isFamilyLoading) {
+    return <h1>Loading...</h1>;
+  }
+  if (!familyMembers) {
+    return;
+  }
 
   function handleChange(event) {
     setEnteredTitle(event.target.value);
@@ -79,31 +97,32 @@ export default function Form({
       router.push(`/tasks/${value.id}`);
     } else {
       onTaskSubmit({ ...data, assignedTo });
-      router.push("/");
     }
   }
 
   function handleFamilyMembersSelection(event) {
     setAssignedTo([]);
     const selectedCategoryId = event.target.value;
-    const allocatedMembersIds = categories.find(
-      (category) => category.id === selectedCategoryId
-    )?.selectedMembers;
-    setAllocatedMembers(
-      allocatedMembersIds?.map((memberId) => ({
-        id: memberId,
-        name: familyMembers?.find((member) => member.id === memberId)?.name,
-      })) || familyMembers
-    );
+
+    let associatedMembers = [];
+
+    if (selectedCategoryId) {
+      associatedMembers = categories.find(
+        (category) => category._id === selectedCategoryId
+      )?.selectedMembers;
+    } else {
+      associatedMembers = familyMembers;
+    }
+    setAllocatedMembers(associatedMembers);
   }
 
   function onSelect(selectedList) {
-    const selectedMemberIds = selectedList.map((member) => member.id);
+    const selectedMemberIds = selectedList.map((member) => member._id);
     setAssignedTo(selectedMemberIds);
   }
 
-  function onRemove(removedItem) {
-    setAssignedTo(assignedTo.filter((member) => member !== removedItem.id));
+  function onRemove(selectedList, removedItem) {
+    setAssignedTo(assignedTo.filter((member) => member !== removedItem._id));
   }
 
   return (
@@ -135,8 +154,8 @@ export default function Form({
             : "No categories added"}
         </option>
         {categories.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.category}
+          <option key={category._id} value={category._id}>
+            {category.title}
           </option>
         ))}
       </StyledSelect>
@@ -165,7 +184,6 @@ export default function Form({
       <StyledLabel htmlFor="assignedTo">Assign to:</StyledLabel>
       <Multiselect
         id="assignedTo"
-        name="assignedTo"
         options={allocatedMembers}
         onSelect={onSelect}
         onRemove={onRemove}
@@ -180,10 +198,10 @@ export default function Form({
         }
         placeholder="Select Family Member"
         avoidHighlightFirstOption={true}
-        selectedValues={assignedTo.map((memberId) => ({
+        /*  selectedValues={assignedTo.map((memberId) => ({
           id: memberId,
           name: familyMembers.find((member) => member.id === memberId).name,
-        }))}
+        }))} */
       />
       <StyledButton>{isEdit ? "Update" : "Create"}</StyledButton>
     </StyledForm>

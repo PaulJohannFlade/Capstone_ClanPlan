@@ -4,6 +4,7 @@ import Modal from "@/components/Modal";
 import CategoriesList from "@/components/CategoriesList";
 import CategoryForm from "@/components/CategoryForm";
 import Plus from "@/public/assets/images/plus.svg";
+import useSWR from "swr";
 
 const StyledHeading = styled.h2`
   text-align: center;
@@ -17,13 +18,31 @@ const StyledPlus = styled(Plus)`
   fill: grey;
 `;
 
-export default function CategoriesPage({
-  categories,
-  onAddCategory,
-  showModal,
-  setShowModal,
-  familyMembers,
-}) {
+export default function CategoriesPage({ showModal, setShowModal }) {
+  const { data: categories, isLoading, mutate } = useSWR("/api/categories");
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!categories) {
+    return;
+  }
+
+  async function handleAddCategory(newCategoryData) {
+    const response = await fetch("/api/categories", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newCategoryData),
+    });
+    if (response.ok) {
+      setShowModal(false);
+      mutate();
+    }
+  }
+
   return (
     <>
       <StyledHeading>Task Categories</StyledHeading>
@@ -31,15 +50,14 @@ export default function CategoriesPage({
       {!categories.length && (
         <StyledMessage>The list is empty. Add members to begin!</StyledMessage>
       )}
-      <CategoriesList categories={categories} familyMembers={familyMembers} />
+      <CategoriesList categories={categories} />
 
       <StyledPlus onClick={() => setShowModal(true)} $right={true} />
 
       {showModal && (
         <Modal $top="7rem" setShowModal={setShowModal}>
           <CategoryForm
-            onAddCategory={onAddCategory}
-            familyMembers={familyMembers}
+            onAddCategory={handleAddCategory}
             categories={categories}
           />
         </Modal>
