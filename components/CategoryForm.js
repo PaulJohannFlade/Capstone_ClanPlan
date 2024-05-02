@@ -54,14 +54,16 @@ export default function CategoryForm({
       return;
     } else {
       setIsValidCategory(true);
-      const uniqueCategoryCheck = categories.find(
-        (category) =>
-          category.title.trim().toUpperCase() ===
-          data.title.trim().toUpperCase()
-      );
+      const uniqueCategoryCheck =
+        data.title.trim() === value?.title.trim() ||
+        !categories.find(
+          (category) =>
+            category.title.trim().toUpperCase() ===
+            data.title.trim().toUpperCase()
+        );
 
-      if (uniqueCategoryCheck) {
-        setIsUniqueCategory(!uniqueCategoryCheck);
+      if (!uniqueCategoryCheck) {
+        setIsUniqueCategory(uniqueCategoryCheck);
         return;
       }
     }

@@ -29,7 +29,6 @@ export default function CategoriesPage({
   onEditCategory,
 }) {
   const [modalMode, setModalMode] = useState("");
-  console.log(categories);
   return (
     <>
       <StyledHeading>Task Categories</StyledHeading>

@@ -60,13 +60,23 @@ export default function App({ Component, pageProps }) {
   }
 
   function handleAddCategory(data) {
-    setCategories([...categories, { id: uid(), ...data }]);
+    setCategories([...categories, { ...data, id: uid() }]);
     setShowModal(false);
   }
 
   function handleEditCategory(data) {
     setCategories(
       categories.map((category) => (category.id === data.id ? data : category))
+    );
+    setTasks(
+      tasks.map((task) =>
+        task.category === data.id &&
+        !task.assignedTo.every((memberId) =>
+          data.selectedMembers.includes(memberId)
+        )
+          ? { ...task, assignedTo: [] }
+          : task
+      )
     );
     setShowModal(false);
   }
