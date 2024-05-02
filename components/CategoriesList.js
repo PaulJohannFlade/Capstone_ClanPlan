@@ -62,7 +62,7 @@ export default function CategoriesList({
   tasks,
 }) {
   const [selected, setSelected] = useState(null);
-  const [categoryToDelete, setCategoryItemToDelete] = useState(null);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
 
   const categoryIsUsed =
     categoryToDelete &&
@@ -83,10 +83,11 @@ export default function CategoriesList({
         {categories.map((category, index) => (
           <StyledListItem key={category.id} onClick={() => handleExpand(index)}>
             <StyledTrash
-              onClick={() => {
-                setCategoryItemToDelete(category);
+              onClick={(event) => {
+                setCategoryToDelete(category);
                 setModalMode("delete");
                 setShowModal(true);
+                event.stopPropagation();
               }}
             />
             <StyleHeading title={category.title}>
@@ -117,7 +118,7 @@ export default function CategoriesList({
                 : `Are you sure you want to delete "${categoryToDelete.title}"?`
             }
             setShowModal={setShowModal}
-            onDelete={onDeleteCategory}
+            onConfirm={onDeleteCategory}
             id={categoryToDelete.id}
           />
         </Modal>

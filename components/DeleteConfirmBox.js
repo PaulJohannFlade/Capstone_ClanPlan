@@ -23,7 +23,7 @@ const StyledPragraph = styled.p`
 
 export default function DeleteConfirmBox({
   setShowModal,
-  onDelete,
+  onConfirm,
   id,
   message,
 }) {
@@ -32,7 +32,7 @@ export default function DeleteConfirmBox({
       <StyledPragraph>{message}</StyledPragraph>
       <ButtonContainer>
         <StyledButton onClick={() => setShowModal(false)}>No</StyledButton>
-        <StyledButton onClick={() => onDelete(id)}>Yes</StyledButton>
+        <StyledButton onClick={() => onConfirm(id)}>Yes</StyledButton>
       </ButtonContainer>
     </StyledSection>
   );

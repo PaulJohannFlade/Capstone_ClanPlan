@@ -71,7 +71,7 @@ export default function TaskDetails({
         <Modal $top="13.5rem" setShowModal={setShowModal}>
           <DeleteConfirmBox
             setShowModal={setShowModal}
-            onDelete={onDeleteTask}
+            onConfirm={onDeleteTask}
             id={id}
             message="Are you sure you want to delete this task?"
           />
