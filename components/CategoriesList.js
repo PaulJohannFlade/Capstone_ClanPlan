@@ -98,7 +98,7 @@ export default function CategoriesList({
 }) {
   const [selected, setSelected] = useState(null);
   const [categoryToHandle, setCategoryToHandle] = useState(null);
-  console.log(categories);
+
   const categoryIsUsed =
     categoryToHandle &&
     tasks.filter(
