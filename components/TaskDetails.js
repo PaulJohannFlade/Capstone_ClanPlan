@@ -4,7 +4,7 @@ import Trash from "@/public/assets/images/trash-icon.svg";
 import Pen from "@/public/assets/images/edit-pen-icon.svg";
 import Modal from "./Modal";
 import Link from "next/link";
-import { useReducer } from "react";
+import useSWR from "swr";
 import { useRouter } from "next/router";
 
 const StyledTrash = styled(Trash)`
@@ -79,7 +79,6 @@ export default function TaskDetails({
   task,
   showModal,
   setShowModal,
-  onDelete,
   onCancel,
   onCheckboxChange,
 }) {
@@ -92,6 +91,17 @@ export default function TaskDetails({
     isDone,
     assignedTo,
   } = task;
+  const router = useRouter();
+
+  async function handleDeleteTask(id) {
+    const response = await fetch(`/api/tasks/${id}`, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      router.push("/");
+      setShowModal(false);
+    }
+  }
 
   return (
     <>
@@ -103,7 +113,9 @@ export default function TaskDetails({
             </StyledPragraph>
             <ButtonContainer>
               <StyledButton onClick={onCancel}>No</StyledButton>
-              <StyledButton onClick={() => onDelete(id)}>Yes</StyledButton>
+              <StyledButton onClick={() => handleDeleteTask(id)}>
+                Yes
+              </StyledButton>
             </ButtonContainer>
           </DeleteConfirmBox>
         </Modal>

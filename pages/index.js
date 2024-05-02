@@ -55,17 +55,8 @@ export default function HomePage({
   setIsFilterSet,
   onButtonClick,
   listType,
+  tasks,
 }) {
-  const { data: tasks, isLoading } = useSWR("/api/tasks");
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!tasks) {
-    return;
-  }
-
   const missedTasks = tasks.filter(
     (task) =>
       task.dueDate &&
@@ -81,7 +72,7 @@ export default function HomePage({
   );
 
   const notAssignedTasks = tasks.filter(
-    (task) => task.assignedTo.length === "0" && !task.isDone
+    (task) => !task.assignedTo.length && !task.isDone
   );
 
   const completedTasks = tasks.filter((task) => task.isDone);
@@ -100,7 +91,7 @@ export default function HomePage({
   const filteredTasks = tasksAfterListTypeSelection.filter(
     (task) =>
       (!Number(filters.priority) || task.priority === filters.priority) &&
-      (!filters.category || task.category === filters.category) &&
+      (!filters.category || task.category._id === filters.category) &&
       (!filters.member || task.assignedTo.includes(filters.member))
   );
 
@@ -193,7 +184,6 @@ export default function HomePage({
         tasks={filteredTasks}
         onCheckboxChange={onCheckboxChange}
         setDetailsBackLinkRef={setDetailsBackLinkRef}
-        categories={categories}
       />
     </>
   );

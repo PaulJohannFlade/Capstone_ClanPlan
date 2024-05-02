@@ -1,6 +1,5 @@
 import TaskPreview from "./TaskPreview";
 import styled from "styled-components";
-import { useRouter } from "next/router";
 import useSWR from "swr";
 
 const StyledList = styled.ul`
@@ -23,13 +22,7 @@ const StyledListItems = styled.li`
   margin: 0.5rem;
 `;
 
-export default function TasksList({
-  tasks,
-  setDetailsBackLinkRef,
-  categories,
-}) {
-  const router = useRouter();
-
+export default function TasksList({ tasks, setDetailsBackLinkRef }) {
   function handleCurrentTask(dueDate) {
     const today = new Date();
     return today.toDateString() === new Date(dueDate).toDateString();
@@ -63,7 +56,6 @@ export default function TasksList({
             task={task}
             onCheckboxChange={handleCheckboxChange}
             setDetailsBackLinkRef={setDetailsBackLinkRef}
-            categories={categories}
           />
         </StyledListItems>
       ))}

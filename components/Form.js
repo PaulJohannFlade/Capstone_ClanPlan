@@ -46,13 +46,11 @@ export default function Form({
   value,
   isEdit,
   allocatedMembersList,
+  categories,
+  familyMembers,
 }) {
   const router = useRouter();
 
-  const { data: categories, isLoading: isCategoryLoading } =
-    useSWR("/api/categories");
-  const { data: familyMembers, isLoading: isFamilyLoading } =
-    useSWR("/api/members");
   const [enteredTitle, setEnteredTitle] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [allocatedMembers, setAllocatedMembers] = useState(
@@ -61,20 +59,6 @@ export default function Form({
   const [assignedTo, setAssignedTo] = useState(value?.assignedTo || []);
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
-
-  if (isCategoryLoading) {
-    return <h1>Loading...</h1>;
-  }
-  if (!categories) {
-    return;
-  }
-
-  if (isFamilyLoading) {
-    return <h1>Loading...</h1>;
-  }
-  if (!familyMembers) {
-    return;
-  }
 
   function handleChange(event) {
     setEnteredTitle(event.target.value);
@@ -92,9 +76,10 @@ export default function Form({
       return;
     }
 
+    console.log("data .. : ", data);
+
     if (isEdit) {
       onTaskSubmit({ ...data, id: value.id, assignedTo, isDone: value.isDone });
-      router.push(`/tasks/${value.id}`);
     } else {
       onTaskSubmit({ ...data, assignedTo });
     }
@@ -117,12 +102,13 @@ export default function Form({
   }
 
   function onSelect(selectedList) {
-    const selectedMemberIds = selectedList.map((member) => member._id);
-    setAssignedTo(selectedMemberIds);
+    setAssignedTo(selectedList);
   }
 
-  function onRemove(selectedList, removedItem) {
-    setAssignedTo(assignedTo.filter((member) => member !== removedItem._id));
+  function onRemove(_selectedList, removedItem) {
+    setAssignedTo(
+      assignedTo.filter((member) => member._id !== removedItem._id)
+    );
   }
 
   return (
@@ -145,7 +131,7 @@ export default function Form({
       <StyledSelect
         id="category"
         name="category"
-        defaultValue={value?.category}
+        defaultValue={value?.category?._id}
         onChange={handleFamilyMembersSelection}
       >
         <option value="">
@@ -198,10 +184,7 @@ export default function Form({
         }
         placeholder="Select Family Member"
         avoidHighlightFirstOption={true}
-        /*  selectedValues={assignedTo.map((memberId) => ({
-          id: memberId,
-          name: familyMembers.find((member) => member.id === memberId).name,
-        }))} */
+        selectedValues={assignedTo}
       />
       <StyledButton>{isEdit ? "Update" : "Create"}</StyledButton>
     </StyledForm>

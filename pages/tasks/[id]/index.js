@@ -21,6 +21,7 @@ export default function DetailsPage({
 }) {
   const router = useRouter();
   const { id } = router.query;
+
   const { data: task, isLoading, mutate } = useSWR(`/api/tasks/${id}`);
 
   if (isLoading) {
@@ -58,7 +59,6 @@ export default function DetailsPage({
           task={task}
           showModal={showModal}
           setShowModal={setShowModal}
-          onDelete={onDelete}
           onCancel={onCancel}
           onCheckboxChange={handleCheckboxChange}
           familyMembers={familyMembers}
