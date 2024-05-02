@@ -26,9 +26,10 @@ export default function CategoriesPage({
   familyMembers,
   onDeleteCategory,
   tasks,
+  onEditCategory,
 }) {
   const [modalMode, setModalMode] = useState("");
-
+  console.log(categories);
   return (
     <>
       <StyledHeading>Task Categories</StyledHeading>
@@ -45,6 +46,7 @@ export default function CategoriesPage({
         setModalMode={setModalMode}
         onDeleteCategory={onDeleteCategory}
         tasks={tasks}
+        onEditCategory={onEditCategory}
       />
 
       <StyledPlus
@@ -58,7 +60,8 @@ export default function CategoriesPage({
       {showModal && modalMode === "add" && (
         <Modal $top="7rem" setShowModal={setShowModal}>
           <CategoryForm
-            onAddCategory={onAddCategory}
+            formHeading="Add a category"
+            onSubmitCategory={onAddCategory}
             familyMembers={familyMembers}
             categories={categories}
           />

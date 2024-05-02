@@ -6,6 +6,10 @@ const StyledTrash = styled(Trash)`
   position: absolute;
   top: 1rem;
   right: 1.3rem;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
 `;
 
 export default StyledTrash;

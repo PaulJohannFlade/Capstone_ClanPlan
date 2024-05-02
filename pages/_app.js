@@ -64,6 +64,13 @@ export default function App({ Component, pageProps }) {
     setShowModal(false);
   }
 
+  function handleEditCategory(data) {
+    setCategories(
+      categories.map((category) => (category.id === data.id ? data : category))
+    );
+    setShowModal(false);
+  }
+
   function handleChangeDate(date) {
     setCurrentDate(date);
   }
@@ -125,6 +132,7 @@ export default function App({ Component, pageProps }) {
         onButtonClick={handleButtonClick}
         listType={listType}
         onDeleteCategory={handleDeleteCategory}
+        onEditCategory={handleEditCategory}
       />
     </Layout>
   );
