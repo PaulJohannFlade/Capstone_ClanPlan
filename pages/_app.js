@@ -70,6 +70,7 @@ export default function App({ Component, pageProps }) {
     );
     setTasks(
       tasks.map((task) =>
+        !task.isDone &&
         task.category === data.id &&
         !task.assignedTo.every((memberId) =>
           data.selectedMembers.includes(memberId)
