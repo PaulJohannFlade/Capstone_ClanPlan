@@ -14,14 +14,10 @@ const StyledHeader = styled.header`
   z-index: 1;
 `;
 
-const StyledH1 = styled.h1`
-  font-family: Arial, Helvetica, sans-serif;
-`;
-
 export default function Header() {
   return (
     <StyledHeader>
-      <StyledH1>ClanPlan</StyledH1>
+      <h1>ClanPlan</h1>
     </StyledHeader>
   );
 }

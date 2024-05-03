@@ -1,18 +1,4 @@
 import { createGlobalStyle } from "styled-components";
-import { Handlee } from "next/font/google";
-
-const handlee = Handlee({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-handlee",
-});
-// import { Indie_Flower } from "next/font/google";
-
-// const indieFlower = Indie_Flower({
-//   subsets: ["latin"],
-//   weight: ["400"],
-//   variable: "--font-indieflower",
-// });
 
 export default createGlobalStyle`
   *,
@@ -29,19 +15,16 @@ export default createGlobalStyle`
     --color-background:#fbe0c3; 
     --color-font:#344648;
     --color-font-light:white;
-    --font-handlee:${handlee.style.fontFamily};
   }
 
   body {
     margin: auto;
     margin-top:5rem;
-    font-family: Helvetica;
+    font-family: system-ui;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     max-width: 375px;
     background-color: var(--color-background);
-    
-    
 
   }
 
@@ -54,25 +37,9 @@ input, button, textarea, select {
   font: inherit;
 }
 
-/* button{
-  font-family: var(--font-handlee);
-} */
-
-/* li{
-  font-family: var(--font-handlee);
-} */
-
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
-
-h2 {
-  font-family: var(--font-handlee);
-}
-
-/* label{
-  font-family: var(--font-handlee);
-} */
 
 #root, #__next {
   isolation: isolate;

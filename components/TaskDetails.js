@@ -45,11 +45,6 @@ const StyledCheckbox = styled.input`
     filter: hue-rotate(180deg);
   }
 `;
-const StyledParagraphContent = styled.p`
-  font-size: larger;
-  font-weight: 600;
-`;
-
 
 export default function TaskDetails({
   task,
@@ -74,7 +69,6 @@ export default function TaskDetails({
     <>
       {showModal && (
         <Modal $top="13.5rem" setShowModal={setShowModal}>
-
           <DeleteConfirmBox
             setShowModal={setShowModal}
             onConfirm={onDeleteTask}
@@ -90,27 +84,25 @@ export default function TaskDetails({
         </StyledLink>
 
         <p> What is to do?</p>
-        <StyledParagraphContent>{title}</StyledParagraphContent>
+        <h2>{title}</h2>
         <p>Category: </p>
-
-        <StyledParagraphContent>
-          {categories.find((category) => category.id === categoryId)
-            ?.category || "-"}
-        </StyledParagraphContent>
-
+        <h2>
+          {categories.find((category) => category.id === categoryId)?.title ||
+            "-"}
+        </h2>
         <p>Priority: </p>
         <h2>{"🔥".repeat(Number(priority))}</h2>
         <p>Due Date:</p>
-        <StyledParagraphContent>{dueDate || "-"}</StyledParagraphContent>
+        <h3>{dueDate || "-"}</h3>
         <p>Assigned to:</p>
-        <StyledParagraphContent>
+        <h3>
           {assignedTo
             .map(
               (memberId) =>
                 familyMembers.find((member) => member.id === memberId)?.name
             )
             .join(", ") || "-"}
-        </StyledParagraphContent>
+        </h3>
         <label htmlFor="checkbox">
           Done:
           <StyledCheckbox
