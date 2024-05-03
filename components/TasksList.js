@@ -33,7 +33,7 @@ export default function TasksList({ tasks, setDetailsBackLinkRef }) {
   async function handleCheckboxChange(task, event) {
     const updatedTaskData = { ...task, isDone: event.target.checked };
     const response = await fetch(`/api/tasks/${task._id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },

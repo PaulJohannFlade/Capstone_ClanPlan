@@ -25,7 +25,7 @@ export default async function handler(request, response) {
 
   if (request.method === "PATCH") {
     const updatedTask = request.body;
-    await Task.findOneAndUpdate({ _id: id }, updatedTask, { new: true });
+    await Task.findByIdAndUpdate(id, updatedTask, { new: true });
     response.status(200).json({ status: "Task updated successfully." });
   }
 
