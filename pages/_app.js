@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import GlobalStyle from "../styles";
 import Layout from "@/components/Layout";
 import { SWRConfig } from "swr";
@@ -32,8 +32,12 @@ export default function App({ Component, pageProps }) {
   const [showModal, setShowModal] = useState(false);
   const [detailsBackLinkRef, setDetailsBackLinkRef] = useState("/");
   const [filters, setFilters] = useState({});
-  const [isFilterSet, setIsFilterSet] = useState(false);
   const [listType, setListType] = useState("today");
+
+  const isFilterSet =
+    (filters.priority !== "0" || filters.priority == true) &&
+    filters.category == true &&
+    filters.member == true;
 
   const { data: categories, isLoading: isCategoryLoading } = useSWR(
     "/api/categories",
@@ -45,15 +49,38 @@ export default function App({ Component, pageProps }) {
   );
   const { data: tasks, isLoading } = useSWR("/api/tasks", fetcher);
 
-  useEffect(() => {
-    if (
-      filters.priority === "0" &&
-      filters.category === "" &&
-      filters.member === ""
-    ) {
-      setIsFilterSet(false);
-    }
-  }, [filters.category, filters.member, filters.priority]);
+  function handleDeleteCategory(id) {
+    setCategories(categories.filter((category) => category.id !== id));
+    setTasks(
+      tasks.map((task) =>
+        task.category === id ? { ...task, category: "" } : task
+      )
+    );
+    setShowModal(false);
+  }
+
+  function handleAddCategory(data) {
+    setCategories([...categories, { ...data, id: uid() }]);
+    setShowModal(false);
+  }
+
+  function handleEditCategory(data) {
+    setCategories(
+      categories.map((category) => (category.id === data.id ? data : category))
+    );
+    setTasks(
+      tasks.map((task) =>
+        !task.isDone &&
+        task.category === data.id &&
+        !task.assignedTo.every((memberId) =>
+          data.selectedMembers.includes(memberId)
+        )
+          ? { ...task, assignedTo: [] }
+          : task
+      )
+    );
+    setShowModal(false);
+  }
 
   if (isLoading) {
     return (
@@ -126,6 +153,8 @@ export default function App({ Component, pageProps }) {
           isFilterSet={isFilterSet}
           onButtonClick={handleHomePageButtonClick}
           listType={listType}
+          onDeleteCategory={handleDeleteCategory}
+          onEditCategory={handleEditCategory}
         />
       </SWRConfig>
     </Layout>

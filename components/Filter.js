@@ -28,7 +28,6 @@ export default function Filter({
   filters,
   categories,
   onDeleteFilterOption,
-  setIsFilterSet,
 }) {
   return (
     <>
@@ -39,7 +38,6 @@ export default function Filter({
             onApply={onApplyFilters}
             filters={filters}
             categories={categories}
-            setIsFilterSet={setIsFilterSet}
           />
         </Modal>
       )}

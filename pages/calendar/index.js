@@ -7,6 +7,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import useSWR from "swr";
+import CalendarEvent from "@/components/CalendarEvent";
 
 const localizer = globalizeLocalizer(globalize);
 const DnDCalendar = withDragAndDrop(Calendar);
@@ -46,6 +47,7 @@ export default function CalendarPage({ tasks, setDetailsBackLinkRef }) {
       title: task.title,
       start: new Date(dueDate),
       end: new Date(dueDate),
+      isDone: task.isDone,
       allDay: true,
     };
   });
@@ -104,6 +106,9 @@ export default function CalendarPage({ tasks, setDetailsBackLinkRef }) {
         defaultView={"month"}
         date={currentDate}
         onNavigate={handleNavigate}
+        components={{
+          event: CalendarEvent,
+        }}
       />
     </StyledSection>
   );

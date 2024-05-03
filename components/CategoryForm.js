@@ -28,12 +28,19 @@ const StyledForm = styled.form`
   border-radius: 1rem;
 `;
 
-export default function CategoryForm({ onAddCategory, categories }) {
+export default function CategoryForm({
+  onSubmitCategory,
+  categories,
+  formHeading,
+  value,
+}) {
   const [isValidCategory, setIsValidCategory] = useState(true);
   const [isUniqueCategory, setIsUniqueCategory] = useState(true);
   const [enteredCategory, setEnteredCategory] = useState("");
 
-  const [selectedMembers, setSelectedMembers] = useState([]);
+  const [selectedMembers, setSelectedMembers] = useState(
+    value?.selectedMembers || []
+  );
   const [isMemberSelected, setIsMemberSelected] = useState(true);
 
   const { data: familyMembers, isLoading } = useSWR("/api/members");
@@ -57,14 +64,16 @@ export default function CategoryForm({ onAddCategory, categories }) {
       return;
     } else {
       setIsValidCategory(true);
-      const uniqueCategoryCheck = categories.find(
-        (category) =>
-          category.title.trim().toUpperCase() ===
-          data.title.trim().toUpperCase()
-      );
+      const uniqueCategoryCheck =
+        data.title.trim() === value?.title.trim() ||
+        !categories.find(
+          (category) =>
+            category.title.trim().toUpperCase() ===
+            data.title.trim().toUpperCase()
+        );
 
-      if (uniqueCategoryCheck) {
-        setIsUniqueCategory(!uniqueCategoryCheck);
+      if (!uniqueCategoryCheck) {
+        setIsUniqueCategory(uniqueCategoryCheck);
         return;
       }
     }
@@ -75,7 +84,7 @@ export default function CategoryForm({ onAddCategory, categories }) {
     } else {
       setIsMemberSelected(true);
     }
-    onAddCategory({ ...data, selectedMembers });
+    onSubmitCategory({ ...data, selectedMembers, id: value?.id });
   }
 
   function handleChange(event) {
@@ -89,7 +98,7 @@ export default function CategoryForm({ onAddCategory, categories }) {
     setSelectedMembers([...selectedMemberIds]);
   }
 
-  function onRemove(selectedList, removedItem) {
+  function onRemove(_selectedList, removedItem) {
     setSelectedMembers(
       selectedMembers.filter((member) => member !== removedItem._id)
     );
@@ -97,9 +106,9 @@ export default function CategoryForm({ onAddCategory, categories }) {
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <StyledHeading>Add a new category</StyledHeading>
+      <StyledHeading>{formHeading}</StyledHeading>
       <StyledLabel htmlFor="title">
-        <StyledSpan $left={true}>*</StyledSpan>Name:
+        <StyledSpan $left={true}>*</StyledSpan>Title:
         {!isValidCategory && (
           <StyledSpan>Please enter valid category!</StyledSpan>
         )}
@@ -115,6 +124,7 @@ export default function CategoryForm({ onAddCategory, categories }) {
         id="title"
         onChange={handleChange}
         maxLength={50}
+        defaultValue={value?.title}
       ></input>
       <StyledSpan>{50 - enteredCategory.length} characters left</StyledSpan>
 
@@ -134,8 +144,12 @@ export default function CategoryForm({ onAddCategory, categories }) {
         emptyRecordMsg="No members added to the family"
         placeholder="Please select a member"
         avoidHighlightFirstOption={true}
+        selectedValues={selectedMembers.map((memberId) => ({
+          id: memberId,
+          name: familyMembers.find((member) => member.id === memberId).name,
+        }))}
       />
-      <StyledButton>Add</StyledButton>
+      <StyledButton>{value ? "Update" : "Add"}</StyledButton>
     </StyledForm>
   );
 }

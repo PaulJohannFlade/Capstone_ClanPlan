@@ -5,6 +5,7 @@ import CategoriesList from "@/components/CategoriesList";
 import CategoryForm from "@/components/CategoryForm";
 import Plus from "@/public/assets/images/plus.svg";
 import useSWR from "swr";
+import { useState } from "react";
 
 const StyledHeading = styled.h2`
   text-align: center;
@@ -18,7 +19,15 @@ const StyledPlus = styled(Plus)`
   fill: grey;
 `;
 
-export default function CategoriesPage({ showModal, setShowModal }) {
+export default function CategoriesPage({
+  showModal,
+  setShowModal,
+  onDeleteCategory,
+  tasks,
+  onEditCategory,
+}) {
+  const [modalMode, setModalMode] = useState("");
+
   const { data: categories, isLoading, mutate } = useSWR("/api/categories");
 
   if (isLoading) {
@@ -50,14 +59,32 @@ export default function CategoriesPage({ showModal, setShowModal }) {
       {!categories.length && (
         <StyledMessage>The list is empty. Add members to begin!</StyledMessage>
       )}
-      <CategoriesList categories={categories} />
+      <CategoriesList
+        categories={categories}
+        familyMembers={familyMembers}
+        setShowModal={setShowModal}
+        showModal={showModal}
+        modalMode={modalMode}
+        setModalMode={setModalMode}
+        onDeleteCategory={onDeleteCategory}
+        tasks={tasks}
+        onEditCategory={onEditCategory}
+      />
 
-      <StyledPlus onClick={() => setShowModal(true)} $right={true} />
+      <StyledPlus
+        onClick={() => {
+          setModalMode("add");
+          setShowModal(true);
+        }}
+        $right={true}
+      />
 
-      {showModal && (
+      {showModal && modalMode === "add" && (
         <Modal $top="7rem" setShowModal={setShowModal}>
           <CategoryForm
-            onAddCategory={handleAddCategory}
+            formHeading="Add a category"
+            onSubmitCategory={handleAddCategory}
+            familyMembers={familyMembers}
             categories={categories}
           />
         </Modal>

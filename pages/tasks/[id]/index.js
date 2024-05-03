@@ -13,8 +13,7 @@ const StyledMessage = styled.p`
 export default function DetailsPage({
   showModal,
   setShowModal,
-  onDelete,
-  onCancel,
+  onDeleteTask,
   familyMembers,
   detailsBackLinkRef,
   categories,
@@ -63,6 +62,7 @@ export default function DetailsPage({
           onCheckboxChange={handleCheckboxChange}
           familyMembers={familyMembers}
           categories={categories}
+          onDeleteTask={onDeleteTask}
         />
       ) : (
         <StyledMessage>Page not found!</StyledMessage>
