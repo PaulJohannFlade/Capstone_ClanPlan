@@ -1,10 +1,30 @@
 import { useEffect, useState } from "react";
 import GlobalStyle from "../styles";
-import { uid } from "uid";
-import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
 import { SWRConfig } from "swr";
 import useSWR from "swr";
+import styled from "styled-components";
+
+const StyledLoadingAnimation = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Adjust height according to your UI */
+`;
+
+const StyledLoadingSpinner = styled.div`
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  border: 4px solid rgba(0, 0, 0, 0.245);
+  border-left-color: #729290;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+`;
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
@@ -14,8 +34,6 @@ export default function App({ Component, pageProps }) {
   const [filters, setFilters] = useState({});
   const [isFilterSet, setIsFilterSet] = useState(false);
   const [listType, setListType] = useState("today");
-
-  const router = useRouter();
 
   const { data: categories, isLoading: isCategoryLoading } = useSWR(
     "/api/categories",
@@ -38,7 +56,11 @@ export default function App({ Component, pageProps }) {
   }, [filters.category, filters.member, filters.priority]);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return (
+      <StyledLoadingAnimation>
+        <StyledLoadingSpinner />
+      </StyledLoadingAnimation>
+    );
   }
 
   if (!tasks) {
