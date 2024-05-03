@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DownArrow from "@/public/assets/images/down-arrow.svg";
 import UpArrow from "@/public/assets/images/up-arrow.svg";
 import StyledTrash from "./StyledTrash";
@@ -42,8 +42,8 @@ const StyledMemberItem = styled.li`
 const StyledPen = styled(Pen)`
   width: 1.5rem;
   position: absolute;
-  top: 1rem;
-  right: 4rem;
+  top: 15px;
+  right: 60px;
   &:hover {
     cursor: pointer;
     opacity: 0.5;
