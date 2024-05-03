@@ -3,7 +3,6 @@ import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import { useRouter } from "next/router";
 import Multiselect from "multiselect-react-dropdown";
-import useSWR from "swr";
 
 const StyledForm = styled.form`
   display: flex;
@@ -60,7 +59,7 @@ export default function Form({
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
 
-  function handleChange(event) {
+  function handleTitleChange(event) {
     setEnteredTitle(event.target.value);
   }
 
@@ -76,12 +75,20 @@ export default function Form({
       return;
     }
 
-    console.log("data .. : ", data);
-
     if (isEdit) {
-      onTaskSubmit({ ...data, id: value.id, assignedTo, isDone: value.isDone });
+      onTaskSubmit({
+        ...data,
+        id: value.id,
+        assignedTo,
+        isDone: value.isDone,
+        category: data.category === "" ? null : data.category,
+      });
     } else {
-      onTaskSubmit({ ...data, assignedTo });
+      onTaskSubmit({
+        ...data,
+        assignedTo,
+        category: data.category === "" ? null : data.category,
+      });
     }
   }
 
@@ -123,7 +130,7 @@ export default function Form({
         id="title"
         name="title"
         maxLength="150"
-        onChange={handleChange}
+        onChange={handleTitleChange}
         defaultValue={value?.title}
       ></input>
       <StyledSpan>{150 - enteredTitle.length} characters left</StyledSpan>
