@@ -19,15 +19,14 @@ const StyledSpan = styled.span`
 `;
 
 const StyledButton = styled.button`
-  background-color: ${({ $isActive }) =>
-    $isActive ? "gray" : "var(--color-font)"};
+  background-color: ${({ $isActive }) => ($isActive ? "#87ceeb" : "#d0d0d0")};
   border: none;
   margin-top: 1rem;
   color: white;
   font-weight: 700;
   padding: 0.5rem 1rem;
   align-self: center;
-  border-radius: 0.7rem;
+  border-radius: 1rem;
 `;
 
 const StyledHeading = styled.h2`
@@ -119,7 +118,7 @@ export default function HomePage({
           onClick={() => onButtonClick("missed")}
           $isActive={listType === "missed"}
         >
-          <StyledSpan $redColor={true}>Missed {missedTasks.length}!</StyledSpan>
+          <StyledSpan $redColor={true}>Missed {missedTasks.length}</StyledSpan>
         </StyledButton>
         <StyledButton
           onClick={() => onButtonClick("notAssigned")}
@@ -167,7 +166,7 @@ export default function HomePage({
       )}
       {!filteredTasks.length && !isFilterSet && listType === "today" && (
         <StyledMessage>
-          <span>Relax !!!!</span>
+          <span>Relax!</span>
           <br />
           <span>No tasks for today</span>
         </StyledMessage>

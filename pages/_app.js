@@ -33,6 +33,8 @@ export default function App({ Component, pageProps }) {
   const [detailsBackLinkRef, setDetailsBackLinkRef] = useState("/");
   const [filters, setFilters] = useState({});
   const [listType, setListType] = useState("today");
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentView, setCurrentView] = useState("month");
 
   const isFilterSet =
     (filters.priority !== "0" || filters.priority == true) &&
@@ -48,16 +50,6 @@ export default function App({ Component, pageProps }) {
     fetcher
   );
   const { data: tasks, isLoading } = useSWR("/api/tasks", fetcher);
-
-  function handleDeleteCategory(id) {
-    setCategories(categories.filter((category) => category.id !== id));
-    setTasks(
-      tasks.map((task) =>
-        task.category === id ? { ...task, category: "" } : task
-      )
-    );
-    setShowModal(false);
-  }
 
   function handleAddCategory(data) {
     setCategories([...categories, { ...data, id: uid() }]);
@@ -108,10 +100,6 @@ export default function App({ Component, pageProps }) {
     return;
   }
 
-  function closeModalWindow() {
-    setShowModal(false);
-  }
-
   function handleApplyFilters(formData) {
     setFilters(formData);
     setShowModal(false);
@@ -141,7 +129,6 @@ export default function App({ Component, pageProps }) {
           familyMembers={familyMembers}
           setShowModal={setShowModal}
           showModal={showModal}
-          onCancel={closeModalWindow}
           categories={categories}
           detailsBackLinkRef={detailsBackLinkRef}
           setDetailsBackLinkRef={setDetailsBackLinkRef}
@@ -149,12 +136,14 @@ export default function App({ Component, pageProps }) {
           onDeleteFilterOption={handleDeleteFilterOption}
           filters={filters}
           setFilters={setFilters}
-          setIsFilterSet={setIsFilterSet}
           isFilterSet={isFilterSet}
           onButtonClick={handleHomePageButtonClick}
           listType={listType}
-          onDeleteCategory={handleDeleteCategory}
           onEditCategory={handleEditCategory}
+          currentDate={currentDate}
+          setCurrentDate={setCurrentDate}
+          currentView={currentView}
+          setCurrentView={setCurrentView}
         />
       </SWRConfig>
     </Layout>

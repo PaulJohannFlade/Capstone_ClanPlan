@@ -94,8 +94,7 @@ export default function CategoryForm({
   }
 
   function onSelect(selectedList) {
-    const selectedMemberIds = selectedList.map((member) => member._id);
-    setSelectedMembers([...selectedMemberIds]);
+    setSelectedMembers(selectedList);
   }
 
   function onRemove(_selectedList, removedItem) {
@@ -144,10 +143,7 @@ export default function CategoryForm({
         emptyRecordMsg="No members added to the family"
         placeholder="Please select a member"
         avoidHighlightFirstOption={true}
-        selectedValues={selectedMembers.map((memberId) => ({
-          id: memberId,
-          name: familyMembers.find((member) => member.id === memberId).name,
-        }))}
+        selectedValues={selectedMembers}
       />
       <StyledButton>{value ? "Update" : "Add"}</StyledButton>
     </StyledForm>

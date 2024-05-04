@@ -45,11 +45,9 @@ export default function DetailsPage({
     }
   }
 
-  const backLink = detailsBackLinkRef === "/calendar" ? "/calendar" : "/";
-
   return (
     <>
-      <StyledBackLink href={`${backLink}`}>
+      <StyledBackLink href={detailsBackLinkRef}>
         <BackArrow />
       </StyledBackLink>
 
@@ -58,11 +56,7 @@ export default function DetailsPage({
           task={task}
           showModal={showModal}
           setShowModal={setShowModal}
-          onCancel={onCancel}
           onCheckboxChange={handleCheckboxChange}
-          familyMembers={familyMembers}
-          categories={categories}
-          onDeleteTask={onDeleteTask}
         />
       ) : (
         <StyledMessage>Page not found!</StyledMessage>

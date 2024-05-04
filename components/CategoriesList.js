@@ -8,6 +8,7 @@ import DeleteConfirmBox from "./DeleteConfirmBox";
 import Pen from "@/public/assets/images/edit-pen-icon.svg";
 import StyledButton from "./StyledButton";
 import CategoryForm from "./CategoryForm";
+import useSWR from "swr";
 
 const StyledList = styled.ul`
   display: flex;
@@ -86,23 +87,24 @@ const StyledPragraph = styled.p`
 `;
 
 export default function CategoriesList({
-  categories,
-  familyMembers,
   showModal,
   setShowModal,
   modalMode,
   setModalMode,
-  onDeleteCategory,
-  tasks,
   onEditCategory,
+  familyMembers,
 }) {
   const [selected, setSelected] = useState(null);
   const [categoryToHandle, setCategoryToHandle] = useState(null);
 
+  const { data: categories, mutate } = useSWR("/api/categories");
+
+  const { data: tasks } = useSWR("/api/tasks");
+
   const categoryIsUsed =
     categoryToHandle &&
     tasks.filter(
-      (task) => !task.isDone && task.category === categoryToHandle.id
+      (task) => !task.isDone && task.category?._id === categoryToHandle?._id
     ).length > 0;
 
   function handleTrashClick(category, event) {
@@ -111,6 +113,24 @@ export default function CategoriesList({
     setShowModal(true);
     event.stopPropagation();
   }
+
+  async function handleDeleteCategory(id) {
+    const response = await fetch(`/api/categories/${id}`, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      setShowModal(false);
+      mutate();
+    }
+  }
+
+  /* setCategories(categories.filter((category) => category.id !== id));
+    setTasks(
+      tasks.map((task) =>
+        task.category === id ? { ...task, category: "" } : task
+      )
+    );
+    setShowModal(false); */
 
   function handlePenClick(category, event) {
     setCategoryToHandle(category);
@@ -135,6 +155,7 @@ export default function CategoriesList({
     }
     setSelected(index);
   }
+
   return (
     <>
       <StyledList>
@@ -171,7 +192,7 @@ export default function CategoriesList({
                 : `Are you sure you want to delete "${categoryToHandle.title}"?`
             }
             setShowModal={setShowModal}
-            onConfirm={onDeleteCategory}
+            onConfirm={handleDeleteCategory}
             id={categoryToHandle._id}
           />
         </Modal>
@@ -196,9 +217,9 @@ export default function CategoriesList({
           <CategoryForm
             formHeading="Edit a category"
             onSubmitCategory={onEditCategory}
-            familyMembers={familyMembers}
             categories={categories}
             value={categoryToHandle}
+            familyMembers={familyMembers}
           />
         </Modal>
       )}

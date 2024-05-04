@@ -17,13 +17,10 @@ const StyledSection = styled.section`
   border-radius: 1rem;
 `;
 
-const StyledPragraph = styled.p`
-  text-align: center;
-`;
-
 const StyledParagraphContent = styled.p`
   font-size: larger;
   font-weight: 600;
+  text-align: center;
 `;
 
 export default function DeleteConfirmBox({

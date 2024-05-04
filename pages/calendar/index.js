@@ -5,9 +5,9 @@ import globalize from "globalize";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import useSWR from "swr";
 import CalendarEvent from "@/components/CalendarEvent";
+import { useState } from "react";
 
 const localizer = globalizeLocalizer(globalize);
 const DnDCalendar = withDragAndDrop(Calendar);
@@ -31,8 +31,14 @@ const StyledCalendar = styled(DnDCalendar)`
   height: 440px;
 `;
 
-export default function CalendarPage({ tasks, setDetailsBackLinkRef }) {
-  const [currentDate, setCurrentDate] = useState(new Date());
+export default function CalendarPage({
+  tasks,
+  setDetailsBackLinkRef,
+  currentDate,
+  setCurrentDate,
+  currentView,
+  setCurrentView,
+}) {
   const { mutate } = useSWR(`/api/tasks`);
 
   const router = useRouter();
@@ -73,10 +79,6 @@ export default function CalendarPage({ tasks, setDetailsBackLinkRef }) {
     handleEditTaskData(updatedTask);
   }
 
-  function handleNavigate(date) {
-    setCurrentDate(date);
-  }
-
   async function handleEditTaskData(updatedTask) {
     const response = await fetch(`/api/tasks/${updatedTask._id}`, {
       method: "PUT",
@@ -103,9 +105,10 @@ export default function CalendarPage({ tasks, setDetailsBackLinkRef }) {
         onEventDrop={onEventDrop}
         resizable={false}
         views={["month", "week", "day", "agenda"]}
-        defaultView={"month"}
+        defaultView={currentView}
         date={currentDate}
-        onNavigate={handleNavigate}
+        onNavigate={(date) => setCurrentDate(date)}
+        onView={(view) => setCurrentView(view)}
         components={{
           event: CalendarEvent,
         }}
