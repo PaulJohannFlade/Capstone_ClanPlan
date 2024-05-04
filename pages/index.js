@@ -12,6 +12,8 @@ const StyledSection = styled.section`
 
 const StyledSpan = styled.span`
   color: ${({ $redColor }) => ($redColor ? "red" : "white")};
+  text-shadow: ${({ $redColor }) =>
+    !$redColor && "1px 1px 1px var(--color-font)"};
   text-align: center;
   display: block;
   width: 100%;

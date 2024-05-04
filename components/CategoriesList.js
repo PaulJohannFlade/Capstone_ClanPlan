@@ -100,7 +100,7 @@ export default function CategoriesList({
   const [selected, setSelected] = useState(null);
   const [categoryToHandle, setCategoryToHandle] = useState(null);
 
-  const { data: tasks, mutate: mutateTasks } = useSWR("/api/tasks");
+  const { data: tasks } = useSWR("/api/tasks");
 
   const categoryIsUsed =
     categoryToHandle &&
@@ -122,7 +122,6 @@ export default function CategoriesList({
     if (response.ok) {
       setShowModal(false);
       mutate();
-      mutateTasks();
     }
   }
 
