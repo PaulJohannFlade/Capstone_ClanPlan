@@ -1,13 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
-import { useRouter } from "next/router";
 import Multiselect from "multiselect-react-dropdown";
 
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
   margin: 1rem;
   margin-top: 6rem;
   background-color: white;
@@ -48,8 +46,6 @@ export default function Form({
   categories,
   familyMembers,
 }) {
-  const router = useRouter();
-
   const [enteredTitle, setEnteredTitle] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [allocatedMembers, setAllocatedMembers] = useState(

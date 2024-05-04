@@ -84,7 +84,7 @@ export default function CategoryForm({
     } else {
       setIsMemberSelected(true);
     }
-    onSubmitCategory({ ...data, selectedMembers, id: value?.id });
+    onSubmitCategory({ ...data, selectedMembers, id: value?._id });
   }
 
   function handleChange(event) {
@@ -99,7 +99,7 @@ export default function CategoryForm({
 
   function onRemove(_selectedList, removedItem) {
     setSelectedMembers(
-      selectedMembers.filter((member) => member !== removedItem._id)
+      selectedMembers.filter((member) => member._id !== removedItem._id)
     );
   }
 

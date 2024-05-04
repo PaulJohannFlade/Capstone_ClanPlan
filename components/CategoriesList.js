@@ -83,6 +83,8 @@ const StyledSection = styled.section`
 `;
 
 const StyledPragraph = styled.p`
+  font-size: larger;
+  font-weight: 600;
   text-align: center;
 `;
 
@@ -91,15 +93,14 @@ export default function CategoriesList({
   setShowModal,
   modalMode,
   setModalMode,
-  onEditCategory,
   familyMembers,
+  categories,
+  mutate,
 }) {
   const [selected, setSelected] = useState(null);
   const [categoryToHandle, setCategoryToHandle] = useState(null);
 
-  const { data: categories, mutate } = useSWR("/api/categories");
-
-  const { data: tasks } = useSWR("/api/tasks");
+  const { data: tasks, mutate: mutateTasks } = useSWR("/api/tasks");
 
   const categoryIsUsed =
     categoryToHandle &&
@@ -121,23 +122,31 @@ export default function CategoriesList({
     if (response.ok) {
       setShowModal(false);
       mutate();
+      mutateTasks();
     }
   }
 
-  /* setCategories(categories.filter((category) => category.id !== id));
-    setTasks(
-      tasks.map((task) =>
-        task.category === id ? { ...task, category: "" } : task
-      )
-    );
-    setShowModal(false); */
+  async function handleEditCategory(updatedCategory) {
+    const response = await fetch(`/api/categories/${updatedCategory.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedCategory),
+    });
+    if (response.ok) {
+      setShowModal(false);
+      mutate();
+    }
+  }
 
   function handlePenClick(category, event) {
     setCategoryToHandle(category);
     const categoryIsUsed =
       category &&
-      tasks.filter((task) => !task.isDone && task.category === category.id)
-        .length > 0;
+      tasks.filter(
+        (task) => !task.isDone && task.category?._id === category._id
+      ).length > 0;
     if (categoryIsUsed) {
       setModalMode("confirm-edit");
       setShowModal(true);
@@ -160,7 +169,10 @@ export default function CategoriesList({
     <>
       <StyledList>
         {categories.map((category, index) => (
-          <StyledListItem key={category.id} onClick={() => handleExpand(index)}>
+          <StyledListItem
+            key={category._id}
+            onClick={() => handleExpand(index)}
+          >
             <StyledPen onClick={(event) => handlePenClick(category, event)} />
             <StyledTrash
               onClick={(event) => {
@@ -216,7 +228,7 @@ export default function CategoriesList({
         <Modal $top="8rem" setShowModal={setShowModal}>
           <CategoryForm
             formHeading="Edit a category"
-            onSubmitCategory={onEditCategory}
+            onSubmitCategory={handleEditCategory}
             categories={categories}
             value={categoryToHandle}
             familyMembers={familyMembers}

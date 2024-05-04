@@ -36,11 +36,6 @@ export default function App({ Component, pageProps }) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentView, setCurrentView] = useState("month");
 
-  const isFilterSet =
-    (filters.priority !== "0" || filters.priority == true) &&
-    filters.category == true &&
-    filters.member == true;
-
   const { data: categories, isLoading: isCategoryLoading } = useSWR(
     "/api/categories",
     fetcher
@@ -50,29 +45,6 @@ export default function App({ Component, pageProps }) {
     fetcher
   );
   const { data: tasks, isLoading } = useSWR("/api/tasks", fetcher);
-
-  function handleAddCategory(data) {
-    setCategories([...categories, { ...data, id: uid() }]);
-    setShowModal(false);
-  }
-
-  function handleEditCategory(data) {
-    setCategories(
-      categories.map((category) => (category.id === data.id ? data : category))
-    );
-    setTasks(
-      tasks.map((task) =>
-        !task.isDone &&
-        task.category === data.id &&
-        !task.assignedTo.every((memberId) =>
-          data.selectedMembers.includes(memberId)
-        )
-          ? { ...task, assignedTo: [] }
-          : task
-      )
-    );
-    setShowModal(false);
-  }
 
   if (isLoading) {
     return (
@@ -136,10 +108,9 @@ export default function App({ Component, pageProps }) {
           onDeleteFilterOption={handleDeleteFilterOption}
           filters={filters}
           setFilters={setFilters}
-          isFilterSet={isFilterSet}
+          // isFilterSet={isFilterSet}
           onButtonClick={handleHomePageButtonClick}
           listType={listType}
-          onEditCategory={handleEditCategory}
           currentDate={currentDate}
           setCurrentDate={setCurrentDate}
           currentView={currentView}

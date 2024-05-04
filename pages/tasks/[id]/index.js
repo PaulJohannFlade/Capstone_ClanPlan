@@ -13,10 +13,7 @@ const StyledMessage = styled.p`
 export default function DetailsPage({
   showModal,
   setShowModal,
-  onDeleteTask,
-  familyMembers,
   detailsBackLinkRef,
-  categories,
 }) {
   const router = useRouter();
   const { id } = router.query;

@@ -22,8 +22,6 @@ const StyledPlus = styled(Plus)`
 export default function CategoriesPage({
   showModal,
   setShowModal,
-  tasks,
-  onEditCategory,
   familyMembers,
 }) {
   const [modalMode, setModalMode] = useState("");
@@ -60,14 +58,13 @@ export default function CategoriesPage({
         <StyledMessage>The list is empty. Add members to begin!</StyledMessage>
       )}
       <CategoriesList
-        categories={categories}
         familyMembers={familyMembers}
         setShowModal={setShowModal}
         showModal={showModal}
         modalMode={modalMode}
         setModalMode={setModalMode}
-        tasks={tasks}
-        onEditCategory={onEditCategory}
+        categories={categories}
+        mutate={mutate}
       />
 
       <StyledPlus

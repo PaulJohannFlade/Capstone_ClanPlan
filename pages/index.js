@@ -1,6 +1,5 @@
 import Filter from "@/components/Filter";
 import TasksList from "@/components/TasksList";
-import useSWR from "swr";
 import styled from "styled-components";
 
 const StyledSection = styled.section`
@@ -50,11 +49,17 @@ export default function HomePage({
   setFilters,
   onApplyFilters,
   onDeleteFilterOption,
-  isFilterSet,
   onButtonClick,
   listType,
   tasks,
 }) {
+  const isFilterSet =
+    (filters.priority !== "0" && filters.priority) ||
+    filters.category ||
+    filters.member
+      ? true
+      : false;
+
   const missedTasks = tasks.filter(
     (task) =>
       task.dueDate &&
@@ -89,7 +94,7 @@ export default function HomePage({
   const filteredTasks = tasksAfterListTypeSelection.filter(
     (task) =>
       (!Number(filters.priority) || task.priority === filters.priority) &&
-      (!filters.category || task.category._id === filters.category) &&
+      (!filters.category || task.category?._id === filters.category) &&
       (!filters.member || task.assignedTo.includes(filters.member))
   );
 
