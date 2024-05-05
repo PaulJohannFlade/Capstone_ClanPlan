@@ -98,7 +98,11 @@ export default function CategoryForm({
     } else {
       setIsMemberSelected(true);
     }
-    onSubmitCategory({ ...data, selectedMembers, id: value?._id });
+    onSubmitCategory({
+      title: data.title.trim(),
+      selectedMembers,
+      id: value?._id,
+    });
   }
 
   function handleChange(event) {

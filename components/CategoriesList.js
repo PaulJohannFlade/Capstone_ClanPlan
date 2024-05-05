@@ -100,7 +100,15 @@ export default function CategoriesList({
   const [selected, setSelected] = useState(null);
   const [categoryToHandle, setCategoryToHandle] = useState(null);
 
-  const { data: tasks } = useSWR("/api/tasks");
+  const { data: tasks, isLoading } = useSWR("/api/tasks");
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!tasks) {
+    return;
+  }
 
   const categoryIsUsed =
     categoryToHandle &&

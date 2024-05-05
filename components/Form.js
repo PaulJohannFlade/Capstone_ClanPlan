@@ -64,11 +64,13 @@ export default function Form({
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
+
     if (value) {
       const assignedMembersIds = assignedTo.map((member) => member._id);
       if (
-        data.title === value.title &&
-        data.category === value.category._id &&
+        data.title.trim() === value.title &&
+        (data.category == value.category?._id ||
+          (data.category === "" && value.category === null)) &&
         data.dueDate === value.dueDate &&
         data.priority === value.priority &&
         assignedTo.length === value.assignedTo.length &&
@@ -88,6 +90,7 @@ export default function Form({
     if (isEdit) {
       onTaskSubmit({
         ...data,
+        title: data.title.trim(),
         id: value.id,
         assignedTo,
         isDone: value.isDone,
@@ -96,6 +99,7 @@ export default function Form({
     } else {
       onTaskSubmit({
         ...data,
+        title: data.title.trim(),
         assignedTo,
         category: data.category === "" ? null : data.category,
       });
