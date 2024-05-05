@@ -3,28 +3,7 @@ import GlobalStyle from "../styles";
 import Layout from "@/components/Layout";
 import { SWRConfig } from "swr";
 import useSWR from "swr";
-import styled from "styled-components";
-
-const StyledLoadingAnimation = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px; /* Adjust height according to your UI */
-`;
-
-const StyledLoadingSpinner = styled.div`
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  border: 4px solid rgba(0, 0, 0, 0.245);
-  border-left-color: #729290;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-`;
+import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
@@ -47,11 +26,7 @@ export default function App({ Component, pageProps }) {
   const { data: tasks, isLoading } = useSWR("/api/tasks", fetcher);
 
   if (isLoading) {
-    return (
-      <StyledLoadingAnimation>
-        <StyledLoadingSpinner />
-      </StyledLoadingAnimation>
-    );
+    return <StyledLoadingAnimation />;
   }
 
   if (!tasks) {
@@ -59,14 +34,14 @@ export default function App({ Component, pageProps }) {
   }
 
   if (isCategoryLoading) {
-    return <h1>Loading...</h1>;
+    return <StyledLoadingAnimation />;
   }
   if (!categories) {
     return;
   }
 
   if (isFamilyLoading) {
-    return <h1>Loading...</h1>;
+    return <StyledLoadingAnimation />;
   }
   if (!familyMembers) {
     return;

@@ -4,6 +4,7 @@ import BackArrow from "@/public/assets/images/back-arrow.svg";
 import styled from "styled-components";
 import StyledBackLink from "@/components/StyledBackLink";
 import useSWR from "swr";
+import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 
 const StyledMessage = styled.p`
   text-align: center;
@@ -21,7 +22,7 @@ export default function DetailsPage({
   const { data: task, isLoading, mutate } = useSWR(`/api/tasks/${id}`);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <StyledLoadingAnimation />;
   }
 
   if (!task) {

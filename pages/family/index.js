@@ -5,6 +5,7 @@ import MemberForm from "@/components/MemberForm";
 import Modal from "@/components/Modal";
 import Plus from "@/public/assets/images/plus.svg";
 import useSWR from "swr";
+import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 
 const StyledPlus = styled(Plus)`
   position: fixed;
@@ -22,7 +23,7 @@ export default function FamilyPage({ showModal, setShowModal }) {
   const { data: familyMembers, isLoading, mutate } = useSWR("/api/members");
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <StyledLoadingAnimation />;
   }
 
   if (!familyMembers) {

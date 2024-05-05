@@ -95,7 +95,6 @@ export default function TaskDetails({
         <StyledLink href={`/tasks/${id}/edit`}>
           <StyledPen />
         </StyledLink>
-
         <p> What is to do?</p>
         <StyledParagraphContent>{title}</StyledParagraphContent>
         <p>Category: </p>
