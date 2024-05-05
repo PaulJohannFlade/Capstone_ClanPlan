@@ -9,6 +9,7 @@ import Pen from "@/public/assets/images/edit-pen-icon.svg";
 import StyledButton from "./StyledButton";
 import CategoryForm from "./CategoryForm";
 import useSWR from "swr";
+import StyledLoadingAnimation from "./StyledLoadingAnimation";
 
 const StyledList = styled.ul`
   display: flex;
@@ -103,7 +104,7 @@ export default function CategoriesList({
   const { data: tasks, isLoading } = useSWR("/api/tasks");
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <StyledLoadingAnimation />;
   }
 
   if (!tasks) {
