@@ -64,6 +64,20 @@ export default function Form({
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
+    if (value) {
+      const assignedMembersIds = assignedTo.map((member) => member._id);
+      if (
+        data.title === value.title &&
+        data.category === value.category._id &&
+        data.dueDate === value.dueDate &&
+        data.priority === value.priority &&
+        assignedTo.length === value.assignedTo.length &&
+        assignedTo.every((member) => assignedMembersIds.includes(member._id))
+      ) {
+        alert("No changes were made to the form.");
+        return;
+      }
+    }
 
     if (!data.title.trim()) {
       setIsValid(true);

@@ -58,6 +58,20 @@ export default function CategoryForm({
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
+    if (value) {
+      const selectedMembersIds = selectedMembers.map((member) => member._id);
+      if (
+        data.title === value.title &&
+        selectedMembers.length === value.selectedMembers.length &&
+        selectedMembers.every((member) =>
+          selectedMembersIds.includes(member._id)
+        )
+      ) {
+        alert("No changes were made to the form.");
+        return;
+      }
+    }
+
     if (!data.title.trim()) {
       setIsValidCategory(false);
       event.target.title.focus();
