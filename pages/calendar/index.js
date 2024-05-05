@@ -65,8 +65,18 @@ export default function CalendarPage({
   function onEventDrop(data) {
     const todayDate = new Date();
     const newTaskDate = data.start;
+    console.log(
+      newTaskDate.toISOString().substring(0, 10) <
+        todayDate.toISOString().substring(0, 10)
+    );
+    console.log(newTaskDate.toISOString().substring(0, 10));
+    console.log(todayDate.toISOString().substring(0, 10));
 
-    if (newTaskDate.toDateString() < todayDate.toDateString()) return;
+    if (
+      newTaskDate.toISOString().substring(0, 10) <
+      todayDate.toISOString().substring(0, 10)
+    )
+      return;
 
     const updatedTaskId = data.event.id;
 

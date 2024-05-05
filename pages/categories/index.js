@@ -6,6 +6,7 @@ import CategoryForm from "@/components/CategoryForm";
 import Plus from "@/public/assets/images/plus.svg";
 import useSWR from "swr";
 import { useState } from "react";
+import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 
 const StyledHeading = styled.h2`
   text-align: center;
@@ -29,7 +30,7 @@ export default function CategoriesPage({
   const { data: categories, isLoading, mutate } = useSWR("/api/categories");
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <StyledLoadingAnimation />;
   }
 
   if (!categories) {

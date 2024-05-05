@@ -3,6 +3,7 @@ import BackArrow from "@/public/assets/images/back-arrow.svg";
 import { useRouter } from "next/router";
 import StyledBackLink from "@/components/StyledBackLink";
 import useSWR from "swr";
+import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 
 export default function EditPage({ familyMembers, categories }) {
   const router = useRouter();
@@ -11,7 +12,7 @@ export default function EditPage({ familyMembers, categories }) {
   const { data: task, isLoading } = useSWR(`/api/tasks/${id}`);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <StyledLoadingAnimation />;
   }
 
   if (!task) {

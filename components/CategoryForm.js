@@ -3,6 +3,7 @@ import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import Multiselect from "multiselect-react-dropdown";
 import useSWR from "swr";
+import StyledLoadingAnimation from "./StyledLoadingAnimation";
 
 const StyledHeading = styled.h2`
   align-self: center;
@@ -46,7 +47,7 @@ export default function CategoryForm({
   const { data: familyMembers, isLoading } = useSWR("/api/members");
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <StyledLoadingAnimation />;
   }
 
   if (!familyMembers) {
