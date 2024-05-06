@@ -4,6 +4,7 @@ const StyledHeader = styled.header`
   background-color: var(--color-font-light);
   box-shadow: -1px 6px 15px 0px #7d7d7d;
   color: var(--color-font);
+  text-shadow: 3px 4px 2px #bccbd4;
   text-align: center;
   position: fixed;
   top: 0;

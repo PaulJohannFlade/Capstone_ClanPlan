@@ -24,7 +24,7 @@ export default createGlobalStyle`
     --color-icon:#cccaca;
     --color-font-light:white;
     --color-alert:red;
-    --color-button-active:#bbf9efff;
+    --color-button-active:#bbf1f9ff;
     --color-button:#e6e4e4;
     --font-handlee:${handlee.style.fontFamily};
   }
@@ -79,9 +79,13 @@ a {
   text-decoration: none;
   color:inherit;
 }
-a:hover, button:hover {
+a:hover {
   cursor: pointer;
-  //opacity: 0.5;
+}
+
+ button:hover {
+  cursor: pointer;
+  background-color: var(--color-button-active);
 }
   
 
