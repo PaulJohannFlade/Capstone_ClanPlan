@@ -24,6 +24,10 @@ const StyledParagraph = styled.p`
   text-align: center;
 `;
 
+const StyledSpan = styled.span`
+  color: ${({ $isMissed }) => $isMissed && "var(--color-alert)"};
+`;
+
 const StyledParagraphContent = styled.p`
   font-size: larger;
   font-weight: 600;
@@ -35,6 +39,11 @@ export default function TaskPreview({
   setDetailsBackLinkRef,
 }) {
   const { title, category, priority, dueDate, _id: id, isDone } = task;
+  const today = new Date();
+  const isToday = today.toDateString() === new Date(dueDate).toDateString();
+  const isMissed =
+    new Date(task.dueDate).toISOString().substring(0, 10) <
+    today.toISOString().substring(0, 10);
   return (
     <StyledSection>
       <StyledCheckbox
@@ -49,7 +58,11 @@ export default function TaskPreview({
         <StyledParagraphContent>{title}</StyledParagraphContent>
         <StyledParagraph>{"🔥".repeat(Number(priority))}</StyledParagraph>
         <p>{category?.title}</p>
-        <p>{dueDate}</p>
+        <StyledParagraph>
+          <StyledSpan $isMissed={isMissed}>
+            {isToday ? "Today" : dueDate}
+          </StyledSpan>
+        </StyledParagraph>
       </StyledLink>
     </StyledSection>
   );

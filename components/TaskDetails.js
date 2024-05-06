@@ -68,6 +68,8 @@ export default function TaskDetails({
   } = task;
   const router = useRouter();
 
+  const today = new Date();
+
   async function handleDeleteTask(id) {
     const response = await fetch(`/api/tasks/${id}`, {
       method: "DELETE",
@@ -104,7 +106,11 @@ export default function TaskDetails({
         <p>Priority: </p>
         <h2>{"🔥".repeat(Number(priority))}</h2>
         <p>Due Date:</p>
-        <StyledParagraphContent>{dueDate || "-"}</StyledParagraphContent>
+        <StyledParagraphContent>
+          {(today.toDateString() === new Date(dueDate).toDateString()
+            ? "Today"
+            : dueDate) || "-"}
+        </StyledParagraphContent>
         <p>Assigned to:</p>
         <StyledParagraphContent>
           {assignedTo.map((member) => member.name).join(", ") || "-"}

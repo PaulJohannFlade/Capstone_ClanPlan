@@ -19,9 +19,13 @@ export default createGlobalStyle`
   }
 
   :root {
-    --color-background:#edf7fd; 
+    --color-background:white; 
     --color-font:#344648;
+    --color-icon:#cccaca;
     --color-font-light:white;
+    --color-alert:red;
+    --color-button-active:#bbf9efff;
+    --color-button:#e6e4e4;
     --font-handlee:${handlee.style.fontFamily};
   }
 
@@ -77,7 +81,7 @@ a {
 }
 a:hover, button:hover {
   cursor: pointer;
-  opacity: 0.5;
+  //opacity: 0.5;
 }
   
 
