@@ -37,9 +37,6 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     max-width: 375px;
     background-color: var(--color-background);
-    
-    
-
   }
 
   img, picture, video, canvas, svg {

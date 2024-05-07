@@ -51,6 +51,10 @@ const StyledParagraphContent = styled.p`
   font-weight: 600;
 `;
 
+const StyledSpan = styled.span`
+  color: ${({ $isMissed }) => $isMissed && "var(--color-alert)"};
+`;
+
 export default function TaskDetails({
   task,
   showModal,
@@ -69,6 +73,12 @@ export default function TaskDetails({
   const router = useRouter();
 
   const today = new Date();
+  const isToday =
+    dueDate && today.toDateString() === new Date(dueDate).toDateString();
+  const isMissed =
+    dueDate &&
+    new Date(task.dueDate).toISOString().substring(0, 10) <
+      today.toISOString().substring(0, 10);
 
   async function handleDeleteTask(id) {
     const response = await fetch(`/api/tasks/${id}`, {
@@ -106,10 +116,10 @@ export default function TaskDetails({
         <p>Priority: </p>
         <h2>{"🔥".repeat(Number(priority))}</h2>
         <p>Due Date:</p>
-        <StyledParagraphContent>
-          {(today.toDateString() === new Date(dueDate).toDateString()
-            ? "Today"
-            : dueDate) || "-"}
+        <StyledParagraphContent $isMissed={isMissed}>
+          <StyledSpan $isMissed={isMissed}>
+            {isToday ? "Today" : dueDate || "-"}
+          </StyledSpan>
         </StyledParagraphContent>
         <p>Assigned to:</p>
         <StyledParagraphContent>
@@ -127,4 +137,12 @@ export default function TaskDetails({
       </StyledSection>
     </>
   );
+}
+
+{
+  /* <StyledParagraphContent>
+{(today.toDateString() === new Date(dueDate).toDateString()
+  ? "Today"
+  : dueDate) || "-"}
+</StyledParagraphContent> */
 }

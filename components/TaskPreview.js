@@ -40,10 +40,12 @@ export default function TaskPreview({
 }) {
   const { title, category, priority, dueDate, _id: id, isDone } = task;
   const today = new Date();
-  const isToday = today.toDateString() === new Date(dueDate).toDateString();
+  const isToday =
+    dueDate && today.toDateString() === new Date(dueDate).toDateString();
   const isMissed =
+    dueDate &&
     new Date(task.dueDate).toISOString().substring(0, 10) <
-    today.toISOString().substring(0, 10);
+      today.toISOString().substring(0, 10);
   return (
     <StyledSection>
       <StyledCheckbox
