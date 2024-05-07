@@ -9,11 +9,11 @@ const handlee = Handlee({
 
 export const lightTheme = {
   background: "#FFFFFF",
-  text: "#000000",
+  text: "#344648",
 };
 
 export const darkTheme = {
-  background: "#121212",
+  background: "#344648",
   text: "#FFFFFF",
 };
 
@@ -31,6 +31,11 @@ export default createGlobalStyle`
   :root {
     --color-background:${(props) => props.theme.background}; 
     --color-font:${(props) => props.theme.text};
+    --color-icon:#cccaca;
+    --color-footer-signature:#a7a3a3;
+    --color-alert:#ff0000;
+    --color-button-active:#bbf1f9ff;
+    --color-button:#e6e4e4;
     --font-handlee:${handlee.style.fontFamily};
   }
 
@@ -42,9 +47,6 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     max-width: 375px;
     background-color: var(--color-background);
-    
-    
-
   }
 
   img, picture, video, canvas, svg {
@@ -72,9 +74,13 @@ a {
   text-decoration: none;
   color:inherit;
 }
-a:hover, button:hover {
+a:hover {
   cursor: pointer;
-  opacity: 0.5;
+}
+
+ button:hover {
+  cursor: pointer;
+  background-color: var(--color-button-active);
 }
   
 
