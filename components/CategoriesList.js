@@ -25,8 +25,8 @@ const StyledListItem = styled.li`
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: white;
-  box-shadow: 5px 5px 15px 5px rgba(112, 107, 91, 0.83);
+  background-color: var(--color-background);
+  box-shadow: 1px 1px 10px -1px var(--color-font);
   border-radius: 2rem;
   padding: 1rem 2rem;
   border: none;
@@ -46,6 +46,7 @@ const StyledPen = styled(Pen)`
   position: absolute;
   top: 15px;
   right: 60px;
+  fill: var(--color-font);
   &:hover {
     cursor: pointer;
     opacity: 0.5;
@@ -61,10 +62,14 @@ const StyleHeading = styled.h3`
 
 const StyledUpArrow = styled(UpArrow)`
   margin: auto;
+  stroke: var(--color-font);
+  fill: var(--color-font);
 `;
 
 const StyledDownArrow = styled(DownArrow)`
   margin: auto;
+  stroke: var(--color-font);
+  fill: var(--color-font);
 `;
 
 const ButtonContainer = styled.div`
@@ -78,7 +83,6 @@ const StyledSection = styled.section`
   flex-direction: column;
   gap: 0.5rem;
   margin: 1rem;
-  background-color: white;
   padding: 1rem;
   border-radius: 1rem;
 `;

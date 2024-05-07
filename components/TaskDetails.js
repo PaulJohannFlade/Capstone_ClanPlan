@@ -14,20 +14,20 @@ const StyledLink = styled(Link)`
 
 const StyledPen = styled(Pen)`
   width: 1.5rem;
+  fill: var(--color-font);
 `;
 
 const StyledSection = styled.section`
   position: relative;
-  background-color: white;
+  background-color: var(--color-background);
   margin: 6rem 0.5rem 5rem 0.5rem;
-  background-color: white;
   display: flex;
   flex-direction: column;
   border-radius: 2rem;
   padding: 2rem;
   gap: 0.6rem;
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
-  box-shadow: 5px 5px 15px 5px rgba(112, 107, 91, 0.83);
+  box-shadow: 1px 1px 10px -1px var(--color-font);
   ${({ $isDone }) =>
     $isDone &&
     `

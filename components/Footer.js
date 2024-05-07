@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const StyledFooter = styled.footer`
-  background-color: var(--color-font-light);
+  background-color: var(--color-background);
   box-shadow: -1px -6px 15px 0px #7d7d7d;
   text-align: center;
   position: fixed;

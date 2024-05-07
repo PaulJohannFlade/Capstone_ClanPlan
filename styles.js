@@ -42,6 +42,7 @@ export default createGlobalStyle`
   body {
     margin: auto;
     margin-top:5rem;
+    color: var(--color-font);
     font-family: Helvetica;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
@@ -56,6 +57,8 @@ export default createGlobalStyle`
 
 input, button, textarea, select {
   font: inherit;
+  color: inherit;
+  background-color: var(--color-background);
 }
 
 p, h1, h2, h3, h4, h5, h6 {
@@ -127,11 +130,13 @@ display: none;
 /* MultiSelect styles: */
 
 span.chip {
-  background-color: var(--color-font);
+  background-color: var(--color-button);
+  color: var(--color-font);
 }
 
 .multiSelectContainer li.option:hover {
   background-color: var(--color-font);
+  color: var(--color-background);
 }
 
 `;

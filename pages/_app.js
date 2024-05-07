@@ -28,8 +28,6 @@ export default function App({ Component, pageProps }) {
 
   function handleToggleTheme() {
     setDarkTheme(!isDarkTheme);
-    console.log("toggle");
-    console.log(isDarkTheme);
   }
 
   const { data: categories, isLoading: isCategoryLoading } = useSWR(
