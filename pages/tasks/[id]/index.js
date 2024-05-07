@@ -64,6 +64,7 @@ export default function DetailsPage({
           showModal={showModal}
           setShowModal={setShowModal}
           onCheckboxChange={handleCheckboxChange}
+          detailsBackLinkRef={detailsBackLinkRef}
         />
       ) : (
         <StyledMessage>Page not found!</StyledMessage>

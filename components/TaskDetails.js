@@ -62,6 +62,7 @@ export default function TaskDetails({
   showModal,
   setShowModal,
   onCheckboxChange,
+  detailsBackLinkRef,
 }) {
   const {
     title,
@@ -89,7 +90,7 @@ export default function TaskDetails({
       }
     );
     if (response.ok) {
-      router.push("/");
+      router.push(`${detailsBackLinkRef}`);
       setShowModal(false);
     }
   }
