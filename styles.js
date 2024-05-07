@@ -7,6 +7,16 @@ const handlee = Handlee({
   variable: "--font-handlee",
 });
 
+export const lightTheme = {
+  background: "#edf7fd",
+  text: "#000000",
+};
+
+export const darkTheme = {
+  background: "#121212",
+  text: "#FFFFFF",
+};
+
 export default createGlobalStyle`
   *,
   *::before,
@@ -19,9 +29,8 @@ export default createGlobalStyle`
   }
 
   :root {
-    --color-background:#edf7fd; 
-    --color-font:#344648;
-    --color-font-light:white;
+    --color-background:${(props) => props.theme.background}; 
+    --color-font:${(props) => props.theme.text};
     --font-handlee:${handlee.style.fontFamily};
   }
 
@@ -47,14 +56,6 @@ input, button, textarea, select {
   font: inherit;
 }
 
-/* button{
-  font-family: var(--font-handlee);
-} */
-
-/* li{
-  font-family: var(--font-handlee);
-} */
-
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
@@ -62,10 +63,6 @@ p, h1, h2, h3, h4, h5, h6 {
 h2 {
   font-family: var(--font-handlee);
 }
-
-/* label{
-  font-family: var(--font-handlee);
-} */
 
 #root, #__next {
   isolation: isolate;

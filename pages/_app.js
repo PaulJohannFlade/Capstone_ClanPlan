@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GlobalStyle from "../styles";
 import Layout from "@/components/Layout";
 import { SWRConfig } from "swr";
 import useSWR from "swr";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
+import { ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme } from "../styles";
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
@@ -14,6 +16,21 @@ export default function App({ Component, pageProps }) {
   const [listType, setListType] = useState("today");
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentView, setCurrentView] = useState("month");
+  const [isDarkTheme, setDarkTheme] = useState(false);
+
+  useEffect(() => {
+    // Set the initial theme based on user preference or default to light
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    setDarkTheme(prefersDark);
+  }, []);
+
+  function handleToggleTheme() {
+    setDarkTheme(!isDarkTheme);
+    console.log("toggle");
+    console.log(isDarkTheme);
+  }
 
   const { data: categories, isLoading: isCategoryLoading } = useSWR(
     "/api/categories",
@@ -67,31 +84,33 @@ export default function App({ Component, pageProps }) {
   );
 
   return (
-    <Layout>
-      <GlobalStyle />
-      <SWRConfig value={{ fetcher }}>
-        <Component
-          {...pageProps}
-          tasks={tasksAfterSorting}
-          familyMembers={familyMembers}
-          setShowModal={setShowModal}
-          showModal={showModal}
-          categories={categories}
-          detailsBackLinkRef={detailsBackLinkRef}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
-          onApplyFilters={handleApplyFilters}
-          onDeleteFilterOption={handleDeleteFilterOption}
-          filters={filters}
-          setFilters={setFilters}
-          // isFilterSet={isFilterSet}
-          onButtonClick={handleHomePageButtonClick}
-          listType={listType}
-          currentDate={currentDate}
-          setCurrentDate={setCurrentDate}
-          currentView={currentView}
-          setCurrentView={setCurrentView}
-        />
-      </SWRConfig>
-    </Layout>
+    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+      <Layout isDarkTheme={isDarkTheme} onToggleTheme={handleToggleTheme}>
+        <GlobalStyle />
+        <SWRConfig value={{ fetcher }}>
+          <Component
+            {...pageProps}
+            tasks={tasksAfterSorting}
+            familyMembers={familyMembers}
+            setShowModal={setShowModal}
+            showModal={showModal}
+            categories={categories}
+            detailsBackLinkRef={detailsBackLinkRef}
+            setDetailsBackLinkRef={setDetailsBackLinkRef}
+            onApplyFilters={handleApplyFilters}
+            onDeleteFilterOption={handleDeleteFilterOption}
+            filters={filters}
+            setFilters={setFilters}
+            // isFilterSet={isFilterSet}
+            onButtonClick={handleHomePageButtonClick}
+            listType={listType}
+            currentDate={currentDate}
+            setCurrentDate={setCurrentDate}
+            currentView={currentView}
+            setCurrentView={setCurrentView}
+          />
+        </SWRConfig>
+      </Layout>
+    </ThemeProvider>
   );
 }

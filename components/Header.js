@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import ThemeToggle from "./ThemeToggle";
 
 const StyledHeader = styled.header`
-  background-color: var(--color-font);
+  background-color: var(--color-background);
   color: var(--color-font-light);
   text-align: center;
   position: fixed;
@@ -18,9 +19,10 @@ const StyledH1 = styled.h1`
   font-family: Arial, Helvetica, sans-serif;
 `;
 
-export default function Header() {
+export default function Header({ isDarkTheme, onToggleTheme }) {
   return (
     <StyledHeader>
+      <ThemeToggle isDarkTheme={isDarkTheme} onToggleTheme={onToggleTheme} />
       <StyledH1>ClanPlan</StyledH1>
     </StyledHeader>
   );
