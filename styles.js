@@ -49,14 +49,6 @@ input, button, textarea, select {
   font: inherit;
 }
 
-/* button{
-  font-family: var(--font-handlee);
-} */
-
-/* li{
-  font-family: var(--font-handlee);
-} */
-
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
@@ -64,10 +56,6 @@ p, h1, h2, h3, h4, h5, h6 {
 h2 {
   font-family: var(--font-handlee);
 }
-
-/* label{
-  font-family: var(--font-handlee);
-} */
 
 #root, #__next {
   isolation: isolate;
