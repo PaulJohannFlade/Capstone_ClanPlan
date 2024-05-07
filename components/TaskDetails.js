@@ -138,11 +138,3 @@ export default function TaskDetails({
     </>
   );
 }
-
-{
-  /* <StyledParagraphContent>
-{(today.toDateString() === new Date(dueDate).toDateString()
-  ? "Today"
-  : dueDate) || "-"}
-</StyledParagraphContent> */
-}
