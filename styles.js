@@ -22,6 +22,7 @@ export default createGlobalStyle`
     --color-background:white; 
     --color-font:#344648;
     --color-icon:#cccaca;
+    --color-footer-signature:#a7a3a3;
     --color-font-light:white;
     --color-alert:red;
     --color-button-active:#bbf1f9ff;

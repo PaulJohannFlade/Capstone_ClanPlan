@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 const StyledFooter = styled.footer`
   background-color: var(--color-font-light);
   box-shadow: -1px -6px 15px 0px #7d7d7d;
-  color: var(--color-font);
   text-align: center;
   position: fixed;
   bottom: 0;
@@ -24,31 +23,32 @@ const StyledFooter = styled.footer`
 const StyledPlus = styled(Plus)`
   width: 3rem;
   stroke: ${({ $isActive }) =>
-    $isActive ? "var(--color-font)" : "var(--color-icon)"};
+    $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
 `;
 
 const StyledHome = styled(Home)`
   stroke: ${({ $isActive }) =>
-    $isActive ? "var(--color-font)" : "var(--color-icon)"};
+    $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
 `;
 
 const StyledFamily = styled(Family)`
   stroke: ${({ $isActive }) =>
-    $isActive ? "var(--color-font)" : "var(--color-icon)"};
+    $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
 `;
 
 const StyledCategory = styled(Category)`
   stroke: ${({ $isActive }) =>
-    $isActive ? "var(--color-font)" : "var(--color-icon)"};
+    $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
 `;
 
 const StyledCalendarIcon = styled(CalendarIcon)`
   stroke: ${({ $isActive }) =>
-    $isActive ? "var(--color-font)" : "var(--color-icon)"};
+    $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
 `;
 
 const StyledList = styled.ul`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-content: space-between;
   list-style: none;
   padding: 0;
@@ -68,12 +68,17 @@ const StyledLink = styled(Link)`
 const StyledSpan = styled.span`
   font-size: 0.8rem;
   color: ${({ $isActive }) =>
-    $isActive ? "var(--color-font)" : "var(--color-icon)"};
+    $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
 `;
 const StyledCreateItem = styled.li`
   position: fixed;
   left: calc(100vw / 2 - 2rem);
   bottom: 0.6rem;
+`;
+
+const StyledListItem = styled.li`
+  padding-right: 4rem;
+  width: 9rem;
 `;
 
 export default function Footer() {
@@ -94,14 +99,14 @@ export default function Footer() {
               <StyledSpan $isActive={currentPage === "/"}>Home</StyledSpan>
             </StyledLink>
           </li>
-          <li>
+          <StyledListItem>
             <StyledLink href="/family">
               <StyledFamily $isActive={currentPage === "/family"} />
               <StyledSpan $isActive={currentPage === "/family"}>
                 Family
               </StyledSpan>
             </StyledLink>
-          </li>
+          </StyledListItem>
           <StyledCreateItem>
             <StyledLink href="/create">
               <StyledPlus $isActive={currentPage === "/create"} />
@@ -110,7 +115,6 @@ export default function Footer() {
               </StyledSpan>
             </StyledLink>
           </StyledCreateItem>
-
           <li>
             <StyledLink href="/categories">
               <StyledCategory $isActive={currentPage === "/categories"} />
