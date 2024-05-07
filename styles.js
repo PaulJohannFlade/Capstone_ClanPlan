@@ -8,7 +8,7 @@ const handlee = Handlee({
 });
 
 export const lightTheme = {
-  background: "#edf7fd",
+  background: "#FFFFFF",
   text: "#000000",
 };
 
