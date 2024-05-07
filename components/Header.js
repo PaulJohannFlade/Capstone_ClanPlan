@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const StyledHeader = styled.header`
-  background-color: var(--color-font-light);
+  background-color: var(--color-background);
   box-shadow: -1px 6px 15px 0px #7d7d7d;
   color: var(--color-font);
   text-shadow: 2px 3px 1px #bccbd4;

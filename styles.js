@@ -19,12 +19,12 @@ export default createGlobalStyle`
   }
 
   :root {
-    --color-background:white; 
+    --color-background:#ffffff; 
     --color-font:#344648;
     --color-icon:#cccaca;
     --color-footer-signature:#a7a3a3;
-    --color-font-light:white;
-    --color-alert:red;
+    --color-font-light:#ffffff;
+    --color-alert:#ff0000;
     --color-button-active:#bbf1f9ff;
     --color-button:#e6e4e4;
     --font-handlee:${handlee.style.fontFamily};
