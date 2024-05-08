@@ -90,7 +90,7 @@ export default function TaskDetails({
       }
     );
     if (response.ok) {
-      router.push(`${detailsBackLinkRef}`);
+      router.push(detailsBackLinkRef);
       setShowModal(false);
     }
   }
