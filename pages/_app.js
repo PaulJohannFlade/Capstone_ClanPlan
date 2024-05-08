@@ -85,17 +85,17 @@ export default function App({ Component, pageProps }) {
         <GlobalStyle />
         <SWRConfig value={{ fetcher }}>
           <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme={isDarkTheme ? "dark" : "light"}
+          />
           <Component
             {...pageProps}
             tasks={tasksAfterSorting}
