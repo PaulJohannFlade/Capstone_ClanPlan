@@ -13,9 +13,9 @@ const StyledList = styled.ul`
 `;
 
 const StyledClearFilterButton = styled.button`
-  color: white;
+  color: var(--color-font);
   font-weight: 700;
-  background-color: var(--color-font);
+  background-color: var(--color-background);
   border-radius: 0.7rem;
 `;
 
