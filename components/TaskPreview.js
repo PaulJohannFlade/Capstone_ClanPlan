@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
+import checkForToday from "@/utils/checkForToday";
+import checkForMissedDate from "@/utils/checkForMissedDate";
 
 const StyledSection = styled.section`
   display: grid;
@@ -39,13 +41,8 @@ export default function TaskPreview({
   setDetailsBackLinkRef,
 }) {
   const { title, category, priority, dueDate, _id: id, isDone } = task;
-  const today = new Date();
-  const isToday =
-    dueDate && today.toDateString() === new Date(dueDate).toDateString();
-  const isMissed =
-    dueDate &&
-    new Date(task.dueDate).toISOString().substring(0, 10) <
-      today.toISOString().substring(0, 10);
+  const isToday = dueDate && checkForToday(dueDate);
+  const isMissed = dueDate && checkForMissedDate(dueDate);
   return (
     <StyledSection>
       <StyledCheckbox

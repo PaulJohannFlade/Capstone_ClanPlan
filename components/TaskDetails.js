@@ -5,6 +5,9 @@ import Modal from "./Modal";
 import Link from "next/link";
 import DeleteConfirmBox from "./DeleteConfirmBox";
 import { useRouter } from "next/router";
+import checkForToday from "@/utils/checkForToday";
+import checkForMissedDate from "@/utils/checkForMissedDate";
+import { toast } from "react-toastify";
 
 const StyledLink = styled(Link)`
   position: absolute;
@@ -60,6 +63,7 @@ export default function TaskDetails({
   showModal,
   setShowModal,
   onCheckboxChange,
+  detailsBackLinkRef,
 }) {
   const {
     title,
@@ -72,20 +76,22 @@ export default function TaskDetails({
   } = task;
   const router = useRouter();
 
-  const today = new Date();
-  const isToday =
-    dueDate && today.toDateString() === new Date(dueDate).toDateString();
-  const isMissed =
-    dueDate &&
-    new Date(task.dueDate).toISOString().substring(0, 10) <
-      today.toISOString().substring(0, 10);
+  const isToday = dueDate && checkForToday(dueDate);
+  const isMissed = dueDate && checkForMissedDate(dueDate);
 
   async function handleDeleteTask(id) {
-    const response = await fetch(`/api/tasks/${id}`, {
-      method: "DELETE",
-    });
+    const response = await toast.promise(
+      fetch(`/api/tasks/${id}`, {
+        method: "DELETE",
+      }),
+      {
+        pending: "Task deletion is pending",
+        success: "Task deleted successfully",
+        error: "Task not deleted",
+      }
+    );
     if (response.ok) {
-      router.push("/");
+      router.push(detailsBackLinkRef);
       setShowModal(false);
     }
   }
@@ -116,7 +122,7 @@ export default function TaskDetails({
         <p>Priority: </p>
         <h2>{"🔥".repeat(Number(priority))}</h2>
         <p>Due Date:</p>
-        <StyledParagraphContent $isMissed={isMissed}>
+        <StyledParagraphContent>
           <StyledSpan $isMissed={isMissed}>
             {isToday ? "Today" : dueDate || "-"}
           </StyledSpan>
