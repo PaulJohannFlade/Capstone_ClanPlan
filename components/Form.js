@@ -51,7 +51,7 @@ export default function Form({
   categories,
   familyMembers,
 }) {
-  const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredTitle, setEnteredTitle] = useState(value?.title || "");
   const [isValid, setIsValid] = useState(false);
   const [allocatedMembers, setAllocatedMembers] = useState(
     allocatedMembersList || familyMembers
@@ -92,6 +92,11 @@ export default function Form({
       return;
     }
 
+    let groupId = null;
+    if (data.repeat !== "none") {
+      groupId = uid();
+    }
+
     if (isEdit) {
       onTaskSubmit({
         ...data,
@@ -102,12 +107,43 @@ export default function Form({
         category: data.category === "" ? null : data.category,
       });
     } else {
-      onTaskSubmit({
-        ...data,
-        title: data.title.trim(),
-        assignedTo,
-        category: data.category === "" ? null : data.category,
-      });
+      const startDate = new Date(data.dueDate);
+      const oneYearFromToday = new Date(data.dueDate);
+      oneYearFromToday.setFullYear(new Date().getFullYear() + 1);
+      if (data.repeat === "monthly") {
+        const nextMonth = startDate;
+        while (nextMonth < oneYearFromToday) {
+          nextMonth.setMonth(nextMonth.getMonth() + 1);
+          onTaskSubmit({
+            ...data,
+            title: data.title.trim(),
+            assignedTo,
+            category: data.category === "" ? null : data.category,
+            dueDate: new Date(nextMonth).toISOString().substring(0, 10),
+          });
+        }
+      } else if (data.repeat === "weekly") {
+        onTaskSubmit({
+          ...data,
+          title: data.title.trim(),
+          assignedTo,
+          category: data.category === "" ? null : data.category,
+        });
+      } else if (data.repeat === "daily") {
+        onTaskSubmit({
+          ...data,
+          title: data.title.trim(),
+          assignedTo,
+          category: data.category === "" ? null : data.category,
+        });
+      } else {
+        onTaskSubmit({
+          ...data,
+          title: data.title.trim(),
+          assignedTo,
+          category: data.category === "" ? null : data.category,
+        });
+      }
     }
   }
 
