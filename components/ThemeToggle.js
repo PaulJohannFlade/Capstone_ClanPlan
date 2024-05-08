@@ -50,15 +50,13 @@ const MoonIcon = styled(Moon)`
   right: 6px;
 `;
 
-export default function ThemeToggle({ isDarkTheme, onToggleTheme }) {
-  console.log(isDarkTheme);
-
+export default function ThemeToggle({ isDarkTheme, setDarkTheme }) {
   return (
     <ToggleLabel htmlFor="theme-toggle" $dark={isDarkTheme}>
       <ToggleCheckbox
         type="checkbox"
         id="theme-toggle"
-        onChange={onToggleTheme}
+        onChange={() => setDarkTheme(!isDarkTheme)}
         checked={isDarkTheme}
       />
       <SunIcon />

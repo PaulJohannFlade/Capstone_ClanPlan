@@ -1,5 +1,4 @@
 import Form from "@/components/Form";
-import Header from "@/components/Header";
 import { useRouter } from "next/router";
 
 export default function CreatePage({ categories, familyMembers }) {
@@ -20,7 +19,6 @@ export default function CreatePage({ categories, familyMembers }) {
 
   return (
     <div>
-      <Header />
       <Form
         onTaskSubmit={handleAddTask}
         title="Add a task"

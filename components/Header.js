@@ -21,10 +21,10 @@ const StyledH1 = styled.h1`
   font-family: Arial, Helvetica, sans-serif;
 `;
 
-export default function Header({ isDarkTheme, onToggleTheme }) {
+export default function Header({ isDarkTheme, setDarkTheme }) {
   return (
     <StyledHeader>
-      <ThemeToggle isDarkTheme={isDarkTheme} onToggleTheme={onToggleTheme} />
+      <ThemeToggle isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme} />
       <StyledH1>ClanPlan</StyledH1>
     </StyledHeader>
   );

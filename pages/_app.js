@@ -26,10 +26,6 @@ export default function App({ Component, pageProps }) {
     setDarkTheme(prefersDark);
   }, []);
 
-  function handleToggleTheme() {
-    setDarkTheme(!isDarkTheme);
-  }
-
   const { data: categories, isLoading: isCategoryLoading } = useSWR(
     "/api/categories",
     fetcher
@@ -83,7 +79,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-      <Layout isDarkTheme={isDarkTheme} onToggleTheme={handleToggleTheme}>
+      <Layout isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme}>
         <GlobalStyle />
         <SWRConfig value={{ fetcher }}>
           <Component
@@ -99,7 +95,6 @@ export default function App({ Component, pageProps }) {
             onDeleteFilterOption={handleDeleteFilterOption}
             filters={filters}
             setFilters={setFilters}
-            // isFilterSet={isFilterSet}
             onButtonClick={handleHomePageButtonClick}
             listType={listType}
             currentDate={currentDate}

@@ -29,6 +29,10 @@ const StyledSpan = styled.span`
   float: ${({ $left }) => ($left ? "left" : "right")};
 `;
 
+const StyledDateInput = styled.input`
+  color-scheme: dark;
+`;
+
 const StyledSelect = styled.select`
   padding: 0.3rem;
 `;
@@ -182,13 +186,13 @@ export default function Form({
         max="3"
       ></input>
       <StyledLabel htmlFor="dueDate">Due date:</StyledLabel>
-      <input
+      <StyledDateInput
         type="date"
         id="dueDate"
         name="dueDate"
         min={formattedTodayDate}
         defaultValue={value?.dueDate}
-      ></input>
+      ></StyledDateInput>
       <StyledLabel htmlFor="assignedTo">Assign to:</StyledLabel>
       <Multiselect
         id="assignedTo"
