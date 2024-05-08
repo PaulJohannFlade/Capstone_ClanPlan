@@ -28,7 +28,6 @@ export default function CreatePage({ categories, familyMembers }) {
 
   return (
     <div>
-      <Header />
       <Form
         onTaskSubmit={handleAddTask}
         title="Add a task"
