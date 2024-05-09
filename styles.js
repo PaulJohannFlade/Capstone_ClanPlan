@@ -52,6 +52,7 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     max-width: 375px;
     background-color: var(--color-background);
+    transition: background-color 0.5s ease, color 0.5s ease;
   }
 
   img, picture, video, canvas, svg {
@@ -89,7 +90,6 @@ a:hover {
   cursor: pointer;
   background-color: var(--color-button-active);
 }
-  
 
 /* react-big-calendar styles: */
 
