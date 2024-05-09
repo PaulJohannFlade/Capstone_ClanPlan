@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import Multiselect from "multiselect-react-dropdown";
+import { darkTheme } from "../styles";
 
 const StyledForm = styled.form`
   display: flex;
@@ -30,7 +31,7 @@ const StyledSpan = styled.span`
 `;
 
 const StyledDateInput = styled.input`
-  color-scheme: dark;
+  color-scheme: ${(props) => (props.theme === darkTheme ? "dark" : "light")};
 `;
 
 const StyledSelect = styled.select`
