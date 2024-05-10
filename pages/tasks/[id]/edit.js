@@ -50,27 +50,6 @@ export default function EditPage({
     }
   }
 
-  async function handleEditAllTasksData(updatedTask) {
-    const response = await toast.promise(
-      fetch(`/api/tasks/${id}?updateAll=true`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedTask),
-      }),
-      {
-        pending: "Task updation is pending",
-        success: "Task updated successfully",
-        error: "Task not updated",
-      }
-    );
-
-    if (response.ok) {
-      router.push(`/tasks/${id}`);
-    }
-  }
-
   return (
     <>
       <div>
@@ -79,7 +58,6 @@ export default function EditPage({
         </StyledBackLink>
         <Form
           onTaskSubmit={handleEditTaskData}
-          onAllTasksSubmit={handleEditAllTasksData}
           title="Edit a task"
           isEdit
           value={task}
