@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import "./Category";
 import "./Member";
+import { type } from "@testing-library/user-event/dist/types/utility";
 
 const { Schema } = mongoose;
 
@@ -12,6 +13,7 @@ const taskSchema = new Schema({
   category: { type: Schema.Types.ObjectId, ref: "Category" },
   assignedTo: { type: [Schema.Types.ObjectId], ref: "Member" },
   groupId: { type: String },
+  repeat: { type: String },
 });
 
 const Task = mongoose.models.Task || mongoose.model("Task", taskSchema);

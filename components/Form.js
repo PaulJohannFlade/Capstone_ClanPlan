@@ -45,15 +45,12 @@ const StyledDiv = styled.div`
 
 export default function Form({
   onTaskSubmit,
-  onAllTasksSubmit,
   title,
   value,
   isEdit,
   allocatedMembersList,
   categories,
   familyMembers,
-  showModal,
-  setShowModal,
 }) {
   const [enteredTitle, setEnteredTitle] = useState(value?.title || "");
   const [isValid, setIsValid] = useState(false);
