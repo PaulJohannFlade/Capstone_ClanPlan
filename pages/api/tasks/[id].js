@@ -3,7 +3,7 @@ import Task from "@/db/models/Task";
 
 export default async function handler(request, response) {
   await dbConnect();
-  const { id } = request.query;
+  const { id, deleteAll, updateAll } = request.query;
 
   if (request.method === "GET") {
     const task = await Task.findById(id)
@@ -19,7 +19,11 @@ export default async function handler(request, response) {
 
   if (request.method === "PUT") {
     const updatedTask = request.body;
-    await Task.findByIdAndUpdate(id, updatedTask);
+    if (updateAll === "true") {
+      await Task.updateMany({ groupId: updatedTask.groupId }, updatedTask);
+    } else {
+      await Task.findByIdAndUpdate(id, updatedTask);
+    }
     response.status(200).json({ status: "Task updated successfully." });
   }
 
@@ -30,7 +34,13 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "DELETE") {
-    await Task.findByIdAndDelete(id);
+    if (deleteAll === "true") {
+      const task = await Task.findById(id);
+      const groupId = task?.groupId;
+      await Task.deleteMany({ groupId: groupId });
+    } else {
+      await Task.findByIdAndDelete(id);
+    }
     response.status(200).json({ status: "Product deleted successfully." });
   }
 }

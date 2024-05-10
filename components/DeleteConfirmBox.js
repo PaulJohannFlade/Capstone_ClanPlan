@@ -27,13 +27,27 @@ export default function DeleteConfirmBox({
   onConfirm,
   id,
   message,
+  onConfirmAll,
+  groupId,
 }) {
   return (
     <StyledSection>
       <StyledParagraph>{message}</StyledParagraph>
       <ButtonContainer>
-        <StyledButton onClick={() => setShowModal(false)}>No</StyledButton>
-        <StyledButton onClick={() => onConfirm(id)}>Yes</StyledButton>
+        {groupId ? (
+          <>
+            <StyledButton onClick={() => setShowModal(false)}>No</StyledButton>
+            <StyledButton onClick={() => onConfirm(id)}>This task</StyledButton>
+            <StyledButton onClick={() => onConfirmAll(id)}>
+              All occurrence
+            </StyledButton>
+          </>
+        ) : (
+          <>
+            <StyledButton onClick={() => setShowModal(false)}>No</StyledButton>
+            <StyledButton onClick={() => onConfirm(id)}>Yes</StyledButton>
+          </>
+        )}
       </ButtonContainer>
     </StyledSection>
   );

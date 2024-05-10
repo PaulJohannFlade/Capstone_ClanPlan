@@ -11,6 +11,7 @@ const taskSchema = new Schema({
   isDone: { type: Boolean },
   category: { type: Schema.Types.ObjectId, ref: "Category" },
   assignedTo: { type: [Schema.Types.ObjectId], ref: "Member" },
+  groupId: { type: String },
 });
 
 const Task = mongoose.models.Task || mongoose.model("Task", taskSchema);
