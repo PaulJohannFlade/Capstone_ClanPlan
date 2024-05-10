@@ -52,7 +52,7 @@ export default function Form({
   categories,
   familyMembers,
 }) {
-  const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredTitle, setEnteredTitle] = useState(value?.title || "");
   const [isValid, setIsValid] = useState(false);
   const [allocatedMembers, setAllocatedMembers] = useState(
     allocatedMembersList || familyMembers
