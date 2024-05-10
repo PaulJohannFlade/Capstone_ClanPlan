@@ -12,6 +12,7 @@ export const lightTheme = {
   text: "#344648",
   button: "#e6e4e4",
   buttonActive: "#bbf1f9ff",
+  colorScheme: "light",
 };
 
 export const darkTheme = {
@@ -19,6 +20,7 @@ export const darkTheme = {
   text: "#FFFFFF",
   button: "#344648",
   buttonActive: "#065465",
+  colorScheme: "dark",
 };
 
 export default createGlobalStyle`
@@ -41,6 +43,7 @@ export default createGlobalStyle`
     --color-button-active:${(props) => props.theme.buttonActive};
     --color-button:${(props) => props.theme.button};
     --font-handlee:${handlee.style.fontFamily};
+    --color-scheme-date:${(props) => props.theme.colorScheme};
   }
 
   body {

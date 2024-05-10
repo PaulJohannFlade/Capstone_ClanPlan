@@ -31,7 +31,7 @@ const StyledSpan = styled.span`
 `;
 
 const StyledDateInput = styled.input`
-  color-scheme: dark;
+  color-scheme: var(--color-scheme-date);
 `;
 
 const StyledSelect = styled.select`
