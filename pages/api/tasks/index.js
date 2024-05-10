@@ -30,7 +30,7 @@ export default async function handler(request, response) {
       } else if (taskData.repeat === "weekly") {
         const nextWeek = startDate;
         while (nextWeek < endDate) {
-          taskData.dueDate = new Date(nextWeek).toISOString().substring(0, 10);
+          taskData.dueDate = nextWeek.toISOString().substring(0, 10);
           taskData.groupId = groupId;
           await Task.create(taskData);
           nextWeek.setDate(nextWeek.getDate() + 7);
@@ -38,7 +38,7 @@ export default async function handler(request, response) {
       } else if (taskData.repeat === "daily") {
         const nextDay = startDate;
         while (nextDay < endDate) {
-          taskData.dueDate = new Date(nextDay).toISOString().substring(0, 10);
+          taskData.dueDate = nextDay.toISOString().substring(0, 10);
           taskData.groupId = groupId;
           await Task.create(taskData);
           nextDay.setDate(nextDay.getDate() + 1);
