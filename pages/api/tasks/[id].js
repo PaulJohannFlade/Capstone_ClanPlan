@@ -3,7 +3,7 @@ import Task from "@/db/models/Task";
 
 export default async function handler(request, response) {
   await dbConnect();
-  const { id, deleteAll, updateAll } = request.query;
+  const { id, deleteAll } = request.query;
 
   if (request.method === "GET") {
     const task = await Task.findById(id)
@@ -19,11 +19,7 @@ export default async function handler(request, response) {
 
   if (request.method === "PUT") {
     const updatedTask = request.body;
-    if (updateAll === "true") {
-      await Task.updateMany({ groupId: updatedTask.groupId }, updatedTask);
-    } else {
-      await Task.findByIdAndUpdate(id, updatedTask);
-    }
+    await Task.findByIdAndUpdate(id, updatedTask);
     response.status(200).json({ status: "Task updated successfully." });
   }
 
