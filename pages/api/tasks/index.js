@@ -13,10 +13,7 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const taskData = request.body;
-      let groupId = null;
-      if (taskData.repeat !== "none") {
-        groupId = uid();
-      }
+      const groupId = taskData.repeat !== "none" ? uid() : null;
 
       const startDate = new Date(taskData.dueDate);
       const endDate = new Date(taskData.dueDate);
@@ -25,7 +22,7 @@ export default async function handler(request, response) {
       if (taskData.repeat === "monthly") {
         const nextMonth = startDate;
         while (nextMonth < endDate) {
-          taskData.dueDate = new Date(nextMonth).toISOString().substring(0, 10);
+          taskData.dueDate = nextMonth.toISOString().substring(0, 10);
           taskData.groupId = groupId;
           await Task.create(taskData);
           nextMonth.setMonth(nextMonth.getMonth() + 1);
