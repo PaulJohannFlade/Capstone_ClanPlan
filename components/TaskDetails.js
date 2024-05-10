@@ -115,8 +115,8 @@ export default function TaskDetails({
 
   return (
     <>
-      {showModal && (
-        <Modal $top="13.5rem" setShowModal={setShowModal}>
+      <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
+        {showModal && (
           <DeleteConfirmBox
             setShowModal={setShowModal}
             onConfirm={() => handleDeleteTask(id)}
@@ -129,8 +129,8 @@ export default function TaskDetails({
                 : "Are you sure you want to delete this task?"
             }
           />
-        </Modal>
-      )}
+        )}
+      </Modal>
 
       <StyledSection $isDone={isDone}>
         <StyledTrash onClick={() => setShowModal(true)} />

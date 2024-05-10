@@ -9,7 +9,6 @@ const StyledForm = styled.form`
   margin: 1rem;
   background-color: var(--color-background);
   padding: 1rem;
-  border-radius: 1rem;
   position: relative;
 `;
 
