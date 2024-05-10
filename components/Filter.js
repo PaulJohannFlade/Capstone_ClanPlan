@@ -4,6 +4,17 @@ import StyledButton from "./StyledButton";
 import FilterIcon from "@/public/assets/images/filter.svg";
 import styled from "styled-components";
 
+const StyledFilterSection = styled.section`
+  position: relative;
+`;
+
+const StyledFilterButton = styled(StyledButton)`
+  position: absolute;
+  right: 1rem;
+  top: -3.3rem;
+  padding: 0.1rem 0.4rem;
+`;
+
 const StyledList = styled.ul`
   list-style: none;
   padding: 0.5rem;
@@ -31,7 +42,7 @@ export default function Filter({
   onDeleteFilterOption,
 }) {
   return (
-    <>
+    <StyledFilterSection>
       <Modal $top="6rem" setShowModal={setShowModal} $open={showModal}>
         {showModal && (
           <FilterWindow
@@ -42,13 +53,9 @@ export default function Filter({
           />
         )}
       </Modal>
-      <StyledButton
-        $width="4rem"
-        $left="0.5rem"
-        onClick={() => setShowModal(true)}
-      >
+      <StyledFilterButton $width="2.5rem" onClick={() => setShowModal(true)}>
         <FilterIcon />
-      </StyledButton>
+      </StyledFilterButton>
 
       <StyledList>
         {Object.keys(filters).map(
@@ -70,6 +77,6 @@ export default function Filter({
             )
         )}
       </StyledList>
-    </>
+    </StyledFilterSection>
   );
 }
