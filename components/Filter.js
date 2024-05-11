@@ -24,12 +24,17 @@ const StyledList = styled.ul`
 `;
 
 const StyledClearFilterButton = styled.button`
+  font-size: 0.8rem;
   color: var(--color-font);
   font-weight: 700;
   background-color: var(--color-background);
   border: 0.5px solid var(--color-font);
   border-radius: 0.7rem;
-  padding: 0.3rem 0.5rem;
+  padding: 0.2rem 0.4rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 250px;
 `;
 
 export default function Filter({
