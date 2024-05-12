@@ -14,7 +14,7 @@ const StyledSection = styled.section`
 const StyledContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem;
+  padding: 0 0.5rem;
 `;
 
 const StyledMissedHeading = styled.h3`
