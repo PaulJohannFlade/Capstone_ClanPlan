@@ -34,10 +34,13 @@ export default function TasksListGroups({ tasks, setDetailsBackLinkRef }) {
   const today = new Date();
   const thirdDay = new Date();
   thirdDay.setDate(thirdDay.getDate() + 2);
-  const thisSunday =
-    today.getDay() === 0
-      ? new Date(today)
-      : new Date(today.getDate() - today.getDay() + 7);
+  const thisSunday = new Date(today);
+  thisSunday.setDate(
+    today.getDay() !== 0 && today.getDate() - today.getDay() + 7
+  );
+  /* today.getDay() === 0
+    ? new Date(today)
+    : new Date(today.getDate() - today.getDay() + 7); */
 
   const thisWeekTasks =
     today.getDay() === 6 || today.getDay() === 0
