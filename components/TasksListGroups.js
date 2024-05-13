@@ -37,7 +37,7 @@ export default function TasksListGroups({ tasks, setDetailsBackLinkRef }) {
   const thisSunday =
     today.getDay() === 0
       ? new Date(today)
-      : today.getDate() - today.getDay() + 7;
+      : new Date(today.getDate() - today.getDay() + 7);
 
   const thisWeekTasks =
     today.getDay() === 6 || today.getDay() === 0
@@ -112,98 +112,33 @@ export default function TasksListGroups({ tasks, setDetailsBackLinkRef }) {
 
   const completedTasks = tasks.filter((task) => task.isDone);
 
+  const tasksGroupsData = [
+    { tasks: missedTasks, groupKey: "Missed", red: true },
+    { tasks: todaysTasks, groupKey: "Today" },
+    { tasks: tomorrowsTasks, groupKey: "Tomorrow" },
+    { tasks: thisWeekTasks, groupKey: "This week" },
+    { tasks: nextWeekTasks, groupKey: "Next week" },
+    { tasks: thisMonthTasks, groupKey: "This month" },
+    { tasks: nextMonthTasks, groupKey: "Next month" },
+    { tasks: laterTasks, groupKey: "Later" },
+    { tasks: completedTasks, groupKey: "Completed" },
+  ];
   return (
     <>
-      {missedTasks.length > 0 && (
-        <TasksListGroup
-          tasks={missedTasks}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
-          groupKey="missed"
-          groupTitle="Missed"
-          onHideGroup={handleHideGroup}
-          hideGroup={hideGroup}
-          $red
-        />
-      )}
-      {todaysTasks.length > 0 && (
-        <TasksListGroup
-          tasks={todaysTasks}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
-          groupKey="today"
-          groupTitle="Today"
-          onHideGroup={handleHideGroup}
-          hideGroup={hideGroup}
-        />
-      )}
-      {tomorrowsTasks.length > 0 && (
-        <TasksListGroup
-          tasks={tomorrowsTasks}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
-          groupKey="tomorrow"
-          groupTitle="Tomorrow"
-          onHideGroup={handleHideGroup}
-          hideGroup={hideGroup}
-        />
-      )}
-      {thisWeekTasks.length > 0 && (
-        <TasksListGroup
-          tasks={thisWeekTasks}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
-          groupKey="thisWeek"
-          groupTitle="This week"
-          onHideGroup={handleHideGroup}
-          hideGroup={hideGroup}
-        />
-      )}
-      {nextWeekTasks.length > 0 && (
-        <TasksListGroup
-          tasks={nextWeekTasks}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
-          groupKey="nextWeek"
-          groupTitle="Next week"
-          onHideGroup={handleHideGroup}
-          hideGroup={hideGroup}
-        />
-      )}
-      {thisMonthTasks.length > 0 && (
-        <TasksListGroup
-          tasks={thisMonthTasks}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
-          groupKey="thisMonth"
-          groupTitle="This month"
-          onHideGroup={handleHideGroup}
-          hideGroup={hideGroup}
-        />
-      )}
-      {nextMonthTasks.length > 0 && (
-        <TasksListGroup
-          tasks={nextMonthTasks}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
-          groupKey="nextMonth"
-          groupTitle="Next month"
-          onHideGroup={handleHideGroup}
-          hideGroup={hideGroup}
-        />
-      )}
-      {laterTasks.length > 0 && (
-        <TasksListGroup
-          tasks={laterTasks}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
-          groupKey="later"
-          groupTitle="Later"
-          onHideGroup={handleHideGroup}
-          hideGroup={hideGroup}
-        />
-      )}
-      {completedTasks.length > 0 && (
-        <TasksListGroup
-          tasks={completedTasks}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
-          groupKey="completed"
-          groupTitle="Completed"
-          onHideGroup={handleHideGroup}
-          hideGroup={hideGroup}
-        />
+      {tasksGroupsData.map(
+        (taskGroupData) =>
+          taskGroupData.tasks.length > 0 && (
+            <TasksListGroup
+              key={taskGroupData.groupKey}
+              tasks={taskGroupData.tasks}
+              setDetailsBackLinkRef={setDetailsBackLinkRef}
+              groupKey={taskGroupData.groupKey}
+              groupTitle={taskGroupData.groupKey}
+              onHideGroup={handleHideGroup}
+              hideGroup={hideGroup}
+              $red={taskGroupData.red}
+            />
+          )
       )}
     </>
   );
