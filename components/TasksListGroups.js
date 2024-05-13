@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TasksListGroup from "./TasksListGroup";
 
-export default function TasksListGroups({ tasks, setDetailsBackLinkRef }) {
+export default function TasksListGroups({ tasks, onSetDetailsBackLinkRef }) {
   const [hideGroup, setHideGroup] = useState({});
 
   function handleHideGroup(key) {
@@ -38,9 +38,6 @@ export default function TasksListGroups({ tasks, setDetailsBackLinkRef }) {
   thisSunday.setDate(
     today.getDay() !== 0 && today.getDate() - today.getDay() + 7
   );
-  /* today.getDay() === 0
-    ? new Date(today)
-    : new Date(today.getDate() - today.getDay() + 7); */
 
   const thisWeekTasks =
     today.getDay() === 6 || today.getDay() === 0
@@ -134,9 +131,8 @@ export default function TasksListGroups({ tasks, setDetailsBackLinkRef }) {
             <TasksListGroup
               key={taskGroupData.groupKey}
               tasks={taskGroupData.tasks}
-              setDetailsBackLinkRef={setDetailsBackLinkRef}
+              onSetDetailsBackLinkRef={onSetDetailsBackLinkRef}
               groupKey={taskGroupData.groupKey}
-              groupTitle={taskGroupData.groupKey}
               onHideGroup={handleHideGroup}
               hideGroup={hideGroup}
               $red={taskGroupData.red}

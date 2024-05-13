@@ -46,7 +46,7 @@ export default function HomePage({
   setShowModal,
   showModal,
   familyMembers,
-  setDetailsBackLinkRef,
+  onSetDetailsBackLinkRef,
   categories,
   filters,
   setFilters,
@@ -187,13 +187,13 @@ export default function HomePage({
       {listType !== "all" && (
         <TasksList
           tasks={filteredTasks}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
+          onSetDetailsBackLinkRef={onSetDetailsBackLinkRef}
         />
       )}
       {listType === "all" && (
         <TasksListGroups
           tasks={filteredTasks}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
+          onSetDetailsBackLinkRef={onSetDetailsBackLinkRef}
         />
       )}
     </>

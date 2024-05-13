@@ -18,7 +18,7 @@ const StyledContainer = styled.div`
 `;
 
 const StyledMissedHeading = styled.h3`
-  ${({ $red }) => $red && `color: red;`}
+  ${({ $red }) => $red && `color: #ff0000;`}
 `;
 
 const StyledUpArrow = styled(UpArrow)`
@@ -43,9 +43,8 @@ const StyledTasksList = styled(TasksList)`
 
 export default function TasksListGroup({
   tasks,
-  setDetailsBackLinkRef,
+  onSetDetailsBackLinkRef,
   groupKey,
-  groupTitle,
   onHideGroup,
   hideGroup,
   $red,
@@ -54,14 +53,14 @@ export default function TasksListGroup({
     <StyledSection>
       <StyledContainer onClick={() => onHideGroup(groupKey)}>
         <StyledMissedHeading $red={$red}>
-          {groupTitle} ({tasks.length})
+          {groupKey} ({tasks.length})
         </StyledMissedHeading>
         {hideGroup[groupKey] ? <StyledDownArrow /> : <StyledUpArrow />}
       </StyledContainer>
       <StyledDiv $isHide={hideGroup[groupKey]}>
         <StyledTasksList
           tasks={tasks}
-          setDetailsBackLinkRef={setDetailsBackLinkRef}
+          onSetDetailsBackLinkRef={onSetDetailsBackLinkRef}
         />
       </StyledDiv>
     </StyledSection>
