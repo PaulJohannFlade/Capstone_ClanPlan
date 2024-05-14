@@ -48,7 +48,8 @@ export default createGlobalStyle`
 
   body {
     margin: auto;
-    margin-top:5rem;
+    margin-top:5.5rem;
+    margin-bottom:6rem;
     color: var(--color-font);
     font-family: Helvetica;
     line-height: 1.5;

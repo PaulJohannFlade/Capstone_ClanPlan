@@ -14,6 +14,10 @@ export default async function handler(request, response) {
       return response.status(404).json({ status: "Task not found" });
     }
 
+    if (task.comments) {
+      await task.populate("comments");
+    }
+
     response.status(200).json(task);
   }
 

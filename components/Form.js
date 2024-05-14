@@ -2,17 +2,14 @@ import { useState } from "react";
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import Multiselect from "multiselect-react-dropdown";
-import { darkTheme } from "../styles";
 
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   margin: 1rem;
-  margin-top: 6rem;
   background-color: var(--color-background);
   padding: 1rem;
   border-radius: 1rem;
-  margin-bottom: 4.5rem;
   box-shadow: 1px 1px 10px -1px var(--color-font);
   transition: background-color 0.5s ease;
 `;
@@ -22,7 +19,7 @@ const StyledHeading = styled.h2`
 `;
 
 const StyledLabel = styled.label`
-  font-size: 1.2rem;
+  font-size: 0.9rem;
 `;
 
 const StyledSpan = styled.span`
@@ -42,6 +39,7 @@ const StyledSelect = styled.select`
 const StyledDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  font-size: 0.9rem;
 `;
 
 export default function Form({
@@ -61,8 +59,6 @@ export default function Form({
   const [assignedTo, setAssignedTo] = useState(value?.assignedTo || []);
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
-
-  const [taskToUpdate, setTaskToUpdate] = useState();
 
   function handleTitleChange(event) {
     setEnteredTitle(event.target.value);
