@@ -20,11 +20,28 @@ export default async function handler(request, response) {
       endDate.setFullYear(new Date().getFullYear() + 1);
 
       if (taskData.repeat === "monthly") {
-        const nextMonth = startDate;
+        const nextMonth = new Date(
+          startDate.getFullYear(),
+          startDate.getMonth()
+        );
+        const currentDay = startDate.getDate();
         while (nextMonth < endDate) {
-          taskData.dueDate = nextMonth.toISOString().substring(0, 10);
-          taskData.groupId = groupId;
-          await Task.create(taskData);
+          const dayInMonth = new Date(
+            nextMonth.getFullYear(),
+            nextMonth.getMonth() + 1,
+            0
+          ).getDate();
+          if (currentDay <= dayInMonth) {
+            taskData.dueDate = new Date(
+              nextMonth.getFullYear(),
+              nextMonth.getMonth(),
+              currentDay + 1
+            )
+              .toISOString()
+              .substring(0, 10);
+            taskData.groupId = groupId;
+            await Task.create(taskData);
+          }
           nextMonth.setMonth(nextMonth.getMonth() + 1);
         }
       } else if (taskData.repeat === "weekly") {
