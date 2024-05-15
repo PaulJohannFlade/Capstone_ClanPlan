@@ -65,10 +65,13 @@ export default function Form({
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
   const [taskToUpdate, setTaskToUpdate] = useState();
-  const [showEndDate, setShowEndDate] = useState(value?.endDate);
+  const [displayEndDate, setDisplayEndDate] = useState(value?.endDate);
+  const [isEndDateValid, setIsEndDateValid] = useState(false);
+  const [endDate, setEndDate] = useState(value?.endDate);
 
   function handleTitleChange(event) {
     setEnteredTitle(event.target.value);
+    setIsValid(false);
   }
 
   function handleSubmit(event) {
@@ -98,6 +101,17 @@ export default function Form({
     if (!data.title.trim()) {
       setIsValid(true);
       event.target.title.focus();
+      return;
+    }
+
+    if (
+      (data.repeat === "monthly" ||
+        data.repeat === "weekly" ||
+        data.repeat === "daily") &&
+      !data.endDate
+    ) {
+      setIsEndDateValid(true);
+      event.target.endDate.focus();
       return;
     }
 
@@ -167,10 +181,15 @@ export default function Form({
   function handleRepeat(event) {
     const repeat = event.target.value;
     if (repeat === "monthly" || repeat === "weekly" || repeat === "daily") {
-      setShowEndDate(true);
+      setDisplayEndDate(true);
     } else {
-      setShowEndDate(false);
+      setDisplayEndDate(false);
+      setEndDate("");
     }
+  }
+  function handleEndDate(event) {
+    setEndDate(event.target.value);
+    setIsEndDateValid(false);
   }
 
   return (
@@ -259,16 +278,19 @@ export default function Form({
           <option value="weekly">Weekly</option>
           <option value="monthly">Monthly</option>
         </StyledSelect>
-        {showEndDate && (
+        {displayEndDate && (
           <>
-            <StyledLabel htmlFor="endDate">Until:</StyledLabel>
+            <StyledLabel htmlFor="endDate">
+              Until:
+              {isEndDateValid && <StyledSpan>Please pick end date!</StyledSpan>}
+            </StyledLabel>
             <StyledDateInput
               type="date"
               id="endDate"
               name="endDate"
               min={formattedTodayDate}
-              defaultValue={value?.endDate}
-              required
+              defaultValue={endDate}
+              onChange={handleEndDate}
             ></StyledDateInput>
           </>
         )}

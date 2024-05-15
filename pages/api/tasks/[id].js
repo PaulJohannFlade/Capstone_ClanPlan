@@ -101,13 +101,14 @@ export default async function handler(request, response) {
       }
       await Comment.deleteMany({ _id: { $in: commentIdsToDelete } });
       await Task.deleteMany({ groupId: groupId });
+      response.status(200).json({ status: "Tasks deleted successfully." });
     } else {
       const task = await Task.findById(id);
       for (const commentId of task.comments) {
         await Comment.findByIdAndDelete(commentId);
       }
       await Task.findByIdAndDelete(id);
+      response.status(200).json({ status: "Task deleted successfully." });
     }
-    response.status(200).json({ status: "Product deleted successfully." });
   }
 }
