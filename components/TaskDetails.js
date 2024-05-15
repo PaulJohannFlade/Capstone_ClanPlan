@@ -132,8 +132,8 @@ export default function TaskDetails({
             groupId={groupId}
             message={
               groupId
-                ? "Are you sure you want to delete?"
-                : "Are you sure you want to delete this task?"
+                ? `Are you sure you want to delete repeating task "${title}"?`
+                : `Are you sure you want to delete task "${title}"?`
             }
           />
         )}
