@@ -5,7 +5,6 @@ import Multiselect from "multiselect-react-dropdown";
 import Modal from "./Modal";
 import DeleteConfirmBox from "./DeleteConfirmBox";
 
-
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -88,6 +87,7 @@ export default function Form({
         data.priority === value.priority &&
         assignedTo.length === value.assignedTo.length &&
         data.repeat === value.repeat &&
+        data.endDate === value.endDate &&
         assignedTo.every((member) => assignedMembersIds.includes(member._id))
       ) {
         alert("No changes were made to the form.");
