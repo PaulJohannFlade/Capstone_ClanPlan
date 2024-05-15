@@ -25,7 +25,7 @@ export default async function handler(request, response) {
       const tasks = await Task.find({ groupId: updatedTask.groupId });
       const tasksSorted = sortTaskAscendingOrder(tasks);
       const endDate = new Date(tasksSorted[tasksSorted.length - 1].dueDate);
-      const startDate = new Date(tasksSorted[0].dueDate);
+      const startDate = new Date(updatedTask.dueDate);
 
       const task = await Task.findById(id);
       const groupId = task?.groupId;

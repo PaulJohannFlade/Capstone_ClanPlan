@@ -66,19 +66,6 @@ export default function Form({
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
 
-  const date = new Date(value?.dueDate);
-
-  const firstDay =
-    value?.dueDate &&
-    new Date(date.getFullYear(), date.getMonth(), 2)
-      .toISOString()
-      .substring(0, 10);
-  const lastDay =
-    value?.dueDate &&
-    new Date(date.getFullYear(), date.getMonth() + 1, 1)
-      .toISOString()
-      .substring(0, 10);
-
   const [taskToUpdate, setTaskToUpdate] = useState();
 
   function handleTitleChange(event) {
@@ -248,20 +235,8 @@ export default function Form({
           type="date"
           id="dueDate"
           name="dueDate"
-          min={
-            value?.repeat.includes("monthly") ||
-            value?.repeat.includes("weekly") ||
-            value?.repeat.includes("daily")
-              ? firstDay
-              : formattedTodayDate
-          }
+          min={formattedTodayDate}
           defaultValue={value?.dueDate || formattedTodayDate}
-          max={
-            (value?.repeat.includes("monthly") ||
-              value?.repeat.includes("weekly") ||
-              value?.repeat.includes("daily")) &&
-            lastDay
-          }
         ></StyledDateInput>
 
         <StyledLabel htmlFor="repeat">Repeat:</StyledLabel>
