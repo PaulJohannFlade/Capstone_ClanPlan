@@ -11,12 +11,12 @@ export default async function handler(request, response) {
       .populate("category")
       .populate("assignedTo");
 
-    if (!task) {
-      return response.status(404).json({ status: "Task not found" });
-    }
-
     if (task.comments) {
       await task.populate("comments");
+    }
+
+    if (!task) {
+      return response.status(404).json({ status: "Task not found" });
     }
 
     response.status(200).json(task);
@@ -45,13 +45,16 @@ export default async function handler(request, response) {
       }
       await Comment.deleteMany({ _id: { $in: commentIdsToDelete } });
       await Task.deleteMany({ groupId: groupId });
+      response.status(200).json({
+        status: `${tasksToDelete.length} Tasks deleted successfully.`,
+      });
     } else {
       const task = await Task.findById(id);
       for (const commentId of task.comments) {
         await Comment.findByIdAndDelete(commentId);
       }
       await Task.findByIdAndDelete(id);
+      response.status(200).json({ status: "Task deleted successfully." });
     }
-    response.status(200).json({ status: "Product deleted successfully." });
   }
 }

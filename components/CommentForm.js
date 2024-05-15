@@ -22,6 +22,7 @@ const StyledForm = styled.form`
   padding: 1rem;
   border-radius: 1rem;
   box-shadow: 1px 1px 10px -1px var(--color-font);
+  transition: background-color 0.5s ease;
 `;
 
 const StyledSendButton = styled(StyledButton)`

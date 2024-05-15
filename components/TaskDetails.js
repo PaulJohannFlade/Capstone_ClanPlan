@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import checkForToday from "@/utils/checkForToday";
 import checkForMissedDate from "@/utils/checkForMissedDate";
 import { toast } from "react-toastify";
+import Flame from "@/public/assets/images/flame.svg";
 
 const StyledLink = styled(Link)`
   position: absolute;
@@ -52,6 +53,12 @@ const StyledCheckbox = styled.input`
 const StyledParagraphContent = styled.p`
   font-size: larger;
   font-weight: 600;
+`;
+
+const StyledFlame = styled(Flame)`
+  display: inline-block;
+  width: 1rem;
+  margin: 0 0.2rem;
 `;
 
 const StyledSpan = styled.span`
@@ -112,7 +119,7 @@ export default function TaskDetails({
       setShowModal(false);
     }
   }
-
+  console.log(priority);
   return (
     <>
       <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
@@ -144,7 +151,11 @@ export default function TaskDetails({
           {category?.title || "-"}
         </StyledParagraphContent>
         <p>Priority: </p>
-        <h2>{"🔥".repeat(Number(priority))}</h2>
+        <p>
+          {[...Array(Number(priority))].map((_element, index) => (
+            <StyledFlame key={index} />
+          ))}
+        </p>
         <p>Due Date:</p>
         <StyledParagraphContent>
           <StyledSpan $isMissed={isMissed}>

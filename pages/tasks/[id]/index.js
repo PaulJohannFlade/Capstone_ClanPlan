@@ -22,6 +22,7 @@ const StyledSection = styled.section`
   flex-direction: column;
   border-radius: 2rem;
   box-shadow: 1px 1px 10px -1px var(--color-font);
+  transition: background-color 0.5s ease;
 `;
 
 const StyledHeading = styled.h2`
