@@ -267,7 +267,7 @@ export default function Form({
               id="endDate"
               name="endDate"
               min={formattedTodayDate}
-              defaultValue={value?.endDate || formattedTodayDate}
+              defaultValue={value?.endDate}
               required
             ></StyledDateInput>
           </>

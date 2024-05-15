@@ -1,6 +1,7 @@
 import dbConnect from "@/db/connect";
 import Comment from "@/db/models/Comment";
 import Task from "@/db/models/Task";
+import convertDateToString from "@/utils/convertDateToString";
 
 export default async function handler(request, response) {
   await dbConnect();
@@ -34,50 +35,53 @@ export default async function handler(request, response) {
       await Task.deleteMany({ groupId: groupId });
 
       if (updatedTask.repeat === "monthly") {
-        const nextMonth = new Date(
+        const nextMonthDueDate = new Date(
           startDate.getFullYear(),
           startDate.getMonth()
         );
         const currentDay = new Date(updatedTask.dueDate).getDate();
-        while (nextMonth <= endDate) {
+
+        while (nextMonthDueDate <= endDate) {
           const dayInMonth = new Date(
-            nextMonth.getFullYear(),
-            nextMonth.getMonth() + 1,
+            nextMonthDueDate.getFullYear(),
+            nextMonthDueDate.getMonth() + 1,
             0
           ).getDate();
           if (currentDay <= dayInMonth) {
-            updatedTask.dueDate = new Date(
-              nextMonth.getFullYear(),
-              nextMonth.getMonth(),
-              currentDay + 1
-            )
-              .toISOString()
-              .substring(0, 10);
+            updatedTask.dueDate = convertDateToString(
+              new Date(
+                nextMonthDueDate.getFullYear(),
+                nextMonthDueDate.getMonth(),
+                currentDay
+              )
+            );
+
             await Task.create(updatedTask);
           }
-          nextMonth.setMonth(nextMonth.getMonth() + 1);
+          nextMonthDueDate.setMonth(nextMonthDueDate.getMonth() + 1);
         }
       } else if (updatedTask.repeat === "weekly") {
-        const nextWeek = new Date(updatedTask.dueDate);
-        while (nextWeek <= endDate) {
-          updatedTask.dueDate = nextWeek.toISOString().substring(0, 10);
+        const nextWeekDueDate = new Date(updatedTask.dueDate);
+        while (nextWeekDueDate <= endDate) {
+          updatedTask.dueDate = convertDateToString(nextWeekDueDate);
           updatedTask.groupId = groupId;
           await Task.create(updatedTask);
-          nextWeek.setDate(nextWeek.getDate() + 7);
+          nextWeekDueDate.setDate(nextWeekDueDate.getDate() + 7);
         }
       } else if (updatedTask.repeat === "daily") {
-        const nextDay = new Date(updatedTask.dueDate);
-        while (nextDay <= endDate) {
-          updatedTask.dueDate = nextDay.toISOString().substring(0, 10);
+        const nextDayDueDate = new Date(updatedTask.dueDate);
+        while (nextDayDueDate <= endDate) {
+          updatedTask.dueDate = convertDateToString(nextDayDueDate);
           updatedTask.groupId = groupId;
           await Task.create(updatedTask);
-          nextDay.setDate(nextDay.getDate() + 1);
+          nextDayDueDate.setDate(nextDayDueDate.getDate() + 1);
         }
       }
+      response.status(200).json({ status: "Tasks updated successfully." });
     } else {
       await Task.findByIdAndUpdate(id, updatedTask);
+      response.status(200).json({ status: "Task updated successfully." });
     }
-    response.status(200).json({ status: "Task updated successfully." });
   }
 
   if (request.method === "PATCH") {
