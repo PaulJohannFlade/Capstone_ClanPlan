@@ -61,6 +61,10 @@ export default function App({ Component, pageProps }) {
     return;
   }
 
+  function handleSetDetailsBackLinkRef(link) {
+    setDetailsBackLinkRef(link);
+  }
+
   function handleApplyFilters(formData) {
     setFilters(formData);
     setShowModal(false);
@@ -103,7 +107,7 @@ export default function App({ Component, pageProps }) {
             showModal={showModal}
             categories={categories}
             detailsBackLinkRef={detailsBackLinkRef}
-            setDetailsBackLinkRef={setDetailsBackLinkRef}
+            onSetDetailsBackLinkRef={handleSetDetailsBackLinkRef}
             onApplyFilters={handleApplyFilters}
             onDeleteFilterOption={handleDeleteFilterOption}
             filters={filters}
