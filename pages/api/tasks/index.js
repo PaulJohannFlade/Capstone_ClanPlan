@@ -16,8 +16,7 @@ export default async function handler(request, response) {
       const groupId = taskData.repeat !== "none" ? uid() : null;
 
       const startDate = new Date(taskData.dueDate);
-      const endDate = new Date(taskData.dueDate);
-      endDate.setFullYear(new Date().getFullYear() + 1);
+      const endDate = new Date(taskData.endDate);
 
       if (taskData.repeat === "monthly") {
         const nextMonth = new Date(
@@ -25,7 +24,7 @@ export default async function handler(request, response) {
           startDate.getMonth()
         );
         const currentDay = startDate.getDate();
-        while (nextMonth < endDate) {
+        while (nextMonth <= endDate) {
           const dayInMonth = new Date(
             nextMonth.getFullYear(),
             nextMonth.getMonth() + 1,
@@ -46,7 +45,7 @@ export default async function handler(request, response) {
         }
       } else if (taskData.repeat === "weekly") {
         const nextWeek = startDate;
-        while (nextWeek < endDate) {
+        while (nextWeek <= endDate) {
           taskData.dueDate = nextWeek.toISOString().substring(0, 10);
           taskData.groupId = groupId;
           await Task.create(taskData);
@@ -54,7 +53,7 @@ export default async function handler(request, response) {
         }
       } else if (taskData.repeat === "daily") {
         const nextDay = startDate;
-        while (nextDay < endDate) {
+        while (nextDay <= endDate) {
           taskData.dueDate = nextDay.toISOString().substring(0, 10);
           taskData.groupId = groupId;
           await Task.create(taskData);

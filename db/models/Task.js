@@ -13,6 +13,7 @@ const taskSchema = new Schema({
   assignedTo: { type: [Schema.Types.ObjectId], ref: "Member" },
   groupId: { type: String },
   repeat: { type: String },
+  endDate: { type: String },
 });
 
 const Task = mongoose.models.Task || mongoose.model("Task", taskSchema);

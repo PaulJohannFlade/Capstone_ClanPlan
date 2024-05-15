@@ -66,6 +66,8 @@ export default function Form({
 
   const [taskToUpdate, setTaskToUpdate] = useState();
 
+  const [showEndDate, setShowEndDate] = useState(value?.endDate);
+
   function handleTitleChange(event) {
     setEnteredTitle(event.target.value);
   }
@@ -162,6 +164,13 @@ export default function Form({
     );
   }
 
+  function handleRepeat(event) {
+    const repeat = event.target.value;
+    if (repeat === "monthly" || repeat === "weekly" || repeat === "daily") {
+      setShowEndDate(true);
+    }
+  }
+
   return (
     <>
       {showModal && isEdit && (
@@ -237,12 +246,30 @@ export default function Form({
         ></StyledDateInput>
 
         <StyledLabel htmlFor="repeat">Repeat:</StyledLabel>
-        <StyledSelect id="repeat" name="repeat" defaultValue={value?.repeat}>
+        <StyledSelect
+          id="repeat"
+          name="repeat"
+          defaultValue={value?.repeat}
+          onChange={handleRepeat}
+        >
           <option value="none">Don&apos;t repeat</option>
           <option value="daily">Daily</option>
           <option value="weekly">Weekly</option>
           <option value="monthly">Monthly</option>
         </StyledSelect>
+        {showEndDate && (
+          <>
+            <StyledLabel htmlFor="endDate">Until:</StyledLabel>
+            <StyledDateInput
+              type="date"
+              id="endDate"
+              name="endDate"
+              min={formattedTodayDate}
+              defaultValue={value?.endDate || formattedTodayDate}
+              required
+            ></StyledDateInput>
+          </>
+        )}
 
         <StyledLabel htmlFor="assignedTo">Assign to:</StyledLabel>
         <Multiselect
