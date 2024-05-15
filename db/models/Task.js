@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import "./Category";
 import "./Member";
+import "./Comment";
 
 const { Schema } = mongoose;
 
@@ -14,6 +15,7 @@ const taskSchema = new Schema({
   groupId: { type: String },
   repeat: { type: String },
   endDate: { type: String },
+  comments: { type: [Schema.Types.ObjectId], ref: "Comment" },
 });
 
 const Task = mongoose.models.Task || mongoose.model("Task", taskSchema);

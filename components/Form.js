@@ -5,6 +5,7 @@ import Multiselect from "multiselect-react-dropdown";
 import Modal from "./Modal";
 import DeleteConfirmBox from "./DeleteConfirmBox";
 
+
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -21,7 +22,7 @@ const StyledHeading = styled.h2`
 `;
 
 const StyledLabel = styled.label`
-  font-size: 1.2rem;
+  font-size: 0.9rem;
 `;
 
 const StyledSpan = styled.span`
@@ -41,6 +42,7 @@ const StyledSelect = styled.select`
 const StyledDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  font-size: 0.9rem;
 `;
 
 export default function Form({
@@ -63,9 +65,7 @@ export default function Form({
   const [assignedTo, setAssignedTo] = useState(value?.assignedTo || []);
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
-
   const [taskToUpdate, setTaskToUpdate] = useState();
-
   const [showEndDate, setShowEndDate] = useState(value?.endDate);
 
   function handleTitleChange(event) {
