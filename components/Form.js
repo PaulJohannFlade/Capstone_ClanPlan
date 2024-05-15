@@ -168,6 +168,8 @@ export default function Form({
     const repeat = event.target.value;
     if (repeat === "monthly" || repeat === "weekly" || repeat === "daily") {
       setShowEndDate(true);
+    } else {
+      setShowEndDate(false);
     }
   }
 

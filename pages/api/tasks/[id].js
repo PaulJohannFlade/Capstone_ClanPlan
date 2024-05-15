@@ -1,6 +1,5 @@
 import dbConnect from "@/db/connect";
 import Task from "@/db/models/Task";
-import sortTaskAscendingOrder from "@/utils/sortTaskAscendingOrder";
 
 export default async function handler(request, response) {
   await dbConnect();
