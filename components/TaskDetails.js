@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import checkForToday from "@/utils/checkForToday";
 import checkForMissedDate from "@/utils/checkForMissedDate";
 import { toast } from "react-toastify";
-import ConfirmBox from "./DeleteConfirmBox";
+import DeleteConfirmBox from "./DeleteConfirmBox";
 
 const StyledArticle = styled.article`
   display: grid;
@@ -123,7 +123,7 @@ export default function TaskDetails({
     <>
       <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
         {showModal && (
-          <ConfirmBox
+          <DeleteConfirmBox
             setShowModal={setShowModal}
             onConfirm={() => handleDeleteTask(id)}
             onConfirmAll={() => handleDeleteAllTasks(id)}

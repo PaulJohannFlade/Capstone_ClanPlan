@@ -134,7 +134,6 @@ export default function Form({
   }
 
   function handleUpdateAllTasks() {
-    console.log("taskToUpdate ..", taskToUpdate);
     onAllTasksSubmit(taskToUpdate);
     setShowModal(false);
   }
