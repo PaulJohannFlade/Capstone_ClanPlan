@@ -80,9 +80,6 @@ export default function Form({
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    console.log("data : ", data);
-    console.log("due date type : ", typeof data.dueDate);
-
     if (value) {
       const assignedMembersIds = assignedTo.map((member) => member._id);
       if (
