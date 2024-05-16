@@ -57,7 +57,7 @@ export default function Form({
   showModal,
 }) {
   const [enteredTitle, setEnteredTitle] = useState(value?.title || "");
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const [allocatedMembers, setAllocatedMembers] = useState(
     allocatedMembersList || familyMembers
   );
@@ -65,13 +65,13 @@ export default function Form({
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
   const [taskToUpdate, setTaskToUpdate] = useState();
-  const [displayEndDate, setDisplayEndDate] = useState(value?.endDate);
-  const [isEndDateValid, setIsEndDateValid] = useState(false);
+  const [displayEndDate, setDisplayEndDate] = useState(false);
+  const [isEndDateValid, setIsEndDateValid] = useState(true);
   const [endDate, setEndDate] = useState(value?.endDate);
 
   function handleTitleChange(event) {
     setEnteredTitle(event.target.value);
-    setIsValid(false);
+    setIsValid(true);
   }
 
   function handleSubmit(event) {
@@ -99,7 +99,7 @@ export default function Form({
     }
 
     if (!data.title.trim()) {
-      setIsValid(true);
+      setIsValid(false);
       event.target.title.focus();
       return;
     }
@@ -111,7 +111,7 @@ export default function Form({
         data.repeat === "daily") &&
       !data.endDate
     ) {
-      setIsEndDateValid(true);
+      setIsEndDateValid(false);
       event.target.endDate.focus();
       return;
     }
@@ -190,7 +190,7 @@ export default function Form({
   }
   function handleEndDate(event) {
     setEndDate(event.target.value);
-    setIsEndDateValid(false);
+    setIsEndDateValid(true);
   }
 
   return (
@@ -215,7 +215,7 @@ export default function Form({
         <StyledHeading>{title}</StyledHeading>
         <StyledLabel htmlFor="title">
           <StyledSpan $left={true}>*</StyledSpan>Title:
-          {isValid && <StyledSpan>Please enter valid title!</StyledSpan>}
+          {!isValid && <StyledSpan>Please enter valid title!</StyledSpan>}
         </StyledLabel>
         <input
           type="text"
@@ -283,7 +283,9 @@ export default function Form({
           <>
             <StyledLabel htmlFor="endDate">
               Until:
-              {isEndDateValid && <StyledSpan>Please pick end date!</StyledSpan>}
+              {!isEndDateValid && (
+                <StyledSpan>Please pick end date!</StyledSpan>
+              )}
             </StyledLabel>
             <StyledDateInput
               type="date"
