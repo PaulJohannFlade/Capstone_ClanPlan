@@ -3,7 +3,7 @@ import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import Multiselect from "multiselect-react-dropdown";
 import Modal from "./Modal";
-import DeleteConfirmBox from "./DeleteConfirmBox";
+import ConfirmBox from "./ConfirmBox";
 
 const StyledForm = styled.form`
   display: flex;
@@ -68,6 +68,20 @@ export default function Form({
   const [displayEndDate, setDisplayEndDate] = useState(false);
   const [isEndDateValid, setIsEndDateValid] = useState(true);
   const [endDate, setEndDate] = useState(value?.endDate);
+
+  const date = new Date(value?.dueDate);
+
+  const firstDay =
+    value?.dueDate &&
+    new Date(date.getFullYear(), date.getMonth(), 2)
+      .toISOString()
+      .substring(0, 10);
+
+  const lastDay =
+    value?.dueDate &&
+    new Date(date.getFullYear(), date.getMonth() + 1, 1)
+      .toISOString()
+      .substring(0, 10);
 
   function handleTitleChange(event) {
     setEnteredTitle(event.target.value);
@@ -200,7 +214,7 @@ export default function Form({
     <>
       {showModal && isEdit && (
         <Modal $top="13.5rem" setShowModal={setShowModal} $open={true}>
-          <DeleteConfirmBox
+          <ConfirmBox
             setShowModal={setShowModal}
             onConfirm={handleUpdateOneTask}
             onConfirmAll={handleUpdateAllTasks}
@@ -266,7 +280,21 @@ export default function Form({
           type="date"
           id="dueDate"
           name="dueDate"
-          min={formattedTodayDate}
+          min={
+            isEdit &&
+            (value?.repeat.includes("monthly") ||
+              value?.repeat.includes("weekly") ||
+              value?.repeat.includes("daily"))
+              ? firstDay
+              : formattedTodayDate
+          }
+          max={
+            isEdit &&
+            (value?.repeat.includes("monthly") ||
+              value?.repeat.includes("weekly") ||
+              value?.repeat.includes("daily")) &&
+            lastDay
+          }
           defaultValue={value?.dueDate || formattedTodayDate}
         ></StyledDateInput>
 

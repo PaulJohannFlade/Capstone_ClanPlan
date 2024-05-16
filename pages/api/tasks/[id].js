@@ -5,7 +5,7 @@ import convertDateToString from "@/utils/convertDateToString";
 
 export default async function handler(request, response) {
   await dbConnect();
-  const { id, deleteAll, updateAll } = request.query;
+  const { id, deleteRequest, updateAll } = request.query;
 
   if (request.method === "GET") {
     const task = await Task.findById(id)
@@ -90,17 +90,33 @@ export default async function handler(request, response) {
     response.status(200).json({ status: "Task updated successfully." });
   }
 
+  async function deleteComments(tasksToDelete) {
+    const commentIdsToDelete = [];
+    for (const task of tasksToDelete) {
+      commentIdsToDelete.push(...task.comments);
+    }
+    await Comment.deleteMany({ _id: { $in: commentIdsToDelete } });
+  }
+
   if (request.method === "DELETE") {
-    if (deleteAll === "true") {
+    if (deleteRequest === "all") {
       const task = await Task.findById(id);
       const groupId = task?.groupId;
       const tasksToDelete = await Task.find({ groupId: groupId });
-      const commentIdsToDelete = [];
-      for (const task of tasksToDelete) {
-        commentIdsToDelete.push(...task.comments);
-      }
-      await Comment.deleteMany({ _id: { $in: commentIdsToDelete } });
+      deleteComments(tasksToDelete);
       await Task.deleteMany({ groupId: groupId });
+      response.status(200).json({ status: "Tasks deleted successfully." });
+    } else if (deleteRequest === "futher") {
+      const task = await Task.findById(id);
+      const futherTasksToDelete = await Task.find({
+        groupId: task.groupId,
+        dueDate: { $gte: task.dueDate },
+      });
+      deleteComments(futherTasksToDelete);
+      await Task.deleteMany({
+        groupId: task.groupId,
+        dueDate: { $gte: task.dueDate },
+      });
       response.status(200).json({ status: "Tasks deleted successfully." });
     } else {
       const task = await Task.findById(id);
