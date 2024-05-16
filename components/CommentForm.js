@@ -30,7 +30,7 @@ const StyledSendButton = styled(StyledButton)`
   margin-top: 0.5rem;
 `;
 
-export default function CommentForm({ taskId, onAddComment }) {
+export default function CommentForm({ taskId, onUpdateComment }) {
   const [isValidMessage, setIsValidMessage] = useState(true);
 
   async function handleSubmit(event) {
@@ -61,7 +61,7 @@ export default function CommentForm({ taskId, onAddComment }) {
       }
     );
     if (response.ok) {
-      onAddComment();
+      onUpdateComment();
       event.target.reset();
       event.target.message.focus();
     }

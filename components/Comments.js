@@ -4,6 +4,8 @@ import StyledPen from "./StyledPen";
 import StyledTrash from "./StyledTrash";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import Modal from "./Modal";
+import DeleteConfirmBox from "./DeleteConfirmBox";
 
 const StyledList = styled.ul`
   list-style: none;
@@ -40,10 +42,18 @@ const StyledSpan = styled.span`
   color: red;
 `;
 
-export default function Comments({ comments, onEditComment }) {
-  // const [isEditMode, setIsEditMode] = useState(false);
+export default function Comments({
+  comments,
+  onUpdateComment,
+  showModal,
+  setShowModal,
+  modalMode,
+  onChangeModalMode,
+  taskId,
+}) {
   const [isValidMessage, setIsValidMessage] = useState(true);
   const [commentIdToEdit, setCommentIdToEdit] = useState("");
+  const [commentIdToDelete, setCommentIdToDelete] = useState("");
 
   function formatDate(date) {
     const options = {
@@ -103,51 +113,94 @@ export default function Comments({ comments, onEditComment }) {
     );
     if (response.ok) {
       setCommentIdToEdit("");
-      onEditComment();
+      onUpdateComment();
+    }
+  }
+
+  function handleCommentTrashClick(commentId) {
+    onChangeModalMode("delete-comment");
+    setShowModal(true);
+    setCommentIdToDelete(commentId);
+  }
+
+  async function handleDeleteComment(commentId) {
+    const response = await toast.promise(
+      fetch("/api/comments", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ commentId, taskId }),
+      }),
+      {
+        pending: "Comment deletion is pending",
+        success: "Comment deleted successfully",
+        error: "Comment not deleted",
+      }
+    );
+    if (response.ok) {
+      onUpdateComment();
+      setShowModal(false);
     }
   }
 
   return (
-    <StyledList>
-      {comments?.map((comment) => (
-        <StyledListItems key={comment._id}>
-          <StyledPen
-            $small={true}
-            onClick={() => handlePenClick(comment._id)}
+    <>
+      <StyledList>
+        {comments?.map((comment) => (
+          <StyledListItems key={comment._id}>
+            <StyledPen
+              $small={true}
+              onClick={() => handlePenClick(comment._id)}
+            />
+            <StyledTrash
+              $small={true}
+              onClick={() => handleCommentTrashClick(comment._id)}
+            />
+            <StyledDate>
+              {comment.updatedDate
+                ? `Updated: ${formatDate(comment.updatedDate)}`
+                : formatDate(comment.date)}
+            </StyledDate>
+            {commentIdToEdit !== comment._id && (
+              <StyledMessage>{comment.message}</StyledMessage>
+            )}
+            {commentIdToEdit === comment._id && (
+              <form onSubmit={() => handleSubmit(event, comment)}>
+                {!isValidMessage && (
+                  <StyledSpan>Please enter your message!</StyledSpan>
+                )}
+                <textarea
+                  aria-label="message"
+                  name="message"
+                  maxLength={200}
+                  defaultValue={comment.message}
+                  rows={Math.ceil(comment.message.length / 28)}
+                  cols="28"
+                ></textarea>
+                <StyledButton type="button" onClick={handleCancelEdit}>
+                  Cancel
+                </StyledButton>
+                <StyledButton type="submit">Update</StyledButton>
+              </form>
+            )}
+          </StyledListItems>
+        ))}
+      </StyledList>
+      <Modal
+        $top="12rem"
+        setShowModal={setShowModal}
+        $open={showModal && modalMode === "delete-comment"}
+      >
+        {showModal && modalMode === "delete-comment" && (
+          <DeleteConfirmBox
+            setShowModal={setShowModal}
+            onConfirm={handleDeleteComment}
+            id={commentIdToDelete}
+            message="Are you sure you want to delete this comment?"
           />
-          <StyledTrash
-            $small={true}
-            onClick={() => handleTrashClick(comment._id)}
-          />
-          <StyledDate>
-            {comment.updatedDate
-              ? `Updated: ${formatDate(comment.updatedDate)}`
-              : formatDate(comment.date)}
-          </StyledDate>
-          {commentIdToEdit !== comment._id && (
-            <StyledMessage>{comment.message}</StyledMessage>
-          )}
-          {commentIdToEdit === comment._id && (
-            <form onSubmit={() => handleSubmit(event, comment)}>
-              {!isValidMessage && (
-                <StyledSpan>Please enter your message!</StyledSpan>
-              )}
-              <textarea
-                aria-label="message"
-                name="message"
-                maxLength={200}
-                defaultValue={comment.message}
-                rows={Math.ceil(comment.message.length / 28)}
-                cols="28"
-              ></textarea>
-              <StyledButton type="button" onClick={handleCancelEdit}>
-                Cancel
-              </StyledButton>
-              <StyledButton type="submit">Update</StyledButton>
-            </form>
-          )}
-        </StyledListItems>
-      ))}
-    </StyledList>
+        )}
+      </Modal>
+    </>
   );
 }

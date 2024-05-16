@@ -71,6 +71,8 @@ export default function TaskDetails({
   setShowModal,
   onCheckboxChange,
   detailsBackLinkRef,
+  modalMode,
+  onChangeModalMode,
 }) {
   const {
     title,
@@ -120,14 +122,23 @@ export default function TaskDetails({
     }
   }
 
+  function handleTaskTrashClick() {
+    onChangeModalMode("delete-task");
+    setShowModal(true);
+  }
+
   return (
     <>
-      <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
-        {showModal && (
+      <Modal
+        $top="13.5rem"
+        setShowModal={setShowModal}
+        $open={showModal && modalMode === "delete-task"}
+      >
+        {showModal && modalMode === "delete-task" && (
           <DeleteConfirmBox
             setShowModal={setShowModal}
-            onConfirm={() => handleDeleteTask(id)}
-            onConfirmAll={() => handleDeleteAllTasks(id)}
+            onConfirm={handleDeleteTask}
+            onConfirmAll={handleDeleteAllTasks}
             id={id}
             groupId={groupId}
             message={
@@ -140,7 +151,7 @@ export default function TaskDetails({
       </Modal>
 
       <StyledSection $isDone={isDone}>
-        <StyledTrash onClick={() => setShowModal(true)} />
+        <StyledTrash onClick={handleTaskTrashClick} />
         <StyledLink href={`/tasks/${id}/edit`}>
           <StyledPen />
         </StyledLink>

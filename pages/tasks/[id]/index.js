@@ -8,6 +8,7 @@ import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import CommentForm from "@/components/CommentForm";
 import Comments from "@/components/Comments";
+import { useState } from "react";
 
 const StyledMessage = styled.p`
   text-align: center;
@@ -35,6 +36,7 @@ export default function DetailsPage({
   setShowModal,
   detailsBackLinkRef,
 }) {
+  const [modalMode, setModalMode] = useState("");
   const router = useRouter();
   const { id } = router.query;
 
@@ -48,7 +50,11 @@ export default function DetailsPage({
     return;
   }
 
-  async function handleSubmitComment() {
+  function handleChangeModalMode(mode) {
+    setModalMode(mode);
+  }
+
+  async function handleUpdateComment() {
     mutate();
   }
 
@@ -87,13 +93,20 @@ export default function DetailsPage({
             setShowModal={setShowModal}
             onCheckboxChange={handleCheckboxChange}
             detailsBackLinkRef={detailsBackLinkRef}
+            modalMode={modalMode}
+            onChangeModalMode={handleChangeModalMode}
           />
           <StyledSection>
             <StyledHeading>Comments</StyledHeading>
-            <CommentForm taskId={id} onAddComment={handleSubmitComment} />
+            <CommentForm taskId={id} onUpdateComment={handleUpdateComment} />
             <Comments
+              showModal={showModal}
+              setShowModal={setShowModal}
               comments={task.comments}
-              onEditComment={handleSubmitComment}
+              onUpdateComment={handleUpdateComment}
+              modalMode={modalMode}
+              onChangeModalMode={handleChangeModalMode}
+              taskId={id}
             />
             {!task.comments?.length && (
               <StyledMessage>No comments added.</StyledMessage>
