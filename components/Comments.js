@@ -6,6 +6,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import Modal from "./Modal";
 import DeleteConfirmBox from "./DeleteConfirmBox";
+import CommentForm from "./CommentForm";
 
 const StyledList = styled.ul`
   list-style: none;
@@ -33,10 +34,6 @@ const StyledDate = styled.p`
   margin-bottom: 0.5rem;
 `;
 
-const StyledMessage = styled.p`
-  font-size: 1.2rem;
-`;
-
 const StyledSpan = styled.span`
   font-size: 0.9rem;
   color: red;
@@ -52,7 +49,7 @@ export default function Comments({
   taskId,
 }) {
   const [isValidMessage, setIsValidMessage] = useState(true);
-  const [commentIdToEdit, setCommentIdToEdit] = useState("");
+  const [commentToEdit, setCommentToEdit] = useState(null);
   const [commentIdToDelete, setCommentIdToDelete] = useState("");
 
   function formatDate(date) {
@@ -66,21 +63,21 @@ export default function Comments({
     return new Date(date).toLocaleString("us-US", options);
   }
 
-  function handlePenClick(commentId) {
+  function handlePenClick(comment) {
     setIsValidMessage(true);
-    setCommentIdToEdit(commentId);
+    setCommentToEdit(comment);
   }
 
   function handleCancelEdit() {
-    setCommentIdToEdit("");
+    setCommentToEdit(null);
   }
 
-  async function handleSubmit(event, comment) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
     const commentData = {
-      ...comment,
+      ...commentToEdit,
       message: data.message.trim(),
       updatedDate: new Date(),
     };
@@ -92,7 +89,7 @@ export default function Comments({
       setIsValidMessage(true);
     }
 
-    if (data.message.trim() === comment.message) {
+    if (data.message.trim() === commentToEdit.message) {
       alert("No changes were made to the form.");
       return;
     }
@@ -112,7 +109,7 @@ export default function Comments({
       }
     );
     if (response.ok) {
-      setCommentIdToEdit("");
+      setCommentToEdit(null);
       onUpdateComment();
     }
   }
@@ -149,10 +146,7 @@ export default function Comments({
       <StyledList>
         {comments?.map((comment) => (
           <StyledListItems key={comment._id}>
-            <StyledPen
-              $small={true}
-              onClick={() => handlePenClick(comment._id)}
-            />
+            <StyledPen $small={true} onClick={() => handlePenClick(comment)} />
             <StyledTrash
               $small={true}
               onClick={() => handleCommentTrashClick(comment._id)}
@@ -162,11 +156,9 @@ export default function Comments({
                 ? `Updated: ${formatDate(comment.updatedDate)}`
                 : formatDate(comment.date)}
             </StyledDate>
-            {commentIdToEdit !== comment._id && (
-              <StyledMessage>{comment.message}</StyledMessage>
-            )}
-            {commentIdToEdit === comment._id && (
-              <form onSubmit={() => handleSubmit(event, comment)}>
+            {commentToEdit?._id !== comment._id && <p>{comment.message}</p>}
+            {commentToEdit?._id === comment._id && (
+              <form onSubmit={handleSubmit}>
                 {!isValidMessage && (
                   <StyledSpan>Please enter your message!</StyledSpan>
                 )}
