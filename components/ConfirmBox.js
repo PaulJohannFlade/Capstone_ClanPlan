@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
+import CloseButton from "./CloseButton";
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: center;
-  gap: 2rem;
+  gap: 0.5rem;
 `;
 
 const StyledSection = styled.section`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin: 1rem;
+  margin: 1rem 0.2rem;
   padding: 1rem;
   border-radius: 1rem;
 `;
@@ -22,26 +22,32 @@ const StyledParagraph = styled.p`
   text-align: center;
 `;
 
-export default function DeleteConfirmBox({
+export default function ConfirmBox({
   setShowModal,
   onConfirm,
   id,
   message,
-  onConfirmAll,
+  onConfirmAllTasks,
+  onConfirmFutherTasks,
   groupId,
 }) {
   return (
     <StyledSection>
+      <CloseButton setShowModal={setShowModal} />
       <StyledParagraph>{message}</StyledParagraph>
       <ButtonContainer>
-        <StyledButton onClick={() => setShowModal(false)}>No</StyledButton>
         <StyledButton onClick={() => onConfirm(id)}>
           {groupId ? "This task" : "Yes"}
         </StyledButton>
         {groupId && (
-          <StyledButton onClick={() => onConfirmAll(id)}>
-            All occurrence
-          </StyledButton>
+          <>
+            <StyledButton onClick={() => onConfirmFutherTasks(id)}>
+              Futher tasks
+            </StyledButton>
+            <StyledButton onClick={() => onConfirmAllTasks(id)}>
+              All tasks
+            </StyledButton>
+          </>
         )}
       </ButtonContainer>
     </StyledSection>

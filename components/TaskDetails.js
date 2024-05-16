@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import checkForToday from "@/utils/checkForToday";
 import checkForMissedDate from "@/utils/checkForMissedDate";
 import { toast } from "react-toastify";
-import DeleteConfirmBox from "./DeleteConfirmBox";
+import ConfirmBox from "./ConfirmBox";
 
 const StyledArticle = styled.article`
   display: grid;
@@ -88,7 +88,7 @@ export default function TaskDetails({
 
   async function handleDeleteTask(id) {
     const response = await toast.promise(
-      fetch(`/api/tasks/${id}?deleteAll=false`, {
+      fetch(`/api/tasks/${id}?deleteRequest=single`, {
         method: "DELETE",
       }),
       {
@@ -104,7 +104,24 @@ export default function TaskDetails({
   }
   async function handleDeleteAllTasks(id) {
     const response = await toast.promise(
-      fetch(`/api/tasks/${id}?deleteAll=true`, {
+      fetch(`/api/tasks/${id}?deleteRequest=all`, {
+        method: "DELETE",
+      }),
+      {
+        pending: "Recurring Tasks deletion is pending",
+        success: "Recurring Tasks deleted successfully",
+        error: "Recurring Tasks not deleted",
+      }
+    );
+    if (response.ok) {
+      router.push(detailsBackLinkRef);
+      setShowModal(false);
+    }
+  }
+
+  async function handleDeleteFutherTasks() {
+    const response = await toast.promise(
+      fetch(`/api/tasks/${id}?deleteRequest=futher`, {
         method: "DELETE",
       }),
       {
@@ -123,10 +140,11 @@ export default function TaskDetails({
     <>
       <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
         {showModal && (
-          <DeleteConfirmBox
+          <ConfirmBox
             setShowModal={setShowModal}
             onConfirm={() => handleDeleteTask(id)}
-            onConfirmAll={() => handleDeleteAllTasks(id)}
+            onConfirmFutherTasks={() => handleDeleteFutherTasks(id)}
+            onConfirmAllTasks={() => handleDeleteAllTasks(id)}
             id={id}
             groupId={groupId}
             message={
