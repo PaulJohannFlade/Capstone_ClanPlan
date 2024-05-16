@@ -102,26 +102,11 @@ export default function TaskDetails({
       setShowModal(false);
     }
   }
-  async function handleDeleteAllTasks(id) {
-    const response = await toast.promise(
-      fetch(`/api/tasks/${id}?deleteRequest=all`, {
-        method: "DELETE",
-      }),
-      {
-        pending: "Recurring Tasks deletion is pending",
-        success: "Recurring Tasks deleted successfully",
-        error: "Recurring Tasks not deleted",
-      }
-    );
-    if (response.ok) {
-      router.push(detailsBackLinkRef);
-      setShowModal(false);
-    }
-  }
 
-  async function handleDeleteFutherTasks() {
+  async function handleDeleteTasks(actionObject) {
+    const { id, action } = actionObject;
     const response = await toast.promise(
-      fetch(`/api/tasks/${id}?deleteRequest=futher`, {
+      fetch(`/api/tasks/${id}?deleteRequest=${action}`, {
         method: "DELETE",
       }),
       {
@@ -143,8 +128,10 @@ export default function TaskDetails({
           <ConfirmBox
             setShowModal={setShowModal}
             onConfirm={() => handleDeleteTask(id)}
-            onConfirmFutherTasks={() => handleDeleteFutherTasks(id)}
-            onConfirmAllTasks={() => handleDeleteAllTasks(id)}
+            onConfirmFutherTasks={() =>
+              handleDeleteTasks({ id, action: "future" })
+            }
+            onConfirmAllTasks={() => handleDeleteTasks({ id, action: "all" })}
             id={id}
             groupId={groupId}
             message={

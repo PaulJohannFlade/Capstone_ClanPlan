@@ -5,7 +5,7 @@ import convertDateToString from "@/utils/convertDateToString";
 
 export default async function handler(request, response) {
   await dbConnect();
-  const { id, deleteRequest, updateAll } = request.query;
+  const { id, deleteRequest, updateRequest } = request.query;
 
   if (request.method === "GET") {
     const task = await Task.findById(id)
@@ -25,7 +25,7 @@ export default async function handler(request, response) {
 
   if (request.method === "PUT") {
     const updatedTask = request.body;
-    if (updateAll === "true") {
+    if (updateRequest === "all") {
       const tasks = await Task.find({ groupId: updatedTask.groupId }).sort({
         dueDate: 1,
       });
@@ -78,6 +78,7 @@ export default async function handler(request, response) {
         }
       }
       response.status(200).json({ status: "Tasks updated successfully." });
+    } else if (updateRequest === "future") {
     } else {
       await Task.findByIdAndUpdate(id, updatedTask);
       response.status(200).json({ status: "Task updated successfully." });
@@ -106,7 +107,7 @@ export default async function handler(request, response) {
       deleteComments(tasksToDelete);
       await Task.deleteMany({ groupId: groupId });
       response.status(200).json({ status: "Tasks deleted successfully." });
-    } else if (deleteRequest === "futher") {
+    } else if (deleteRequest === "future") {
       const task = await Task.findById(id);
       const futherTasksToDelete = await Task.find({
         groupId: task.groupId,
