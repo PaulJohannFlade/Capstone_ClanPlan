@@ -178,7 +178,7 @@ export default function HomePage({
         <StyledMessage>
           <span>Relax!</span>
           <br />
-          <span>No tasks for today</span>
+          <span>No Tasks for today.</span>
         </StyledMessage>
       )}
       {!filteredTasks.length && isFilterSet && (

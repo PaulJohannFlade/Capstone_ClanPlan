@@ -5,12 +5,12 @@ import UpArrow from "@/public/assets/images/up-arrow.svg";
 import StyledTrash from "./StyledTrash";
 import Modal from "./Modal";
 import DeleteConfirmBox from "./DeleteConfirmBox";
-import Pen from "@/public/assets/images/edit-pen-icon.svg";
 import StyledButton from "./StyledButton";
 import CategoryForm from "./CategoryForm";
 import useSWR from "swr";
 import StyledLoadingAnimation from "./StyledLoadingAnimation";
 import { toast } from "react-toastify";
+import StyledPen from "./StyledPen";
 
 const StyledList = styled.ul`
   display: flex;
@@ -40,18 +40,6 @@ const StyledListOfMembers = styled.ul`
 
 const StyledMemberItem = styled.li`
   text-align: left;
-`;
-
-const StyledPen = styled(Pen)`
-  width: 1.5rem;
-  position: absolute;
-  top: 15px;
-  right: 60px;
-  fill: var(--color-font);
-  &:hover {
-    cursor: pointer;
-    opacity: 0.5;
-  }
 `;
 
 const StyleHeading = styled.h3`

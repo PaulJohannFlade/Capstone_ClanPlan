@@ -25,4 +25,15 @@ export default async function handler(request, response) {
       return response.status(400).json({ error: error.message });
     }
   }
+
+  if (request.method === "PUT") {
+    try {
+      const commentData = request.body;
+      await Comment.findByIdAndUpdate(commentData._id, commentData);
+      response.status(200).json({ status: "Comment updated successfully." });
+    } catch (error) {
+      console.error(error);
+      return response.status(400).json({ error: error.message });
+    }
+  }
 }

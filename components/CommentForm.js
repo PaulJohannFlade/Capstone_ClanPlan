@@ -77,7 +77,7 @@ export default function CommentForm({ taskId, onAddComment }) {
         name="message"
         id="message"
         rows="2"
-        cols="50"
+        cols="28"
         maxLength="200"
       ></textarea>
       <StyledSendButton>Send</StyledSendButton>

@@ -11,7 +11,7 @@ export default async function handler(request, response) {
       .populate("category")
       .populate("assignedTo");
 
-    if (task.comments) {
+    if (task?.comments) {
       await task.populate("comments");
     }
 

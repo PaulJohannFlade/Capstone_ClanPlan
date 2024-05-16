@@ -119,7 +119,7 @@ export default function TaskDetails({
       setShowModal(false);
     }
   }
-  console.log(priority);
+
   return (
     <>
       <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>

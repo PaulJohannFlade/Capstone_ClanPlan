@@ -48,7 +48,7 @@ export default function DetailsPage({
     return;
   }
 
-  async function handleAddComment() {
+  async function handleSubmitComment() {
     mutate();
   }
 
@@ -90,8 +90,11 @@ export default function DetailsPage({
           />
           <StyledSection>
             <StyledHeading>Comments</StyledHeading>
-            <CommentForm taskId={id} onAddComment={handleAddComment} />
-            <Comments comments={task.comments} />
+            <CommentForm taskId={id} onAddComment={handleSubmitComment} />
+            <Comments
+              comments={task.comments}
+              onEditComment={handleSubmitComment}
+            />
             {!task.comments?.length && (
               <StyledMessage>No comments added.</StyledMessage>
             )}
