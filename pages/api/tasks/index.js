@@ -7,7 +7,7 @@ export default async function handler(request, response) {
   await dbConnect();
 
   if (request.method === "GET") {
-    const tasks = await Task.find().populate("category");
+    const tasks = await Task.find().populate("category").sort({ dueDate: 1 });
     return response.status(200).json(tasks);
   }
 

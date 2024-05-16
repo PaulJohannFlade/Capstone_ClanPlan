@@ -2,7 +2,6 @@ import dbConnect from "@/db/connect";
 import Comment from "@/db/models/Comment";
 import Task from "@/db/models/Task";
 import convertDateToString from "@/utils/convertDateToString";
-import sortTaskAscendingOrder from "@/utils/sortTaskAscendingOrder";
 
 export default async function handler(request, response) {
   await dbConnect();
@@ -27,10 +26,11 @@ export default async function handler(request, response) {
   if (request.method === "PUT") {
     const updatedTask = request.body;
     if (updateAll === "true") {
-      const tasks = await Task.find({ groupId: updatedTask.groupId });
-      const tasksSorted = sortTaskAscendingOrder(tasks);
-      const startDate = new Date(tasksSorted[0].dueDate);
-      const endDate = new Date(tasksSorted[tasksSorted.length - 1].dueDate);
+      const tasks = await Task.find({ groupId: updatedTask.groupId }).sort({
+        dueDate: 1,
+      });
+      const startDate = new Date(tasks[0].dueDate);
+      const endDate = new Date(updatedTask.endDate);
 
       if (tasks && tasks.length > 0) {
         await Task.deleteMany({ groupId: updatedTask.groupId });

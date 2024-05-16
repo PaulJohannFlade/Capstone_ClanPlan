@@ -125,6 +125,8 @@ export default function Form({
         assignedTo,
         isDone: value.isDone,
         category: data.category === "" ? null : data.category,
+        endDate: value.endDate,
+        startDate: value.startDate,
       };
 
       if (value?.groupId) {
@@ -139,6 +141,7 @@ export default function Form({
         title: data.title.trim(),
         assignedTo,
         category: data.category === "" ? null : data.category,
+        startDate: data.dueDate,
       });
     }
   }
