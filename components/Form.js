@@ -80,6 +80,9 @@ export default function Form({
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
+    console.log("data : ", data);
+    console.log("due date type : ", typeof data.dueDate);
+
     if (value) {
       const assignedMembersIds = assignedTo.map((member) => member._id);
       if (
@@ -105,6 +108,7 @@ export default function Form({
     }
 
     if (
+      !isEdit &&
       (data.repeat === "monthly" ||
         data.repeat === "weekly" ||
         data.repeat === "daily") &&
@@ -278,7 +282,7 @@ export default function Form({
           <option value="weekly">Weekly</option>
           <option value="monthly">Monthly</option>
         </StyledSelect>
-        {displayEndDate && (
+        {!isEdit && displayEndDate && (
           <>
             <StyledLabel htmlFor="endDate">
               Until:

@@ -2,6 +2,7 @@ import dbConnect from "@/db/connect";
 import Comment from "@/db/models/Comment";
 import Task from "@/db/models/Task";
 import convertDateToString from "@/utils/convertDateToString";
+import sortTaskAscendingOrder from "@/utils/sortTaskAscendingOrder";
 
 export default async function handler(request, response) {
   await dbConnect();
@@ -25,14 +26,15 @@ export default async function handler(request, response) {
 
   if (request.method === "PUT") {
     const updatedTask = request.body;
-
     if (updateAll === "true") {
-      const endDate = new Date(updatedTask.endDate);
-      const startDate = new Date(updatedTask.dueDate);
+      const tasks = await Task.find({ groupId: updatedTask.groupId });
+      const tasksSorted = sortTaskAscendingOrder(tasks);
+      const startDate = new Date(tasksSorted[0].dueDate);
+      const endDate = new Date(tasksSorted[tasksSorted.length - 1].dueDate);
 
-      const task = await Task.findById(id);
-      const groupId = task?.groupId;
-      await Task.deleteMany({ groupId: groupId });
+      if (tasks && tasks.length > 0) {
+        await Task.deleteMany({ groupId: updatedTask.groupId });
+      }
 
       if (updatedTask.repeat === "monthly") {
         const nextMonthDueDate = new Date(
@@ -61,18 +63,16 @@ export default async function handler(request, response) {
           nextMonthDueDate.setMonth(nextMonthDueDate.getMonth() + 1);
         }
       } else if (updatedTask.repeat === "weekly") {
-        const nextWeekDueDate = new Date(updatedTask.dueDate);
+        const nextWeekDueDate = startDate;
         while (nextWeekDueDate <= endDate) {
           updatedTask.dueDate = convertDateToString(nextWeekDueDate);
-          updatedTask.groupId = groupId;
           await Task.create(updatedTask);
           nextWeekDueDate.setDate(nextWeekDueDate.getDate() + 7);
         }
       } else if (updatedTask.repeat === "daily") {
-        const nextDayDueDate = new Date(updatedTask.dueDate);
+        const nextDayDueDate = startDate;
         while (nextDayDueDate <= endDate) {
           updatedTask.dueDate = convertDateToString(nextDayDueDate);
-          updatedTask.groupId = groupId;
           await Task.create(updatedTask);
           nextDayDueDate.setDate(nextDayDueDate.getDate() + 1);
         }
