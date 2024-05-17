@@ -46,7 +46,7 @@ const StyledDiv = styled.div`
 
 export default function Form({
   onTaskSubmit,
-  onAllTasksSubmit,
+  onTasksSubmit,
   title,
   value,
   isEdit,
@@ -165,8 +165,8 @@ export default function Form({
     setShowModal(false);
   }
 
-  function handleUpdateAllTasks() {
-    onAllTasksSubmit(taskToUpdate);
+  function handleUpdateTasks(action) {
+    onTasksSubmit(taskToUpdate, action);
     setShowModal(false);
   }
 
@@ -217,7 +217,8 @@ export default function Form({
           <ConfirmBox
             setShowModal={setShowModal}
             onConfirm={handleUpdateOneTask}
-            onConfirmAll={handleUpdateAllTasks}
+            onConfirmFutherTasks={() => handleUpdateTasks("future")}
+            onConfirmAllTasks={() => handleUpdateTasks("all")}
             id={value._id}
             groupId={value.groupId}
             message={

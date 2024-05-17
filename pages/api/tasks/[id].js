@@ -25,15 +25,30 @@ export default async function handler(request, response) {
 
   if (request.method === "PUT") {
     const updatedTask = request.body;
-    if (updateRequest === "all") {
-      const tasks = await Task.find({ groupId: updatedTask.groupId }).sort({
+    if (updateRequest === "all" || updateRequest === "future") {
+      const tasks = await Task.find({
+        groupId: updatedTask.groupId,
+        isDone: { $ne: true },
+      }).sort({
         dueDate: 1,
       });
-      const startDate = new Date(tasks[0].dueDate);
+      const startDate =
+        updateRequest === "future"
+          ? new Date(updatedTask.dueDate)
+          : new Date(tasks[0].dueDate);
       const endDate = new Date(updatedTask.endDate);
 
       if (tasks && tasks.length > 0) {
-        await Task.deleteMany({ groupId: updatedTask.groupId });
+        updateRequest === "future"
+          ? await Task.deleteMany({
+              groupId: updatedTask.groupId,
+              dueDate: { $gte: updatedTask.dueDate },
+              isDone: { $ne: true },
+            })
+          : await Task.deleteMany({
+              groupId: updatedTask.groupId,
+              isDone: { $ne: true },
+            });
       }
 
       if (updatedTask.repeat === "monthly") {
@@ -49,7 +64,14 @@ export default async function handler(request, response) {
             nextMonthDueDate.getMonth() + 1,
             0
           ).getDate();
-          if (currentDay <= dayInMonth) {
+          if (
+            currentDay <= dayInMonth &&
+            new Date(
+              nextMonthDueDate.getFullYear(),
+              nextMonthDueDate.getMonth(),
+              currentDay
+            ) <= endDate
+          ) {
             updatedTask.dueDate = convertDateToString(
               new Date(
                 nextMonthDueDate.getFullYear(),
