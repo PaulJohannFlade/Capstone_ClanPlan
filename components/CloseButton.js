@@ -3,7 +3,6 @@ import Close from "@/public/assets/images/close-icon.svg";
 
 const StyledClose = styled(Close)`
   width: 2rem;
-  width: 2.3rem;
   position: absolute;
   top: 1rem;
   right: 1rem;
