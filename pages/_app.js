@@ -78,11 +78,6 @@ export default function App({ Component, pageProps }) {
     setFilters({});
   }
 
-  // Sorting the task in chronological order of date
-  const tasksAfterSorting = tasks.sort(
-    (a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate)
-  );
-
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <Layout isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme}>
@@ -102,7 +97,7 @@ export default function App({ Component, pageProps }) {
           />
           <Component
             {...pageProps}
-            tasks={tasksAfterSorting}
+            tasks={tasks}
             familyMembers={familyMembers}
             setShowModal={setShowModal}
             showModal={showModal}

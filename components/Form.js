@@ -2,6 +2,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import Multiselect from "multiselect-react-dropdown";
+import Modal from "./Modal";
+import DeleteConfirmBox from "./DeleteConfirmBox";
 
 const StyledForm = styled.form`
   display: flex;
@@ -44,24 +46,32 @@ const StyledDiv = styled.div`
 
 export default function Form({
   onTaskSubmit,
+  onAllTasksSubmit,
   title,
   value,
   isEdit,
   allocatedMembersList,
   categories,
   familyMembers,
+  setShowModal,
+  showModal,
 }) {
   const [enteredTitle, setEnteredTitle] = useState(value?.title || "");
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const [allocatedMembers, setAllocatedMembers] = useState(
     allocatedMembersList || familyMembers
   );
   const [assignedTo, setAssignedTo] = useState(value?.assignedTo || []);
 
   const formattedTodayDate = new Date().toISOString().substring(0, 10);
+  const [taskToUpdate, setTaskToUpdate] = useState();
+  const [displayEndDate, setDisplayEndDate] = useState(false);
+  const [isEndDateValid, setIsEndDateValid] = useState(true);
+  const [endDate, setEndDate] = useState(value?.endDate);
 
   function handleTitleChange(event) {
     setEnteredTitle(event.target.value);
+    setIsValid(true);
   }
 
   function handleSubmit(event) {
@@ -79,6 +89,8 @@ export default function Form({
         data.dueDate === value.dueDate &&
         data.priority === value.priority &&
         assignedTo.length === value.assignedTo.length &&
+        data.repeat === value.repeat &&
+        data.endDate === value.endDate &&
         assignedTo.every((member) => assignedMembersIds.includes(member._id))
       ) {
         alert("No changes were made to the form.");
@@ -87,29 +99,61 @@ export default function Form({
     }
 
     if (!data.title.trim()) {
-      setIsValid(true);
+      setIsValid(false);
       event.target.title.focus();
       return;
     }
 
+    if (
+      !isEdit &&
+      (data.repeat === "monthly" ||
+        data.repeat === "weekly" ||
+        data.repeat === "daily") &&
+      !data.endDate
+    ) {
+      setIsEndDateValid(false);
+      event.target.endDate.focus();
+      return;
+    }
+
     if (isEdit) {
-      onTaskSubmit({
+      const updatedTask = {
         ...data,
         title: data.title.trim(),
-        id: value.id,
+        id: value._id,
         groupId: value.groupId,
         assignedTo,
         isDone: value.isDone,
         category: data.category === "" ? null : data.category,
-      });
+        endDate: value.endDate,
+        startDate: value.startDate,
+      };
+
+      if (value?.groupId) {
+        setShowModal(true);
+        setTaskToUpdate(updatedTask);
+      } else {
+        onTaskSubmit(updatedTask);
+      }
     } else {
       onTaskSubmit({
         ...data,
         title: data.title.trim(),
         assignedTo,
         category: data.category === "" ? null : data.category,
+        startDate: data.dueDate,
       });
     }
+  }
+
+  function handleUpdateOneTask() {
+    onTaskSubmit(taskToUpdate);
+    setShowModal(false);
+  }
+
+  function handleUpdateAllTasks() {
+    onAllTasksSubmit(taskToUpdate);
+    setShowModal(false);
   }
 
   function handleFamilyMembersSelection(event) {
@@ -138,95 +182,146 @@ export default function Form({
     );
   }
 
+  function handleRepeat(event) {
+    const repeat = event.target.value;
+    if (repeat === "monthly" || repeat === "weekly" || repeat === "daily") {
+      setDisplayEndDate(true);
+    } else {
+      setDisplayEndDate(false);
+      setEndDate("");
+    }
+  }
+  function handleEndDate(event) {
+    setEndDate(event.target.value);
+    setIsEndDateValid(true);
+  }
+
   return (
-    <StyledForm onSubmit={handleSubmit}>
-      <StyledHeading>{title}</StyledHeading>
-      <StyledLabel htmlFor="title">
-        <StyledSpan $left={true}>*</StyledSpan>Title:
-        {isValid && <StyledSpan>Please enter valid title!</StyledSpan>}
-      </StyledLabel>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        maxLength="150"
-        onChange={handleTitleChange}
-        defaultValue={value?.title}
-      ></input>
-      <StyledSpan>{150 - enteredTitle.length} characters left</StyledSpan>
-      <StyledLabel htmlFor="category">Category:</StyledLabel>
-      <StyledSelect
-        id="category"
-        name="category"
-        defaultValue={value?.category?._id}
-        onChange={handleFamilyMembersSelection}
-      >
-        <option value="">
-          {categories.length
-            ? "Please select a category"
-            : "No categories added"}
-        </option>
-        {categories.map((category) => (
-          <option key={category._id} value={category._id}>
-            {category.title}
-          </option>
-        ))}
-      </StyledSelect>
-      <StyledLabel htmlFor="priority">Priority:</StyledLabel>
-      <StyledDiv>
-        <span>1</span>
-        <span>2</span>
-        <span>3</span>
-      </StyledDiv>
-      <input
-        type="range"
-        id="priority"
-        name="priority"
-        defaultValue={isEdit ? value?.priority : "1"}
-        min="1"
-        max="3"
-      ></input>
-      <StyledLabel htmlFor="dueDate">Due date:</StyledLabel>
-      <StyledDateInput
-        type="date"
-        id="dueDate"
-        name="dueDate"
-        min={formattedTodayDate}
-        defaultValue={value?.dueDate || formattedTodayDate}
-      ></StyledDateInput>
-
-      {!value?.groupId && (
-        <>
-          <StyledLabel htmlFor="repeat">Repeat:</StyledLabel>
-          <StyledSelect id="repeat" name="repeat" defaultValue={value?.repeat}>
-            <option value="none">Don&apos;t repeat</option>
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-          </StyledSelect>
-        </>
+    <>
+      {showModal && isEdit && (
+        <Modal $top="13.5rem" setShowModal={setShowModal} $open={true}>
+          <DeleteConfirmBox
+            setShowModal={setShowModal}
+            onConfirm={handleUpdateOneTask}
+            onConfirmAll={handleUpdateAllTasks}
+            id={value._id}
+            groupId={value.groupId}
+            message={
+              value.groupId
+                ? "Are you sure you want to update?"
+                : "Are you sure you want to update this task?"
+            }
+          />
+        </Modal>
       )}
+      <StyledForm onSubmit={handleSubmit}>
+        <StyledHeading>{title}</StyledHeading>
+        <StyledLabel htmlFor="title">
+          <StyledSpan $left={true}>*</StyledSpan>Title:
+          {!isValid && <StyledSpan>Please enter valid title!</StyledSpan>}
+        </StyledLabel>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          maxLength="150"
+          onChange={handleTitleChange}
+          defaultValue={value?.title}
+        ></input>
+        <StyledSpan>{150 - enteredTitle.length} characters left</StyledSpan>
+        <StyledLabel htmlFor="category">Category:</StyledLabel>
+        <StyledSelect
+          id="category"
+          name="category"
+          defaultValue={value?.category?._id}
+          onChange={handleFamilyMembersSelection}
+        >
+          <option value="">
+            {categories.length
+              ? "Please select a category"
+              : "No categories added"}
+          </option>
+          {categories.map((category) => (
+            <option key={category._id} value={category._id}>
+              {category.title}
+            </option>
+          ))}
+        </StyledSelect>
+        <StyledLabel htmlFor="priority">Priority:</StyledLabel>
+        <StyledDiv>
+          <span>1</span>
+          <span>2</span>
+          <span>3</span>
+        </StyledDiv>
+        <input
+          type="range"
+          id="priority"
+          name="priority"
+          defaultValue={isEdit ? value?.priority : "1"}
+          min="1"
+          max="3"
+        ></input>
+        <StyledLabel htmlFor="dueDate">Due date:</StyledLabel>
+        <StyledDateInput
+          type="date"
+          id="dueDate"
+          name="dueDate"
+          min={formattedTodayDate}
+          defaultValue={value?.dueDate || formattedTodayDate}
+        ></StyledDateInput>
 
-      <StyledLabel htmlFor="assignedTo">Assign to:</StyledLabel>
-      <Multiselect
-        id="assignedTo"
-        options={allocatedMembers}
-        onSelect={onSelect}
-        onRemove={onRemove}
-        displayValue="name"
-        showCheckbox={true}
-        keepSearchTerm={true}
-        showArrow={true}
-        emptyRecordMsg={
-          familyMembers.length
-            ? "No members added to the category"
-            : "No members added to the family"
-        }
-        placeholder="Select Family Member"
-        avoidHighlightFirstOption={true}
-        selectedValues={assignedTo}
-      />
-      <StyledButton>{isEdit ? "Update" : "Create"}</StyledButton>
-    </StyledForm>
+        <StyledLabel htmlFor="repeat">Repeat:</StyledLabel>
+        <StyledSelect
+          id="repeat"
+          name="repeat"
+          defaultValue={value?.repeat}
+          onChange={handleRepeat}
+        >
+          <option value="none">Don&apos;t repeat</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+        </StyledSelect>
+        {!isEdit && displayEndDate && (
+          <>
+            <StyledLabel htmlFor="endDate">
+              Until:
+              {!isEndDateValid && (
+                <StyledSpan>Please pick end date!</StyledSpan>
+              )}
+            </StyledLabel>
+            <StyledDateInput
+              type="date"
+              id="endDate"
+              name="endDate"
+              min={formattedTodayDate}
+              defaultValue={endDate}
+              onChange={handleEndDate}
+            ></StyledDateInput>
+          </>
+        )}
+
+        <StyledLabel htmlFor="assignedTo">Assign to:</StyledLabel>
+        <Multiselect
+          id="assignedTo"
+          options={allocatedMembers}
+          onSelect={onSelect}
+          onRemove={onRemove}
+          displayValue="name"
+          showCheckbox={true}
+          keepSearchTerm={true}
+          showArrow={true}
+          emptyRecordMsg={
+            familyMembers.length
+              ? "No members added to the category"
+              : "No members added to the family"
+          }
+          placeholder="Select Family Member"
+          avoidHighlightFirstOption={true}
+          selectedValues={assignedTo}
+        />
+        <StyledButton>{isEdit ? "Update" : "Create"}</StyledButton>
+      </StyledForm>
+    </>
   );
 }

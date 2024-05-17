@@ -4,13 +4,13 @@ import DownArrow from "@/public/assets/images/down-arrow.svg";
 import UpArrow from "@/public/assets/images/up-arrow.svg";
 import StyledTrash from "./StyledTrash";
 import Modal from "./Modal";
-import DeleteConfirmBox from "./DeleteConfirmBox";
 import StyledButton from "./StyledButton";
 import CategoryForm from "./CategoryForm";
 import useSWR from "swr";
 import StyledLoadingAnimation from "./StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import StyledPen from "./StyledPen";
+import DeleteConfirmBox from "./DeleteConfirmBox";
 
 const StyledList = styled.ul`
   display: flex;
