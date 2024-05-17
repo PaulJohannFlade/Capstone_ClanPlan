@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import StyledButton from "./StyledButton";
 import StyledPen from "./StyledPen";
 import StyledTrash from "./StyledTrash";
 import { useState } from "react";
@@ -43,7 +42,6 @@ export default function Comments({
   onChangeModalMode,
   taskId,
 }) {
-  const [isValidMessage, setIsValidMessage] = useState(true);
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [commentIdToDelete, setCommentIdToDelete] = useState("");
 
@@ -70,49 +68,6 @@ export default function Comments({
   function handleChangeCommentToEdit(comment) {
     setCommentToEdit(comment);
   }
-
-  /* async function handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-    if (!data.message.trim()) {
-      setIsValidMessage(false);
-      event.target.message.focus();
-      return;
-    } else {
-      setIsValidMessage(true);
-    }
-
-    if (data.message.trim() === commentToEdit.message) {
-      alert("No changes were made to the form.");
-      return;
-    }
-
-    const commentData = {
-      ...commentToEdit,
-      message: data.message.trim(),
-      updatedDate: new Date(),
-    };
-
-    const response = await toast.promise(
-      fetch("/api/comments", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(commentData),
-      }),
-      {
-        pending: "Comment updating is pending",
-        success: "Comment updated successfully",
-        error: "Comment not updated",
-      }
-    );
-    if (response.ok) {
-      setCommentToEdit(null);
-      onUpdateComment();
-    }
-  } */
 
   function handleCommentTrashClick(commentId) {
     onChangeModalMode("delete-comment");
@@ -184,24 +139,4 @@ export default function Comments({
       </Modal>
     </>
   );
-}
-
-{
-  /* <form onSubmit={handleSubmit}>
-                {!isValidMessage && (
-                  <StyledSpan>Please enter your message!</StyledSpan>
-                )}
-                <textarea
-                  aria-label="message"
-                  name="message"
-                  maxLength={200}
-                  defaultValue={comment.message}
-                  rows={Math.ceil(comment.message.length / 28)}
-                  cols="28"
-                ></textarea>
-                <StyledButton type="button" onClick={handleCancelEdit}>
-                  Cancel
-                </StyledButton>
-                <StyledButton type="submit">Update</StyledButton>
-              </form> */
 }
