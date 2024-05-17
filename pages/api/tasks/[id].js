@@ -100,7 +100,6 @@ export default async function handler(request, response) {
         }
       }
       response.status(200).json({ status: "Tasks updated successfully." });
-    } else if (updateRequest === "future") {
     } else {
       await Task.findByIdAndUpdate(id, updatedTask);
       response.status(200).json({ status: "Task updated successfully." });

@@ -51,7 +51,6 @@ export default function EditPage({
   }
 
   async function handleEditTasksData(updatedTask, action) {
-    console.log("action.. ", action);
     const response = await toast.promise(
       fetch(`/api/tasks/${id}?updateRequest=${action}`, {
         method: "PUT",
