@@ -7,7 +7,7 @@ const StyledLabel = styled.label`
   font-size: 0.9rem;
   display: flex;
   flex-direction: row;
-  justify-content: felx-start;
+  justify-content: flex-start;
   gap: 0.2rem;
 `;
 
@@ -127,9 +127,9 @@ export default function CommentForm({
     <StyledForm $edit={commentToEdit} onSubmit={handleSubmit}>
       <StyledLabel htmlFor="message">
         {!commentToEdit && (
-          <>
+          <p>
             <StyledSpan $left={true}>*</StyledSpan>Your message:
-          </>
+          </p>
         )}
         {!isValidMessage && <StyledSpan>Please enter the message!</StyledSpan>}
       </StyledLabel>
