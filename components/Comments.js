@@ -57,7 +57,6 @@ export default function Comments({
   }
 
   function handlePenClick(comment) {
-    setIsValidMessage(true);
     setCommentToEdit(comment);
   }
 
