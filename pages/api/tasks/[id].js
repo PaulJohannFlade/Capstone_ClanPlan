@@ -103,20 +103,25 @@ export default async function handler(request, response) {
     if (deleteRequest === "all") {
       const task = await Task.findById(id);
       const groupId = task?.groupId;
-      const tasksToDelete = await Task.find({ groupId: groupId });
+      const tasksToDelete = await Task.find({
+        groupId: groupId,
+        isDone: { $ne: true },
+      });
       deleteComments(tasksToDelete);
-      await Task.deleteMany({ groupId: groupId });
+      await Task.deleteMany({ groupId: groupId, isDone: { $ne: true } });
       response.status(200).json({ status: "Tasks deleted successfully." });
     } else if (deleteRequest === "future") {
       const task = await Task.findById(id);
       const futherTasksToDelete = await Task.find({
         groupId: task.groupId,
         dueDate: { $gte: task.dueDate },
+        isDone: { $ne: true },
       });
       deleteComments(futherTasksToDelete);
       await Task.deleteMany({
         groupId: task.groupId,
         dueDate: { $gte: task.dueDate },
+        isDone: { $ne: true },
       });
       response.status(200).json({ status: "Tasks deleted successfully." });
     } else {

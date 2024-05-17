@@ -25,7 +25,13 @@ export default async function handler(request, response) {
           startDate.getMonth()
         );
         const currentDay = startDate.getDate();
-        while (nextMonthDueDate <= endDate) {
+        while (
+          new Date(
+            nextMonthDueDate.getFullYear(),
+            nextMonthDueDate.getMonth(),
+            currentDay
+          ) <= endDate
+        ) {
           const dayInMonth = new Date(
             nextMonthDueDate.getFullYear(),
             nextMonthDueDate.getMonth() + 1,
