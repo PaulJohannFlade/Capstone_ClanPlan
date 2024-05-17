@@ -34,11 +34,6 @@ const StyledDate = styled.p`
   margin-bottom: 0.5rem;
 `;
 
-const StyledSpan = styled.span`
-  font-size: 0.9rem;
-  color: red;
-`;
-
 export default function Comments({
   comments,
   onUpdateComment,
@@ -68,19 +63,18 @@ export default function Comments({
     setCommentToEdit(comment);
   }
 
-  function handleCancelEdit() {
+  function handleCancelEditComment() {
     setCommentToEdit(null);
   }
 
-  async function handleSubmit(event) {
+  function handleChangeCommentToEdit(comment) {
+    setCommentToEdit(comment);
+  }
+
+  /* async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-    const commentData = {
-      ...commentToEdit,
-      message: data.message.trim(),
-      updatedDate: new Date(),
-    };
     if (!data.message.trim()) {
       setIsValidMessage(false);
       event.target.message.focus();
@@ -93,6 +87,12 @@ export default function Comments({
       alert("No changes were made to the form.");
       return;
     }
+
+    const commentData = {
+      ...commentToEdit,
+      message: data.message.trim(),
+      updatedDate: new Date(),
+    };
 
     const response = await toast.promise(
       fetch("/api/comments", {
@@ -112,7 +112,7 @@ export default function Comments({
       setCommentToEdit(null);
       onUpdateComment();
     }
-  }
+  } */
 
   function handleCommentTrashClick(commentId) {
     onChangeModalMode("delete-comment");
@@ -158,23 +158,12 @@ export default function Comments({
             </StyledDate>
             {commentToEdit?._id !== comment._id && <p>{comment.message}</p>}
             {commentToEdit?._id === comment._id && (
-              <form onSubmit={handleSubmit}>
-                {!isValidMessage && (
-                  <StyledSpan>Please enter your message!</StyledSpan>
-                )}
-                <textarea
-                  aria-label="message"
-                  name="message"
-                  maxLength={200}
-                  defaultValue={comment.message}
-                  rows={Math.ceil(comment.message.length / 28)}
-                  cols="28"
-                ></textarea>
-                <StyledButton type="button" onClick={handleCancelEdit}>
-                  Cancel
-                </StyledButton>
-                <StyledButton type="submit">Update</StyledButton>
-              </form>
+              <CommentForm
+                commentToEdit={commentToEdit}
+                onCancelEditComment={handleCancelEditComment}
+                onChangeCommentToEdit={handleChangeCommentToEdit}
+                onUpdateComment={onUpdateComment}
+              />
             )}
           </StyledListItems>
         ))}
@@ -195,4 +184,24 @@ export default function Comments({
       </Modal>
     </>
   );
+}
+
+{
+  /* <form onSubmit={handleSubmit}>
+                {!isValidMessage && (
+                  <StyledSpan>Please enter your message!</StyledSpan>
+                )}
+                <textarea
+                  aria-label="message"
+                  name="message"
+                  maxLength={200}
+                  defaultValue={comment.message}
+                  rows={Math.ceil(comment.message.length / 28)}
+                  cols="28"
+                ></textarea>
+                <StyledButton type="button" onClick={handleCancelEdit}>
+                  Cancel
+                </StyledButton>
+                <StyledButton type="submit">Update</StyledButton>
+              </form> */
 }
