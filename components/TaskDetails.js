@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import checkForToday from "@/utils/checkForToday";
 import checkForMissedDate from "@/utils/checkForMissedDate";
 import { toast } from "react-toastify";
+import Flame from "@/public/assets/images/flame.svg";
 import ConfirmBox from "./ConfirmBox";
 
 const StyledArticle = styled.article`
@@ -59,6 +60,12 @@ const StyledParagraphContent = styled.p`
   font-weight: 600;
 `;
 
+const StyledFlame = styled(Flame)`
+  display: inline-block;
+  width: 1rem;
+  margin: 0 0.2rem;
+`;
+
 const StyledSpan = styled.span`
   color: ${({ $isMissed }) => $isMissed && "var(--color-alert)"};
 `;
@@ -69,6 +76,8 @@ export default function TaskDetails({
   setShowModal,
   onCheckboxChange,
   detailsBackLinkRef,
+  modalMode,
+  onChangeModalMode,
 }) {
   const {
     title,
@@ -121,6 +130,11 @@ export default function TaskDetails({
     }
   }
 
+  function handleTaskTrashClick() {
+    onChangeModalMode("delete-task");
+    setShowModal(true);
+  }
+
   return (
     <>
       <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
@@ -136,15 +150,15 @@ export default function TaskDetails({
             groupId={groupId}
             message={
               groupId
-                ? "Are you sure you want to delete?"
-                : "Are you sure you want to delete this task?"
+                ? `Are you sure you want to delete repeating task "${title}"?`
+                : `Are you sure you want to delete task "${title}"?`
             }
           />
         )}
       </Modal>
 
       <StyledSection $isDone={isDone}>
-        <StyledTrash onClick={() => setShowModal(true)} />
+        <StyledTrash onClick={handleTaskTrashClick} />
         <StyledLink href={`/tasks/${id}/edit`}>
           <StyledPen />
         </StyledLink>
@@ -155,7 +169,11 @@ export default function TaskDetails({
           {category?.title || "-"}
         </StyledParagraphContent>
         <p>Priority: </p>
-        <h2>{"🔥".repeat(Number(priority))}</h2>
+        <p>
+          {[...Array(Number(priority))].map((_element, index) => (
+            <StyledFlame key={index} />
+          ))}
+        </p>
         <StyledArticle>
           <p>Due Date:</p>
           <p>Repeat:</p>
@@ -166,7 +184,6 @@ export default function TaskDetails({
           </StyledParagraphContent>
           <StyledParagraphContent>{repeat || "none"}</StyledParagraphContent>
         </StyledArticle>
-
         <p>Assigned to:</p>
         <StyledParagraphContent>
           {assignedTo?.map((member) => member.name).join(", ") || "-"}
