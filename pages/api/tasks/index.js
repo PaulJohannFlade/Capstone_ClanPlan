@@ -46,9 +46,17 @@ export default async function handler(request, response) {
                 currentDay
               )
             );
-            taskData.groupId = groupId;
-            await Task.create(taskData);
+          } else {
+            taskData.dueDate = convertDateToString(
+              new Date(
+                nextMonthDueDate.getFullYear(),
+                nextMonthDueDate.getMonth(),
+                dayInMonth
+              )
+            );
           }
+          taskData.groupId = groupId;
+          await Task.create(taskData);
           nextMonthDueDate.setMonth(nextMonthDueDate.getMonth() + 1);
         }
         return response

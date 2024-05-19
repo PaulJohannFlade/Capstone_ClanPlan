@@ -4,6 +4,8 @@ import StyledButton from "./StyledButton";
 import Multiselect from "multiselect-react-dropdown";
 import Modal from "./Modal";
 import ConfirmBox from "./ConfirmBox";
+import convertDateToString from "@/utils/convertDateToString";
+import getWeekRange from "@/utils/getWeekRange";
 
 const StyledForm = styled.form`
   display: flex;
@@ -73,15 +75,14 @@ export default function Form({
 
   const firstDay =
     value?.dueDate &&
-    new Date(date.getFullYear(), date.getMonth(), 2)
-      .toISOString()
-      .substring(0, 10);
+    convertDateToString(new Date(date.getFullYear(), date.getMonth(), 1));
+
+  const startOfWeek = getWeekRange(value?.dueDate).startOfWeek;
+  const endOfWeek = getWeekRange(value?.dueDate).endOfWeek;
 
   const lastDay =
     value?.dueDate &&
-    new Date(date.getFullYear(), date.getMonth() + 1, 1)
-      .toISOString()
-      .substring(0, 10);
+    convertDateToString(new Date(date.getFullYear(), date.getMonth() + 1, 0));
 
   function handleTitleChange(event) {
     setEnteredTitle(event.target.value);
@@ -282,19 +283,21 @@ export default function Form({
           id="dueDate"
           name="dueDate"
           min={
-            isEdit &&
-            (value?.repeat.includes("monthly") ||
-              value?.repeat.includes("weekly") ||
-              value?.repeat.includes("daily"))
-              ? firstDay
+            isEdit
+              ? value?.repeat.includes("monthly")
+                ? firstDay
+                : value?.repeat.includes("weekly")
+                ? startOfWeek
+                : value?.repeat.includes("daily") && value?.dueDate
               : formattedTodayDate
           }
           max={
             isEdit &&
-            (value?.repeat.includes("monthly") ||
-              value?.repeat.includes("weekly") ||
-              value?.repeat.includes("daily")) &&
-            lastDay
+            (value?.repeat.includes("monthly")
+              ? lastDay
+              : value?.repeat.includes("weekly")
+              ? endOfWeek
+              : value?.repeat.includes("daily") && value?.dueDate)
           }
           defaultValue={value?.dueDate || formattedTodayDate}
         ></StyledDateInput>
