@@ -65,24 +65,32 @@ export default function Form({
   );
   const [assignedTo, setAssignedTo] = useState(value?.assignedTo || []);
 
-  const formattedTodayDate = new Date().toISOString().substring(0, 10);
+  const formattedTodayDate = convertDateToString(new Date());
   const [taskToUpdate, setTaskToUpdate] = useState();
   const [displayEndDate, setDisplayEndDate] = useState(false);
   const [isEndDateValid, setIsEndDateValid] = useState(true);
   const [endDate, setEndDate] = useState(value?.endDate);
 
+  let minDate = null;
+  let maxDate = null;
+
   const date = new Date(value?.dueDate);
 
-  const firstDay =
-    value?.dueDate &&
-    convertDateToString(new Date(date.getFullYear(), date.getMonth(), 1));
+  if (value?.repeat === "monthly") {
+    minDate =
+      value?.dueDate &&
+      convertDateToString(new Date(date.getFullYear(), date.getMonth(), 1));
 
-  const startOfWeek = getWeekRange(value?.dueDate).startOfWeek;
-  const endOfWeek = getWeekRange(value?.dueDate).endOfWeek;
-
-  const lastDay =
-    value?.dueDate &&
-    convertDateToString(new Date(date.getFullYear(), date.getMonth() + 1, 0));
+    maxDate =
+      value?.dueDate &&
+      convertDateToString(new Date(date.getFullYear(), date.getMonth() + 1, 0));
+  } else if (value?.repeat === "weekly") {
+    minDate = convertDateToString(getWeekRange(value?.dueDate).startOfWeek);
+    maxDate = convertDateToString(getWeekRange(value?.dueDate).endOfWeek);
+  } else if (value?.repeat === "daily") {
+    minDate = value?.dueDate;
+    maxDate = value?.dueDate;
+  }
 
   function handleTitleChange(event) {
     setEnteredTitle(event.target.value);
@@ -282,23 +290,8 @@ export default function Form({
           type="date"
           id="dueDate"
           name="dueDate"
-          min={
-            isEdit
-              ? value?.repeat.includes("monthly")
-                ? firstDay
-                : value?.repeat.includes("weekly")
-                ? startOfWeek
-                : value?.repeat.includes("daily") && value?.dueDate
-              : formattedTodayDate
-          }
-          max={
-            isEdit &&
-            (value?.repeat.includes("monthly")
-              ? lastDay
-              : value?.repeat.includes("weekly")
-              ? endOfWeek
-              : value?.repeat.includes("daily") && value?.dueDate)
-          }
+          min={isEdit ? minDate : formattedTodayDate}
+          max={isEdit && maxDate}
           defaultValue={value?.dueDate || formattedTodayDate}
         ></StyledDateInput>
 
