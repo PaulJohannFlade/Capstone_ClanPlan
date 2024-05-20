@@ -4,7 +4,6 @@ import DownArrow from "@/public/assets/images/down-arrow.svg";
 import UpArrow from "@/public/assets/images/up-arrow.svg";
 import StyledTrash from "./StyledTrash";
 import Modal from "./Modal";
-import StyledButton from "./StyledButton";
 import CategoryForm from "./CategoryForm";
 import useSWR from "swr";
 import StyledLoadingAnimation from "./StyledLoadingAnimation";
@@ -28,7 +27,7 @@ const StyledListItem = styled.li`
   background-color: var(--color-background);
   box-shadow: 1px 1px 10px -1px var(--color-font);
   border-radius: 2rem;
-  padding: 1rem 2rem;
+  padding: 0.7rem 2rem 0.4rem 2rem;
   border: none;
   transition: background-color 0.5s ease;
 `;
