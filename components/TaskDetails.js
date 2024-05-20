@@ -137,8 +137,12 @@ export default function TaskDetails({
 
   return (
     <>
-      <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
-        {showModal && (
+      <Modal
+        $top="13.5rem"
+        setShowModal={setShowModal}
+        $open={showModal && modalMode === "delete-task"}
+      >
+        {showModal && modalMode === "delete-task" && (
           <ConfirmBox
             setShowModal={setShowModal}
             onConfirm={() => handleDeleteTask(id)}
