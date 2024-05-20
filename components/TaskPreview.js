@@ -3,11 +3,13 @@ import Link from "next/link";
 import checkForToday from "@/utils/checkForToday";
 import checkForMissedDate from "@/utils/checkForMissedDate";
 import Flame from "@/public/assets/images/flame.svg";
+import formatTasksDate from "@/utils/formatTasksDate";
 
 const StyledSection = styled.section`
   display: grid;
   grid-template-columns: 1fr 8fr;
   gap: 1rem;
+  font-size: 0.9rem;
 `;
 
 const StyledCheckbox = styled.input`
@@ -20,7 +22,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 7fr 4fr;
 `;
 
 const StyledParagraph = styled.p`
@@ -71,7 +73,7 @@ export default function TaskPreview({
         <p>{category?.title}</p>
         <StyledParagraph>
           <StyledSpan $isMissed={isMissed}>
-            {isToday ? "Today" : dueDate}
+            {isToday ? "Today" : formatTasksDate(dueDate)}
           </StyledSpan>
         </StyledParagraph>
       </StyledLink>

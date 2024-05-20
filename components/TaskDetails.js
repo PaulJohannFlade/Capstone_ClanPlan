@@ -9,10 +9,11 @@ import checkForMissedDate from "@/utils/checkForMissedDate";
 import { toast } from "react-toastify";
 import Flame from "@/public/assets/images/flame.svg";
 import ConfirmBox from "./ConfirmBox";
+import formatTasksDate from "@/utils/formatTasksDate";
 
 const StyledArticle = styled.article`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
 `;
 
 const StyledLink = styled(Link)`
@@ -186,7 +187,7 @@ export default function TaskDetails({
           <StyledParagraph>Repeat:</StyledParagraph>
           <StyledParagraphContent>
             <StyledSpan $isMissed={isMissed}>
-              {isToday ? "Today" : dueDate || "-"}
+              {isToday ? "Today" : formatTasksDate(dueDate) || "-"}
             </StyledSpan>
           </StyledParagraphContent>
           <StyledParagraphContent>{repeat || "none"}</StyledParagraphContent>
