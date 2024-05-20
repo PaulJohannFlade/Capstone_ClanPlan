@@ -340,11 +340,7 @@ export default function Form({
           showCheckbox={true}
           keepSearchTerm={true}
           showArrow={true}
-          emptyRecordMsg={
-            familyMembers.length
-              ? "No members added to the category"
-              : "No members added to the family"
-          }
+          emptyRecordMsg="No members found"
           placeholder="Select Family Member"
           avoidHighlightFirstOption={true}
           selectedValues={assignedTo}

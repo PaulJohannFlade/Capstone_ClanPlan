@@ -158,7 +158,7 @@ export default function CategoryForm({
         showCheckbox={true}
         keepSearchTerm={true}
         showArrow={true}
-        emptyRecordMsg="No members added to the family"
+        emptyRecordMsg="No members found"
         placeholder="Please select a member"
         avoidHighlightFirstOption={true}
         selectedValues={selectedMembers}
