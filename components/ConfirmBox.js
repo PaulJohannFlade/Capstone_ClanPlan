@@ -8,12 +8,18 @@ const ButtonContainer = styled.div`
   justify-content: center;
 `;
 
+const StyledConfirmButton = styled(StyledButton)`
+  min-width: 5rem;
+  width: auto;
+`;
+
 const StyledSection = styled.section`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   margin: 1rem 0.2rem;
-  padding: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem 0.5rem;
   border-radius: 1rem;
 `;
 
@@ -24,9 +30,7 @@ const StyledParagraph = styled.p`
 `;
 
 export default function ConfirmBox({
-  setShowModal,
   onConfirm,
-  id,
   message,
   onConfirmAllTasks,
   onConfirmFutherTasks,
@@ -34,20 +38,19 @@ export default function ConfirmBox({
 }) {
   return (
     <StyledSection>
-      <CloseButton setShowModal={setShowModal} />
       <StyledParagraph>{message}</StyledParagraph>
       <ButtonContainer>
-        <StyledButton onClick={() => onConfirm(id)}>
+        <StyledConfirmButton onClick={onConfirm}>
           {groupId ? "This task" : "Yes"}
-        </StyledButton>
+        </StyledConfirmButton>
         {groupId && (
           <>
-            <StyledButton onClick={() => onConfirmFutherTasks(id)}>
-              Futher tasks
-            </StyledButton>
-            <StyledButton onClick={() => onConfirmAllTasks(id)}>
+            <StyledConfirmButton onClick={onConfirmFutherTasks}>
+              Further tasks
+            </StyledConfirmButton>
+            <StyledConfirmButton onClick={onConfirmAllTasks}>
               All tasks
-            </StyledButton>
+            </StyledConfirmButton>
           </>
         )}
       </ButtonContainer>

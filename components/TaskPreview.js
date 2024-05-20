@@ -54,7 +54,7 @@ export default function TaskPreview({
     <StyledSection>
       <StyledCheckbox
         type="checkbox"
-        checked={isDone}
+        defaultChecked={isDone}
         onChange={(event) => onCheckboxChange(task, event)}
       />
       <StyledLink

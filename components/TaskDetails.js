@@ -55,6 +55,11 @@ const StyledCheckbox = styled.input`
     filter: hue-rotate(180deg);
   }
 `;
+
+const StyledParagraph = styled.p`
+  font-size: 0.9rem;
+`;
+
 const StyledParagraphContent = styled.p`
   font-size: larger;
   font-weight: 600;
@@ -137,16 +142,19 @@ export default function TaskDetails({
 
   return (
     <>
-      <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
-        {showModal && (
+      <Modal
+        $top="13.5rem"
+        setShowModal={setShowModal}
+        $open={showModal && modalMode === "delete-task"}
+      >
+        {showModal && modalMode === "delete-task" && (
           <ConfirmBox
             setShowModal={setShowModal}
             onConfirm={() => handleDeleteTask(id)}
-            onConfirmFutherTasks={() =>
+            onConfirmFurtherTasks={() =>
               handleDeleteTasks({ id, action: "future" })
             }
             onConfirmAllTasks={() => handleDeleteTasks({ id, action: "all" })}
-            id={id}
             groupId={groupId}
             message={
               groupId
@@ -156,27 +164,26 @@ export default function TaskDetails({
           />
         )}
       </Modal>
-
       <StyledSection $isDone={isDone}>
         <StyledTrash onClick={handleTaskTrashClick} />
         <StyledLink href={`/tasks/${id}/edit`}>
           <StyledPen />
         </StyledLink>
-        <p> What is to do?</p>
+        <StyledParagraph> What is to do?</StyledParagraph>
         <StyledParagraphContent>{title}</StyledParagraphContent>
-        <p>Category: </p>
+        <StyledParagraph>Category: </StyledParagraph>
         <StyledParagraphContent>
           {category?.title || "-"}
         </StyledParagraphContent>
-        <p>Priority: </p>
+        <StyledParagraph>Priority: </StyledParagraph>
         <p>
           {[...Array(Number(priority))].map((_element, index) => (
             <StyledFlame key={index} />
           ))}
         </p>
         <StyledArticle>
-          <p>Due Date:</p>
-          <p>Repeat:</p>
+          <StyledParagraph>Due Date:</StyledParagraph>
+          <StyledParagraph>Repeat:</StyledParagraph>
           <StyledParagraphContent>
             <StyledSpan $isMissed={isMissed}>
               {isToday ? "Today" : dueDate || "-"}
@@ -184,7 +191,7 @@ export default function TaskDetails({
           </StyledParagraphContent>
           <StyledParagraphContent>{repeat || "none"}</StyledParagraphContent>
         </StyledArticle>
-        <p>Assigned to:</p>
+        <StyledParagraph>Assigned to:</StyledParagraph>
         <StyledParagraphContent>
           {assignedTo?.map((member) => member.name).join(", ") || "-"}
         </StyledParagraphContent>
@@ -193,7 +200,7 @@ export default function TaskDetails({
           <StyledCheckbox
             type="checkbox"
             id="checkbox"
-            checked={isDone}
+            defaultChecked={isDone}
             onChange={(event) => onCheckboxChange(task, event)}
           />
         </label>

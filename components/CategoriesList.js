@@ -61,27 +61,6 @@ const StyledDownArrow = styled(DownArrow)`
   fill: var(--color-font);
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-`;
-
-const StyledSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin: 1rem;
-  padding: 1rem;
-  border-radius: 1rem;
-`;
-
-const StyledPragraph = styled.p`
-  font-size: larger;
-  font-weight: 600;
-  text-align: center;
-`;
-
 export default function CategoriesList({
   showModal,
   setShowModal,
@@ -224,8 +203,7 @@ export default function CategoriesList({
                 : `Are you sure you want to delete "${categoryToHandle.title}"?`
             }
             setShowModal={setShowModal}
-            onConfirm={handleDeleteCategory}
-            id={categoryToHandle._id}
+            onConfirm={() => handleDeleteCategory(categoryToHandle._id)}
           />
         )}
       </Modal>
@@ -235,17 +213,11 @@ export default function CategoriesList({
         $open={showModal && modalMode === "confirm-edit" && categoryIsUsed}
       >
         {showModal && modalMode === "confirm-edit" && categoryIsUsed && (
-          <StyledSection>
-            <StyledPragraph>{`Category "${categoryToHandle.title}" is used in active tasks. Are you sure you want to edit "${categoryToHandle.title}"?`}</StyledPragraph>
-            <ButtonContainer>
-              <StyledButton onClick={() => setShowModal(false)}>
-                No
-              </StyledButton>
-              <StyledButton onClick={() => setModalMode("edit")}>
-                Yes
-              </StyledButton>
-            </ButtonContainer>
-          </StyledSection>
+          <ConfirmBox
+            message={`Category "${categoryToHandle.title}" is used in active tasks. Are you sure you want to edit "${categoryToHandle.title}"?`}
+            setShowModal={setShowModal}
+            onConfirm={() => setModalMode("edit")}
+          />
         )}
       </Modal>
       <Modal

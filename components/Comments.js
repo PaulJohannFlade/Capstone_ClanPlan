@@ -130,8 +130,7 @@ export default function Comments({
         {showModal && modalMode === "delete-comment" && (
           <ConfirmBox
             setShowModal={setShowModal}
-            onConfirm={handleDeleteComment}
-            id={commentIdToDelete}
+            onConfirm={() => handleDeleteComment(commentIdToDelete)}
             message="Are you sure you want to delete this comment?"
           />
         )}

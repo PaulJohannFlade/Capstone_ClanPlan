@@ -10,7 +10,7 @@ const StyledHeading = styled.h2`
 `;
 
 const StyledLabel = styled.label`
-  font-size: 1.2rem;
+  font-size: 0.9rem;
 `;
 
 const StyledSpan = styled.span`
@@ -162,7 +162,6 @@ export default function CategoryForm({
         placeholder="Please select a member"
         avoidHighlightFirstOption={true}
         selectedValues={selectedMembers}
-        closeIcon="circle"
       />
       <StyledButton>{value ? "Update" : "Add"}</StyledButton>
     </StyledForm>

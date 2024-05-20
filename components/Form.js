@@ -212,14 +212,13 @@ export default function Form({
 
   return (
     <>
-      {showModal && isEdit && (
-        <Modal $top="13.5rem" setShowModal={setShowModal} $open={true}>
+      <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
+        {showModal && (
           <ConfirmBox
             setShowModal={setShowModal}
             onConfirm={handleUpdateOneTask}
-            onConfirmFutherTasks={() => handleUpdateTasks("future")}
+            onConfirmFurtherTasks={() => handleUpdateTasks("future")}
             onConfirmAllTasks={() => handleUpdateTasks("all")}
-            id={value._id}
             groupId={value.groupId}
             message={
               value.groupId
@@ -227,8 +226,8 @@ export default function Form({
                 : "Are you sure you want to update this task?"
             }
           />
-        </Modal>
-      )}
+        )}
+      </Modal>
       <StyledForm onSubmit={handleSubmit}>
         <StyledHeading>{title}</StyledHeading>
         <StyledLabel htmlFor="title">
@@ -283,18 +282,19 @@ export default function Form({
           name="dueDate"
           min={
             isEdit &&
-            (value?.repeat.includes("monthly") ||
-              value?.repeat.includes("weekly") ||
-              value?.repeat.includes("daily"))
+            (value?.repeat?.includes("monthly") ||
+              value?.repeat?.includes("weekly") ||
+              value?.repeat?.includes("daily"))
               ? firstDay
               : formattedTodayDate
           }
           max={
             isEdit &&
-            (value?.repeat.includes("monthly") ||
-              value?.repeat.includes("weekly") ||
-              value?.repeat.includes("daily")) &&
-            lastDay
+            (value?.repeat?.includes("monthly") ||
+              value?.repeat?.includes("weekly") ||
+              value?.repeat?.includes("daily"))
+              ? lastDay
+              : ""
           }
           defaultValue={value?.dueDate || formattedTodayDate}
         ></StyledDateInput>
