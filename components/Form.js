@@ -44,6 +44,28 @@ const StyledDiv = styled.div`
   font-size: 0.9rem;
 `;
 
+const StyledMultiselectContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  .multiSelectContainer .optionListContainer {
+    display: ${({ $isDropdownOpen }) => ($isDropdownOpen ? "block" : "none")};
+  }
+`;
+
+const StyledToggleDropdownButton = styled.button`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 100;
+  &:hover {
+    background-color: transparent;
+  }
+`;
+
 export default function Form({
   onTaskSubmit,
   onTasksSubmit,
@@ -68,6 +90,7 @@ export default function Form({
   const [displayEndDate, setDisplayEndDate] = useState(false);
   const [isEndDateValid, setIsEndDateValid] = useState(true);
   const [endDate, setEndDate] = useState(value?.endDate);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const date = new Date(value?.dueDate);
 
@@ -210,6 +233,16 @@ export default function Form({
     setIsEndDateValid(true);
   }
 
+  function toggleDropdown(event) {
+    event.stopPropagation();
+    setIsDropdownOpen(!isDropdownOpen);
+  }
+
+  function handleClick(event) {
+    event.stopPropagation();
+    setIsDropdownOpen(true);
+  }
+
   return (
     <>
       <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
@@ -331,24 +364,28 @@ export default function Form({
         )}
 
         <StyledLabel htmlFor="assignedTo">Assign to:</StyledLabel>
-        <Multiselect
-          id="assignedTo"
-          options={allocatedMembers}
-          onSelect={onSelect}
-          onRemove={onRemove}
-          displayValue="name"
-          showCheckbox={true}
-          keepSearchTerm={true}
-          showArrow={true}
-          emptyRecordMsg={
-            familyMembers.length
-              ? "No members added to the category"
-              : "No members added to the family"
-          }
-          placeholder="Select Family Member"
-          avoidHighlightFirstOption={true}
-          selectedValues={assignedTo}
-        />
+        <StyledMultiselectContainer
+          $isDropdownOpen={isDropdownOpen}
+          onClick={handleClick}
+          onBlur={() => setIsDropdownOpen(false)}
+        >
+          <Multiselect
+            id="assignedTo"
+            options={allocatedMembers}
+            onSelect={onSelect}
+            onRemove={onRemove}
+            displayValue="name"
+            showCheckbox={true}
+            keepSearchTerm={true}
+            emptyRecordMsg="No members found"
+            placeholder="Select Family Member"
+            avoidHighlightFirstOption={true}
+            selectedValues={assignedTo}
+          />
+          <StyledToggleDropdownButton onClick={toggleDropdown} type="button">
+            {isDropdownOpen ? "▲" : "▼"}
+          </StyledToggleDropdownButton>
+        </StyledMultiselectContainer>
         <StyledButton>{isEdit ? "Update" : "Create"}</StyledButton>
       </StyledForm>
     </>
