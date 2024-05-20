@@ -19,7 +19,7 @@ export default async function handler(request, response) {
       const startDate = new Date(taskData.dueDate);
       const endDate = new Date(taskData.endDate);
 
-      if (taskData.repeat === "monthly") {
+      if (taskData.repeat === "Monthly") {
         const nextMonthDueDate = new Date(
           startDate.getFullYear(),
           startDate.getMonth()
@@ -62,7 +62,7 @@ export default async function handler(request, response) {
         return response
           .status(201)
           .json({ status: "Tasks successfully created." });
-      } else if (taskData.repeat === "weekly") {
+      } else if (taskData.repeat === "Weekly") {
         const nextWeekDueDate = startDate;
         while (nextWeekDueDate <= endDate) {
           taskData.dueDate = convertDateToString(nextWeekDueDate);
@@ -73,7 +73,7 @@ export default async function handler(request, response) {
         return response
           .status(201)
           .json({ status: "Tasks successfully created." });
-      } else if (taskData.repeat === "daily") {
+      } else if (taskData.repeat === "Daily") {
         const nextDayDueDate = startDate;
         while (nextDayDueDate <= endDate) {
           taskData.dueDate = convertDateToString(nextDayDueDate);

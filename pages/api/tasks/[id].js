@@ -42,7 +42,7 @@ export default async function handler(request, response) {
               dueDate: 1,
             });
 
-      if (updatedTask.repeat === "monthly") {
+      if (updatedTask.repeat === "Monthly") {
         for (const task of tasks) {
           const updatedDueDate = new Date(updatedTask.dueDate);
           const existingTaskDueDate = new Date(task.dueDate);
@@ -59,7 +59,7 @@ export default async function handler(request, response) {
           };
           await Task.findByIdAndUpdate(task._id, updatedMonthlyTask);
         }
-      } else if (updatedTask.repeat === "weekly") {
+      } else if (updatedTask.repeat === "Weekly") {
         const nextWeekDueDate = new Date(updatedTask.dueDate);
         for (const task of tasks) {
           const updatedWeeklyTask = {
@@ -69,7 +69,7 @@ export default async function handler(request, response) {
           await Task.findByIdAndUpdate(task._id, updatedWeeklyTask);
           nextWeekDueDate.setDate(nextWeekDueDate.getDate() + 7);
         }
-      } else if (updatedTask.repeat === "daily") {
+      } else if (updatedTask.repeat === "Daily") {
         for (const task of tasks) {
           const updatedDailyTask = {
             ...updatedTask,
