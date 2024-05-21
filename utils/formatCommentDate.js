@@ -6,5 +6,5 @@ export default function formatCommentDate(date) {
     hour: "2-digit",
     minute: "2-digit",
   };
-  return new Date(date).toLocaleString("us-US", options);
+  return new Date(date).toLocaleString("en-GB", options);
 }

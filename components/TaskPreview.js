@@ -22,7 +22,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
   display: grid;
-  grid-template-columns: 7fr 4fr;
+  grid-template-columns: 8fr 5fr;
 `;
 
 const StyledParagraph = styled.p`
@@ -42,6 +42,9 @@ const StyledSpan = styled.span`
 const StyledParagraphContent = styled.p`
   font-size: larger;
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export default function TaskPreview({

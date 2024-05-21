@@ -5,5 +5,5 @@ export default function formatTasksDate(date) {
     month: "2-digit",
     year: "2-digit",
   };
-  return new Date(date).toLocaleDateString("us-US", options);
+  return new Date(date).toLocaleDateString("en-GB", options);
 }

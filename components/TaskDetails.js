@@ -178,9 +178,10 @@ export default function TaskDetails({
         </StyledParagraphContent>
         <StyledParagraph>Priority: </StyledParagraph>
         <p>
-          {[...Array(Number(priority))].map((_element, index) => (
-            <StyledFlame key={index} />
-          ))}
+          {priority &&
+            [...Array(Number(priority))].map((_element, index) => (
+              <StyledFlame key={index} />
+            ))}
         </p>
         <StyledArticle>
           <StyledParagraph>Due Date:</StyledParagraph>
