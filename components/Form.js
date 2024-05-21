@@ -48,7 +48,9 @@ const StyledMultiselectContainer = styled.div`
   position: relative;
   display: inline-block;
   .multiSelectContainer .optionListContainer {
-    display: ${({ $isDropdownOpen }) => ($isDropdownOpen ? "block" : "none")};
+    z-index: ${({ $hidden }) => $hidden && "-1"};
+    max-height: 132px;
+    overflow: scroll;
   }
 `;
 
@@ -233,14 +235,19 @@ export default function Form({
     setIsEndDateValid(true);
   }
 
-  function toggleDropdown(event) {
+  function closeDropdown(event) {
     event.stopPropagation();
-    setIsDropdownOpen(!isDropdownOpen);
+    setIsDropdownOpen(false);
   }
 
-  function handleClick(event) {
+  function handleMultiselectContainerClick(event) {
     event.stopPropagation();
     setIsDropdownOpen(true);
+  }
+
+  function handleMultiselectContainerAwayClick(event) {
+    event.stopPropagation();
+    setIsDropdownOpen(false);
   }
 
   return (
@@ -274,7 +281,7 @@ export default function Form({
           maxLength="150"
           onChange={handleTitleChange}
           defaultValue={value?.title}
-        ></input>
+        />
         <StyledSpan>{150 - enteredTitle.length} characters left</StyledSpan>
         <StyledLabel htmlFor="category">Category:</StyledLabel>
         <StyledSelect
@@ -307,7 +314,7 @@ export default function Form({
           defaultValue={isEdit ? value?.priority : "1"}
           min="1"
           max="3"
-        ></input>
+        />
         <StyledLabel htmlFor="dueDate">Due date:</StyledLabel>
         <StyledDateInput
           type="date"
@@ -330,7 +337,7 @@ export default function Form({
               : ""
           }
           defaultValue={value?.dueDate || formattedTodayDate}
-        ></StyledDateInput>
+        />
 
         <StyledLabel htmlFor="repeat">Repeat:</StyledLabel>
         <StyledSelect
@@ -359,15 +366,15 @@ export default function Form({
               min={formattedTodayDate}
               defaultValue={endDate}
               onChange={handleEndDate}
-            ></StyledDateInput>
+            />
           </>
         )}
 
         <StyledLabel htmlFor="assignedTo">Assign to:</StyledLabel>
         <StyledMultiselectContainer
-          $isDropdownOpen={isDropdownOpen}
-          onClick={handleClick}
-          onBlur={() => setIsDropdownOpen(false)}
+          onClick={handleMultiselectContainerClick}
+          onBlur={handleMultiselectContainerAwayClick}
+          $hidden={!isDropdownOpen}
         >
           <Multiselect
             id="assignedTo"
@@ -382,9 +389,11 @@ export default function Form({
             avoidHighlightFirstOption={true}
             selectedValues={assignedTo}
           />
-          <StyledToggleDropdownButton onClick={toggleDropdown} type="button">
-            {isDropdownOpen ? "▲" : "▼"}
-          </StyledToggleDropdownButton>
+          {isDropdownOpen && (
+            <StyledToggleDropdownButton type="button" onClick={closeDropdown}>
+              ▼
+            </StyledToggleDropdownButton>
+          )}
         </StyledMultiselectContainer>
         <StyledButton>{isEdit ? "Update" : "Create"}</StyledButton>
       </StyledForm>
