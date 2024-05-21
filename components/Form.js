@@ -251,7 +251,7 @@ export default function Form({
           maxLength="150"
           onChange={handleTitleChange}
           defaultValue={value?.title}
-        ></input>
+        />
         <StyledSpan>{150 - enteredTitle.length} characters left</StyledSpan>
         <StyledLabel htmlFor="category">Category:</StyledLabel>
         <StyledSelect
@@ -284,7 +284,7 @@ export default function Form({
           defaultValue={isEdit ? value?.priority : "1"}
           min="1"
           max="3"
-        ></input>
+        />
         <StyledLabel htmlFor="dueDate">Due date:</StyledLabel>
         <StyledDateInput
           type="date"
@@ -293,7 +293,7 @@ export default function Form({
           min={isEdit ? minDate : formattedTodayDate}
           max={isEdit && maxDate}
           defaultValue={value?.dueDate || formattedTodayDate}
-        ></StyledDateInput>
+        />
 
         <StyledLabel htmlFor="repeat">Repeat:</StyledLabel>
         <StyledSelect
@@ -323,7 +323,7 @@ export default function Form({
               min={formattedTodayDate}
               defaultValue={endDate}
               onChange={handleEndDate}
-            ></StyledDateInput>
+            />
           </>
         )}
         {isEdit && (
@@ -342,7 +342,7 @@ export default function Form({
               defaultValue={endDate}
               onChange={handleEndDate}
               readOnly
-            ></StyledDateInput>
+            />
           </>
         )}
 
