@@ -30,13 +30,13 @@ export default async function handler(request, response) {
         updateRequest === "all"
           ? await Task.find({
               groupId: updatedTask.groupId,
-              isDone: false,
+              isDone: { $ne: true },
             }).sort({
               dueDate: 1,
             })
           : await Task.find({
               groupId: updatedTask.groupId,
-              isDone: false,
+              isDone: { $ne: true },
               dueDate: { $gte: updatedTask.dueDate },
             }).sort({
               dueDate: 1,
@@ -108,7 +108,7 @@ export default async function handler(request, response) {
         isDone: { $ne: true },
       });
       deleteComments(tasksToDelete);
-      await Task.deleteMany({ groupId: groupId, isDone: false });
+      await Task.deleteMany({ groupId: groupId, isDone: { $ne: true } });
       response.status(200).json({ status: "Tasks deleted successfully." });
     } else if (deleteRequest === "future") {
       const task = await Task.findById(id);
@@ -121,7 +121,7 @@ export default async function handler(request, response) {
       await Task.deleteMany({
         groupId: task.groupId,
         dueDate: { $gte: task.dueDate },
-        isDone: false,
+        isDone: { $ne: true },
       });
       response.status(200).json({ status: "Tasks deleted successfully." });
     } else {
