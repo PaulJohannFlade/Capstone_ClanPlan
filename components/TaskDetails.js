@@ -62,7 +62,7 @@ const StyledParagraph = styled.p`
 `;
 
 const StyledParagraphContent = styled.p`
-  font-size: larger;
+  font-size: large;
   font-weight: 600;
 `;
 
@@ -95,12 +95,17 @@ export default function TaskDetails({
     assignedTo,
     groupId,
     repeat,
+    endDate,
   } = task;
   const router = useRouter();
 
   const isToday = dueDate && checkForToday(dueDate);
   const isMissed = dueDate && checkForMissedDate(dueDate);
-
+  const isRepeat =
+    repeat &&
+    (repeat === "Monthly" || repeat === "Weekly" || repeat === "Daily")
+      ? true
+      : false;
   async function handleDeleteTask(id) {
     const response = await toast.promise(
       fetch(`/api/tasks/${id}?deleteRequest=single`, {
@@ -183,17 +188,21 @@ export default function TaskDetails({
               <StyledFlame key={index} />
             ))}
         </p>
-        <StyledArticle>
-          <StyledParagraph>Due Date:</StyledParagraph>
-          <StyledParagraph>Repeat:</StyledParagraph>
-          <StyledParagraphContent>
-            <StyledSpan $isMissed={isMissed}>
-              {isToday ? "Today" : formatTasksDate(dueDate) || "-"}
-            </StyledSpan>
-          </StyledParagraphContent>
-          <StyledParagraphContent>{repeat || "none"}</StyledParagraphContent>
-        </StyledArticle>
-        <StyledParagraph>Assigned to:</StyledParagraph>
+        <p>Due Date:</p>
+        <StyledParagraphContent>
+          <StyledSpan $isMissed={isMissed}>
+            {isToday ? "Today" : formatTasksDate(dueDate) || "-"}
+          </StyledSpan>
+        </StyledParagraphContent>
+        {isRepeat && (
+          <StyledArticle>
+            <p>Repeat:</p>
+            <p>End Date:</p>
+            <StyledParagraphContent>{repeat || "None"}</StyledParagraphContent>
+            <StyledParagraphContent>{formatTasksDate(endDate) || "-"}</StyledParagraphContent>
+          </StyledArticle>
+        )}
+        <p>Assigned to:</p>
         <StyledParagraphContent>
           {assignedTo?.map((member) => member.name).join(", ") || "-"}
         </StyledParagraphContent>

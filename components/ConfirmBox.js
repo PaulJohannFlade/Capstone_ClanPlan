@@ -46,7 +46,7 @@ export default function ConfirmBox({
         {groupId && (
           <>
             <StyledConfirmButton onClick={onConfirmFurtherTasks}>
-              Further tasks
+              Future tasks
             </StyledConfirmButton>
             <StyledConfirmButton onClick={onConfirmAllTasks}>
               All tasks
