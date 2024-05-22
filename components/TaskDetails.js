@@ -13,7 +13,8 @@ import formatTasksDate from "@/utils/formatTasksDate";
 
 const StyledArticle = styled.article`
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 3fr 4fr;
+  gap: 0.5rem;
 `;
 
 const StyledLink = styled(Link)`
@@ -199,7 +200,9 @@ export default function TaskDetails({
             <p>Repeat:</p>
             <p>End Date:</p>
             <StyledParagraphContent>{repeat || "None"}</StyledParagraphContent>
-            <StyledParagraphContent>{formatTasksDate(endDate) || "-"}</StyledParagraphContent>
+            <StyledParagraphContent>
+              {formatTasksDate(endDate) || "-"}
+            </StyledParagraphContent>
           </StyledArticle>
         )}
         <p>Assigned to:</p>
