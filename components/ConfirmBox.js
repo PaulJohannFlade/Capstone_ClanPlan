@@ -33,7 +33,7 @@ export default function ConfirmBox({
   onConfirm,
   message,
   onConfirmAllTasks,
-  onConfirmFutherTasks,
+  onConfirmFurtherTasks,
   groupId,
 }) {
   return (
@@ -45,8 +45,8 @@ export default function ConfirmBox({
         </StyledConfirmButton>
         {groupId && (
           <>
-            <StyledConfirmButton onClick={onConfirmFutherTasks}>
-              Further tasks
+            <StyledConfirmButton onClick={onConfirmFurtherTasks}>
+              Future tasks
             </StyledConfirmButton>
             <StyledConfirmButton onClick={onConfirmAllTasks}>
               All tasks
