@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import ConfirmBox from "./ConfirmBox";
 import convertDateToString from "@/utils/convertDateToString";
 import getWeekRange from "@/utils/getWeekRange";
+import MultiselectContainer from "./MultiselectContainer";
 
 const StyledForm = styled.form`
   display: flex;
@@ -92,7 +93,6 @@ export default function Form({
   const [displayEndDate, setDisplayEndDate] = useState(false);
   const [isEndDateValid, setIsEndDateValid] = useState(true);
   const [endDate, setEndDate] = useState(value?.endDate);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const formattedTodayDate = convertDateToString(new Date());
 
@@ -244,21 +244,6 @@ export default function Form({
     setIsEndDateValid(true);
   }
 
-  function closeDropdown(event) {
-    event.stopPropagation();
-    setIsDropdownOpen(false);
-  }
-
-  function handleMultiselectContainerClick(event) {
-    event.stopPropagation();
-    setIsDropdownOpen(true);
-  }
-
-  function handleMultiselectContainerAwayClick(event) {
-    event.stopPropagation();
-    setIsDropdownOpen(false);
-  }
-
   return (
     <>
       <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
@@ -386,11 +371,7 @@ export default function Form({
         )}
 
         <StyledLabel htmlFor="assignedTo">Assign to:</StyledLabel>
-        <StyledMultiselectContainer
-          onClick={handleMultiselectContainerClick}
-          onBlur={handleMultiselectContainerAwayClick}
-          $hidden={!isDropdownOpen}
-        >
+        <MultiselectContainer>
           <Multiselect
             id="assignedTo"
             options={allocatedMembers}
@@ -403,13 +384,13 @@ export default function Form({
             placeholder="Select Family Member"
             avoidHighlightFirstOption={true}
             selectedValues={assignedTo}
+            style={{
+              chips: {
+                marginRight: "20px",
+              },
+            }}
           />
-          {isDropdownOpen && (
-            <StyledToggleDropdownButton type="button" onClick={closeDropdown}>
-              ▼
-            </StyledToggleDropdownButton>
-          )}
-        </StyledMultiselectContainer>
+        </MultiselectContainer>
         <StyledButton>{isEdit ? "Update" : "Create"}</StyledButton>
       </StyledForm>
     </>
