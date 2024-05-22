@@ -164,8 +164,8 @@ export default function CategoryForm({
           avoidHighlightFirstOption={true}
           selectedValues={selectedMembers}
           style={{
-            chips: {
-              marginRight: "20px",
+            searchBox: {
+              paddingRight: "25px",
             },
           }}
         />

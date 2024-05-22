@@ -385,8 +385,8 @@ export default function Form({
             avoidHighlightFirstOption={true}
             selectedValues={assignedTo}
             style={{
-              chips: {
-                marginRight: "20px",
+              searchBox: {
+                paddingRight: "25px",
               },
             }}
           />
