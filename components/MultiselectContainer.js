@@ -34,25 +34,26 @@ export default function MultiselectContainer({ children }) {
     setIsDropdownOpen(false);
   }
 
-  function handleMultiselectContainerClick(event) {
+  function openDropdown(event) {
     event.stopPropagation();
     setIsDropdownOpen(true);
   }
 
-  function handleMultiselectContainerAwayClick(event) {
-    event.stopPropagation();
-    setIsDropdownOpen(false);
-  }
-
+  console.log(isDropdownOpen);
   return (
     <StyledContainer
-      onClick={handleMultiselectContainerClick}
-      onBlur={handleMultiselectContainerAwayClick}
+      onClick={openDropdown}
+      onBlur={closeDropdown}
       $hidden={!isDropdownOpen}
     >
       {children}
       {isDropdownOpen && (
         <StyledToggleDropdownButton type="button" onClick={closeDropdown}>
+          ▲
+        </StyledToggleDropdownButton>
+      )}
+      {!isDropdownOpen && (
+        <StyledToggleDropdownButton type="button" onClick={openDropdown}>
           ▼
         </StyledToggleDropdownButton>
       )}
