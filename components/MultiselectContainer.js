@@ -39,7 +39,6 @@ export default function MultiselectContainer({ children }) {
     setIsDropdownOpen(true);
   }
 
-  console.log(isDropdownOpen);
   return (
     <StyledContainer
       onClick={openDropdown}
