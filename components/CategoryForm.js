@@ -102,6 +102,7 @@ export default function CategoryForm({
       title: data.title.trim(),
       selectedMembers,
       id: value?._id,
+      family: "1234ff475a93007538a23e95",
     });
   }
 

@@ -10,8 +10,8 @@ const StyledList = styled.ul`
 `;
 
 const StyledListItems = styled.li`
-  border-radius: 2rem;
-  padding: 1rem;
+  border-radius: 1.5rem;
+  padding: 1rem 2rem;
   box-shadow: 1px 1px 10px -1px var(--color-font);
   margin: 0.5rem;
   background-color: var(--color-background);
@@ -22,6 +22,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
   display: flex;
+  justify-content: space-between;
 `;
 
 const StyleSpan = styled.span`
