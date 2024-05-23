@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styled from "styled-components";
 
 const StyledList = styled.ul`
@@ -19,6 +20,13 @@ const StyledListItems = styled.li`
   transition: background-color 0.5s ease;
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+  display: grid;
+  grid-template-columns: 8fr 5fr;
+`;
+
 const StyleSpan = styled.span`
   max-width: 270px;
   overflow: hidden;
@@ -32,10 +40,12 @@ export default function FamilyMembersList({ familyMembers }) {
       <StyledList>
         {familyMembers.map((member) => (
           <StyledListItems key={member._id}>
-            <StyleSpan title={member.name}>
-              <strong>{member.name}</strong>
-            </StyleSpan>
-            <span>{member.role}</span>
+            <StyledLink href={`/family/${member._id}`}>
+              <StyleSpan title={member.name}>
+                <strong>{member.name}</strong>
+              </StyleSpan>
+              <span>{member.role}</span>
+            </StyledLink>
           </StyledListItems>
         ))}
       </StyledList>
