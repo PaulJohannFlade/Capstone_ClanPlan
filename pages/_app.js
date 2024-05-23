@@ -97,7 +97,6 @@ export default function App({
   }
 
   return (
-
     <SessionProvider session={session}>
       <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
         <Layout user={user}>
@@ -144,6 +143,5 @@ export default function App({
         </Layout>
       </ThemeProvider>
     </SessionProvider>
-
   );
 }
