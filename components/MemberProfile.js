@@ -3,6 +3,7 @@ import StyledTrash from "./StyledTrash";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import StyledPen from "./StyledPen";
+import ThemeToggle from "./ThemeToggle";
 
 const StyledSection = styled.section`
   position: relative;
@@ -12,7 +13,7 @@ const StyledSection = styled.section`
   flex-direction: column;
   border-radius: 2rem;
   padding: 2rem;
-  gap: 0.6rem;
+  gap: 1rem;
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   box-shadow: 1px 1px 10px -1px var(--color-font);
 `;
@@ -26,7 +27,17 @@ const StyledParagraphContent = styled.p`
   font-weight: 600;
 `;
 
-export default function MemberProfile({ familyMember }) {
+const StyledHeading = styled.h3`
+  text-align: center;
+  font-family: var(--font-handlee);
+  font-size: 1.4rem;
+`;
+
+export default function MemberProfile({
+  familyMember,
+  isDarkTheme,
+  setDarkTheme,
+}) {
   const { name, role } = familyMember;
   const router = useRouter();
 
@@ -48,13 +59,19 @@ export default function MemberProfile({ familyMember }) {
   }
 
   return (
-    <StyledSection>
-      <StyledTrash />
-      <StyledPen />
-      <StyledParagraph> Name:</StyledParagraph>
-      <StyledParagraphContent>{name}</StyledParagraphContent>
-      <StyledParagraph>Role: </StyledParagraph>
-      <StyledParagraphContent>{role}</StyledParagraphContent>
-    </StyledSection>
+    <>
+      <StyledSection>
+        <StyledTrash />
+        <StyledPen />
+        <StyledParagraph> Name:</StyledParagraph>
+        <StyledParagraphContent>{name}</StyledParagraphContent>
+        <StyledParagraph>Role: </StyledParagraph>
+        <StyledParagraphContent>{role}</StyledParagraphContent>
+      </StyledSection>
+      <StyledSection>
+        <StyledHeading>Settings</StyledHeading>
+        <ThemeToggle isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme} />
+      </StyledSection>
+    </>
   );
 }

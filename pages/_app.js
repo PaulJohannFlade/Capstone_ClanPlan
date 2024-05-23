@@ -80,7 +80,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-      <Layout isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme}>
+      <Layout>
         <GlobalStyle />
         <SWRConfig value={{ fetcher }}>
           <ToastContainer
@@ -114,6 +114,8 @@ export default function App({ Component, pageProps }) {
             setCurrentDate={setCurrentDate}
             currentView={currentView}
             setCurrentView={setCurrentView}
+            isDarkTheme={isDarkTheme}
+            setDarkTheme={setDarkTheme}
           />
         </SWRConfig>
       </Layout>

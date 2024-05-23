@@ -14,8 +14,6 @@ const StyledListItems = styled.li`
   padding: 1rem;
   box-shadow: 1px 1px 10px -1px var(--color-font);
   margin: 0.5rem;
-  display: grid;
-  grid-template-columns: 3fr 1fr;
   background-color: var(--color-background);
   transition: background-color 0.5s ease;
 `;
@@ -23,8 +21,7 @@ const StyledListItems = styled.li`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
-  display: grid;
-  grid-template-columns: 8fr 5fr;
+  display: flex;
 `;
 
 const StyleSpan = styled.span`
