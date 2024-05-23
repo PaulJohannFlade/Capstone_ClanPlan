@@ -47,30 +47,6 @@ const StyledDiv = styled.div`
   font-size: 0.9rem;
 `;
 
-const StyledMultiselectContainer = styled.div`
-  position: relative;
-  display: inline-block;
-  .multiSelectContainer .optionListContainer {
-    z-index: ${({ $hidden }) => $hidden && "-1"};
-    max-height: 132px;
-    overflow: scroll;
-  }
-`;
-
-const StyledToggleDropdownButton = styled.button`
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  z-index: 100;
-  &:hover {
-    background-color: transparent;
-  }
-`;
-
 export default function Form({
   onTaskSubmit,
   onTasksSubmit,
