@@ -9,8 +9,7 @@
     "lint": "next lint",
     "test": "jest --watchAll"
   },
-  "dependencies": {    
-    "cloudinary": "^2.2.0",
+  "dependencies": {
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.8",
     "mongoose": "^8.3.3",
