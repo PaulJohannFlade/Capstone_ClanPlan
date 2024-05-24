@@ -67,7 +67,6 @@ export default function MemberProfile({
         )}
         <UserInfoContainer>
           <StyledParagraph>
-            {" "}
             Name: <StyledContent>{name}</StyledContent>
           </StyledParagraph>
           <StyledParagraph>

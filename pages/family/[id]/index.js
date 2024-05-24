@@ -4,6 +4,7 @@ import styled from "styled-components";
 import useSWR from "swr";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import MemberProfile from "@/components/MemberProfile";
+import StyledBackLink from "@/components/StyledBackLink";
 
 const StyledBackButton = styled.button`
   position: fixed;
@@ -43,9 +44,15 @@ export default function MemberProfilePage({ isDarkTheme, setDarkTheme, user }) {
 
   return (
     <>
-      <StyledBackButton onClick={handleGoBack}>
-        <BackArrow />
-      </StyledBackButton>
+      {familyMember._id === user._id ? (
+        <StyledBackButton onClick={handleGoBack}>
+          <BackArrow />
+        </StyledBackButton>
+      ) : (
+        <StyledBackLink href="/family">
+          <BackArrow />
+        </StyledBackLink>
+      )}
       <StyledHeading>Family Member Profile</StyledHeading>
       {familyMember ? (
         <MemberProfile
