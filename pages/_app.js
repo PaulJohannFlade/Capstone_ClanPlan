@@ -60,6 +60,9 @@ export default function App({ Component, pageProps }) {
     return;
   }
 
+  const userId = "6631ff475a93007538a23e95";
+  const user = familyMembers.find((member) => member._id === userId);
+
   function handleSetDetailsBackLinkRef(link) {
     setDetailsBackLinkRef(link);
   }
@@ -80,7 +83,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-      <Layout>
+      <Layout user={user}>
         <GlobalStyle />
         <SWRConfig value={{ fetcher }}>
           <ToastContainer
@@ -116,6 +119,7 @@ export default function App({ Component, pageProps }) {
             setCurrentView={setCurrentView}
             isDarkTheme={isDarkTheme}
             setDarkTheme={setDarkTheme}
+            user={user}
           />
         </SWRConfig>
       </Layout>

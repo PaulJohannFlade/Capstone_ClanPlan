@@ -1,9 +1,7 @@
 import styled from "styled-components";
-import StyledTrash from "./StyledTrash";
-import { useRouter } from "next/router";
-import { toast } from "react-toastify";
-import StyledPen from "./StyledPen";
 import ThemeToggle from "./ThemeToggle";
+import Image from "next/image";
+import User from "@/public/assets/images/user.svg";
 
 const StyledSection = styled.section`
   position: relative;
@@ -16,15 +14,27 @@ const StyledSection = styled.section`
   gap: 1rem;
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   box-shadow: 1px 1px 10px -1px var(--color-font);
+  align-items: center;
+`;
+
+const StyledUser = styled(User)`
+  width: 150px;
+`;
+
+const UserInfoContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 `;
 
 const StyledParagraph = styled.p`
-  font-size: 0.9rem;
+  font-size: 1rem;
 `;
 
-const StyledParagraphContent = styled.p`
+const StyledContent = styled.span`
   font-size: large;
   font-weight: 600;
+  margin-left: 0.5rem;
 `;
 
 const StyledHeading = styled.h3`
@@ -37,41 +47,40 @@ export default function MemberProfile({
   familyMember,
   isDarkTheme,
   setDarkTheme,
+  user,
 }) {
-  const { name, role } = familyMember;
-  const router = useRouter();
-
-  async function handleDeleteTask(id) {
-    const response = await toast.promise(
-      fetch(`/api/tasks/${id}?deleteRequest=single`, {
-        method: "DELETE",
-      }),
-      {
-        pending: "Task deletion is pending",
-        success: "Task deleted successfully",
-        error: "Task not deleted",
-      }
-    );
-    if (response.ok) {
-      router.push(detailsBackLinkRef);
-      setShowModal(false);
-    }
-  }
+  const { _id, name, role, profilePhoto } = familyMember;
 
   return (
     <>
       <StyledSection>
-        <StyledTrash />
-        <StyledPen />
-        <StyledParagraph> Name:</StyledParagraph>
-        <StyledParagraphContent>{name}</StyledParagraphContent>
-        <StyledParagraph>Role: </StyledParagraph>
-        <StyledParagraphContent>{role}</StyledParagraphContent>
+        {profilePhoto ? (
+          <Image
+            src={profilePhoto}
+            alt="user profile image"
+            width={150}
+            height={150}
+            priority={true}
+          />
+        ) : (
+          <StyledUser />
+        )}
+        <UserInfoContainer>
+          <StyledParagraph>
+            {" "}
+            Name: <StyledContent>{name}</StyledContent>
+          </StyledParagraph>
+          <StyledParagraph>
+            Role: <StyledContent>{role}</StyledContent>
+          </StyledParagraph>
+        </UserInfoContainer>
       </StyledSection>
-      <StyledSection>
-        <StyledHeading>Settings</StyledHeading>
-        <ThemeToggle isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme} />
-      </StyledSection>
+      {_id === user._id && (
+        <StyledSection>
+          <StyledHeading>Settings</StyledHeading>
+          <ThemeToggle isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme} />
+        </StyledSection>
+      )}
     </>
   );
 }

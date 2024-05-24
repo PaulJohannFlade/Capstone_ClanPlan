@@ -1,11 +1,17 @@
-import TaskDetails from "@/components/TaskDetails";
 import { useRouter } from "next/router";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
 import styled from "styled-components";
-import StyledBackLink from "@/components/StyledBackLink";
 import useSWR from "swr";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import MemberProfile from "@/components/MemberProfile";
+
+const StyledBackButton = styled.button`
+  position: fixed;
+  top: 0.7rem;
+  left: calc(50% - 170px);
+  z-index: 2;
+  border: none;
+`;
 
 const StyledMessage = styled.p`
   text-align: center;
@@ -17,12 +23,7 @@ const StyledHeading = styled.h2`
   margin-top: 1rem;
 `;
 
-export default function MemberProfilePage({
-  isDarkTheme,
-  setDarkTheme,
-  showModal,
-  setShowModal,
-}) {
+export default function MemberProfilePage({ isDarkTheme, setDarkTheme, user }) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -36,17 +37,22 @@ export default function MemberProfilePage({
     return;
   }
 
+  function handleGoBack() {
+    router.back();
+  }
+
   return (
     <>
-      <StyledBackLink href="/family/">
+      <StyledBackButton onClick={handleGoBack}>
         <BackArrow />
-      </StyledBackLink>
+      </StyledBackButton>
       <StyledHeading>Family Member Profile</StyledHeading>
       {familyMember ? (
         <MemberProfile
           familyMember={familyMember}
           isDarkTheme={isDarkTheme}
           setDarkTheme={setDarkTheme}
+          user={user}
         />
       ) : (
         <StyledMessage>Page not found!</StyledMessage>
