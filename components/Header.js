@@ -11,10 +11,16 @@ const StyledHeader = styled.header`
   top: 0;
   right: 0;
   left: 0;
-  max-width: 375px;
   margin: auto;
   padding: 0.7rem;
   z-index: 1;
+
+  @media (min-width: 600px) {
+    max-width: 375px;
+  }
+  @media (min-width: 1200px), (min-width: 900px) {
+    max-width: 100vw;
+  }
 `;
 
 const StyledH1 = styled.h1`

@@ -3,7 +3,7 @@ import { StyledMessage } from "..";
 import Modal from "@/components/Modal";
 import CategoriesList from "@/components/CategoriesList";
 import CategoryForm from "@/components/CategoryForm";
-import Plus from "@/public/assets/images/plus.svg";
+import StyledPlus from "@/components/StyledPlus";
 import useSWR from "swr";
 import { useState } from "react";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
@@ -11,16 +11,6 @@ import { toast } from "react-toastify";
 
 const StyledHeading = styled.h2`
   text-align: center;
-`;
-
-const StyledPlus = styled(Plus)`
-  position: fixed;
-  bottom: 5rem;
-  right: calc(50% - 160px);
-  width: 3rem;
-  fill: var(--color-background);
-  cursor: pointer;
-  stroke: var(--color-font);
 `;
 
 export default function CategoriesPage({

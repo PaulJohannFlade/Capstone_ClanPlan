@@ -8,6 +8,18 @@ const StyledList = styled.ul`
   padding: 0;
   display: flex;
   flex-direction: column;
+
+  @media (min-width: 1200px), (min-width: 900px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 1536px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+  }
 `;
 
 const StyledListItems = styled.li`

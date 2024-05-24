@@ -18,7 +18,7 @@ export const lightTheme = {
 export const darkTheme = {
   background: "#344648",
   text: "#FFFFFF",
-  button: "#344648",
+  button: "#626768",
   buttonActive: "#065465",
   colorScheme: "dark",
 };
@@ -57,11 +57,22 @@ export default createGlobalStyle`
     max-width: 375px;
     background-color: var(--color-background);
     transition: background-color 0.5s ease, color 0.5s ease;
+    font-size: 1rem;
+
+    @media (min-width: 900px) {
+    max-width: 75vw;
+  }
+
+    @media (min-width: 1200px) {
+    max-width: 75vw;
+  }
+  
   }
 
   img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
+  width:2rem;
 }
 
 input, button, textarea, select {

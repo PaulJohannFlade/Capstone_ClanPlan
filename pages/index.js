@@ -32,6 +32,9 @@ const StyledButton = styled.button`
   border-radius: 1rem;
   color: var(--color-font);
   border: 0.5px solid var(--color-font);
+  @media (min-width: 1100px) {
+    border: none;
+  }
 `;
 
 const StyledHeading = styled.h2`

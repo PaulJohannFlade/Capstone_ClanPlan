@@ -3,20 +3,10 @@ import styled from "styled-components";
 import { StyledMessage } from "..";
 import MemberForm from "@/components/MemberForm";
 import Modal from "@/components/Modal";
-import Plus from "@/public/assets/images/plus.svg";
 import useSWR from "swr";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
-
-const StyledPlus = styled(Plus)`
-  position: fixed;
-  bottom: 5rem;
-  right: calc(50% - 160px);
-  width: 3rem;
-  fill: var(--color-background);
-  cursor: pointer;
-  stroke: var(--color-font);
-`;
+import StyledPlus from "@/components/StyledPlus";
 
 const StyledHeading = styled.h2`
   text-align: center;
