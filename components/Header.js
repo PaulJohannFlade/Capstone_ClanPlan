@@ -82,7 +82,6 @@ export default function Header({ user }) {
         </StyledLink>
       )}
       <Login />
-
     </StyledHeader>
   );
 }

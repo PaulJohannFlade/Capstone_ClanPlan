@@ -17,6 +17,10 @@ export default async function handler(request, response) {
       .populate("selectedMembers")
       .sort({ title: "asc" });
     return response.status(200).json(category);
+    // } catch (error) {
+    //   console.error(error);
+    //   return response.status(500).json({ error: "Internal Server Error" });
+    // }
   }
 
   if (request.method === "POST") {
