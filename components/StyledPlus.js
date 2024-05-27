@@ -2,9 +2,6 @@ import Plus from "@/public/assets/images/plus.svg";
 import styled from "styled-components";
 
 const StyledPlus = styled(Plus)`
-  position: absolute;
-  top: 5rem;
-  left: 1rem;
   width: 3rem;
   fill: var(--color-background);
   cursor: pointer;
@@ -14,11 +11,7 @@ const StyledPlus = styled(Plus)`
     opacity: 1;
   }
 
-  @media (min-width: 900px) {
-    left: 10rem;
-  }
-
-  @media (min-width: 1200px) {
+  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
     left: 10rem;
   }
 `;

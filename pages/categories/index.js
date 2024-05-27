@@ -8,10 +8,7 @@ import useSWR from "swr";
 import { useState } from "react";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
-
-const StyledHeading = styled.h2`
-  text-align: center;
-`;
+import { StyledMenu } from "../family";
 
 export default function CategoriesPage({
   showModal,
@@ -53,7 +50,16 @@ export default function CategoriesPage({
 
   return (
     <>
-      <StyledHeading>Task Categories</StyledHeading>
+      <StyledMenu>
+        <StyledPlus
+          onClick={() => {
+            setModalMode("add");
+            setShowModal(true);
+          }}
+          $right={true}
+        />
+        <h2>Task Categories</h2>
+      </StyledMenu>
 
       {!categories.length && (
         <StyledMessage>The list is empty. Add members to begin!</StyledMessage>
@@ -68,13 +74,6 @@ export default function CategoriesPage({
         mutate={mutate}
       />
 
-      <StyledPlus
-        onClick={() => {
-          setModalMode("add");
-          setShowModal(true);
-        }}
-        $right={true}
-      />
       <Modal
         $top="7rem"
         setShowModal={setShowModal}

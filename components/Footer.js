@@ -26,7 +26,6 @@ const StyledFooter = styled.footer`
     height: 100vh;
     width: 100px;
     flex-direction: column;
-    z-index: 150;
   }
 `;
 
