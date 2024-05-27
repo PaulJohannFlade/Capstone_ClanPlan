@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
+
 import Login from "./Login";
 import User from "@/public/assets/images/user.svg";
 import { useSession } from "next-auth/react";
@@ -46,17 +47,6 @@ const StyledParagraph = styled.p`
 
 const StyledH1 = styled.h1`
   font-family: Arial, Helvetica, sans-serif;
-`;
-
-const ImageContainer = styled.div`
-  position: relative;
-  width: 35px;
-  height: 35px;
-`;
-
-const StyledImage = styled(Image)`
-  object-fit: cover;
-  border-radius: 50%;
 `;
 
 export default function Header({ user }) {

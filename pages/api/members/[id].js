@@ -18,6 +18,8 @@ export default async function handler(request, response) {
   if (request.method === "PATCH") {
     const updatedMemberData = request.body;
     await Member.findByIdAndUpdate(id, updatedMemberData, { new: true });
-    response.status(200).json({ status: "Member profile updated successfully." });
+    response
+      .status(200)
+      .json({ status: "Member profile updated successfully." });
   }
 }
