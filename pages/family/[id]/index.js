@@ -5,6 +5,7 @@ import useSWR from "swr";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import MemberProfile from "@/components/MemberProfile";
 import StyledBackLink from "@/components/StyledBackLink";
+import { toast } from "react-toastify";
 
 const StyledBackButton = styled.button`
   position: fixed;
@@ -28,7 +29,11 @@ export default function MemberProfilePage({ isDarkTheme, setDarkTheme, user }) {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data: familyMember, isLoading } = useSWR(`/api/members/${id}`);
+  const {
+    data: familyMember,
+    isLoading,
+    mutate,
+  } = useSWR(`/api/members/${id}`);
 
   if (isLoading) {
     return <StyledLoadingAnimation />;
@@ -40,6 +45,27 @@ export default function MemberProfilePage({ isDarkTheme, setDarkTheme, user }) {
 
   function handleGoBack() {
     router.back();
+  }
+
+  async function handleAddPhoto(url) {
+    const updatedMemberData = { ...familyMember, profilePhoto: url };
+    const response = await toast.promise(
+      fetch(`/api/members/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedMemberData),
+      }),
+      {
+        pending: "Photo updation is pending",
+        success: "Photo updated successfully",
+        error: "Photo not updated",
+      }
+    );
+    if (response.ok) {
+      mutate();
+    }
   }
 
   return (
@@ -60,6 +86,7 @@ export default function MemberProfilePage({ isDarkTheme, setDarkTheme, user }) {
           isDarkTheme={isDarkTheme}
           setDarkTheme={setDarkTheme}
           user={user}
+          onAddPhoto={handleAddPhoto}
         />
       ) : (
         <StyledMessage>Page not found!</StyledMessage>

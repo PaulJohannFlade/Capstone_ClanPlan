@@ -14,4 +14,10 @@ export default async function handler(request, response) {
 
     response.status(200).json(familyMember);
   }
+
+  if (request.method === "PATCH") {
+    const updatedMemberData = request.body;
+    await Member.findByIdAndUpdate(id, updatedMemberData, { new: true });
+    response.status(200).json({ status: "Photo updated successfully." });
+  }
 }

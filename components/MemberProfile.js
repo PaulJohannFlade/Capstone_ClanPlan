@@ -2,6 +2,7 @@ import styled from "styled-components";
 import ThemeToggle from "./ThemeToggle";
 import Image from "next/image";
 import User from "@/public/assets/images/user.svg";
+import FileUploadForm from "./FileUploadForm";
 
 const StyledSection = styled.section`
   position: relative;
@@ -15,6 +16,19 @@ const StyledSection = styled.section`
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   box-shadow: 1px 1px 10px -1px var(--color-font);
   align-items: center;
+`;
+
+const ImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 80vw;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 1rem;
+`;
+
+const StyledImage = styled(Image)`
+  object-fit: cover;
 `;
 
 const StyledUser = styled(User)`
@@ -48,23 +62,28 @@ export default function MemberProfile({
   isDarkTheme,
   setDarkTheme,
   user,
+  onAddPhoto,
 }) {
   const { _id, name, role, profilePhoto } = familyMember;
+  console.log(profilePhoto);
 
   return (
     <>
       <StyledSection>
         {profilePhoto ? (
-          <Image
-            src={profilePhoto}
-            alt="user profile image"
-            width={150}
-            height={150}
-            priority={true}
-          />
+          <ImageContainer>
+            <StyledImage
+              src={profilePhoto}
+              alt="user profile image"
+              sizes="80vw"
+              fill
+              priority={true}
+            />
+          </ImageContainer>
         ) : (
           <StyledUser />
         )}
+        {_id === user._id && <FileUploadForm onAddPhoto={onAddPhoto} />}
         <UserInfoContainer>
           <StyledParagraph>
             Name: <StyledContent>{name}</StyledContent>

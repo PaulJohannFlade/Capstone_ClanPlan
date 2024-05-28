@@ -4,7 +4,7 @@ import Link from "next/link";
 const StyledBackLink = styled(Link)`
   position: fixed;
   top: 0.7rem;
-  left: calc(50% - 170px);
+  left: 20px;
   z-index: 2;
 
   @media (min-width: 900px) {
