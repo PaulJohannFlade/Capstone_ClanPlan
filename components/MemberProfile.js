@@ -43,13 +43,8 @@ const StyledHeading = styled.h3`
   font-size: 1.4rem;
 `;
 
-export default function MemberProfile({
-  familyMember,
-  isDarkTheme,
-  setDarkTheme,
-  user,
-}) {
-  const { _id, name, role, profilePhoto } = familyMember;
+export default function MemberProfile({ familyMember, user }) {
+  const { _id, name, role, profilePhoto, isDarkTheme } = familyMember;
 
   return (
     <>
@@ -77,7 +72,11 @@ export default function MemberProfile({
       {_id === user._id && (
         <StyledSection>
           <StyledHeading>Settings</StyledHeading>
-          <ThemeToggle isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme} />
+          <ThemeToggle
+            familyMember={familyMember}
+            isDarkTheme={isDarkTheme}
+            userId={_id}
+          />
         </StyledSection>
       )}
     </>

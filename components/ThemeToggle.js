@@ -49,13 +49,34 @@ const MoonIcon = styled(Moon)`
   right: 6px;
 `;
 
-export default function ThemeToggle({ isDarkTheme, setDarkTheme }) {
+export default function ThemeToggle({ familyMember, isDarkTheme, userId }) {
+  async function handleModeToggle() {
+    const updatedMember = { ...familyMember, isDarkTheme: !isDarkTheme };
+    const response = await toast.promise(
+      fetch(`/api/members/${userId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedMember),
+      }),
+      {
+        pending: "Profile updation is pending",
+        success: "Profile updated successfully",
+        error: "Profile not updated",
+      }
+    );
+
+    if (response.ok) {
+      router.push(`/members/${userId}`);
+    }
+  }
   return (
     <ToggleLabel htmlFor="theme-toggle" $dark={isDarkTheme}>
       <ToggleCheckbox
         type="checkbox"
         id="theme-toggle"
-        onChange={() => setDarkTheme(!isDarkTheme)}
+        onChange={handleModeToggle}
         checked={isDarkTheme}
       />
       <SunIcon />
