@@ -13,6 +13,10 @@ const StyledBackButton = styled.button`
   left: calc(50% - 170px);
   z-index: 2;
   border: none;
+
+  @media (min-width: 900px) {
+    left: calc(100px + 2rem);
+  }
 `;
 
 const StyledMessage = styled.p`

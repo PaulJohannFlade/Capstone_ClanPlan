@@ -16,6 +16,16 @@ const StyledSection = styled.section`
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   box-shadow: 1px 1px 10px -1px var(--color-font);
   align-items: center;
+
+  ${({ $settings }) =>
+    !$settings &&
+    `
+@media (min-width: 900px) {
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+`}
 `;
 
 const ImageContainer = styled.div`
@@ -25,6 +35,9 @@ const ImageContainer = styled.div`
   aspect-ratio: 1;
   overflow: hidden;
   border-radius: 1rem;
+  @media (min-width: 900px) {
+    max-width: 50vw;
+  }
 `;
 
 const StyledImage = styled(Image)`
@@ -39,6 +52,9 @@ const UserInfoContainer = styled.div`
   display: flex;
   gap: 1rem;
   align-items: center;
+  @media (min-width: 900px) {
+    flex-direction: column;
+  }
 `;
 
 const StyledParagraph = styled.p`
@@ -83,8 +99,8 @@ export default function MemberProfile({
         ) : (
           <StyledUser />
         )}
-        {_id === user._id && <FileUploadForm onAddPhoto={onAddPhoto} />}
         <UserInfoContainer>
+          {_id === user._id && <FileUploadForm onAddPhoto={onAddPhoto} />}
           <StyledParagraph>
             Name: <StyledContent>{name}</StyledContent>
           </StyledParagraph>
@@ -94,7 +110,7 @@ export default function MemberProfile({
         </UserInfoContainer>
       </StyledSection>
       {_id === user._id && (
-        <StyledSection>
+        <StyledSection $settings={true}>
           <StyledHeading>Settings</StyledHeading>
           <ThemeToggle isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme} />
         </StyledSection>

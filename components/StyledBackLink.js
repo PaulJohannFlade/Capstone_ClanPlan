@@ -4,17 +4,11 @@ import Link from "next/link";
 const StyledBackLink = styled(Link)`
   position: fixed;
   top: 0.7rem;
-  left: 20px;
+  left: calc(50% - 170px);
   z-index: 2;
 
   @media (min-width: 900px) {
-    left: 13%;
-  }
-  @media (min-width: 1200px) {
-    left: 10%;
-  }
-  @media (min-width: 1536px) {
-    left: 8%;
+    left: calc(100px + 2rem);
   }
 `;
 
