@@ -54,7 +54,9 @@ export default function App({ Component, pageProps }) {
   //const userId = "6631ff475a93007538a23e95"; //swetha
   const userId = "6631ff575a93007538a23e98"; // Lokesh
   const user = familyMembers.find((member) => member._id === userId);
-  const isDarkTheme = user.isDarkTheme;
+  const isDarkTheme = user
+    ? user.isDarkTheme
+    : window.matchMedia("(prefers-color-scheme: dark)").matches;
 
   function handleSetDetailsBackLinkRef(link) {
     setDetailsBackLinkRef(link);
