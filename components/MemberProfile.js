@@ -15,6 +15,10 @@ const StyledSection = styled.section`
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   box-shadow: 1px 1px 10px -1px var(--color-font);
   align-items: center;
+
+  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
+    margin-left: 6rem;
+  }
 `;
 
 const StyledUser = styled(User)`
