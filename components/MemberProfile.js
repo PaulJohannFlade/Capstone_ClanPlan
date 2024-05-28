@@ -99,8 +99,9 @@ export default function MemberProfile({
         ) : (
           <StyledUser />
         )}
+
+        {_id === user._id && <FileUploadForm onAddPhoto={onAddPhoto} />}
         <UserInfoContainer>
-          {_id === user._id && <FileUploadForm onAddPhoto={onAddPhoto} />}
           <StyledParagraph>
             Name: <StyledContent>{name}</StyledContent>
           </StyledParagraph>
