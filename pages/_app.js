@@ -32,10 +32,11 @@ export default function App({ Component, pageProps }) {
     "/api/categories",
     fetcher
   );
-  const { data: familyMembers, isLoading: isFamilyLoading } = useSWR(
-    "/api/members",
-    fetcher
-  );
+  const {
+    data: familyMembers,
+    isLoading: isFamilyLoading,
+    mutate: mutateMembers,
+  } = useSWR("/api/members", fetcher);
   const { data: tasks, isLoading } = useSWR("/api/tasks", fetcher);
 
   if (isLoading) {
@@ -120,6 +121,7 @@ export default function App({ Component, pageProps }) {
             isDarkTheme={isDarkTheme}
             setDarkTheme={setDarkTheme}
             user={user}
+            mutateMembers={mutateMembers}
           />
         </SWRConfig>
       </Layout>

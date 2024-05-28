@@ -25,7 +25,12 @@ const StyledHeading = styled.h2`
   margin-top: 1rem;
 `;
 
-export default function MemberProfilePage({ isDarkTheme, setDarkTheme, user }) {
+export default function MemberProfilePage({
+  isDarkTheme,
+  setDarkTheme,
+  user,
+  mutateMembers,
+}) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -65,6 +70,7 @@ export default function MemberProfilePage({ isDarkTheme, setDarkTheme, user }) {
     );
     if (response.ok) {
       mutate();
+      mutateMembers();
     }
   }
 
