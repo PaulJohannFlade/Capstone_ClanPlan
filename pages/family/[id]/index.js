@@ -5,7 +5,6 @@ import useSWR from "swr";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import MemberProfile from "@/components/MemberProfile";
 import StyledBackLink from "@/components/StyledBackLink";
-import { toast } from "react-toastify";
 
 const StyledBackButton = styled.button`
   position: fixed;
