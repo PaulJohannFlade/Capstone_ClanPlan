@@ -73,7 +73,12 @@ const StyledHeading = styled.h3`
   font-size: 1.4rem;
 `;
 
-export default function MemberProfile({ familyMember, user, onAddPhoto }) {
+export default function MemberProfile({
+  familyMember,
+  user,
+  onAddPhoto,
+  mutateUser,
+}) {
   const { _id, name, role, profilePhoto } = familyMember;
 
   return (
@@ -106,7 +111,7 @@ export default function MemberProfile({ familyMember, user, onAddPhoto }) {
       {_id === user._id && (
         <StyledSection $settings={true}>
           <StyledHeading>Settings</StyledHeading>
-          <ThemeToggle familyMember={familyMember} />
+          <ThemeToggle familyMember={familyMember} mutateUser={mutateUser} />
         </StyledSection>
       )}
     </>

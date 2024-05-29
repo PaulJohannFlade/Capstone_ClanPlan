@@ -51,10 +51,9 @@ const MoonIcon = styled(Moon)`
   right: 6px;
 `;
 
-export default function ThemeToggle({ familyMember }) {
+export default function ThemeToggle({ familyMember, mutateUser }) {
   const { isDarkTheme, _id: id } = familyMember;
   const { mutate } = useSWR(`/api/members/${id}`);
-  const { mutate: membersMutate } = useSWR("/api/members");
 
   async function handleModeToggle() {
     const updatedMember = { ...familyMember, isDarkTheme: !isDarkTheme };
@@ -75,7 +74,7 @@ export default function ThemeToggle({ familyMember }) {
 
     if (response.ok) {
       mutate();
-      membersMutate();
+      mutateUser();
     }
   }
 

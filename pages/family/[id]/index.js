@@ -90,6 +90,7 @@ export default function MemberProfilePage({ user, mutateUser }) {
           familyMember={familyMember}
           user={user}
           onAddPhoto={handleAddPhoto}
+          mutateUser={mutateUser}
         />
       ) : (
         <StyledMessage>Page not found!</StyledMessage>
