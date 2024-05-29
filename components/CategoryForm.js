@@ -4,6 +4,7 @@ import StyledButton from "./StyledButton";
 import Multiselect from "multiselect-react-dropdown";
 import useSWR from "swr";
 import StyledLoadingAnimation from "./StyledLoadingAnimation";
+import MultiselectContainer from "./MultiselectContainer";
 
 const StyledHeading = styled.h2`
   align-self: center;
@@ -102,6 +103,7 @@ export default function CategoryForm({
       title: data.title.trim(),
       selectedMembers,
       id: value?._id,
+      family: "1234ff475a93007538a23e95",
     });
   }
 
@@ -150,19 +152,25 @@ export default function CategoryForm({
         Members
         {!isMemberSelected && <StyledSpan>Please select a member!</StyledSpan>}
       </StyledLabel>
-      <Multiselect
-        options={familyMembers}
-        onSelect={onSelect}
-        onRemove={onRemove}
-        displayValue="name"
-        showCheckbox={true}
-        keepSearchTerm={true}
-        showArrow={true}
-        emptyRecordMsg="No members found"
-        placeholder="Please select a member"
-        avoidHighlightFirstOption={true}
-        selectedValues={selectedMembers}
-      />
+      <MultiselectContainer>
+        <Multiselect
+          options={familyMembers}
+          onSelect={onSelect}
+          onRemove={onRemove}
+          displayValue="name"
+          showCheckbox={true}
+          keepSearchTerm={true}
+          emptyRecordMsg="No members found"
+          placeholder="Please select a member"
+          avoidHighlightFirstOption={true}
+          selectedValues={selectedMembers}
+          style={{
+            searchBox: {
+              paddingRight: "25px",
+            },
+          }}
+        />
+      </MultiselectContainer>
       <StyledButton>{value ? "Update" : "Add"}</StyledButton>
     </StyledForm>
   );

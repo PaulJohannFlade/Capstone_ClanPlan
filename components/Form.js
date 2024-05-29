@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import ConfirmBox from "./ConfirmBox";
 import convertDateToString from "@/utils/convertDateToString";
 import getWeekRange from "@/utils/getWeekRange";
+import MultiselectContainer from "./MultiselectContainer";
 
 const StyledForm = styled.form`
   display: flex;
@@ -16,6 +17,10 @@ const StyledForm = styled.form`
   border-radius: 1rem;
   box-shadow: 1px 1px 10px -1px var(--color-font);
   transition: background-color 0.5s ease;
+  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
+    margin-left: 6rem;
+    margin-top: 6rem;
+  }
 `;
 
 const StyledHeading = styled.h2`
@@ -24,12 +29,18 @@ const StyledHeading = styled.h2`
 
 const StyledLabel = styled.label`
   font-size: 0.9rem;
+  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const StyledSpan = styled.span`
   font-size: 1rem;
   color: red;
   float: ${({ $left }) => ($left ? "left" : "right")};
+  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const StyledDateInput = styled.input`
@@ -44,6 +55,9 @@ const StyledDiv = styled.div`
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
+  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
+    font-size: 1.5rem;
+  }
 `;
 
 export default function Form({
@@ -165,6 +179,7 @@ export default function Form({
         assignedTo,
         category: data.category === "" ? null : data.category,
         startDate: data.dueDate,
+        family: "1234ff475a93007538a23e95",
       });
     }
   }
@@ -346,20 +361,26 @@ export default function Form({
         )}
 
         <StyledLabel htmlFor="assignedTo">Assign to:</StyledLabel>
-        <Multiselect
-          id="assignedTo"
-          options={allocatedMembers}
-          onSelect={onSelect}
-          onRemove={onRemove}
-          displayValue="name"
-          showCheckbox={true}
-          keepSearchTerm={true}
-          showArrow={true}
-          emptyRecordMsg="No members found"
-          placeholder="Select Family Member"
-          avoidHighlightFirstOption={true}
-          selectedValues={assignedTo}
-        />
+        <MultiselectContainer>
+          <Multiselect
+            id="assignedTo"
+            options={allocatedMembers}
+            onSelect={onSelect}
+            onRemove={onRemove}
+            displayValue="name"
+            showCheckbox={true}
+            keepSearchTerm={true}
+            emptyRecordMsg="No members found"
+            placeholder="Select Family Member"
+            avoidHighlightFirstOption={true}
+            selectedValues={assignedTo}
+            style={{
+              searchBox: {
+                paddingRight: "25px",
+              },
+            }}
+          />
+        </MultiselectContainer>
         <StyledButton>{isEdit ? "Update" : "Create"}</StyledButton>
       </StyledForm>
     </>
