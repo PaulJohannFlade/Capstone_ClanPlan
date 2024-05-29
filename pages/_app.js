@@ -28,10 +28,11 @@ export default function App({
     "/api/categories",
     fetcher
   );
-  const { data: familyMembers, isLoading: isFamilyLoading } = useSWR(
-    "/api/members",
-    fetcher
-  );
+  const {
+    data: familyMembers,
+    isLoading: isFamilyLoading,
+    mutate: mutateMembers,
+  } = useSWR("/api/members", fetcher);
   const { data: tasks, isLoading } = useSWR("/api/tasks", fetcher);
 
   const { data: user, isLoading: isUserLoading } = useSWR(
@@ -96,6 +97,7 @@ export default function App({
   }
 
   return (
+
     <SessionProvider session={session}>
       <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
         <Layout user={user}>
@@ -135,11 +137,13 @@ export default function App({
                 setCurrentView={setCurrentView}
                 isDarkTheme={isDarkTheme}
                 user={user}
+                mutateMembers={mutateMembers}
               />
             </AuthGate>
           </SWRConfig>
         </Layout>
       </ThemeProvider>
     </SessionProvider>
+
   );
 }

@@ -48,11 +48,23 @@ const StyledH1 = styled.h1`
   font-family: Arial, Helvetica, sans-serif;
 `;
 
+const ImageContainer = styled.div`
+  position: relative;
+  width: 35px;
+  height: 35px;
+`;
+
+const StyledImage = styled(Image)`
+  object-fit: cover;
+  border-radius: 50%;
+`;
+
 export default function Header({ user }) {
   const { data: session } = useSession();
   return (
     <StyledHeader>
       <StyledH1>ClanPlan</StyledH1>
+
       {session && (
         <StyledLink href={`/family/${user._id}`}>
           {user?.profilePhoto ? (
@@ -70,6 +82,7 @@ export default function Header({ user }) {
         </StyledLink>
       )}
       <Login />
+
     </StyledHeader>
   );
 }
