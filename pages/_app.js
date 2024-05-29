@@ -40,6 +40,11 @@ export default function App({
     fetcher
   );
 
+  const { data: user, isLoading: isUserLoading } = useSWR(
+    `/api/members/auth`,
+    fetcher
+  );
+
   if (isLoading) {
     return <StyledLoadingAnimation />;
   }

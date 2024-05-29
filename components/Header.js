@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
-
 import Login from "./Login";
 import User from "@/public/assets/images/user.svg";
 import { useSession } from "next-auth/react";
@@ -54,7 +53,6 @@ export default function Header({ user }) {
   return (
     <StyledHeader>
       <StyledH1>ClanPlan</StyledH1>
-
       {session && (
         <StyledLink href={`/family/${user._id}`}>
           {user?.profilePhoto ? (
