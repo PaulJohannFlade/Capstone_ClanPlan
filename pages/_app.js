@@ -28,17 +28,17 @@ export default function App({
     "/api/categories",
     fetcher
   );
-  const {
-    data: familyMembers,
-    isLoading: isFamilyLoading,
-    mutate: mutateMembers,
-  } = useSWR("/api/members", fetcher);
-  const { data: tasks, isLoading } = useSWR("/api/tasks", fetcher);
-
-  const { data: user, isLoading: isUserLoading } = useSWR(
-    `/api/members/auth`,
+  const { data: familyMembers, isLoading: isFamilyLoading } = useSWR(
+    "/api/members",
     fetcher
   );
+  const { data: tasks, isLoading } = useSWR("/api/tasks", fetcher);
+
+  const {
+    data: user,
+    isLoading: isUserLoading,
+    mutate: mutateUser,
+  } = useSWR(`/api/members/auth`, fetcher);
 
   if (isLoading) {
     return <StyledLoadingAnimation />;
@@ -136,6 +136,7 @@ export default function App({
                 setCurrentView={setCurrentView}
                 isDarkTheme={isDarkTheme}
                 user={user}
+                mutateUser={mutateUser}
               />
             </AuthGate>
           </SWRConfig>

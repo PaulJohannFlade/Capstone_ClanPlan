@@ -29,10 +29,7 @@ const StyledHeading = styled.h2`
   margin-top: 1rem;
 `;
 
-export default function MemberProfilePage({  
-  user,
-  mutateMembers,
-}) {
+export default function MemberProfilePage({ user, mutateUser }) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -72,7 +69,7 @@ export default function MemberProfilePage({
     );
     if (response.ok) {
       mutate();
-      mutateMembers();
+      mutateUser();
     }
   }
 
@@ -90,7 +87,7 @@ export default function MemberProfilePage({
       <StyledHeading>Family Member Profile</StyledHeading>
       {familyMember ? (
         <MemberProfile
-          familyMember={familyMember}          
+          familyMember={familyMember}
           user={user}
           onAddPhoto={handleAddPhoto}
         />
