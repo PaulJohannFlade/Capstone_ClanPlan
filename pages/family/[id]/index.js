@@ -29,7 +29,7 @@ const StyledHeading = styled.h2`
   margin-top: 1rem;
 `;
 
-export default function MemberProfilePage({ user, mutateMembers }) {
+export default function MemberProfilePage({ user, mutateUser }) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -69,7 +69,7 @@ export default function MemberProfilePage({ user, mutateMembers }) {
     );
     if (response.ok) {
       mutate();
-      mutateMembers();
+      mutateUser();
     }
   }
 

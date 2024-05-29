@@ -67,13 +67,15 @@ export default function Header({ user }) {
       {session && (
         <StyledLink href={`/family/${user._id}`}>
           {user?.profilePhoto ? (
-            <Image
-              src={user.profilePhoto}
-              alt="user profile image"
-              width={150}
-              height={150}
-              priority={true}
-            />
+            <ImageContainer>
+              <StyledImage
+                src={user.profilePhoto}
+                alt="user profile image"
+                fill={true}
+                sizes="20vw"
+                priority={true}
+              />
+            </ImageContainer>
           ) : (
             <StyledUser />
           )}
