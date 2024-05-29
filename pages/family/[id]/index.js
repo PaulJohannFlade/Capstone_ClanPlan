@@ -36,6 +36,7 @@ const StyledHeading = styled.h2`
 `;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export default function MemberProfilePage({  
   user,
   mutateMembers,
@@ -50,6 +51,9 @@ export default function MemberProfilePage({
   } = useSWR(`/api/members/${id}`);
 =======
 export default function MemberProfilePage({ isDarkTheme, setDarkTheme, user }) {
+=======
+export default function MemberProfilePage({ user }) {
+>>>>>>> 5f64cdd (Feature/save mode in account (#80))
   const router = useRouter();
   const { id } = router.query;
 
@@ -106,6 +110,7 @@ export default function MemberProfilePage({ isDarkTheme, setDarkTheme, user }) {
       )}
       <StyledHeading>Family Member Profile</StyledHeading>
       {familyMember ? (
+<<<<<<< HEAD
         <MemberProfile
 <<<<<<< HEAD
           familyMember={familyMember}          
@@ -118,6 +123,9 @@ export default function MemberProfilePage({ isDarkTheme, setDarkTheme, user }) {
           user={user}
 >>>>>>> f534e7e (Feature/user profile page (#76))
         />
+=======
+        <MemberProfile familyMember={familyMember} user={user} />
+>>>>>>> 5f64cdd (Feature/save mode in account (#80))
       ) : (
         <StyledMessage>Page not found!</StyledMessage>
       )}
