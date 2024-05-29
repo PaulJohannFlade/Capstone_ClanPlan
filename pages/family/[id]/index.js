@@ -29,9 +29,7 @@ const StyledHeading = styled.h2`
   margin-top: 1rem;
 `;
 
-export default function MemberProfilePage({
-  isDarkTheme,
-  setDarkTheme,
+export default function MemberProfilePage({  
   user,
   mutateMembers,
 }) {
@@ -92,9 +90,7 @@ export default function MemberProfilePage({
       <StyledHeading>Family Member Profile</StyledHeading>
       {familyMember ? (
         <MemberProfile
-          familyMember={familyMember}
-          isDarkTheme={isDarkTheme}
-          setDarkTheme={setDarkTheme}
+          familyMember={familyMember}          
           user={user}
           onAddPhoto={handleAddPhoto}
         />

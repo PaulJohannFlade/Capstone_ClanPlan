@@ -74,9 +74,7 @@ const StyledHeading = styled.h3`
 `;
 
 export default function MemberProfile({
-  familyMember,
-  isDarkTheme,
-  setDarkTheme,
+  familyMember, 
   user,
   onAddPhoto,
 }) {
@@ -113,7 +111,7 @@ export default function MemberProfile({
       {_id === user._id && (
         <StyledSection $settings={true}>
           <StyledHeading>Settings</StyledHeading>
-          <ThemeToggle isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme} />
+          <ThemeToggle familyMember={familyMember} />
         </StyledSection>
       )}
     </>
