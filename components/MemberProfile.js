@@ -73,13 +73,8 @@ const StyledHeading = styled.h3`
   font-size: 1.4rem;
 `;
 
-export default function MemberProfile({
-  familyMember, 
-  user,
-  onAddPhoto,
-}) {
+export default function MemberProfile({ familyMember, user, onAddPhoto }) {
   const { _id, name, role, profilePhoto } = familyMember;
-  console.log(profilePhoto);
 
   return (
     <>

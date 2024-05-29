@@ -94,9 +94,6 @@ export default function TasksListGroups({ tasks, onSetDetailsBackLinkRef }) {
 
   const lastDayNextMonth = new Date(firstDayAfterNextMonth - 1);
 
-  console.log(firstDayNextMonth);
-  console.log(lastDayNextMonth);
-
   const nextMonthTasks = tasks.filter(
     (task) =>
       !task.isDone &&
