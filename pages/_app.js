@@ -84,7 +84,7 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-        <Layou user={user}>
+        <Layout user={user}>
           <GlobalStyle />
           <SWRConfig value={{ fetcher }}>
             <ToastContainer
