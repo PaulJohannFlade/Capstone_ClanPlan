@@ -61,7 +61,9 @@ export default function CategoriesPage({
       </StyledMenu>
 
       {!categories.length && (
-        <StyledMessage>The list is empty. Add members to begin!</StyledMessage>
+        <StyledMessage>
+          The list is empty. Add categories to begin!
+        </StyledMessage>
       )}
       <CategoriesList
         familyMembers={familyMembers}

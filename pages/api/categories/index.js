@@ -2,6 +2,7 @@ import dbConnect from "@/db/connect";
 import Category from "@/db/models/Category";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
+import Member from "@/db/models/Member";
 
 export default async function handler(request, response) {
   await dbConnect();
@@ -13,7 +14,9 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "GET") {
-    const category = await Category.find({ owner: session.user.email })
+    const user = await Member.findOne({ email: session.user.email });
+    const familyId = user.family;
+    const category = await Category.find({ family: familyId })
       .populate("selectedMembers")
       .sort({ title: "asc" });
     return response.status(200).json(category);

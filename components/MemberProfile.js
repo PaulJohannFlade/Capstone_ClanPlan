@@ -18,7 +18,6 @@ const StyledSection = styled.section`
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   box-shadow: 1px 1px 10px -1px var(--color-font);
   align-items: center;
-  width: 100%;
 `;
 
 const StyledContainer = styled.div`

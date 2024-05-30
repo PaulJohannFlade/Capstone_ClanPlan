@@ -31,7 +31,7 @@ const StyledLink = styled(Link)`
   position: absolute;
   padding: 0.5rem;
   top: 0;
-  right: 0px;
+  right: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,6 +43,7 @@ const StyledUser = styled(User)`
 
 const StyledParagraph = styled.p`
   font-size: 0.9rem;
+  text-shadow: none;
 `;
 
 const StyledH1 = styled.h1`
@@ -68,7 +69,7 @@ const StyledSignButton = styled(StyledButton)`
   margin: 0;
   position: absolute;
   top: 20px;
-  right: 20px;
+  right: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
