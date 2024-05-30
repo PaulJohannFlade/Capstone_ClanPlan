@@ -25,7 +25,7 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const categoryData = request.body;
-      await Category.create({ ...categoryData, owner: session.user.email });
+      await Category.create({ ...categoryData });
 
       return response
         .status(201)

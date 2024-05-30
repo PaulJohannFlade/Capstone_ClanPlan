@@ -27,7 +27,7 @@ const StyledMenu = styled.menu`
   }
 `;
 
-export default function FamilyPage({ showModal, setShowModal }) {
+export default function FamilyPage({ showModal, setShowModal, user }) {
   const { data: familyMembers, isLoading, mutate } = useSWR("/api/members");
 
   if (isLoading) {
@@ -76,6 +76,7 @@ export default function FamilyPage({ showModal, setShowModal }) {
           <MemberForm
             onAddMember={handleAddMember}
             familyMembers={familyMembers}
+            user={user}
           />
         )}
       </Modal>

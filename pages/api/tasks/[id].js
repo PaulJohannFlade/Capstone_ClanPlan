@@ -2,13 +2,24 @@ import dbConnect from "@/db/connect";
 import Comment from "@/db/models/Comment";
 import Task from "@/db/models/Task";
 import convertDateToString from "@/utils/convertDateToString";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]";
+import Member from "@/db/models/Member";
 
 export default async function handler(request, response) {
   await dbConnect();
   const { id, deleteRequest, updateRequest } = request.query;
 
+  const session = await getServerSession(request, response, authOptions);
+  if (!session) {
+    response.status(401).json({ status: "Not authorized" });
+    return;
+  }
+
   if (request.method === "GET") {
-    const task = await Task.findById(id)
+    const user = await Member.findOne({ email: session.user.email });
+    const familyId = user.family;
+    const task = await Task.findOne({ _id: id, family: familyId })
       .populate("category")
       .populate("assignedTo");
 

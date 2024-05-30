@@ -67,6 +67,7 @@ export default function Form({
   familyMembers,
   setShowModal,
   showModal,
+  user,
 }) {
   const [enteredTitle, setEnteredTitle] = useState(value?.title || "");
   const [isValid, setIsValid] = useState(true);
@@ -160,6 +161,7 @@ export default function Form({
         category: data.category === "" ? null : data.category,
         endDate: value.endDate,
         repeat: value.repeat,
+        family: value.family,
       };
 
       if (value?.groupId) {
@@ -175,7 +177,7 @@ export default function Form({
         assignedTo,
         category: data.category === "" ? null : data.category,
         startDate: data.dueDate,
-        family: "1234ff475a93007538a23e95",
+        family: user.family,
       });
     }
   }

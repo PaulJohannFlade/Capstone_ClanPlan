@@ -34,6 +34,7 @@ export default function CategoryForm({
   categories,
   formHeading,
   value,
+  user,
 }) {
   const [isValidCategory, setIsValidCategory] = useState(true);
   const [isUniqueCategory, setIsUniqueCategory] = useState(true);
@@ -103,7 +104,7 @@ export default function CategoryForm({
       title: data.title.trim(),
       selectedMembers,
       id: value?._id,
-      family: "1234ff475a93007538a23e95",
+      family: value?.family || user.family,
     });
   }
 

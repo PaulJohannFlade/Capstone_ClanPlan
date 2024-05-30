@@ -1,13 +1,22 @@
 import dbConnect from "@/db/connect";
 import Member from "@/db/models/Member";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function handler(request, response) {
   await dbConnect();
   const { id } = request.query;
 
-  if (request.method === "GET") {
-    const familyMember = await Member.findById(id);
+  const session = await getServerSession(request, response, authOptions);
+  if (!session) {
+    response.status(401).json({ status: "Not authorized" });
+    return;
+  }
 
+  if (request.method === "GET") {
+    const user = await Member.findOne({ email: session.user.email });
+    const familyId = user.family;
+    const familyMember = await Member.findOne({ _id: id, family: familyId });
     if (!familyMember) {
       return response.status(404).json({ status: "Member not found" });
     }
@@ -18,6 +27,8 @@ export default async function handler(request, response) {
   if (request.method === "PATCH") {
     const updatedMemberData = request.body;
     await Member.findByIdAndUpdate(id, updatedMemberData, { new: true });
-    response.status(200).json({ status: "Member profile updated successfully." });
+    response
+      .status(200)
+      .json({ status: "Member profile updated successfully." });
   }
 }

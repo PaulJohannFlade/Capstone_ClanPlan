@@ -59,6 +59,7 @@ export default createGlobalStyle`
   }
 
   body {
+    min-width: 300px;
     margin: auto;
     margin-top:5.5rem;
     margin-bottom:6rem;

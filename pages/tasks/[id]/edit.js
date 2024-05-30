@@ -5,6 +5,7 @@ import StyledBackLink from "@/components/StyledBackLink";
 import useSWR from "swr";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
+
 export default function EditPage({
   familyMembers,
   categories,

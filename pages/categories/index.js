@@ -13,6 +13,7 @@ export default function CategoriesPage({
   showModal,
   setShowModal,
   familyMembers,
+  user,
 }) {
   const [modalMode, setModalMode] = useState("");
 
@@ -86,6 +87,7 @@ export default function CategoriesPage({
             onSubmitCategory={handleAddCategory}
             familyMembers={familyMembers}
             categories={categories}
+            user={user}
           />
         )}
       </Modal>

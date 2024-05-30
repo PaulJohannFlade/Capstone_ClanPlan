@@ -53,7 +53,10 @@ const StyledImage = styled(Image)`
 `;
 
 const StyledUser = styled(User)`
-  width: 150px;
+  width: 60%;
+  min-width: 50px;
+  max-width: 400px;
+  align-self: center;
 `;
 
 const UserInfoContainer = styled.div`

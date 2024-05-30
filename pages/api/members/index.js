@@ -22,7 +22,7 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const memberData = request.body;
-      await Member.create({ ...memberData, owner: session.user.email });
+      await Member.create({ ...memberData });
 
       return response
         .status(201)
