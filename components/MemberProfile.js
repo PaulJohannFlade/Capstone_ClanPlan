@@ -18,16 +18,21 @@ const StyledSection = styled.section`
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   box-shadow: 1px 1px 10px -1px var(--color-font);
   align-items: center;
+  width: 100%;
+`;
 
-  ${({ $settings }) =>
-    !$settings &&
-    `
-@media (min-width: 900px) {
+const StyledContainer = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+
+  @media (min-width: 900px) {
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
   }
-`}
 `;
 
 const ImageContainer = styled.div`
@@ -37,6 +42,7 @@ const ImageContainer = styled.div`
   aspect-ratio: 1;
   overflow: hidden;
   border-radius: 1rem;
+  border: 0.5px solid var(--color-font);
   @media (min-width: 900px) {
     max-width: 50vw;
   }
@@ -44,6 +50,7 @@ const ImageContainer = styled.div`
 
 const StyledImage = styled(Image)`
   object-fit: cover;
+  border-radius: 1rem;
 `;
 
 const StyledUser = styled(User)`
@@ -77,6 +84,7 @@ const StyledHeading = styled.h3`
 
 const StyledSignButton = styled(StyledButton)`
   margin: 0;
+  align-self: flex-end;
 `;
 
 export default function MemberProfile({
@@ -93,21 +101,6 @@ export default function MemberProfile({
         {_id === user._id && (
           <StyledSignButton onClick={() => signOut()}>Log out</StyledSignButton>
         )}
-        {profilePhoto ? (
-          <ImageContainer>
-            <StyledImage
-              src={profilePhoto}
-              alt="user profile image"
-              sizes="80vw"
-              fill
-              priority={true}
-            />
-          </ImageContainer>
-        ) : (
-          <StyledUser />
-        )}
-
-        {_id === user._id && <FileUploadForm onAddPhoto={onAddPhoto} />}
         <UserInfoContainer>
           <StyledParagraph>
             Name: <StyledContent>{name}</StyledContent>
@@ -116,6 +109,23 @@ export default function MemberProfile({
             Role: <StyledContent>{role}</StyledContent>
           </StyledParagraph>
         </UserInfoContainer>
+        <StyledContainer>
+          {profilePhoto ? (
+            <ImageContainer>
+              <StyledImage
+                src={profilePhoto}
+                alt="user profile image"
+                sizes="80vw"
+                fill
+                priority={true}
+              />
+            </ImageContainer>
+          ) : (
+            <StyledUser />
+          )}
+
+          {_id === user._id && <FileUploadForm onAddPhoto={onAddPhoto} />}
+        </StyledContainer>
       </StyledSection>
       {_id === user._id && (
         <StyledSection $settings={true}>

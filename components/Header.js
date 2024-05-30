@@ -53,6 +53,8 @@ const ImageContainer = styled.div`
   position: relative;
   width: 35px;
   height: 35px;
+  border-radius: 50%;
+  border: 0.3px solid var(--color-font);
 `;
 
 const StyledImage = styled(Image)`
