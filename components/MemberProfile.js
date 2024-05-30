@@ -3,6 +3,8 @@ import ThemeToggle from "./ThemeToggle";
 import Image from "next/image";
 import User from "@/public/assets/images/user.svg";
 import FileUploadForm from "./FileUploadForm";
+import { signOut } from "next-auth/react";
+import StyledButton from "./StyledButton";
 
 const StyledSection = styled.section`
   position: relative;
@@ -73,6 +75,10 @@ const StyledHeading = styled.h3`
   font-size: 1.4rem;
 `;
 
+const StyledSignButton = styled(StyledButton)`
+  margin: 0;
+`;
+
 export default function MemberProfile({
   familyMember,
   user,
@@ -84,6 +90,9 @@ export default function MemberProfile({
   return (
     <>
       <StyledSection>
+        {_id === user._id && (
+          <StyledSignButton onClick={() => signOut()}>Log out</StyledSignButton>
+        )}
         {profilePhoto ? (
           <ImageContainer>
             <StyledImage

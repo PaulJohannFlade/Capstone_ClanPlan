@@ -46,6 +46,18 @@ export default createGlobalStyle`
     --color-scheme-date:${(props) => props.theme.colorScheme};
   }
 
+  html {
+    @media (min-width: 900px){
+    font-size: 17px;
+    }
+    @media  (min-width: 1200px){
+      font-size: 18px;
+    }
+    @media (min-width:1536px){
+      font-size: 19px;
+    }
+  }
+
   body {
     margin: auto;
     margin-top:5.5rem;
