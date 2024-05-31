@@ -47,19 +47,22 @@ export default createGlobalStyle`
   }
 
   html {
-    @media (min-width: 900px){
+    @media (min-width: 600px){
     font-size: 17px;
     }
+    @media (min-width: 900px){
+    font-size: 18px;
+    }
     @media  (min-width: 1200px){
-      font-size: 18px;
+      font-size: 19px;
     }
     @media (min-width:1536px){
-      font-size: 19px;
+      font-size: 20px;
     }
   }
 
   body {
-    min-width: 300px;
+    min-width: 330px;
     margin: auto;
     margin-top:5.5rem;
     margin-bottom:6rem;
@@ -67,12 +70,12 @@ export default createGlobalStyle`
     font-family: Helvetica;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    max-width: 375px;
+    max-width: 100vw;
     background-color: var(--color-background);
     transition: background-color 0.5s ease, color 0.5s ease;
     
     @media (min-width: 900px) {
-    max-width: 90vw;
+    width: calc(100vw - 100px);
     margin-left: 6.5rem;
     margin-bottom:auto;
     }

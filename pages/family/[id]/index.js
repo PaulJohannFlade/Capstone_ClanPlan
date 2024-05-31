@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 const StyledBackButton = styled.button`
   position: fixed;
   top: 0.7rem;
-  left: calc(50% - 170px);
+  left: 1rem;
   z-index: 2;
   border: none;
 

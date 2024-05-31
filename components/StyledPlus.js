@@ -2,7 +2,6 @@ import Plus from "@/public/assets/images/plus.svg";
 import styled from "styled-components";
 
 const StyledPlus = styled(Plus)`
-  width: 3rem;
   fill: var(--color-background);
   cursor: pointer;
   stroke: var(--color-font);

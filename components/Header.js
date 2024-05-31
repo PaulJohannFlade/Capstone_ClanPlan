@@ -8,22 +8,23 @@ import StyledButton from "./StyledButton";
 const StyledHeader = styled.header`
   background-color: var(--color-background);
   color: var(--color-font);
-  box-shadow: -1px 6px 15px 0px #7d7d7d;
-  text-shadow: 2px 3px 3px #bccbd4;
+  box-shadow: 0px 1px 10px -1px var(--color-font);
+  text-shadow: 1px 1px 3px var(--color-font);
   text-align: center;
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
-  margin: auto;
+  margin: 0;
   padding: 0.7rem;
   z-index: 1;
-  max-width: 375px;
+  width: 100vw;
+  min-width: 330px;
 
   @media (min-width: 900px) {
-    max-width: 100vw;
-    left: 100px;
-    box-shadow: -1px 6px 15px 0px #7d7d7d;
+    left: 99px;
+    box-shadow: 0px 7px 7px -7px var(--color-font);
+    width: calc(100% - 99px);
   }
 `;
 
