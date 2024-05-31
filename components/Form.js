@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import ConfirmBox from "./ConfirmBox";
 import convertDateToString from "@/utils/convertDateToString";
 import getWeekRange from "@/utils/getWeekRange";
+import MultiselectContainer from "./MultiselectContainer";
 
 const StyledForm = styled.form`
   display: flex;
@@ -24,12 +25,18 @@ const StyledHeading = styled.h2`
 
 const StyledLabel = styled.label`
   font-size: 0.9rem;
+  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const StyledSpan = styled.span`
   font-size: 1rem;
   color: red;
   float: ${({ $left }) => ($left ? "left" : "right")};
+  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const StyledDateInput = styled.input`
@@ -44,6 +51,9 @@ const StyledDiv = styled.div`
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
+  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
+    font-size: 1.5rem;
+  }
 `;
 
 export default function Form({
@@ -57,6 +67,7 @@ export default function Form({
   familyMembers,
   setShowModal,
   showModal,
+  user,
 }) {
   const [enteredTitle, setEnteredTitle] = useState(value?.title || "");
   const [isValid, setIsValid] = useState(true);
@@ -150,6 +161,7 @@ export default function Form({
         category: data.category === "" ? null : data.category,
         endDate: value.endDate,
         repeat: value.repeat,
+        family: value.family,
       };
 
       if (value?.groupId) {
@@ -165,6 +177,7 @@ export default function Form({
         assignedTo,
         category: data.category === "" ? null : data.category,
         startDate: data.dueDate,
+        family: user.family,
       });
     }
   }
@@ -260,11 +273,11 @@ export default function Form({
           onChange={handleFamilyMembersSelection}
         >
           <option value="">
-            {categories.length
+            {categories?.length
               ? "Please select a category"
               : "No categories added"}
           </option>
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <option key={category._id} value={category._id}>
               {category.title}
             </option>
@@ -346,20 +359,26 @@ export default function Form({
         )}
 
         <StyledLabel htmlFor="assignedTo">Assign to:</StyledLabel>
-        <Multiselect
-          id="assignedTo"
-          options={allocatedMembers}
-          onSelect={onSelect}
-          onRemove={onRemove}
-          displayValue="name"
-          showCheckbox={true}
-          keepSearchTerm={true}
-          showArrow={true}
-          emptyRecordMsg="No members found"
-          placeholder="Select Family Member"
-          avoidHighlightFirstOption={true}
-          selectedValues={assignedTo}
-        />
+        <MultiselectContainer>
+          <Multiselect
+            id="assignedTo"
+            options={allocatedMembers}
+            onSelect={onSelect}
+            onRemove={onRemove}
+            displayValue="name"
+            showCheckbox={true}
+            keepSearchTerm={true}
+            emptyRecordMsg="No members found"
+            placeholder="Select Family Member"
+            avoidHighlightFirstOption={true}
+            selectedValues={assignedTo}
+            style={{
+              searchBox: {
+                paddingRight: "25px",
+              },
+            }}
+          />
+        </MultiselectContainer>
         <StyledButton>{isEdit ? "Update" : "Create"}</StyledButton>
       </StyledForm>
     </>

@@ -52,12 +52,14 @@ const StyledUpArrow = styled(UpArrow)`
   margin: auto;
   stroke: var(--color-font);
   fill: var(--color-font);
+  width: 2rem;
 `;
 
 const StyledDownArrow = styled(DownArrow)`
   margin: auto;
   stroke: var(--color-font);
   fill: var(--color-font);
+  width: 2rem;
 `;
 
 export default function CategoriesList({

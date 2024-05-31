@@ -6,6 +6,10 @@ const StyledBackLink = styled(Link)`
   top: 0.7rem;
   left: calc(50% - 170px);
   z-index: 2;
+
+  @media (min-width: 900px) {
+    left: calc(100px + 2rem);
+  }
 `;
 
 export default StyledBackLink;

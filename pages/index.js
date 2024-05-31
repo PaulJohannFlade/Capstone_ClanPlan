@@ -31,7 +31,7 @@ const StyledButton = styled.button`
   align-self: center;
   border-radius: 1rem;
   color: var(--color-font);
-  border: 0.5px solid var(--color-font);
+  border: none;
 `;
 
 const StyledHeading = styled.h2`
@@ -195,3 +195,5 @@ export default function HomePage({
     </>
   );
 }
+
+export { StyledMessage };

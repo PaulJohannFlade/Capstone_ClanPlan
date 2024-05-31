@@ -8,6 +8,19 @@ const StyledList = styled.ul`
   padding: 0;
   display: flex;
   flex-direction: column;
+
+  @media (min-width: 1200px), (min-width: 900px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 1536px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    margin-left: ${({ $allTasks }) => ($allTasks ? "0" : "6rem")};
+  }
 `;
 
 const StyledListItems = styled.li`
@@ -22,7 +35,11 @@ const StyledListItems = styled.li`
   transition: background-color 0.5s ease;
 `;
 
-export default function TasksList({ tasks, onSetDetailsBackLinkRef }) {
+export default function TasksList({
+  tasks,
+  onSetDetailsBackLinkRef,
+  allTasks,
+}) {
   const { mutate } = useSWR("/api/tasks");
 
   async function handleCheckboxChange(task, event) {
@@ -47,7 +64,7 @@ export default function TasksList({ tasks, onSetDetailsBackLinkRef }) {
   }
 
   return (
-    <StyledList>
+    <StyledList $allTasks={allTasks}>
       {tasks.map((task) => (
         <StyledListItems key={task._id} $isDone={task.isDone}>
           <TaskPreview

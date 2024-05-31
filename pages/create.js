@@ -2,7 +2,7 @@ import Form from "@/components/Form";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
-export default function CreatePage({ categories, familyMembers }) {
+export default function CreatePage({ categories, familyMembers, user }) {
   const router = useRouter();
 
   async function handleAddTask(newTaskData) {
@@ -56,6 +56,7 @@ export default function CreatePage({ categories, familyMembers }) {
         title="Add a task"
         categories={categories}
         familyMembers={familyMembers}
+        user={user}
       />
     </div>
   );

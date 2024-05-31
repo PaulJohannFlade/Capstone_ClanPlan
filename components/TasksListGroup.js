@@ -24,11 +24,13 @@ const StyledGroupHeading = styled.h3`
 const StyledUpArrow = styled(UpArrow)`
   stroke: var(--color-font);
   fill: var(--color-font);
+  width: 2rem;
 `;
 
 const StyledDownArrow = styled(DownArrow)`
   stroke: var(--color-font);
   fill: var(--color-font);
+  width: 2rem;
 `;
 
 const StyledDiv = styled.div`
@@ -61,6 +63,7 @@ export default function TasksListGroup({
         <StyledTasksList
           tasks={tasks}
           onSetDetailsBackLinkRef={onSetDetailsBackLinkRef}
+          allTasks
         />
       </StyledDiv>
     </StyledSection>

@@ -1,32 +1,19 @@
-import styled from "styled-components";
 import { StyledMessage } from "..";
 import Modal from "@/components/Modal";
 import CategoriesList from "@/components/CategoriesList";
 import CategoryForm from "@/components/CategoryForm";
-import Plus from "@/public/assets/images/plus.svg";
+import StyledPlus from "@/components/StyledPlus";
 import useSWR from "swr";
 import { useState } from "react";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
-
-const StyledHeading = styled.h2`
-  text-align: center;
-`;
-
-const StyledPlus = styled(Plus)`
-  position: fixed;
-  bottom: 5rem;
-  right: calc(50% - 160px);
-  width: 3rem;
-  fill: var(--color-background);
-  cursor: pointer;
-  stroke: var(--color-font);
-`;
+import { StyledMenu } from "../family";
 
 export default function CategoriesPage({
   showModal,
   setShowModal,
   familyMembers,
+  user,
 }) {
   const [modalMode, setModalMode] = useState("");
 
@@ -63,10 +50,21 @@ export default function CategoriesPage({
 
   return (
     <>
-      <StyledHeading>Task Categories</StyledHeading>
+      <StyledMenu>
+        <StyledPlus
+          onClick={() => {
+            setModalMode("add");
+            setShowModal(true);
+          }}
+          $right={true}
+        />
+        <h2>Task Categories</h2>
+      </StyledMenu>
 
       {!categories.length && (
-        <StyledMessage>The list is empty. Add members to begin!</StyledMessage>
+        <StyledMessage>
+          The list is empty. Add categories to begin!
+        </StyledMessage>
       )}
       <CategoriesList
         familyMembers={familyMembers}
@@ -78,13 +76,6 @@ export default function CategoriesPage({
         mutate={mutate}
       />
 
-      <StyledPlus
-        onClick={() => {
-          setModalMode("add");
-          setShowModal(true);
-        }}
-        $right={true}
-      />
       <Modal
         $top="7rem"
         setShowModal={setShowModal}
@@ -96,6 +87,7 @@ export default function CategoriesPage({
             onSubmitCategory={handleAddCategory}
             familyMembers={familyMembers}
             categories={categories}
+            user={user}
           />
         )}
       </Modal>

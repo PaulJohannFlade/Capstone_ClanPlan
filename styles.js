@@ -18,7 +18,7 @@ export const lightTheme = {
 export const darkTheme = {
   background: "#344648",
   text: "#FFFFFF",
-  button: "#344648",
+  button: "#626768",
   buttonActive: "#065465",
   colorScheme: "dark",
 };
@@ -46,7 +46,20 @@ export default createGlobalStyle`
     --color-scheme-date:${(props) => props.theme.colorScheme};
   }
 
+  html {
+    @media (min-width: 900px){
+    font-size: 17px;
+    }
+    @media  (min-width: 1200px){
+      font-size: 18px;
+    }
+    @media (min-width:1536px){
+      font-size: 19px;
+    }
+  }
+
   body {
+    min-width: 300px;
     margin: auto;
     margin-top:5.5rem;
     margin-bottom:6rem;
@@ -57,11 +70,18 @@ export default createGlobalStyle`
     max-width: 375px;
     background-color: var(--color-background);
     transition: background-color 0.5s ease, color 0.5s ease;
+    
+    @media (min-width: 900px) {
+    max-width: 90vw;
+    margin-left: 6.5rem;
+    margin-bottom:auto;
+    }
   }
 
   img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
+ 
 }
 
 input, button, textarea, select {
@@ -74,8 +94,17 @@ p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
 
+h1{
+  font-size: 2rem;
+}
+
 h2 {
   font-family: var(--font-handlee);
+  font-size: 1.5rem;
+}
+
+p{
+  font-size: 1rem;
 }
 
 #root, #__next {
@@ -131,7 +160,16 @@ display: none;
 }
 
 .rbc-addons-dnd-row-body {
-  height: 296px;
+  height: 265px;
+  @media (min-width: 900px){
+    height: 415px;
+    }
+    @media  (min-width: 1200px){
+      height: 495px;
+    }
+    @media (min-width:1536px){
+      height: 735px;
+    }
 }
 
 .rbc-btn-group button {

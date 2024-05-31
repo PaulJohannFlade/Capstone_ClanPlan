@@ -3,26 +3,31 @@ import styled from "styled-components";
 import { StyledMessage } from "..";
 import MemberForm from "@/components/MemberForm";
 import Modal from "@/components/Modal";
-import Plus from "@/public/assets/images/plus.svg";
 import useSWR from "swr";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
+import StyledPlus from "@/components/StyledPlus";
 
-const StyledPlus = styled(Plus)`
-  position: fixed;
-  bottom: 5rem;
-  right: calc(50% - 160px);
-  width: 3rem;
-  fill: var(--color-background);
-  cursor: pointer;
-  stroke: var(--color-font);
+const StyledMenu = styled.menu`
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  align-items: center;
+  justify-content: center;
+  @media (min-width: 900px) {
+    margin-left: 6rem;
+    grid-template-columns: 1fr 1.7fr;
+  }
+  @media (min-width: 1200px) {
+    margin-left: 6rem;
+    grid-template-columns: 1fr 1.6fr;
+  }
+  @media (min-width: 1536px) {
+    margin-left: 6rem;
+    grid-template-columns: 1fr 1.4fr;
+  }
 `;
 
-const StyledHeading = styled.h2`
-  text-align: center;
-`;
-
-export default function FamilyPage({ showModal, setShowModal }) {
+export default function FamilyPage({ showModal, setShowModal, user }) {
   const { data: familyMembers, isLoading, mutate } = useSWR("/api/members");
 
   if (isLoading) {
@@ -57,21 +62,26 @@ export default function FamilyPage({ showModal, setShowModal }) {
 
   return (
     <>
-      <StyledHeading>My Family</StyledHeading>
+      <StyledMenu>
+        <StyledPlus onClick={() => setShowModal(true)} $right={true} />
+        <h2>My Family</h2>
+      </StyledMenu>
       {!familyMembers.length && (
         <StyledMessage>The list is empty. Add members to begin!</StyledMessage>
       )}
       <FamilyMembersList familyMembers={familyMembers} />
 
-      <StyledPlus onClick={() => setShowModal(true)} $right={true} />
       <Modal $top="7rem" setShowModal={setShowModal} $open={showModal}>
         {showModal && (
           <MemberForm
             onAddMember={handleAddMember}
             familyMembers={familyMembers}
+            user={user}
           />
         )}
       </Modal>
     </>
   );
 }
+
+export { StyledMenu };

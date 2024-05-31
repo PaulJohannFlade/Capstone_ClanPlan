@@ -30,7 +30,7 @@ const StyledForm = styled.form`
   border-radius: 1rem;
 `;
 
-export default function MemberForm({ onAddMember, familyMembers }) {
+export default function MemberForm({ onAddMember, familyMembers, user }) {
   const [isValidName, setIsValidName] = useState(true);
   const [isValidRole, setIsValidRole] = useState(true);
   const [isUniqueName, setIsUniqueName] = useState(true);
@@ -64,7 +64,7 @@ export default function MemberForm({ onAddMember, familyMembers }) {
       return;
     }
 
-    onAddMember(data);
+    onAddMember({ ...data, family: user.family });
   }
 
   function handleChange(event) {
