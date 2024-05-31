@@ -41,6 +41,7 @@ export default function MultiselectContainer({ children }) {
 
   return (
     <StyledContainer
+      tabIndex="0"
       onClick={openDropdown}
       onBlur={closeDropdown}
       $hidden={!isDropdownOpen}
