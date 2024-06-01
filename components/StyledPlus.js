@@ -10,7 +10,7 @@ const StyledPlus = styled(Plus)`
     opacity: 1;
   }
 
-  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
+  @media (min-width: 900px) {
     left: 10rem;
   }
 `;

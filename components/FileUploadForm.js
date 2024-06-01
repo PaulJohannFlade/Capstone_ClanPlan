@@ -38,7 +38,7 @@ const StyledUpload = styled(Upload)`
 `;
 
 const ImagePreview = styled.img`
-  width: 100px; // Adjust the size as needed
+  width: 6rem;
   height: auto;
 `;
 

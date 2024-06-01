@@ -19,6 +19,7 @@ const StyledFooter = styled.footer`
   width: 100%;
   margin: 0;
   min-width: 330px;
+  z-index: 5;
 
   @media (min-width: 900px) {
     top: 0;
@@ -26,6 +27,7 @@ const StyledFooter = styled.footer`
     width: 100px;
     box-shadow: 1px 0px 10px -1px var(--color-font);
     min-width: 100px;
+    z-index: auto;
   }
 `;
 
