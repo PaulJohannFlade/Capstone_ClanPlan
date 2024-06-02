@@ -5,6 +5,8 @@ import User from "@/public/assets/images/user.svg";
 import FileUploadForm from "./FileUploadForm";
 import { signOut } from "next-auth/react";
 import StyledButton from "./StyledButton";
+import { useState } from "react";
+import Pen from "@/public/assets/images/edit-pen-icon.svg";
 
 const StyledSection = styled.section`
   position: relative;
@@ -18,6 +20,12 @@ const StyledSection = styled.section`
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   box-shadow: 1px 1px 10px -1px var(--color-font);
   align-items: center;
+  ${({ $settings }) =>
+    !$settings &&
+    `@media (min-width: 900px) {
+    flex-direction: row;
+    justify-content: space-evenly;
+  }`}
 `;
 
 const StyledContainer = styled.div`
@@ -26,12 +34,6 @@ const StyledContainer = styled.div`
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-
-  @media (min-width: 900px) {
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-  }
 `;
 
 const ImageContainer = styled.div`
@@ -40,8 +42,7 @@ const ImageContainer = styled.div`
   max-width: 80vw;
   aspect-ratio: 1;
   overflow: hidden;
-  border-radius: 1rem;
-  border: 0.5px solid var(--color-font);
+
   @media (min-width: 900px) {
     max-width: 50vw;
   }
@@ -49,13 +50,12 @@ const ImageContainer = styled.div`
 
 const StyledImage = styled(Image)`
   object-fit: cover;
-  border-radius: 1rem;
+  border-radius: 50%;
+  border: 0.5px solid var(--color-font);
 `;
 
 const StyledUser = styled(User)`
-  width: 60%;
-  min-width: 50px;
-  max-width: 400px;
+  width: 100%;
   align-self: center;
 `;
 
@@ -87,6 +87,34 @@ const StyledHeading = styled.h3`
 const StyledSignButton = styled(StyledButton)`
   margin: 0;
   align-self: flex-end;
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+`;
+
+const StyledEditButton = styled.button`
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(color-background);
+  position: absolute;
+  top: 12vw;
+  left: 68vw;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
+  @media (min-width: 900px) {
+    top: 7vw;
+    left: 42.5vw;
+  }
+`;
+
+const StyledPen = styled(Pen)`
+  width: 1.5rem;
+  fill: var(--color-font);
 `;
 
 export default function MemberProfile({
@@ -96,13 +124,44 @@ export default function MemberProfile({
   mutateUser,
 }) {
   const { _id, name, role, profilePhoto } = familyMember;
+  const [isPhotoEditMode, setIsPhotoEditMode] = useState(false);
 
   return (
     <>
       <StyledSection>
         {_id === user._id && (
-          <StyledSignButton onClick={() => signOut()}>Log out</StyledSignButton>
+          <>
+            <StyledSignButton onClick={() => signOut()}>
+              Log out
+            </StyledSignButton>
+          </>
         )}
+        <StyledContainer>
+          <ImageContainer>
+            {profilePhoto ? (
+              <StyledImage
+                src={profilePhoto}
+                alt="user profile image"
+                sizes="80vw"
+                fill
+                priority={true}
+              />
+            ) : (
+              <StyledUser />
+            )}
+            {_id === user._id && (
+              <StyledEditButton onClick={() => setIsPhotoEditMode(true)}>
+                <StyledPen />
+              </StyledEditButton>
+            )}
+          </ImageContainer>
+          {_id === user._id && isPhotoEditMode && (
+            <FileUploadForm
+              onAddPhoto={onAddPhoto}
+              setIsPhotoEditMode={setIsPhotoEditMode}
+            />
+          )}
+        </StyledContainer>
         <UserInfoContainer>
           <StyledParagraph>
             Name: <StyledContent>{name}</StyledContent>
@@ -111,23 +170,6 @@ export default function MemberProfile({
             Role: <StyledContent>{role}</StyledContent>
           </StyledParagraph>
         </UserInfoContainer>
-        <StyledContainer>
-          {profilePhoto ? (
-            <ImageContainer>
-              <StyledImage
-                src={profilePhoto}
-                alt="user profile image"
-                sizes="80vw"
-                fill
-                priority={true}
-              />
-            </ImageContainer>
-          ) : (
-            <StyledUser />
-          )}
-
-          {_id === user._id && <FileUploadForm onAddPhoto={onAddPhoto} />}
-        </StyledContainer>
       </StyledSection>
       {_id === user._id && (
         <StyledSection $settings={true}>

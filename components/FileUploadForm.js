@@ -42,7 +42,7 @@ const ImagePreview = styled.img`
   height: auto;
 `;
 
-export default function FileUploadForm({ onAddPhoto }) {
+export default function FileUploadForm({ onAddPhoto, setIsPhotoEditMode }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileError, setFileError] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
@@ -84,6 +84,7 @@ export default function FileUploadForm({ onAddPhoto }) {
     event.target.reset();
     setSelectedFile(null);
     setImagePreview(null);
+    setIsPhotoEditMode(false);
   }
 
   return (
