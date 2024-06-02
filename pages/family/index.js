@@ -7,6 +7,8 @@ import useSWR from "swr";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import StyledPlus from "@/components/StyledPlus";
+import emailjs from "@emailjs/browser";
+import { useRef } from "react";
 
 const StyledMenu = styled.menu`
   display: grid;
@@ -29,6 +31,7 @@ const StyledMenu = styled.menu`
 
 export default function FamilyPage({ showModal, setShowModal, user }) {
   const { data: familyMembers, isLoading, mutate } = useSWR("/api/members");
+  const form = useRef();
 
   if (isLoading) {
     return <StyledLoadingAnimation />;
@@ -57,6 +60,19 @@ export default function FamilyPage({ showModal, setShowModal, user }) {
     if (response.ok) {
       setShowModal(false);
       mutate();
+
+      emailjs
+        .sendForm("service_bihkrii", "template_nuevlir", form.current, {
+          publicKey: "OVtU8bBq7gTj6Pod9",
+        })
+        .then(
+          () => {
+            console.log("SUCCESS!");
+          },
+          (error) => {
+            console.log("FAILED...", error.text);
+          }
+        );
     }
   }
 
@@ -77,6 +93,7 @@ export default function FamilyPage({ showModal, setShowModal, user }) {
             onAddMember={handleAddMember}
             familyMembers={familyMembers}
             user={user}
+            form={form}
           />
         )}
       </Modal>

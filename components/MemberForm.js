@@ -30,7 +30,7 @@ const StyledForm = styled.form`
   border-radius: 1rem;
 `;
 
-export default function MemberForm({ onAddMember, familyMembers, user }) {
+export default function MemberForm({ onAddMember, familyMembers, user, form }) {
   const [isValidName, setIsValidName] = useState(true);
   const [isValidRole, setIsValidRole] = useState(true);
   const [isUniqueName, setIsUniqueName] = useState(true);
@@ -75,7 +75,7 @@ export default function MemberForm({ onAddMember, familyMembers, user }) {
   }
 
   return (
-    <StyledForm onSubmit={handleSubmit}>
+    <StyledForm onSubmit={handleSubmit} ref={form}>
       <StyledHeading>Add new family member</StyledHeading>
       <StyledLabel htmlFor="name">
         <StyledSpan $left={true}>*</StyledSpan>Name:
@@ -103,6 +103,11 @@ export default function MemberForm({ onAddMember, familyMembers, user }) {
         <option value="Child">Child</option>
         <option value="Caregiver">Caregiver</option>
       </StyledSelect>
+
+      <StyledLabel htmlFor="email">
+        <StyledSpan $left={true}>*</StyledSpan>Email
+      </StyledLabel>
+      <input type="email" id="email" name="email" required />
 
       <StyledButton>Add</StyledButton>
     </StyledForm>
