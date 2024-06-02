@@ -77,6 +77,11 @@ const StyledSignButton = styled(StyledButton)`
 
 export default function Header({ user }) {
   const { data: session } = useSession();
+
+  function handleSignIn() {
+    signIn(null, { callbackUrl: "/" });
+  }
+
   return (
     <StyledHeader>
       <StyledH1>ClanPlan</StyledH1>
@@ -92,13 +97,16 @@ export default function Header({ user }) {
                 priority={true}
               />
             </ImageContainer>
+          ) : user.status === "Member not found" ? (
+            ""
           ) : (
             <StyledUser />
           )}
-          <StyledParagraph>{user.name}</StyledParagraph>
+
+          <StyledParagraph>{user?.name}</StyledParagraph>
         </StyledLink>
       ) : (
-        <StyledSignButton onClick={() => signIn()}>Log in</StyledSignButton>
+        <StyledSignButton onClick={handleSignIn}>Log in</StyledSignButton>
       )}
     </StyledHeader>
   );
