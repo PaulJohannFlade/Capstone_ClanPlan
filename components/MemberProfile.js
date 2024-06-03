@@ -77,8 +77,10 @@ const UserInfoContainer = styled.div`
   padding: 3rem 2.5rem 2rem 2rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #808080;
+  max-width: 100%;
   @media (min-width: 900px) {
     flex-direction: column;
+    max-width: 30%;
   }
 `;
 
@@ -86,9 +88,13 @@ const StyledParagraph = styled.p`
   font-size: 1rem;
 `;
 
-const StyledContent = styled.span`
+const StyledContent = styled.p`
   font-size: large;
   font-weight: 600;
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: wrap;
 `;
 
 const StyledHeading = styled.h3`
@@ -176,6 +182,7 @@ export default function MemberProfile({
       setShowModal(false);
       setIsInfoEditMode(false);
       await mutate();
+      await mutateUser();
     }
   }
 
@@ -226,12 +233,10 @@ export default function MemberProfile({
               }}
             />
           )}
-          <StyledParagraph>
-            Name: <StyledContent>{name}</StyledContent>
-          </StyledParagraph>
-          <StyledParagraph>
-            Role: <StyledContent>{role}</StyledContent>
-          </StyledParagraph>
+          <StyledParagraph>Name:</StyledParagraph>
+          <StyledContent>{name}</StyledContent>
+          <StyledParagraph>Role:</StyledParagraph>
+          <StyledContent>{role}</StyledContent>
         </UserInfoContainer>
       </StyledSection>
       {_id === user._id && (
