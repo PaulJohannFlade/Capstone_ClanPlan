@@ -22,12 +22,12 @@ export const authOptions = {
           },
           async authorize(credentials) {
             if (
-              credentials.username === "turtle" &&
-              credentials.password === "turtle"
+              credentials.username === "clanplan" &&
+              credentials.password === "clanplan"
             ) {
               return {
                 name: "New Turtle",
-                email: "test@example.com",
+                email: "test@clanplan.com",
               };
             } else {
               return null;
