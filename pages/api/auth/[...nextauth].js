@@ -14,20 +14,16 @@ export const authOptions = {
               type: "text",
               placeholder: "username",
             },
-            password: {
-              label: "Password",
-              type: "password",
-              placeholder: "password",
-            },
+            password: { label: "Password", type: "password" },
           },
           async authorize(credentials) {
             if (
-              credentials.username === "clanplan" &&
-              credentials.password === "clanplan"
+              credentials.username === "turtle" &&
+              credentials.password === "turtle"
             ) {
               return {
                 name: "New Turtle",
-                email: "test@clanplan.com",
+                email: "test@example.com",
               };
             } else {
               return null;
