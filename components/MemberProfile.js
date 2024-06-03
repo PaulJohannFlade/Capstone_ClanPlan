@@ -89,7 +89,6 @@ const StyledParagraph = styled.p`
 const StyledContent = styled.span`
   font-size: large;
   font-weight: 600;
-  margin-left: 0.5rem;
 `;
 
 const StyledHeading = styled.h3`
@@ -219,12 +218,14 @@ export default function MemberProfile({
           )}
         </StyledContainer>
         <UserInfoContainer>
-          <StyledInfoPen
-            onClick={() => {
-              setShowModal(true);
-              setIsInfoEditMode(true);
-            }}
-          />
+          {_id === user._id && (
+            <StyledInfoPen
+              onClick={() => {
+                setShowModal(true);
+                setIsInfoEditMode(true);
+              }}
+            />
+          )}
           <StyledParagraph>
             Name: <StyledContent>{name}</StyledContent>
           </StyledParagraph>
