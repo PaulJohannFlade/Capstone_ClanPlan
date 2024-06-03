@@ -63,8 +63,7 @@ export default function MemberForm({ onAddMember, familyMembers, user, form }) {
       event.target.role.focus();
       return;
     }
-
-    onAddMember({ ...data, family: user.family });
+    onAddMember({ ...data, family: user.family._id });
   }
 
   function handleChange(event) {
@@ -108,6 +107,14 @@ export default function MemberForm({ onAddMember, familyMembers, user, form }) {
         <StyledSpan $left={true}>*</StyledSpan>Email
       </StyledLabel>
       <input type="email" id="email" name="email" required />
+      <input
+        type="text"
+        id="familyName"
+        name="familyName"
+        style={{ display: "none" }}
+        value={user.family.name}
+        readOnly
+      />
 
       <StyledButton>Add</StyledButton>
     </StyledForm>

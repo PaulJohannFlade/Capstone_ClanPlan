@@ -62,8 +62,8 @@ export default function FamilyPage({ showModal, setShowModal, user }) {
       mutate();
 
       emailjs
-        .sendForm("service_bihkrii", "template_nuevlir", form.current, {
-          publicKey: "OVtU8bBq7gTj6Pod9",
+        .sendForm("service_tcxz2ti", "template_uc0996j", form.current, {
+          publicKey: "jjcfLQQIHPYS7TXeC",
         })
         .then(
           () => {
