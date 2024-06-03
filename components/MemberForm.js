@@ -30,6 +30,10 @@ const StyledForm = styled.form`
   border-radius: 1rem;
 `;
 
+const StyledInput = styled.input`
+  display: none;
+`;
+
 export default function MemberForm({ onAddMember, familyMembers, user, form }) {
   const [isValidName, setIsValidName] = useState(true);
   const [isValidRole, setIsValidRole] = useState(true);
@@ -107,11 +111,10 @@ export default function MemberForm({ onAddMember, familyMembers, user, form }) {
         <StyledSpan $left={true}>*</StyledSpan>Email
       </StyledLabel>
       <input type="email" id="email" name="email" required />
-      <input
+      <StyledInput
         type="text"
         id="familyName"
         name="familyName"
-        style={{ display: "none" }}
         value={user.family.name}
         readOnly
       />
