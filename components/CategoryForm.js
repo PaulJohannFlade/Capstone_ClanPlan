@@ -63,7 +63,7 @@ export default function CategoryForm({
     if (value) {
       const selectedMembersIds = selectedMembers.map((member) => member._id);
       if (
-        data.title === value.title &&
+        data.title.trim() === value.title &&
         selectedMembers.length === value.selectedMembers.length &&
         selectedMembers.every((member) =>
           selectedMembersIds.includes(member._id)

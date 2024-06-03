@@ -7,6 +7,9 @@ import { signOut } from "next-auth/react";
 import StyledButton from "./StyledButton";
 import { useState } from "react";
 import Pen from "@/public/assets/images/edit-pen-icon.svg";
+import Modal from "./Modal";
+import MemberForm from "./MemberForm";
+import { toast } from "react-toastify";
 
 const StyledSection = styled.section`
   position: relative;
@@ -34,6 +37,11 @@ const StyledContainer = styled.div`
   flex-direction: column;
   gap: 1rem;
   width: 100%;
+  max-width: 80vw;
+
+  @media (min-width: 900px) {
+    max-width: 50vw;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -60,9 +68,13 @@ const StyledUser = styled(User)`
 `;
 
 const UserInfoContainer = styled.div`
+  position: relative;
   display: flex;
   gap: 1rem;
   align-items: center;
+  padding: 3rem 2.5rem 2rem 2rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #808080;
   @media (min-width: 900px) {
     flex-direction: column;
   }
@@ -112,9 +124,21 @@ const StyledEditButton = styled.button`
   }
 `;
 
-const StyledPen = styled(Pen)`
+const StyledImagePen = styled(Pen)`
   width: 1.5rem;
   fill: var(--color-font);
+`;
+
+const StyledInfoPen = styled(Pen)`
+  width: 1.5rem;
+  fill: var(--color-font);
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
 `;
 
 export default function MemberProfile({
@@ -122,9 +146,37 @@ export default function MemberProfile({
   user,
   onAddPhoto,
   mutateUser,
+  familyMembers,
+  showModal,
+  setShowModal,
+  mutate,
 }) {
   const { _id, name, role, profilePhoto } = familyMember;
   const [isPhotoEditMode, setIsPhotoEditMode] = useState(false);
+  const [isInfoEditMode, setIsInfoEditMode] = useState(false);
+
+  async function handleEditMember(updatedMemberData) {
+    const response = await toast.promise(
+      fetch(`/api/members/${_id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedMemberData),
+      }),
+      {
+        pending: "Member addition is pending",
+        success: "Member added successfully",
+        error: "Member not added",
+      }
+    );
+
+    if (response.ok) {
+      setShowModal(false);
+      setIsInfoEditMode(false);
+      await mutate();
+    }
+  }
 
   return (
     <>
@@ -150,8 +202,10 @@ export default function MemberProfile({
               <StyledUser />
             )}
             {_id === user._id && (
-              <StyledEditButton onClick={() => setIsPhotoEditMode(true)}>
-                <StyledPen />
+              <StyledEditButton
+                onClick={() => setIsPhotoEditMode(!isPhotoEditMode)}
+              >
+                <StyledImagePen />
               </StyledEditButton>
             )}
           </ImageContainer>
@@ -163,6 +217,12 @@ export default function MemberProfile({
           )}
         </StyledContainer>
         <UserInfoContainer>
+          <StyledInfoPen
+            onClick={() => {
+              setShowModal(true);
+              setIsInfoEditMode(true);
+            }}
+          />
           <StyledParagraph>
             Name: <StyledContent>{name}</StyledContent>
           </StyledParagraph>
@@ -177,6 +237,17 @@ export default function MemberProfile({
           <ThemeToggle familyMember={familyMember} mutateUser={mutateUser} />
         </StyledSection>
       )}
+      <Modal $top="8rem" setShowModal={setShowModal} $open={showModal}>
+        {showModal && (
+          <MemberForm
+            onAddMember={handleEditMember}
+            familyMembers={familyMembers}
+            user={user}
+            isInfoEditMode={isInfoEditMode}
+            heading={"Edit family member"}
+          />
+        )}
+      </Modal>
     </>
   );
 }

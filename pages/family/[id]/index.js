@@ -29,7 +29,13 @@ const StyledHeading = styled.h2`
   margin-top: 1rem;
 `;
 
-export default function MemberProfilePage({ user, mutateUser }) {
+export default function MemberProfilePage({
+  user,
+  mutateUser,
+  showModal,
+  setShowModal,
+  familyMembers,
+}) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -91,6 +97,10 @@ export default function MemberProfilePage({ user, mutateUser }) {
           user={user}
           onAddPhoto={handleAddPhoto}
           mutateUser={mutateUser}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          familyMembers={familyMembers}
+          mutate={mutate}
         />
       ) : (
         <StyledMessage>Page not found!</StyledMessage>

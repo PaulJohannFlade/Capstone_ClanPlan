@@ -45,6 +45,10 @@ const StyledUser = styled(User)`
 const StyledParagraph = styled.p`
   font-size: 0.9rem;
   text-shadow: none;
+  max-width: 5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const StyledH1 = styled.h1`
