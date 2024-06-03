@@ -25,7 +25,9 @@ const StyledSection = styled.section`
   align-items: center;
   ${({ $settings }) =>
     !$settings &&
-    `@media (min-width: 900px) {
+    `
+    padding-top: 4rem;
+    @media (min-width: 900px) {
     flex-direction: row;
     justify-content: space-evenly;
   }`}

@@ -124,8 +124,7 @@ export default function MemberForm({
         <option value="Child">Child</option>
         <option value="Caregiver">Caregiver</option>
       </StyledSelect>
-
-      <StyledButton>Add</StyledButton>
+      <StyledButton>{isInfoEditMode ? "Update" : "Add"}</StyledButton>
     </StyledForm>
   );
 }
