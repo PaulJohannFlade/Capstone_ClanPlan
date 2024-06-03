@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 const StyledHeading = styled.h2`
@@ -35,7 +34,6 @@ export default function FamilyRegisterForm({ onAddFamily }) {
   const [isValidName, setIsValidName] = useState(true);
   const [isValidRole, setIsValidRole] = useState(true);
   const [enteredName, setEnteredName] = useState("");
-  const { data: session, status } = useSession();
 
   function handleSubmit(event) {
     event.preventDefault();

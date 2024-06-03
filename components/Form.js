@@ -177,7 +177,7 @@ export default function Form({
         assignedTo,
         category: data.category === "" ? null : data.category,
         startDate: data.dueDate,
-        family: user.family,
+        family: user.family._id,
       });
     }
   }
