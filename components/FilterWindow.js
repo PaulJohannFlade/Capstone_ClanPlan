@@ -54,7 +54,7 @@ export default function FilterWindow({
   return (
     <StyledForm onSubmit={handleApplyFilter} onReset={handleReset}>
       <StyledHeading>Filter</StyledHeading>
-      <StyledButton $clear type="reset">
+      <StyledButton $red $absolute type="reset">
         Clear all
       </StyledButton>
       <StyledLabel htmlFor="priority">Priority:</StyledLabel>

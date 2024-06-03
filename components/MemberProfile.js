@@ -69,6 +69,13 @@ const StyledUser = styled(User)`
   align-self: center;
 `;
 
+const StyledEditContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1rem;
+  align-items: flex-start;
+`;
+
 const UserInfoContainer = styled.div`
   position: relative;
   display: flex;
@@ -78,6 +85,12 @@ const UserInfoContainer = styled.div`
   border-radius: 0.5rem;
   border: 0.1rem solid #808080;
   max-width: 100%;
+
+  @media (max-width: 450px) {
+    flex-direction: column;
+    min-width: 70vw;
+  }
+
   @media (min-width: 900px) {
     flex-direction: column;
     max-width: 30%;
@@ -218,10 +231,15 @@ export default function MemberProfile({
             )}
           </ImageContainer>
           {_id === user._id && isPhotoEditMode && (
-            <FileUploadForm
-              onAddPhoto={onAddPhoto}
-              setIsPhotoEditMode={setIsPhotoEditMode}
-            />
+            <StyledEditContainer>
+              <StyledButton $red $top={"0"} $width={"8rem"}>
+                Delete image
+              </StyledButton>
+              <FileUploadForm
+                onAddPhoto={onAddPhoto}
+                setIsPhotoEditMode={setIsPhotoEditMode}
+              />
+            </StyledEditContainer>
           )}
         </StyledContainer>
         <UserInfoContainer>
