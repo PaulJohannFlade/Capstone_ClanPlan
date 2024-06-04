@@ -16,10 +16,7 @@ const StyledList = styled.ul`
   }
 
   @media (min-width: 1536px) {
-    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.5rem;
-    margin-left: ${({ $allTasks }) => ($allTasks ? "0" : "6rem")};
   }
 `;
 
