@@ -61,9 +61,6 @@ export default function FamilyRegisterForm({ onAddFamily }) {
     setEnteredName(event.target.value);
     setIsValidName(true);
   }
-  function handleRoleChange() {
-    setIsValidRole(true);
-  }
 
   return (
     <StyledForm onSubmit={handleSubmit}>
@@ -87,7 +84,7 @@ export default function FamilyRegisterForm({ onAddFamily }) {
         <StyledSpan $left={true}>*</StyledSpan>Your Role
         {!isValidRole && <StyledSpan>Please select a role!</StyledSpan>}
       </StyledLabel>
-      <StyledSelect name="role" id="role" onChange={handleRoleChange}>
+      <StyledSelect name="role" id="role" onChange={() => setIsValidRole(true)}>
         <option value="">Please select a role</option>
         <option value="Parent">Parent</option>
         <option value="Child">Child</option>

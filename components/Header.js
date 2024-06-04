@@ -106,7 +106,9 @@ export default function Header({ user }) {
           <StyledParagraph>{user?.name}</StyledParagraph>
         </StyledLink>
       ) : (
-        <StyledSignButton onClick={handleSignIn}>Log in</StyledSignButton>
+        <StyledSignButton onClick={() => signIn(null, { callbackUrl: "/" })}>
+          Log in
+        </StyledSignButton>
       )}
     </StyledHeader>
   );
