@@ -13,9 +13,13 @@ const StyledForm = styled.form`
 
 const PhotoLabel = styled.label`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
+`;
+
+const StyledParagraph = styled.p`
+  text-align: center;
 `;
 
 const ErrorMessage = styled.p`
@@ -90,11 +94,11 @@ export default function FileUploadForm({ onAddPhoto, setIsPhotoEditMode }) {
   return (
     <StyledForm onSubmit={handleSubmit}>
       <PhotoLabel htmlFor="profilePhoto">
-        Choose an image:
+        <StyledParagraph>Choose image:</StyledParagraph>
         <StyledUpload />
       </PhotoLabel>
       {imagePreview && <ImagePreview src={imagePreview} alt="Image Preview" />}
-      {fileError && <ErrorMessage>Please choose an image</ErrorMessage>}
+      {fileError && <ErrorMessage>Please choose image</ErrorMessage>}
       {!fileError && (
         <p>{selectedFile ? selectedFile.name : "No file chosen"}</p>
       )}

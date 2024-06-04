@@ -10,9 +10,13 @@ const StyledFilterSection = styled.section`
 
 const StyledFilterButton = styled(StyledButton)`
   position: absolute;
-  right: 1rem;
+  left: 1rem;
   top: -3.3rem;
   padding: 0.1rem 0.4rem;
+  @media (min-width: 600px) {
+    width: 3.5rem;
+    padding: 0.2rem 0.6rem;
+  }
 `;
 
 const StyledList = styled.ul`

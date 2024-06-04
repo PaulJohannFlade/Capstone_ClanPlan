@@ -30,7 +30,7 @@ const StyledHeader = styled.header`
 
 const StyledLink = styled(Link)`
   position: absolute;
-  padding: 0.5rem;
+  padding: 0.6rem;
   top: 0;
   right: 0.5rem;
   display: flex;
