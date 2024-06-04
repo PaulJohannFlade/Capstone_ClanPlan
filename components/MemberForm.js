@@ -71,6 +71,9 @@ export default function MemberForm({ onAddMember, familyMembers, user }) {
     setEnteredName(event.target.value);
     setIsUniqueName(true);
     setIsValidName(true);
+  }
+
+  function handleRoleChange() {
     setIsValidRole(true);
   }
 
@@ -97,7 +100,7 @@ export default function MemberForm({ onAddMember, familyMembers, user }) {
         <StyledSpan $left={true}>*</StyledSpan>Role
         {!isValidRole && <StyledSpan>Please select a role!</StyledSpan>}
       </StyledLabel>
-      <StyledSelect name="role" id="role" onChange={handleChange}>
+      <StyledSelect name="role" id="role" onChange={handleRoleChange}>
         <option value="">Please select a role</option>
         <option value="Parent">Parent</option>
         <option value="Child">Child</option>
