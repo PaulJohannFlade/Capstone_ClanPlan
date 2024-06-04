@@ -21,7 +21,6 @@ export default async function handler(request, response) {
       return response.status(404).json({ status: "Family not found" });
     }
     response.status(200).json(familyName);
-    console.log("familyName... ", familyName);
   }
 
   if (request.method === "POST") {
