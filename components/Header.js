@@ -39,7 +39,7 @@ const StyledLink = styled(Link)`
 `;
 
 const StyledUser = styled(User)`
-  width: 35px;
+  width: 100%;
 `;
 
 const StyledParagraph = styled.p`
@@ -57,15 +57,15 @@ const StyledH1 = styled.h1`
 
 const ImageContainer = styled.div`
   position: relative;
-  width: 35px;
-  height: 35px;
+  width: 2.3rem;
+  height: 2.3rem;
   border-radius: 50%;
-  border: 0.3px solid var(--color-font);
 `;
 
 const StyledImage = styled(Image)`
   object-fit: cover;
   border-radius: 50%;
+  border: 0.3px solid var(--color-font);
 `;
 
 const StyledSignButton = styled(StyledButton)`
@@ -87,8 +87,8 @@ export default function Header({ user }) {
       <StyledH1>ClanPlan</StyledH1>
       {session ? (
         <StyledLink href={`/family/${user._id}`}>
-          {user?.profilePhoto ? (
-            <ImageContainer>
+          <ImageContainer>
+            {user?.profilePhoto ? (
               <StyledImage
                 src={user.profilePhoto}
                 alt="user profile image"
@@ -96,10 +96,10 @@ export default function Header({ user }) {
                 sizes="20vw"
                 priority={true}
               />
-            </ImageContainer>
-          ) : (
-            <StyledUser />
-          )}
+            ) : (
+              <StyledUser />
+            )}
+          </ImageContainer>
           <StyledParagraph>{user.name}</StyledParagraph>
         </StyledLink>
       ) : (

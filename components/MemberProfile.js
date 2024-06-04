@@ -19,17 +19,17 @@ const StyledSection = styled.section`
   flex-direction: column;
   border-radius: 2rem;
   padding: 2rem;
-  gap: 1rem;
+  gap: 2rem;
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   box-shadow: 1px 1px 10px -1px var(--color-font);
   align-items: center;
   ${({ $settings }) =>
     !$settings &&
     `
-    padding-top: 4rem;
-    @media (min-width: 900px) {
+    padding-top: 4.5rem;
+    @media (min-width: 600px) {
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: flex-start;
   }`}
 `;
 
@@ -39,23 +39,30 @@ const StyledContainer = styled.div`
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-  max-width: 80vw;
+  max-width: 75vw;
+
+  @media (min-width: 600px) {
+    max-width: 300px;
+  }
 
   @media (min-width: 900px) {
-    max-width: 50vw;
+    max-width: 350px;
+  }
+
+  @media (min-width: 1200px) {
+    max-width: 400px;
+  }
+  @media (min-width: 1536px) {
+    max-width: 450px;
   }
 `;
 
 const ImageContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 80vw;
+  max-width: 75vw;
   aspect-ratio: 1;
   overflow: hidden;
-
-  @media (min-width: 900px) {
-    max-width: 50vw;
-  }
 `;
 
 const StyledImage = styled(Image)`
@@ -91,9 +98,18 @@ const UserInfoContainer = styled.div`
     min-width: 70vw;
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 600px) {
     flex-direction: column;
-    max-width: 30%;
+    align-items: flex-start;
+  }
+  @media (min-width: 600px) {
+    flex-direction: column;
+    max-width: calc(75vw - 300px);
+    align-items: flex-start;
+  }
+
+  @media (min-width: 900px) {
+    max-width: calc(75vw - 350px);
   }
 `;
 
@@ -104,10 +120,14 @@ const StyledParagraph = styled.p`
 const StyledContent = styled.p`
   font-size: large;
   font-weight: 600;
-  max-width: 10rem;
+  max-width: 30%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: wrap;
+
+  @media (min-width: 600px), (max-width: 450px) {
+    max-width: 100%;
+  }
 `;
 
 const StyledHeading = styled.h3`
@@ -130,17 +150,32 @@ const StyledEditButton = styled.button`
   border-radius: 50%;
   background-color: var(color-background);
   position: absolute;
-  top: 12vw;
-  left: 68vw;
+  top: 10vw;
+  left: 65vw;
   transform: translate(-50%, -50%);
   opacity: 0.5;
 
   &:hover {
     opacity: 1;
   }
+
+  @media (min-width: 600px) {
+    top: 45px;
+    left: 260px;
+  }
+
   @media (min-width: 900px) {
-    top: 7vw;
-    left: 42.5vw;
+    top: 55px;
+    left: 305px;
+  }
+
+  @media (min-width: 1200px) {
+    top: 75px;
+    left: 355px;
+  }
+  @media (min-width: 1536px) {
+    top: 85px;
+    left: 400px;
   }
 `;
 
@@ -170,6 +205,7 @@ export default function MemberProfile({
   showModal,
   setShowModal,
   mutate,
+  mutateMembers,
 }) {
   const { _id, name, role, profilePhoto } = familyMember;
   const [isPhotoEditMode, setIsPhotoEditMode] = useState(false);
@@ -196,6 +232,7 @@ export default function MemberProfile({
       setIsInfoEditMode(false);
       await mutate();
       await mutateUser();
+      await mutateMembers();
     }
   }
 

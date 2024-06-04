@@ -28,10 +28,11 @@ export default function App({
     "/api/categories",
     fetcher
   );
-  const { data: familyMembers, isLoading: isFamilyLoading } = useSWR(
-    "/api/members",
-    fetcher
-  );
+  const {
+    data: familyMembers,
+    isLoading: isFamilyLoading,
+    mutate: mutateMembers,
+  } = useSWR("/api/members", fetcher);
   const { data: tasks, isLoading } = useSWR("/api/tasks", fetcher);
 
   const {
@@ -132,6 +133,7 @@ export default function App({
                 isDarkTheme={isDarkTheme}
                 user={user}
                 mutateUser={mutateUser}
+                mutateMembers={mutateMembers}
               />
             </AuthGate>
           </SWRConfig>

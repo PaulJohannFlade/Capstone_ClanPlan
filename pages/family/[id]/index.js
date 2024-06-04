@@ -35,6 +35,7 @@ export default function MemberProfilePage({
   showModal,
   setShowModal,
   familyMembers,
+  mutateMembers,
 }) {
   const router = useRouter();
   const { id } = router.query;
@@ -101,6 +102,7 @@ export default function MemberProfilePage({
           setShowModal={setShowModal}
           familyMembers={familyMembers}
           mutate={mutate}
+          mutateMembers={mutateMembers}
         />
       ) : (
         <StyledMessage>Page not found!</StyledMessage>
