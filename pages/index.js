@@ -57,7 +57,6 @@ export default function HomePage({
   onButtonClick,
   listType,
   tasks,
-  head,
 }) {
   const isFilterSet =
     (filters.priority !== "0" && filters.priority) ||
