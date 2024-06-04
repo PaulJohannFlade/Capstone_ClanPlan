@@ -12,6 +12,17 @@ export default async function handler(request, response) {
     response.status(401).json({ status: "Not authorized" });
     return;
   }
+  const { family } = request.query;
+
+  if (request.method === "GET") {
+    const familyName = await Family.findById(family);
+
+    if (!familyName) {
+      return response.status(404).json({ status: "Family not found" });
+    }
+    response.status(200).json(familyName);
+    console.log("familyName... ", familyName);
+  }
 
   if (request.method === "POST") {
     try {

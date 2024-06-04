@@ -97,7 +97,7 @@ export default function Header({ user }) {
                 priority={true}
               />
             </ImageContainer>
-          ) : user.status === "Member not found" ? (
+          ) : user?.status === "Member not found" ? (
             ""
           ) : (
             <StyledUser />
