@@ -13,7 +13,9 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "GET") {
-    const familyMember = await Member.findOne({ email: session.user.email });
+    const familyMember = await Member.findOne({
+      email: session.user.email,
+    }).populate("family");
 
     if (!familyMember) {
       return response.status(404).json({ status: "Member not found" });

@@ -104,7 +104,7 @@ export default function CategoryForm({
       title: data.title.trim(),
       selectedMembers,
       id: value?._id,
-      family: value?.family || user.family,
+      family: value?.family || user.family._id,
     });
   }
 

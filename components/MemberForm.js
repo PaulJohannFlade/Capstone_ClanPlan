@@ -30,10 +30,15 @@ const StyledForm = styled.form`
   border-radius: 1rem;
 `;
 
+const StyledInput = styled.input`
+  display: none;
+`;
+
 export default function MemberForm({
   onAddMember,
   familyMembers,
   user,
+  form,
   isInfoEditMode,
   heading,
 }) {
@@ -50,7 +55,11 @@ export default function MemberForm({
     const data = Object.fromEntries(formData);
 
     if (isInfoEditMode) {
-      if (data.name.trim() === user.name && data.role === user.role) {
+      if (
+        data.name.trim() === user.name &&
+        data.role === user.role &&
+        data.email.trim() === user.email
+      ) {
         alert("No changes were made to the form.");
         return;
       }
@@ -62,10 +71,18 @@ export default function MemberForm({
       return;
     } else {
       setIsValidName(true);
-      const uniqueNameCheck = familyMembers.find(
-        (member) =>
-          member.name.trim().toUpperCase() === data.name.trim().toUpperCase()
-      );
+      const uniqueNameCheck = isInfoEditMode
+        ? user.name !== data.name.trim() &&
+          familyMembers.find(
+            (member) =>
+              member.name.trim().toUpperCase() ===
+              data.name.trim().toUpperCase()
+          )
+        : familyMembers.find(
+            (member) =>
+              member.name.trim().toUpperCase() ===
+              data.name.trim().toUpperCase()
+          );
 
       if (uniqueNameCheck) {
         setIsUniqueName(!uniqueNameCheck);
@@ -78,19 +95,17 @@ export default function MemberForm({
       event.target.role.focus();
       return;
     }
-
-    onAddMember({ ...data, family: user.family });
+    onAddMember({ ...data, family: user.family._id });
   }
 
   function handleChange(event) {
     setEnteredName(event.target.value);
     setIsUniqueName(true);
     setIsValidName(true);
-    setIsValidRole(true);
   }
 
   return (
-    <StyledForm onSubmit={handleSubmit}>
+    <StyledForm onSubmit={handleSubmit} ref={form}>
       <StyledHeading>{heading}</StyledHeading>
       <StyledLabel htmlFor="name">
         <StyledSpan $left={true}>*</StyledSpan>Name:
@@ -113,10 +128,11 @@ export default function MemberForm({
         <StyledSpan $left={true}>*</StyledSpan>Role
         {!isValidRole && <StyledSpan>Please select a role!</StyledSpan>}
       </StyledLabel>
+
       <StyledSelect
         name="role"
         id="role"
-        onChange={handleChange}
+        onChange={() => setIsValidRole(true)}
         defaultValue={isInfoEditMode && user.role}
       >
         <option value="">Please select a role</option>
@@ -124,6 +140,26 @@ export default function MemberForm({
         <option value="Child">Child</option>
         <option value="Caregiver">Caregiver</option>
       </StyledSelect>
+
+      <StyledLabel htmlFor="email">
+        <StyledSpan $left={true}>*</StyledSpan>Email
+      </StyledLabel>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        defaultValue={isInfoEditMode && user.email}
+      />
+
+      <StyledInput
+        type="text"
+        id="familyName"
+        name="familyName"
+        value={user.family.name}
+        readOnly
+      />
+
       <StyledButton>{isInfoEditMode ? "Update" : "Add"}</StyledButton>
     </StyledForm>
   );

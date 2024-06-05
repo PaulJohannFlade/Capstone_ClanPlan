@@ -7,6 +7,9 @@ import useSWR from "swr";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import StyledPlus from "@/components/StyledPlus";
+import emailjs from "@emailjs/browser";
+import { useRef } from "react";
+import FetchFamilyName from "@/components/FetchFamilyName";
 
 const StyledMenu = styled.menu`
   display: grid;
@@ -29,6 +32,7 @@ const StyledMenu = styled.menu`
 
 export default function FamilyPage({ showModal, setShowModal, user }) {
   const { data: familyMembers, isLoading, mutate } = useSWR("/api/members");
+  const form = useRef();
 
   if (isLoading) {
     return <StyledLoadingAnimation />;
@@ -57,6 +61,19 @@ export default function FamilyPage({ showModal, setShowModal, user }) {
     if (response.ok) {
       setShowModal(false);
       mutate();
+
+      emailjs
+        .sendForm("service_tcxz2ti", "template_uc0996j", form.current, {
+          publicKey: "jjcfLQQIHPYS7TXeC",
+        })
+        .then(
+          () => {
+            console.log("SUCCESS!");
+          },
+          (error) => {
+            console.log("FAILED...", error.text);
+          }
+        );
     }
   }
 
@@ -64,7 +81,7 @@ export default function FamilyPage({ showModal, setShowModal, user }) {
     <>
       <StyledMenu>
         <StyledPlus onClick={() => setShowModal(true)} $right={true} />
-        <h2>My Family</h2>
+        <FetchFamilyName user={user} />
       </StyledMenu>
       {!familyMembers.length && (
         <StyledMessage>The list is empty. Add members to begin!</StyledMessage>
@@ -77,6 +94,7 @@ export default function FamilyPage({ showModal, setShowModal, user }) {
             onAddMember={handleAddMember}
             familyMembers={familyMembers}
             user={user}
+            form={form}
             heading={"Add new family member"}
           />
         )}
