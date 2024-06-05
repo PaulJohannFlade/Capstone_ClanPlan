@@ -78,10 +78,6 @@ const StyledSignButton = styled(StyledButton)`
 export default function Header({ user }) {
   const { data: session } = useSession();
 
-  function handleSignIn() {
-    signIn(null, { callbackUrl: "/" });
-  }
-
   return (
     <StyledHeader>
       <StyledH1>ClanPlan</StyledH1>
