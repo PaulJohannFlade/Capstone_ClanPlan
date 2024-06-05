@@ -55,7 +55,11 @@ export default function MemberForm({
     const data = Object.fromEntries(formData);
 
     if (isInfoEditMode) {
-      if (data.name.trim() === user.name && data.role === user.role) {
+      if (
+        data.name.trim() === user.name &&
+        data.role === user.role &&
+        data.email.trim() === user.email
+      ) {
         alert("No changes were made to the form.");
         return;
       }
@@ -67,10 +71,18 @@ export default function MemberForm({
       return;
     } else {
       setIsValidName(true);
-      const uniqueNameCheck = familyMembers.find(
-        (member) =>
-          member.name.trim().toUpperCase() === data.name.trim().toUpperCase()
-      );
+      const uniqueNameCheck = isInfoEditMode
+        ? user.name !== data.name.trim() &&
+          familyMembers.find(
+            (member) =>
+              member.name.trim().toUpperCase() ===
+              data.name.trim().toUpperCase()
+          )
+        : familyMembers.find(
+            (member) =>
+              member.name.trim().toUpperCase() ===
+              data.name.trim().toUpperCase()
+          );
 
       if (uniqueNameCheck) {
         setIsUniqueName(!uniqueNameCheck);
