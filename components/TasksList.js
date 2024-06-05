@@ -9,17 +9,14 @@ const StyledList = styled.ul`
   display: flex;
   flex-direction: column;
 
-  @media (min-width: 1200px), (min-width: 900px) {
+  @media (min-width: 900px) {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
   }
 
   @media (min-width: 1536px) {
-    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.5rem;
-    margin-left: ${({ $allTasks }) => ($allTasks ? "0" : "6rem")};
   }
 `;
 

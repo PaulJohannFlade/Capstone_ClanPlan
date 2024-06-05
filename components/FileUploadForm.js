@@ -23,20 +23,44 @@ const ErrorMessage = styled.p`
 `;
 
 const PhotoInput = styled.input`
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 `;
 
 const StyledUpload = styled(Upload)`
   width: 2rem;
 `;
 
-export default function FileUploadForm({ onAddPhoto }) {
+const ImagePreview = styled.img`
+  width: 6rem;
+  height: auto;
+`;
+
+export default function FileUploadForm({ onAddPhoto, setIsPhotoEditMode }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileError, setFileError] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
 
   function handleFileChange(event) {
-    setSelectedFile(event.target.files[0]);
+    const file = event.target.files[0];
+    setSelectedFile(file);
     setFileError(false);
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview(null);
+    }
   }
 
   async function handleSubmit(event) {
@@ -59,6 +83,8 @@ export default function FileUploadForm({ onAddPhoto }) {
     onAddPhoto(url);
     event.target.reset();
     setSelectedFile(null);
+    setImagePreview(null);
+    setIsPhotoEditMode(false);
   }
 
   return (
@@ -67,6 +93,7 @@ export default function FileUploadForm({ onAddPhoto }) {
         Choose an image:
         <StyledUpload />
       </PhotoLabel>
+      {imagePreview && <ImagePreview src={imagePreview} alt="Image Preview" />}
       {fileError && <ErrorMessage>Please choose an image</ErrorMessage>}
       {!fileError && (
         <p>{selectedFile ? selectedFile.name : "No file chosen"}</p>

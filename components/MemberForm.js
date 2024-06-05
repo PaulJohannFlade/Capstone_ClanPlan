@@ -30,16 +30,31 @@ const StyledForm = styled.form`
   border-radius: 1rem;
 `;
 
-export default function MemberForm({ onAddMember, familyMembers, user }) {
+export default function MemberForm({
+  onAddMember,
+  familyMembers,
+  user,
+  isInfoEditMode,
+  heading,
+}) {
   const [isValidName, setIsValidName] = useState(true);
   const [isValidRole, setIsValidRole] = useState(true);
   const [isUniqueName, setIsUniqueName] = useState(true);
-  const [enteredName, setEnteredName] = useState("");
+  const [enteredName, setEnteredName] = useState(
+    isInfoEditMode ? user.name : ""
+  );
 
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
+
+    if (isInfoEditMode) {
+      if (data.name.trim() === user.name && data.role === user.role) {
+        alert("No changes were made to the form.");
+        return;
+      }
+    }
 
     if (!data.name.trim()) {
       setIsValidName(false);
@@ -76,7 +91,7 @@ export default function MemberForm({ onAddMember, familyMembers, user }) {
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <StyledHeading>Add new family member</StyledHeading>
+      <StyledHeading>{heading}</StyledHeading>
       <StyledLabel htmlFor="name">
         <StyledSpan $left={true}>*</StyledSpan>Name:
         {!isValidName && <StyledSpan>Please enter valid Name!</StyledSpan>}
@@ -90,6 +105,7 @@ export default function MemberForm({ onAddMember, familyMembers, user }) {
         id="name"
         onChange={handleChange}
         maxLength={50}
+        defaultValue={isInfoEditMode && user.name}
       />
       <StyledSpan>{50 - enteredName.length} characters left</StyledSpan>
 
@@ -97,14 +113,18 @@ export default function MemberForm({ onAddMember, familyMembers, user }) {
         <StyledSpan $left={true}>*</StyledSpan>Role
         {!isValidRole && <StyledSpan>Please select a role!</StyledSpan>}
       </StyledLabel>
-      <StyledSelect name="role" id="role" onChange={handleChange}>
+      <StyledSelect
+        name="role"
+        id="role"
+        onChange={handleChange}
+        defaultValue={isInfoEditMode && user.role}
+      >
         <option value="">Please select a role</option>
         <option value="Parent">Parent</option>
         <option value="Child">Child</option>
         <option value="Caregiver">Caregiver</option>
       </StyledSelect>
-
-      <StyledButton>Add</StyledButton>
+      <StyledButton>{isInfoEditMode ? "Update" : "Add"}</StyledButton>
     </StyledForm>
   );
 }

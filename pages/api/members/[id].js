@@ -31,4 +31,15 @@ export default async function handler(request, response) {
       .status(200)
       .json({ status: "Member profile updated successfully." });
   }
+
+  if (request.method === "PUT") {
+    try {
+      const memberData = request.body;
+      await Member.findByIdAndUpdate(id, memberData);
+      response.status(200).json({ status: "Member updated successfully." });
+    } catch (error) {
+      console.error(error);
+      return response.status(400).json({ error: error.message });
+    }
+  }
 }
