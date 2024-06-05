@@ -272,6 +272,7 @@ export default function MemberProfile({
 
       toast.success("Photo deleted successfully");
       setShowModal(false);
+      setIsPhotoEditMode(false);
       await mutate();
       await mutateUser();
     } catch (error) {
