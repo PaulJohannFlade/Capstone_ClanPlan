@@ -18,7 +18,7 @@ export default async function handler(request, response) {
 
   if (request.method === "GET") {
     const user = await Member.findOne({ email: session.user.email });
-    const familyId = user.family;
+    const familyId = user?.family;
     const task = await Task.findOne({ _id: id, family: familyId })
       .populate("category")
       .populate("assignedTo");

@@ -32,7 +32,10 @@ export default function App({
     "/api/members",
     fetcher
   );
-  const { data: tasks, isLoading } = useSWR("/api/tasks", fetcher);
+  const { data: tasks, isLoading: isTaskLoading } = useSWR(
+    "/api/tasks",
+    fetcher
+  );
 
   const {
     data: user,
@@ -40,7 +43,7 @@ export default function App({
     mutate: mutateUser,
   } = useSWR(`/api/members/auth`, fetcher);
 
-  if (isLoading) {
+  if (isTaskLoading) {
     return <StyledLoadingAnimation />;
   }
 
@@ -109,7 +112,12 @@ export default function App({
               pauseOnHover
               theme={isDarkTheme ? "dark" : "light"}
             />
-            <AuthGate>
+            <AuthGate
+              user={user}
+              setShowModal={setShowModal}
+              showModal={showModal}
+              mutateUser={mutateUser}
+            >
               <Component
                 {...pageProps}
                 tasks={tasks}

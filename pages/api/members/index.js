@@ -14,7 +14,7 @@ export default async function handler(request, response) {
 
   if (request.method === "GET") {
     const user = await Member.findOne({ email: session.user.email });
-    const familyId = user.family;
+    const familyId = user?.family;
     const members = await Member.find({ family: familyId });
     return response.status(200).json(members);
   }

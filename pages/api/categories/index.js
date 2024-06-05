@@ -15,7 +15,7 @@ export default async function handler(request, response) {
 
   if (request.method === "GET") {
     const user = await Member.findOne({ email: session.user.email });
-    const familyId = user.family;
+    const familyId = user?.family;
     const category = await Category.find({ family: familyId })
       .populate("selectedMembers")
       .sort({ title: "asc" });
