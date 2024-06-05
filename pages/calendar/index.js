@@ -23,33 +23,23 @@ const StyledSection = styled.section`
   padding: 1rem;
   background-color: var(--color-background);
   border-radius: 1rem;
-  height: 500px;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  height: 75vh;
+  min-height: 500px;
+  margin: 0.5rem;
   box-shadow: 1px 1px 10px -1px var(--color-font);
 
   @media (min-width: 900px) {
-    height: 35rem;
-  }
-
-  @media (min-width: 1200px) {
-    height: 40rem;
-  }
-  @media (min-width: 1536px) {
-    height: 60rem;
+    min-height: 800px;
+    height: 89vh;
   }
 `;
 
 const StyledCalendar = styled(DnDCalendar)`
-  height: 410px;
+  min-height: 410px;
+  height: 63vh;
   @media (min-width: 900px) {
-    height: 30rem;
-  }
-  @media (min-width: 1200px) {
-    height: 35rem;
-  }
-  @media (min-width: 1536px) {
-    height: 50rem;
+    min-height: 710px;
+    height: 80vh;
   }
 `;
 

@@ -22,21 +22,12 @@ const StyledSection = styled.section`
   right: calc(50% - 190px);
   padding: 15px;
   left: 50%;
-  width: calc(375px - 1rem);
+  width: 30rem;
   transform: translateX(-50%);
   z-index: 10;
   opacity: ${({ $open }) => ($open ? 1 : 0)};
   transition: top 0.5s ease, opacity 0.5s ease, background-color 0.5s ease;
-
-  @media (min-width: 900px) {
-    width: 25rem;
-  }
-  @media (min-width: 1200px) {
-    width: 30rem;
-  }
-  @media (min-width: 1536) {
-    width: 45rem;
-  }
+  max-width: 95vw;
 `;
 
 export default function Modal({ children, setShowModal, $top, $open }) {

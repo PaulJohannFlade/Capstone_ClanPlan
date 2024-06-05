@@ -11,6 +11,10 @@ const StyledSection = styled.section`
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
+
+  @media (min-width: 900px) {
+    justify-content: flex-start;
+  }
 `;
 
 const StyledSpan = styled.span`

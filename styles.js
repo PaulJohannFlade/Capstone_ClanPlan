@@ -47,19 +47,22 @@ export default createGlobalStyle`
   }
 
   html {
-    @media (min-width: 900px){
+    @media (min-width: 600px){
     font-size: 17px;
     }
+    @media (min-width: 900px){
+    font-size: 18px;
+    }
     @media  (min-width: 1200px){
-      font-size: 18px;
+      font-size: 19px;
     }
     @media (min-width:1536px){
-      font-size: 19px;
+      font-size: 20px;
     }
   }
 
   body {
-    min-width: 300px;
+    min-width: 330px;
     margin: auto;
     margin-top:5.5rem;
     margin-bottom:6rem;
@@ -67,13 +70,13 @@ export default createGlobalStyle`
     font-family: Helvetica;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    max-width: 375px;
+    max-width: 100vw;
     background-color: var(--color-background);
     transition: background-color 0.5s ease, color 0.5s ease;
     
     @media (min-width: 900px) {
-    max-width: 90vw;
-    margin-left: 6.5rem;
+    width: calc(100vw - 100px);
+    margin-left: calc(100px + 0.5rem);
     margin-bottom:auto;
     }
   }
@@ -130,12 +133,26 @@ a:hover {
     background-color: var(--color-button-active);
 }
 
+.rbc-button-link {
+  font-size: 0.9rem;
+}
+
 .rbc-event {
   background-color: var(--color-font);
-  font-size: 0.5rem;
+  font-size: 0.45rem;
   font-weight: 700;
-  padding: 0.2rem;
+  padding: 0.05rem 0.2rem;
+
+  @media (min-width: 900px) {
+    font-size: 0.7rem;
+  }
+
 }
+
+.rbc-show-more {
+  font-size: 0.45rem;
+}
+
 
 .rbc-row-segment .rbc-event-content {
   text-overflow: clip;
@@ -160,16 +177,12 @@ display: none;
 }
 
 .rbc-addons-dnd-row-body {
-  height: 265px;
-  @media (min-width: 900px){
-    height: 415px;
-    }
-    @media  (min-width: 1200px){
-      height: 495px;
-    }
-    @media (min-width:1536px){
-      height: 735px;
-    }
+  min-height: 310px;
+  height: 63vh;
+  @media (min-width: 900px) {
+    min-height: 637px;
+    height: 72vh;
+  }
 }
 
 .rbc-btn-group button {

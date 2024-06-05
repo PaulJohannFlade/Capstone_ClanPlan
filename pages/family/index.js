@@ -78,6 +78,7 @@ export default function FamilyPage({ showModal, setShowModal, user }) {
             onAddMember={handleAddMember}
             familyMembers={familyMembers}
             user={user}
+            heading={"Add new family member"}
           />
         )}
       </Modal>
