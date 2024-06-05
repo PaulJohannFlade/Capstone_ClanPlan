@@ -46,6 +46,10 @@ const ImagePreview = styled.img`
   height: auto;
 `;
 
+const StyledFileName = styled.p`
+  font-size: 0.9rem;
+`;
+
 export default function FileUploadForm({ onAddPhoto, setIsPhotoEditMode }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileError, setFileError] = useState(false);
@@ -100,7 +104,9 @@ export default function FileUploadForm({ onAddPhoto, setIsPhotoEditMode }) {
       {imagePreview && <ImagePreview src={imagePreview} alt="Image Preview" />}
       {fileError && <ErrorMessage>Please choose image</ErrorMessage>}
       {!fileError && (
-        <p>{selectedFile ? selectedFile.name : "No file chosen"}</p>
+        <StyledFileName>
+          {selectedFile ? selectedFile.name : "No image chosen"}
+        </StyledFileName>
       )}
       <PhotoInput
         type="file"

@@ -10,6 +10,7 @@ import Pen from "@/public/assets/images/edit-pen-icon.svg";
 import Modal from "./Modal";
 import MemberForm from "./MemberForm";
 import { toast } from "react-toastify";
+import ConfirmBox from "./ConfirmBox";
 
 const StyledSection = styled.section`
   position: relative;
@@ -18,7 +19,7 @@ const StyledSection = styled.section`
   display: flex;
   flex-direction: column;
   border-radius: 2rem;
-  padding: 2rem;
+  padding: 1.8rem;
   gap: 2rem;
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   box-shadow: 1px 1px 10px -1px var(--color-font);
@@ -26,10 +27,11 @@ const StyledSection = styled.section`
   ${({ $settings }) =>
     !$settings &&
     `
-    padding-top: 4.5rem;
+    padding-top: 4.3rem;
     @media (min-width: 600px) {
     flex-direction: row;
     justify-content: flex-start;
+    align-items: start;
   }`}
 `;
 
@@ -39,7 +41,7 @@ const StyledContainer = styled.div`
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-  max-width: 75vw;
+  max-width: 70vw;
 
   @media (min-width: 600px) {
     max-width: 300px;
@@ -60,7 +62,7 @@ const StyledContainer = styled.div`
 const ImageContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 75vw;
+  max-width: 70vw;
   aspect-ratio: 1;
   overflow: hidden;
 `;
@@ -77,10 +79,9 @@ const StyledUser = styled(User)`
 `;
 
 const StyledEditContainer = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  gap: 1rem;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
 `;
 
 const UserInfoContainer = styled.div`
@@ -101,6 +102,7 @@ const UserInfoContainer = styled.div`
   @media (min-width: 600px) {
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 2rem;
   }
   @media (min-width: 600px) {
     flex-direction: column;
@@ -140,8 +142,8 @@ const StyledSignButton = styled(StyledButton)`
   margin: 0;
   align-self: flex-end;
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1.3rem;
+  right: 1.3rem;
 `;
 
 const StyledEditButton = styled.button`
@@ -150,8 +152,8 @@ const StyledEditButton = styled.button`
   border-radius: 50%;
   background-color: var(color-background);
   position: absolute;
-  top: 10vw;
-  left: 65vw;
+  top: 12vw;
+  left: 61vw;
   transform: translate(-50%, -50%);
   opacity: 0.5;
 
@@ -236,6 +238,47 @@ export default function MemberProfile({
     }
   }
 
+  function handleDeleteButtonClick() {
+    setShowModal(true);
+    setIsInfoEditMode(false);
+  }
+
+  async function handleDeleteImage(id, imageUrl) {
+    try {
+      const cloudinaryResponse = await fetch("/api/deleteImage", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ imageUrl }),
+      });
+
+      if (!cloudinaryResponse.ok) {
+        throw new Error("Failed to delete image from Cloudinary");
+      }
+
+      const updatedMemberData = { ...familyMember, profilePhoto: "" };
+      const memberResponse = await fetch(`/api/members/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedMemberData),
+      });
+
+      if (!memberResponse.ok) {
+        throw new Error("Failed to update member data");
+      }
+
+      toast.success("Photo deleted successfully");
+      setShowModal(false);
+      await mutate();
+      await mutateUser();
+    } catch (error) {
+      toast.error(error.message || "Failed to delete photo");
+    }
+  }
+
   return (
     <>
       <StyledSection>
@@ -269,7 +312,12 @@ export default function MemberProfile({
           </ImageContainer>
           {_id === user._id && isPhotoEditMode && (
             <StyledEditContainer>
-              <StyledButton $red $top={"0"} $width={"8rem"}>
+              <StyledButton
+                $red
+                $top={"0"}
+                $width={"8rem"}
+                onClick={handleDeleteButtonClick}
+              >
                 Delete image
               </StyledButton>
               <FileUploadForm
@@ -300,14 +348,31 @@ export default function MemberProfile({
           <ThemeToggle familyMember={familyMember} mutateUser={mutateUser} />
         </StyledSection>
       )}
-      <Modal $top="8rem" setShowModal={setShowModal} $open={showModal}>
-        {showModal && (
+      <Modal
+        $top="8rem"
+        setShowModal={setShowModal}
+        $open={showModal && isInfoEditMode}
+      >
+        {showModal && isInfoEditMode && (
           <MemberForm
             onAddMember={handleEditMember}
             familyMembers={familyMembers}
             user={user}
             isInfoEditMode={isInfoEditMode}
             heading={"Edit family member"}
+          />
+        )}
+      </Modal>
+      <Modal
+        $top="13.5rem"
+        setShowModal={setShowModal}
+        $open={showModal && !isInfoEditMode}
+      >
+        {showModal && !isInfoEditMode && (
+          <ConfirmBox
+            setShowModal={setShowModal}
+            onConfirm={() => handleDeleteImage(_id, profilePhoto)}
+            message="Are you sure you want to delete profile image?"
           />
         )}
       </Modal>
