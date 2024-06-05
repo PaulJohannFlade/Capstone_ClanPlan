@@ -153,9 +153,12 @@ const StyledEditButton = styled.button`
   background-color: var(color-background);
   position: absolute;
   top: 12vw;
-  left: 61vw;
-  transform: translate(-50%, -50%);
+  right: 9vw;
+  transform: translate(50%, -50%);
   opacity: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     opacity: 1;
@@ -163,21 +166,21 @@ const StyledEditButton = styled.button`
 
   @media (min-width: 600px) {
     top: 45px;
-    left: 260px;
+    right: 40px;
   }
 
   @media (min-width: 900px) {
     top: 55px;
-    left: 305px;
+    right: 45px;
   }
 
   @media (min-width: 1200px) {
     top: 75px;
-    left: 355px;
+    right: 45px;
   }
   @media (min-width: 1536px) {
     top: 85px;
-    left: 400px;
+    right: 50px;
   }
 `;
 

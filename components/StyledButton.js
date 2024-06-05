@@ -5,7 +5,7 @@ const StyledButton = styled.button`
   color: var(--color-font);
   font-weight: 700;
   border: 0.5px solid var(--color-font);
-  border-bottom: 2px solid var(--color-font);
+  border-bottom-width: 2px;
   background-color: ${({ $red }) =>
     $red ? "var(--color-alert)" : "var(--color-button)"};
   padding: 0.4rem;
