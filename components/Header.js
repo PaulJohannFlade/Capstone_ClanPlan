@@ -88,20 +88,20 @@ export default function Header({ user }) {
       <StyledH1>ClanPlan</StyledH1>
       {session ? (
         <StyledLink href={`/family/${user._id}`}>
-          <ImageContainer>
-            {user?.profilePhoto ? (
-              <StyledImage
-                src={user.profilePhoto}
-                alt="user profile image"
-                fill={true}
-                sizes="20vw"
-                priority={true}
-              />
+          {!(user?.status === "Member not found") && (
+            <ImageContainer>
+              {user?.profilePhoto ? (
+                <StyledImage
+                  src={user.profilePhoto}
+                  alt="user profile image"
+                  fill={true}
+                  sizes="20vw"
+                  priority={true}
+                />
+              ) : (
+                <StyledUser />
+              )}
             </ImageContainer>
-          ) : user?.status === "Member not found" ? (
-            ""
-          ) : (
-            <StyledUser />
           )}
           <StyledParagraph>{user?.name}</StyledParagraph>
         </StyledLink>

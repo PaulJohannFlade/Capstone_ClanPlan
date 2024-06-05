@@ -87,27 +87,21 @@ const StyledEditContainer = styled.div`
 const UserInfoContainer = styled.div`
   position: relative;
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   align-items: center;
-  padding: 3rem 2.5rem 2rem 2rem;
+  padding: 3rem 2rem 2rem 2rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #808080;
   max-width: 100%;
-
-  @media (max-width: 450px) {
-    flex-direction: column;
-    min-width: 70vw;
-  }
+  align-self: stretch;
 
   @media (min-width: 600px) {
-    flex-direction: column;
     align-items: flex-start;
-    margin-top: 2rem;
-  }
-  @media (min-width: 600px) {
-    flex-direction: column;
+    margin-top: 1rem;
     max-width: calc(75vw - 300px);
     align-items: flex-start;
+    align-self: flex-start;
   }
 
   @media (min-width: 900px) {
@@ -122,14 +116,10 @@ const StyledParagraph = styled.p`
 const StyledContent = styled.p`
   font-size: large;
   font-weight: 600;
-  max-width: 30%;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: wrap;
-
-  @media (min-width: 600px), (max-width: 450px) {
-    max-width: 100%;
-  }
 `;
 
 const StyledHeading = styled.h3`
