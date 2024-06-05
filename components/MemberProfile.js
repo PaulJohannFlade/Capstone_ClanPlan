@@ -158,7 +158,7 @@ export default function MemberProfile({
   setShowModal,
   mutate,
 }) {
-  const { _id, name, role, profilePhoto } = familyMember;
+  const { _id, name, role, profilePhoto, email } = familyMember;
   const [isPhotoEditMode, setIsPhotoEditMode] = useState(false);
   const [isInfoEditMode, setIsInfoEditMode] = useState(false);
 
@@ -172,9 +172,9 @@ export default function MemberProfile({
         body: JSON.stringify(updatedMemberData),
       }),
       {
-        pending: "Member addition is pending",
-        success: "Member added successfully",
-        error: "Member not added",
+        pending: "Member updation is pending",
+        success: "Member updated successfully",
+        error: "Member not updated",
       }
     );
 
@@ -237,6 +237,8 @@ export default function MemberProfile({
           <StyledContent>{name}</StyledContent>
           <StyledParagraph>Role:</StyledParagraph>
           <StyledContent>{role}</StyledContent>
+          <StyledParagraph>Email:</StyledParagraph>
+          <StyledContent>{email}</StyledContent>
         </UserInfoContainer>
       </StyledSection>
       {_id === user._id && (
