@@ -317,6 +317,7 @@ export default function MemberProfile({
                 $top={"0"}
                 $width={"8rem"}
                 onClick={handleDeleteButtonClick}
+                disabled={!profilePhoto}
               >
                 Delete image
               </StyledButton>

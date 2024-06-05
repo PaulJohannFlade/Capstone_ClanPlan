@@ -17,6 +17,10 @@ const StyledButton = styled.button`
     `position: absolute;
   margin-top: 0.5rem;
   right: 0.5rem;`}
+  &:disabled {
+    background-color: #808080;
+    opacity: 0.5;
+  }
 `;
 
 export default StyledButton;
