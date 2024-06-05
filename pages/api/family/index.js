@@ -2,7 +2,7 @@ import dbConnect from "@/db/connect";
 import Family from "@/db/models/Family";
 import Member from "@/db/models/Member";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export default async function handler(request, response) {
   await dbConnect();
@@ -11,6 +11,16 @@ export default async function handler(request, response) {
   if (!session) {
     response.status(401).json({ status: "Not authorized" });
     return;
+  }
+  const { family } = request.query;
+
+  if (request.method === "GET") {
+    const familyName = await Family.findById(family);
+
+    if (!familyName) {
+      return response.status(404).json({ status: "Family not found" });
+    }
+    response.status(200).json(familyName);
   }
 
   if (request.method === "POST") {

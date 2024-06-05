@@ -74,7 +74,7 @@ export default function AuthGate({
   if (!session) {
     return <StopMessage />;
   }
-  if (user.status === "Member not found") {
+  if (user?.status === "Member not found") {
     return (
       <>
         <StyledParagraph>{session.user.name}</StyledParagraph>

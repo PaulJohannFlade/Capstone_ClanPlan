@@ -25,6 +25,14 @@ export const authOptions = {
                 name: "New Turtle",
                 email: "test@example.com",
               };
+            } else if (
+              credentials.username === "clanplan" &&
+              credentials.password === "clanplan"
+            ) {
+              return {
+                name: "New User",
+                email: "newUser@clanPlan.com",
+              };
             } else {
               return null;
             }

@@ -10,22 +10,24 @@ import { useEffect, useState } from "react";
 
 const StyledFooter = styled.footer`
   background-color: var(--color-background);
-  box-shadow: -1px -6px 15px 0px #7d7d7d;
+  box-shadow: 0px 1px 10px -1px var(--color-font);
   text-align: center;
   position: fixed;
   bottom: 0;
   right: 0;
   left: 0;
-  max-width: 375px;
-  margin: auto;
+  width: 100%;
+  margin: 0;
+  min-width: 330px;
+  z-index: 5;
 
   @media (min-width: 900px) {
-    position: fixed;
-    max-width: 100vw;
-    margin: 0;
-    height: 100vh;
+    top: 0;
+    min-height: 100vh;
     width: 100px;
-    flex-direction: column;
+    box-shadow: 1px 0px 10px -1px var(--color-font);
+    min-width: 100px;
+    z-index: auto;
   }
 `;
 
@@ -56,18 +58,20 @@ const StyledCalendarIcon = styled(CalendarIcon)`
 `;
 
 const StyledList = styled.ul`
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   justify-content: space-between;
   list-style: none;
   padding: 0;
 
-  @media (min-width: 1200px), (min-width: 900px) {
+  @media (min-width: 900px) {
     grid-template-columns: 1fr;
-    left: 0;
-    height: 100vh;
-    width: 90px;
+    display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 100vh;
   }
 `;
 
@@ -87,22 +91,14 @@ const StyledSpan = styled.span`
   color: ${({ $isActive }) =>
     $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
 `;
-const StyledCreateItem = styled.li`
-  position: fixed;
-  left: calc(100vw / 2 - 2rem);
+const StyledCreateDiv = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   bottom: 0.6rem;
-  @media (min-width: 1200px), (min-width: 900px) {
-    position: inherit;
-  }
-`;
-
-const StyledListItem = styled.li`
-  padding-right: 4rem;
-  width: 9rem;
-
-  @media (min-width: 1200px), (min-width: 900px) {
-    padding-right: inherit;
-    width: inherit;
+  @media (min-width: 900px) {
+    position: static;
+    transform: translateX(0);
   }
 `;
 
@@ -124,15 +120,24 @@ export default function Footer() {
               <StyledSpan $isActive={currentPage === "/"}>Home</StyledSpan>
             </StyledLink>
           </li>
-          <StyledListItem>
+          <li>
             <StyledLink href="/family">
               <StyledFamily $isActive={currentPage === "/family"} />
               <StyledSpan $isActive={currentPage === "/family"}>
                 Family
               </StyledSpan>
             </StyledLink>
-          </StyledListItem>
-
+          </li>
+          <li>
+            <StyledCreateDiv>
+              <StyledLink href="/create">
+                <StyledPlus $isActive={currentPage === "/create"} />
+                <StyledSpan $isActive={currentPage === "/create"}>
+                  Create
+                </StyledSpan>
+              </StyledLink>
+            </StyledCreateDiv>
+          </li>
           <li>
             <StyledLink href="/categories">
               <StyledCategory $isActive={currentPage === "/categories"} />
@@ -149,14 +154,6 @@ export default function Footer() {
               </StyledSpan>
             </StyledLink>
           </li>
-          <StyledCreateItem>
-            <StyledLink href="/create">
-              <StyledPlus $isActive={currentPage === "/create"} />
-              <StyledSpan $isActive={currentPage === "/create"}>
-                Create
-              </StyledSpan>
-            </StyledLink>
-          </StyledCreateItem>
         </StyledList>
       </nav>
     </StyledFooter>

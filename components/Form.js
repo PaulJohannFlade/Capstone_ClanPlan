@@ -25,18 +25,12 @@ const StyledHeading = styled.h2`
 
 const StyledLabel = styled.label`
   font-size: 0.9rem;
-  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
-    font-size: 1.5rem;
-  }
 `;
 
 const StyledSpan = styled.span`
   font-size: 1rem;
   color: red;
   float: ${({ $left }) => ($left ? "left" : "right")};
-  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
-    font-size: 1.5rem;
-  }
 `;
 
 const StyledDateInput = styled.input`

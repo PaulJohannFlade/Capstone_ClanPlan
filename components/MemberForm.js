@@ -34,16 +34,32 @@ const StyledInput = styled.input`
   display: none;
 `;
 
-export default function MemberForm({ onAddMember, familyMembers, user, form }) {
+export default function MemberForm({
+  onAddMember,
+  familyMembers,
+  user,
+  form,
+  isInfoEditMode,
+  heading,
+}) {
   const [isValidName, setIsValidName] = useState(true);
   const [isValidRole, setIsValidRole] = useState(true);
   const [isUniqueName, setIsUniqueName] = useState(true);
-  const [enteredName, setEnteredName] = useState("");
+  const [enteredName, setEnteredName] = useState(
+    isInfoEditMode ? user.name : ""
+  );
 
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
+
+    if (isInfoEditMode) {
+      if (data.name.trim() === user.name && data.role === user.role) {
+        alert("No changes were made to the form.");
+        return;
+      }
+    }
 
     if (!data.name.trim()) {
       setIsValidName(false);
@@ -74,12 +90,11 @@ export default function MemberForm({ onAddMember, familyMembers, user, form }) {
     setEnteredName(event.target.value);
     setIsUniqueName(true);
     setIsValidName(true);
-    setIsValidRole(true);
   }
 
   return (
     <StyledForm onSubmit={handleSubmit} ref={form}>
-      <StyledHeading>Add new family member</StyledHeading>
+      <StyledHeading>{heading}</StyledHeading>
       <StyledLabel htmlFor="name">
         <StyledSpan $left={true}>*</StyledSpan>Name:
         {!isValidName && <StyledSpan>Please enter valid Name!</StyledSpan>}
@@ -93,6 +108,7 @@ export default function MemberForm({ onAddMember, familyMembers, user, form }) {
         id="name"
         onChange={handleChange}
         maxLength={50}
+        defaultValue={isInfoEditMode && user.name}
       />
       <StyledSpan>{50 - enteredName.length} characters left</StyledSpan>
 
@@ -100,7 +116,13 @@ export default function MemberForm({ onAddMember, familyMembers, user, form }) {
         <StyledSpan $left={true}>*</StyledSpan>Role
         {!isValidRole && <StyledSpan>Please select a role!</StyledSpan>}
       </StyledLabel>
-      <StyledSelect name="role" id="role" onChange={handleChange}>
+
+      <StyledSelect
+        name="role"
+        id="role"
+        onChange={() => setIsValidRole(true)}
+        defaultValue={isInfoEditMode && user.role}
+      >
         <option value="">Please select a role</option>
         <option value="Parent">Parent</option>
         <option value="Child">Child</option>
@@ -110,7 +132,14 @@ export default function MemberForm({ onAddMember, familyMembers, user, form }) {
       <StyledLabel htmlFor="email">
         <StyledSpan $left={true}>*</StyledSpan>Email
       </StyledLabel>
-      <input type="email" id="email" name="email" required />
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        defaultValue={isInfoEditMode && user.email}
+      />
+
       <StyledInput
         type="text"
         id="familyName"
@@ -119,7 +148,7 @@ export default function MemberForm({ onAddMember, familyMembers, user, form }) {
         readOnly
       />
 
-      <StyledButton>Add</StyledButton>
+      <StyledButton>{isInfoEditMode ? "Update" : "Add"}</StyledButton>
     </StyledForm>
   );
 }

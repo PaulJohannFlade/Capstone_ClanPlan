@@ -6,11 +6,6 @@ const StyledList = styled.ul`
   padding: 0;
   display: flex;
   flex-direction: column;
-  margin-bottom: 6rem;
-
-  @media (min-width: 900px), (min-width: 1200px), (min-width: 1536px) {
-    margin-left: 6rem;
-  }
 `;
 
 const StyledListItems = styled.li`

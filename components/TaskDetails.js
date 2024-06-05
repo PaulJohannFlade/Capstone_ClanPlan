@@ -20,7 +20,7 @@ const StyledArticle = styled.article`
 const StyledLink = styled(Link)`
   position: absolute;
   top: 1.1rem;
-  right: 5rem;
+  right: 4.5rem;
 `;
 
 const StyledPen = styled(Pen)`
