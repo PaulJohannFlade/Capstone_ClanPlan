@@ -8,16 +8,14 @@ import { useState } from "react";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import { StyledMenu } from "../family";
+import { useModal } from "@/context/modalContext";
 
-export default function CategoriesPage({
-  showModal,
-  setShowModal,
-  familyMembers,
-  user,
-}) {
+export default function CategoriesPage({ familyMembers, user }) {
   const [modalMode, setModalMode] = useState("");
 
   const { data: categories, isLoading, mutate } = useSWR("/api/categories");
+
+  const { showModal, openModal, closeModal } = useModal();
 
   if (isLoading) {
     return <StyledLoadingAnimation />;
@@ -43,7 +41,7 @@ export default function CategoriesPage({
       }
     );
     if (response.ok) {
-      setShowModal(false);
+      closeModal();
       mutate();
     }
   }
@@ -54,7 +52,7 @@ export default function CategoriesPage({
         <StyledPlus
           onClick={() => {
             setModalMode("add");
-            setShowModal(true);
+            openModal();
           }}
           $right={true}
         />
@@ -68,19 +66,13 @@ export default function CategoriesPage({
       )}
       <CategoriesList
         familyMembers={familyMembers}
-        setShowModal={setShowModal}
-        showModal={showModal}
         modalMode={modalMode}
         setModalMode={setModalMode}
         categories={categories}
         mutate={mutate}
       />
 
-      <Modal
-        $top="7rem"
-        setShowModal={setShowModal}
-        $open={showModal && modalMode === "add"}
-      >
+      <Modal $top="7rem" $open={showModal && modalMode === "add"}>
         {showModal && modalMode === "add" && (
           <CategoryForm
             formHeading="Add a category"

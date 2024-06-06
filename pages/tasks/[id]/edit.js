@@ -6,12 +6,7 @@ import useSWR from "swr";
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
 
-export default function EditPage({
-  familyMembers,
-  categories,
-  showModal,
-  setShowModal,
-}) {
+export default function EditPage({ familyMembers, categories }) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -86,8 +81,6 @@ export default function EditPage({
           familyMembers={familyMembers}
           categories={categories}
           allocatedMembersList={allocatedMembersList}
-          showModal={showModal}
-          setShowModal={setShowModal}
         />
       </div>
     </>

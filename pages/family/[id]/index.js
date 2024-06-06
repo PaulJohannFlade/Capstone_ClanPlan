@@ -32,8 +32,6 @@ const StyledHeading = styled.h2`
 export default function MemberProfilePage({
   user,
   mutateUser,
-  showModal,
-  setShowModal,
   familyMembers,
   mutateMembers,
 }) {
@@ -98,8 +96,6 @@ export default function MemberProfilePage({
           user={user}
           onAddPhoto={handleAddPhoto}
           mutateUser={mutateUser}
-          showModal={showModal}
-          setShowModal={setShowModal}
           familyMembers={familyMembers}
           mutate={mutate}
           mutateMembers={mutateMembers}

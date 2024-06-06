@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import StyledPlus from "@/components/StyledPlus";
 import emailjs from "@emailjs/browser";
 import { useRef } from "react";
+import { useModal } from "@/context/modalContext";
 
 const StyledMenu = styled.menu`
   display: grid;
@@ -24,9 +25,10 @@ const StyledHeading = styled.h2`
   text-align: left;
 `;
 
-export default function FamilyPage({ showModal, setShowModal, user }) {
+export default function FamilyPage({ user }) {
   const { data: familyMembers, isLoading, mutate } = useSWR("/api/members");
   const form = useRef();
+  const { showModal, openModal, closeModal } = useModal();
 
   if (isLoading) {
     return <StyledLoadingAnimation />;
@@ -53,7 +55,7 @@ export default function FamilyPage({ showModal, setShowModal, user }) {
     );
 
     if (response.ok) {
-      setShowModal(false);
+      closeModal();
       mutate();
 
       emailjs
@@ -74,15 +76,15 @@ export default function FamilyPage({ showModal, setShowModal, user }) {
   return (
     <>
       <StyledMenu>
-        <StyledPlus onClick={() => setShowModal(true)} $right={true} />
-        <StyledHeading>{`Welcome to ${user?.family?.name} family!`}</StyledHeading>
+        <StyledPlus onClick={openModal} $right={true} />
+        <StyledHeading>Family: {user?.family?.name}</StyledHeading>
       </StyledMenu>
       {!familyMembers.length && (
         <StyledMessage>The list is empty. Add members to begin!</StyledMessage>
       )}
       <FamilyMembersList familyMembers={familyMembers} />
 
-      <Modal $top="7rem" setShowModal={setShowModal} $open={showModal}>
+      <Modal $top="7rem" $open={showModal}>
         {showModal && (
           <MemberForm
             onAddMember={handleAddMember}

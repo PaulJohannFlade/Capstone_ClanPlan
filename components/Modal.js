@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import CloseButton from "./CloseButton";
+import { useModal } from "@/context/modalContext";
 
 const Overlay = styled.div`
   position: fixed;
@@ -30,12 +31,14 @@ const StyledSection = styled.section`
   max-width: 95vw;
 `;
 
-export default function Modal({ children, setShowModal, $top, $open }) {
+export default function Modal({ children, $top, $open }) {
+  const { closeModal } = useModal();
+
   return (
     <>
-      <Overlay $open={$open} onClick={() => setShowModal(false)} />
+      <Overlay $open={$open} onClick={closeModal} />
       <StyledSection $top={$top} $open={$open}>
-        <CloseButton setShowModal={setShowModal} />
+        <CloseButton />
         {children}
       </StyledSection>
     </>

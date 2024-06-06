@@ -4,6 +4,7 @@ import TasksListGroups from "@/components/TasksListGroups";
 import styled from "styled-components";
 import checkForMissedDate from "@/utils/checkForMissedDate";
 import checkForToday from "@/utils/checkForToday";
+import { useModal } from "@/context/modalContext";
 
 const StyledSection = styled.section`
   display: flex;
@@ -49,19 +50,17 @@ const StyledMessage = styled.p`
 `;
 
 export default function HomePage({
-  setShowModal,
-  showModal,
   familyMembers,
   onSetDetailsBackLinkRef,
   categories,
   filters,
   setFilters,
-  onApplyFilters,
-  onDeleteFilterOption,
   onButtonClick,
   listType,
   tasks,
 }) {
+  const { closeModal } = useModal();
+
   const isFilterSet =
     (filters.priority !== "0" && filters.priority) ||
     filters.category ||
@@ -100,6 +99,15 @@ export default function HomePage({
       (!filters.category || task.category?._id === filters.category) &&
       (!filters.member || task.assignedTo.includes(filters.member))
   );
+
+  function handleApplyFilters(formData) {
+    setFilters(formData);
+    closeModal();
+  }
+
+  function handleDeleteFilterOption(key) {
+    setFilters({ ...filters, [key]: "" });
+  }
 
   return (
     <>
@@ -161,13 +169,11 @@ export default function HomePage({
       )}
       {tasksAfterListTypeSelection.length > 0 && (
         <Filter
-          showModal={showModal}
-          setShowModal={setShowModal}
           familyMembers={familyMembers}
-          onApplyFilters={onApplyFilters}
+          onApplyFilters={handleApplyFilters}
           filters={filters}
           categories={categories}
-          onDeleteFilterOption={onDeleteFilterOption}
+          onDeleteFilterOption={handleDeleteFilterOption}
           setFilters={setFilters}
         />
       )}

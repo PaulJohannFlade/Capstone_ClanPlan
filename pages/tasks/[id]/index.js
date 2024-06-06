@@ -31,11 +31,7 @@ const StyledHeading = styled.h2`
   margin-top: 1rem;
 `;
 
-export default function DetailsPage({
-  showModal,
-  setShowModal,
-  detailsBackLinkRef,
-}) {
+export default function DetailsPage({ detailsBackLinkRef }) {
   const [modalMode, setModalMode] = useState("");
   const router = useRouter();
   const { id } = router.query;
@@ -89,8 +85,6 @@ export default function DetailsPage({
         <>
           <TaskDetails
             task={task}
-            showModal={showModal}
-            setShowModal={setShowModal}
             onCheckboxChange={handleCheckboxChange}
             detailsBackLinkRef={detailsBackLinkRef}
             modalMode={modalMode}
@@ -100,8 +94,6 @@ export default function DetailsPage({
             <StyledHeading>Comments</StyledHeading>
             <CommentForm taskId={id} onUpdateComment={handleUpdateComment} />
             <Comments
-              showModal={showModal}
-              setShowModal={setShowModal}
               comments={task.comments}
               onUpdateComment={handleUpdateComment}
               modalMode={modalMode}

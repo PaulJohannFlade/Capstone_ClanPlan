@@ -1,3 +1,4 @@
+import { useModal } from "@/context/modalContext";
 import FilterWindow from "./FilterWindow";
 import Modal from "./Modal";
 import StyledButton from "./StyledButton";
@@ -42,17 +43,17 @@ const StyledClearFilterButton = styled.button`
 `;
 
 export default function Filter({
-  showModal,
-  setShowModal,
   familyMembers,
   onApplyFilters,
   filters,
   categories,
   onDeleteFilterOption,
 }) {
+  const { showModal, openModal } = useModal();
+
   return (
     <StyledFilterSection>
-      <Modal $top="6rem" setShowModal={setShowModal} $open={showModal}>
+      <Modal $top="6rem" $open={showModal}>
         {showModal && (
           <FilterWindow
             familyMembers={familyMembers}
@@ -62,7 +63,7 @@ export default function Filter({
           />
         )}
       </Modal>
-      <StyledFilterButton $width="2.5rem" onClick={() => setShowModal(true)}>
+      <StyledFilterButton $width="2.5rem" onClick={openModal}>
         <FilterIcon />
       </StyledFilterButton>
 

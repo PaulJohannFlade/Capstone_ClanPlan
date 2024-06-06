@@ -7,6 +7,7 @@ import ConfirmBox from "./ConfirmBox";
 import convertDateToString from "@/utils/convertDateToString";
 import getWeekRange from "@/utils/getWeekRange";
 import MultiselectContainer from "./MultiselectContainer";
+import { useModal } from "@/context/modalContext";
 
 const StyledForm = styled.form`
   display: flex;
@@ -59,8 +60,6 @@ export default function Form({
   allocatedMembersList,
   categories,
   familyMembers,
-  setShowModal,
-  showModal,
   user,
 }) {
   const [enteredTitle, setEnteredTitle] = useState(value?.title || "");
@@ -73,8 +72,8 @@ export default function Form({
   const [displayEndDate, setDisplayEndDate] = useState(false);
   const [isEndDateValid, setIsEndDateValid] = useState(true);
   const [endDate, setEndDate] = useState(value?.endDate);
-
   const formattedTodayDate = convertDateToString(new Date());
+  const { showModal, openModal, closeModal } = useModal();
 
   let minDate = null;
   let maxDate = null;
@@ -159,7 +158,7 @@ export default function Form({
       };
 
       if (value?.groupId) {
-        setShowModal(true);
+        openModal();
         setTaskToUpdate(updatedTask);
       } else {
         onTaskSubmit(updatedTask);
@@ -178,12 +177,12 @@ export default function Form({
 
   function handleUpdateOneTask() {
     onTaskSubmit(taskToUpdate);
-    setShowModal(false);
+    closeModal();
   }
 
   function handleUpdateTasks(action) {
     onTasksSubmit(taskToUpdate, action);
-    setShowModal(false);
+    closeModal();
   }
 
   function handleFamilyMembersSelection(event) {
@@ -228,10 +227,9 @@ export default function Form({
 
   return (
     <>
-      <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
+      <Modal $top="13.5rem" $open={showModal}>
         {showModal && (
           <ConfirmBox
-            setShowModal={setShowModal}
             onConfirm={handleUpdateOneTask}
             onConfirmFurtherTasks={() => handleUpdateTasks("future")}
             onConfirmAllTasks={() => handleUpdateTasks("all")}

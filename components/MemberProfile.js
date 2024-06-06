@@ -11,6 +11,7 @@ import Modal from "./Modal";
 import MemberForm from "./MemberForm";
 import { toast } from "react-toastify";
 import ConfirmBox from "./ConfirmBox";
+import { useModal } from "@/context/modalContext";
 
 const StyledSection = styled.section`
   position: relative;
@@ -197,14 +198,13 @@ export default function MemberProfile({
   onAddPhoto,
   mutateUser,
   familyMembers,
-  showModal,
-  setShowModal,
   mutate,
   mutateMembers,
 }) {
   const { _id, name, role, profilePhoto, email } = familyMember;
   const [isPhotoEditMode, setIsPhotoEditMode] = useState(false);
   const [isInfoEditMode, setIsInfoEditMode] = useState(false);
+  const { showModal, openModal, closeModal } = useModal();
 
   async function handleEditMember(updatedMemberData) {
     const response = await toast.promise(
@@ -223,7 +223,7 @@ export default function MemberProfile({
     );
 
     if (response.ok) {
-      setShowModal(false);
+      closeModal();
       setIsInfoEditMode(false);
       await mutate();
       await mutateUser();
@@ -232,7 +232,7 @@ export default function MemberProfile({
   }
 
   function handleDeleteButtonClick() {
-    setShowModal(true);
+    openModal();
     setIsInfoEditMode(false);
   }
 
@@ -264,7 +264,7 @@ export default function MemberProfile({
       }
 
       toast.success("Photo deleted successfully");
-      setShowModal(false);
+      closeModal();
       setIsPhotoEditMode(false);
       await mutate();
       await mutateUser();
@@ -326,7 +326,7 @@ export default function MemberProfile({
           {_id === user._id && (
             <StyledInfoPen
               onClick={() => {
-                setShowModal(true);
+                openModal();
                 setIsInfoEditMode(true);
               }}
             />
@@ -345,11 +345,7 @@ export default function MemberProfile({
           <ThemeToggle familyMember={familyMember} mutateUser={mutateUser} />
         </StyledSection>
       )}
-      <Modal
-        $top="8rem"
-        setShowModal={setShowModal}
-        $open={showModal && isInfoEditMode}
-      >
+      <Modal $top="8rem" $open={showModal && isInfoEditMode}>
         {showModal && isInfoEditMode && (
           <MemberForm
             onAddMember={handleEditMember}
@@ -360,14 +356,9 @@ export default function MemberProfile({
           />
         )}
       </Modal>
-      <Modal
-        $top="13.5rem"
-        setShowModal={setShowModal}
-        $open={showModal && !isInfoEditMode}
-      >
+      <Modal $top="13.5rem" $open={showModal && !isInfoEditMode}>
         {showModal && !isInfoEditMode && (
           <ConfirmBox
-            setShowModal={setShowModal}
             onConfirm={() => handleDeleteImage(_id, profilePhoto)}
             message="Are you sure you want to delete profile image?"
           />

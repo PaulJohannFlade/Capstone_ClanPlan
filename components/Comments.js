@@ -7,6 +7,7 @@ import Modal from "./Modal";
 import ConfirmBox from "./ConfirmBox";
 import CommentForm from "./CommentForm";
 import formatCommentDate from "@/utils/formatCommentDate";
+import { useModal } from "@/context/modalContext";
 
 const StyledList = styled.ul`
   list-style: none;
@@ -37,14 +38,13 @@ const StyledDate = styled.p`
 export default function Comments({
   comments,
   onUpdateComment,
-  showModal,
-  setShowModal,
   modalMode,
   onChangeModalMode,
   taskId,
 }) {
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [commentIdToDelete, setCommentIdToDelete] = useState("");
+  const { showModal, openModal, closeModal } = useModal();
 
   function handlePenClick(comment) {
     setCommentToEdit(comment);
@@ -60,7 +60,7 @@ export default function Comments({
 
   function handleCommentTrashClick(commentId) {
     onChangeModalMode("delete-comment");
-    setShowModal(true);
+    openModal();
     setCommentIdToDelete(commentId);
   }
 
@@ -81,7 +81,7 @@ export default function Comments({
     );
     if (response.ok) {
       onUpdateComment();
-      setShowModal(false);
+      closeModal();
     }
   }
 
@@ -112,14 +112,9 @@ export default function Comments({
           </StyledListItems>
         ))}
       </StyledList>
-      <Modal
-        $top="12rem"
-        setShowModal={setShowModal}
-        $open={showModal && modalMode === "delete-comment"}
-      >
+      <Modal $top="12rem" $open={showModal && modalMode === "delete-comment"}>
         {showModal && modalMode === "delete-comment" && (
           <ConfirmBox
-            setShowModal={setShowModal}
             onConfirm={() => handleDeleteComment(commentIdToDelete)}
             message="Are you sure you want to delete this comment?"
           />
