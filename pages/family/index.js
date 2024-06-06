@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import StyledPlus from "@/components/StyledPlus";
 import emailjs from "@emailjs/browser";
 import { useRef } from "react";
-import FetchFamilyName from "@/components/FetchFamilyName";
 
 const StyledMenu = styled.menu`
   display: grid;
@@ -17,17 +16,12 @@ const StyledMenu = styled.menu`
   align-items: center;
   justify-content: center;
   @media (min-width: 900px) {
-    margin-left: 6rem;
     grid-template-columns: 1fr 1.7fr;
   }
-  @media (min-width: 1200px) {
-    margin-left: 6rem;
-    grid-template-columns: 1fr 1.6fr;
-  }
-  @media (min-width: 1536px) {
-    margin-left: 6rem;
-    grid-template-columns: 1fr 1.4fr;
-  }
+`;
+
+const StyledHeading = styled.h2`
+  text-align: left;
 `;
 
 export default function FamilyPage({ showModal, setShowModal, user }) {
@@ -81,7 +75,7 @@ export default function FamilyPage({ showModal, setShowModal, user }) {
     <>
       <StyledMenu>
         <StyledPlus onClick={() => setShowModal(true)} $right={true} />
-        <FetchFamilyName user={user} />
+        <StyledHeading>{`Welcome to ${user?.family?.name} family!`}</StyledHeading>
       </StyledMenu>
       {!familyMembers.length && (
         <StyledMessage>The list is empty. Add members to begin!</StyledMessage>
