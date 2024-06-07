@@ -58,7 +58,7 @@ export default function HomePage({
   listType,
 }) {
   const { closeModal } = useModal();
-  const { familyMembers, categories, tasks } = useData();
+  const { tasks } = useData();
 
   const isFilterSet =
     (filters.priority !== "0" && filters.priority) ||
@@ -168,10 +168,8 @@ export default function HomePage({
       )}
       {tasksAfterListTypeSelection.length > 0 && (
         <Filter
-          familyMembers={familyMembers}
           onApplyFilters={handleApplyFilters}
           filters={filters}
-          categories={categories}
           onDeleteFilterOption={handleDeleteFilterOption}
           setFilters={setFilters}
         />

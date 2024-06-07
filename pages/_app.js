@@ -21,58 +21,6 @@ export default function App({
   const [currentView, setCurrentView] = useState("month");
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-  /* const { data: categories, isLoading: isCategoryLoading } = useSWR(
-    "/api/categories",
-    fetcher
-  );
-  const {
-    data: familyMembers,
-    isLoading: isFamilyLoading,
-    mutate: mutateMembers,
-  } = useSWR("/api/members", fetcher);
-  const { data: tasks, isLoading: isTasksLoading } = useSWR(
-    "/api/tasks",
-    fetcher
-  );
-  const {
-    data: user,
-    isLoading: isUserLoading,
-    mutate: mutateUser,
-  } = useSWR(`/api/members/auth`, fetcher);
-
-  if (isTasksLoading) {
-    return <StyledLoadingAnimation />;
-  }
-
-  if (!tasks) {
-    return;
-  }
-
-  if (isCategoryLoading) {
-    return <StyledLoadingAnimation />;
-  }
-  if (!categories) {
-    return;
-  }
-
-  if (isFamilyLoading) {
-    return <StyledLoadingAnimation />;
-  }
-  if (!familyMembers) {
-    return;
-  }
-
-  if (isUserLoading) {
-    return <StyledLoadingAnimation />;
-  }
-  if (!user) {
-    return;
-  } */
-
-  /* const isDarkTheme = user
-    ? user.isDarkTheme
-    : window.matchMedia("(prefers-color-scheme: dark)").matches; */
-
   function handleSetDetailsBackLinkRef(link) {
     setDetailsBackLinkRef(link);
   }
