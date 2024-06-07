@@ -11,6 +11,7 @@ import Flame from "@/public/assets/images/flame.svg";
 import ConfirmBox from "./ConfirmBox";
 import formatTasksDate from "@/utils/formatTasksDate";
 import { useModal } from "@/context/modalContext";
+import { useData } from "@/context/dataContext";
 
 const StyledArticle = styled.article`
   display: grid;
@@ -99,6 +100,7 @@ export default function TaskDetails({
   } = task;
   const router = useRouter();
   const { showModal, openModal, closeModal } = useModal();
+  const { mutateTasks } = useData();
   const isToday = dueDate && checkForToday(dueDate);
   const isMissed = dueDate && checkForMissedDate(dueDate);
   const isRepeat =
@@ -106,6 +108,7 @@ export default function TaskDetails({
     (repeat === "Monthly" || repeat === "Weekly" || repeat === "Daily")
       ? true
       : false;
+
   async function handleDeleteTask(id) {
     const response = await toast.promise(
       fetch(`/api/tasks/${id}?deleteRequest=single`, {
@@ -120,6 +123,7 @@ export default function TaskDetails({
     if (response.ok) {
       router.push(detailsBackLinkRef);
       closeModal();
+      mutateTasks();
     }
   }
 
@@ -144,6 +148,7 @@ export default function TaskDetails({
   function handleTaskTrashClick() {
     onChangeModalMode("delete-task");
     openModal();
+    mutateTasks();
   }
   return (
     <>

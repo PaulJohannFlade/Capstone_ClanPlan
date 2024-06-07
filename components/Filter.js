@@ -4,6 +4,7 @@ import Modal from "./Modal";
 import StyledButton from "./StyledButton";
 import FilterIcon from "@/public/assets/images/filter.svg";
 import styled from "styled-components";
+import { useData } from "@/context/dataContext";
 
 const StyledFilterSection = styled.section`
   position: relative;
@@ -43,24 +44,18 @@ const StyledClearFilterButton = styled.button`
 `;
 
 export default function Filter({
-  familyMembers,
   onApplyFilters,
   filters,
-  categories,
   onDeleteFilterOption,
 }) {
   const { showModal, openModal } = useModal();
+  const { familyMembers, categories } = useData();
 
   return (
     <StyledFilterSection>
       <Modal $top="6rem" $open={showModal}>
         {showModal && (
-          <FilterWindow
-            familyMembers={familyMembers}
-            onApply={onApplyFilters}
-            filters={filters}
-            categories={categories}
-          />
+          <FilterWindow onApply={onApplyFilters} filters={filters} />
         )}
       </Modal>
       <StyledFilterButton $width="2.5rem" onClick={openModal}>

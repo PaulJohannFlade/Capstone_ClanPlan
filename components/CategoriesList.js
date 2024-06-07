@@ -5,12 +5,12 @@ import UpArrow from "@/public/assets/images/up-arrow.svg";
 import StyledTrash from "./StyledTrash";
 import Modal from "./Modal";
 import CategoryForm from "./CategoryForm";
-import useSWR from "swr";
 import StyledLoadingAnimation from "./StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import StyledPen from "./StyledPen";
 import ConfirmBox from "./ConfirmBox";
 import { useModal } from "@/context/modalContext";
+import { useData } from "@/context/dataContext";
 
 const StyledList = styled.ul`
   display: flex;
@@ -68,13 +68,12 @@ export default function CategoriesList({
   setModalMode,
   familyMembers,
   categories,
-  mutate,
+  mutateCategories,
 }) {
   const [selected, setSelected] = useState(null);
   const [categoryToHandle, setCategoryToHandle] = useState(null);
   const { showModal, openModal, closeModal } = useModal();
-
-  const { data: tasks, isLoading } = useSWR("/api/tasks");
+  const { tasks } = useData();
 
   if (isLoading) {
     return <StyledLoadingAnimation />;
@@ -110,7 +109,7 @@ export default function CategoriesList({
     );
     if (response.ok) {
       closeModal();
-      mutate();
+      mutateCategories();
     }
   }
 
@@ -132,7 +131,7 @@ export default function CategoriesList({
 
     if (response.ok) {
       closeModal();
-      mutate();
+      mutateCategories();
     }
   }
 

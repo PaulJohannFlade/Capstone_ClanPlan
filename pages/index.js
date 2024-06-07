@@ -5,6 +5,7 @@ import styled from "styled-components";
 import checkForMissedDate from "@/utils/checkForMissedDate";
 import checkForToday from "@/utils/checkForToday";
 import { useModal } from "@/context/modalContext";
+import { useData } from "@/context/dataContext";
 
 const StyledSection = styled.section`
   display: flex;
@@ -50,16 +51,14 @@ const StyledMessage = styled.p`
 `;
 
 export default function HomePage({
-  familyMembers,
   onSetDetailsBackLinkRef,
-  categories,
   filters,
   setFilters,
   onButtonClick,
   listType,
-  tasks,
 }) {
   const { closeModal } = useModal();
+  const { familyMembers, categories, tasks } = useData();
 
   const isFilterSet =
     (filters.priority !== "0" && filters.priority) ||

@@ -2,23 +2,14 @@ import Form from "@/components/Form";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
 import { useRouter } from "next/router";
 import StyledBackLink from "@/components/StyledBackLink";
-import useSWR from "swr";
-import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
+import { useData } from "@/context/dataContext";
 
-export default function EditPage({ familyMembers, categories }) {
+export default function EditPage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data: task, isLoading } = useSWR(`/api/tasks/${id}`);
-
-  if (isLoading) {
-    return <StyledLoadingAnimation />;
-  }
-
-  if (!task) {
-    return;
-  }
+  const { task, categories, mutateTask, mutateTasks } = useData(id);
 
   const allocatedMembersList = categories.find(
     (category) => category._id === task?.category?._id
@@ -42,6 +33,8 @@ export default function EditPage({ familyMembers, categories }) {
 
     if (response.ok) {
       router.push(`/tasks/${id}`);
+      mutateTask();
+      mutateTasks();
     }
   }
 
@@ -63,6 +56,8 @@ export default function EditPage({ familyMembers, categories }) {
 
     if (response.ok) {
       router.push(`/tasks/${id}`);
+      mutateTask();
+      mutateTasks();
     }
   }
 
@@ -78,8 +73,6 @@ export default function EditPage({ familyMembers, categories }) {
           title="Edit a task"
           isEdit
           value={task}
-          familyMembers={familyMembers}
-          categories={categories}
           allocatedMembersList={allocatedMembersList}
         />
       </div>

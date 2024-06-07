@@ -1,9 +1,6 @@
 import { useState } from "react";
 import GlobalStyle from "@/styles";
 import Layout from "@/components/Layout";
-import { SWRConfig } from "swr";
-import useSWR from "swr";
-import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "@/styles";
 import { ToastContainer } from "react-toastify";
@@ -11,8 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { SessionProvider } from "next-auth/react";
 import AuthGate from "@/components/AuthGate";
 import { ModalProvider } from "@/context/modalContext";
-
-const fetcher = (url) => fetch(url).then((response) => response.json());
+import { DataProvider } from "@/context/dataContext";
 
 export default function App({
   Component,
@@ -23,8 +19,9 @@ export default function App({
   const [listType, setListType] = useState("today");
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentView, setCurrentView] = useState("month");
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-  const { data: categories, isLoading: isCategoryLoading } = useSWR(
+  /* const { data: categories, isLoading: isCategoryLoading } = useSWR(
     "/api/categories",
     fetcher
   );
@@ -33,7 +30,7 @@ export default function App({
     isLoading: isFamilyLoading,
     mutate: mutateMembers,
   } = useSWR("/api/members", fetcher);
-  const { data: tasks, isLoading: isTaskLoading } = useSWR(
+  const { data: tasks, isLoading: isTasksLoading } = useSWR(
     "/api/tasks",
     fetcher
   );
@@ -43,7 +40,7 @@ export default function App({
     mutate: mutateUser,
   } = useSWR(`/api/members/auth`, fetcher);
 
-  if (isTaskLoading) {
+  if (isTasksLoading) {
     return <StyledLoadingAnimation />;
   }
 
@@ -70,11 +67,11 @@ export default function App({
   }
   if (!user) {
     return;
-  }
+  } */
 
-  const isDarkTheme = user
+  /* const isDarkTheme = user
     ? user.isDarkTheme
-    : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    : window.matchMedia("(prefers-color-scheme: dark)").matches; */
 
   function handleSetDetailsBackLinkRef(link) {
     setDetailsBackLinkRef(link);
@@ -87,10 +84,10 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-        <Layout user={user}>
-          <GlobalStyle />
-          <SWRConfig value={{ fetcher }}>
+      <DataProvider setTheme={setIsDarkTheme}>
+        <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+          <Layout>
+            <GlobalStyle />
             <ToastContainer
               position="top-center"
               autoClose={2000}
@@ -104,12 +101,9 @@ export default function App({
               theme={isDarkTheme ? "dark" : "light"}
             />
             <ModalProvider>
-              <AuthGate user={user} mutateUser={mutateUser}>
+              <AuthGate>
                 <Component
                   {...pageProps}
-                  tasks={tasks}
-                  familyMembers={familyMembers}
-                  categories={categories}
                   detailsBackLinkRef={detailsBackLinkRef}
                   onSetDetailsBackLinkRef={handleSetDetailsBackLinkRef}
                   filters={filters}
@@ -121,15 +115,12 @@ export default function App({
                   currentView={currentView}
                   setCurrentView={setCurrentView}
                   isDarkTheme={isDarkTheme}
-                  user={user}
-                  mutateUser={mutateUser}
-                  mutateMembers={mutateMembers}
                 />
               </AuthGate>
             </ModalProvider>
-          </SWRConfig>
-        </Layout>
-      </ThemeProvider>
+          </Layout>
+        </ThemeProvider>
+      </DataProvider>
     </SessionProvider>
   );
 }

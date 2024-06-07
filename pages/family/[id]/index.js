@@ -1,11 +1,10 @@
 import { useRouter } from "next/router";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
 import styled from "styled-components";
-import useSWR from "swr";
-import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import MemberProfile from "@/components/MemberProfile";
 import StyledBackLink from "@/components/StyledBackLink";
 import { toast } from "react-toastify";
+import { useData } from "@/context/dataContext";
 
 const StyledBackButton = styled.button`
   position: fixed;
@@ -29,28 +28,11 @@ const StyledHeading = styled.h2`
   margin-top: 1rem;
 `;
 
-export default function MemberProfilePage({
-  user,
-  mutateUser,
-  familyMembers,
-  mutateMembers,
-}) {
+export default function MemberProfilePage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const {
-    data: familyMember,
-    isLoading,
-    mutate,
-  } = useSWR(`/api/members/${id}`);
-
-  if (isLoading) {
-    return <StyledLoadingAnimation />;
-  }
-
-  if (!familyMember) {
-    return;
-  }
+  const { user, mutateUser, familyMember, mutateMember } = useData(null, id);
 
   function handleGoBack() {
     router.back();
@@ -73,14 +55,14 @@ export default function MemberProfilePage({
       }
     );
     if (response.ok) {
-      mutate();
+      mutateMember();
       mutateUser();
     }
   }
 
   return (
     <>
-      {familyMember._id === user._id ? (
+      {familyMember?._id === user._id ? (
         <StyledBackButton onClick={handleGoBack}>
           <BackArrow />
         </StyledBackButton>
@@ -96,9 +78,7 @@ export default function MemberProfilePage({
           user={user}
           onAddPhoto={handleAddPhoto}
           mutateUser={mutateUser}
-          familyMembers={familyMembers}
-          mutate={mutate}
-          mutateMembers={mutateMembers}
+          mutateMember={mutateMember}
         />
       ) : (
         <StyledMessage>Page not found!</StyledMessage>

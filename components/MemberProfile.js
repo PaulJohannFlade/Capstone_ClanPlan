@@ -12,6 +12,7 @@ import MemberForm from "./MemberForm";
 import { toast } from "react-toastify";
 import ConfirmBox from "./ConfirmBox";
 import { useModal } from "@/context/modalContext";
+import { useData } from "@/context/dataContext";
 
 const StyledSection = styled.section`
   position: relative;
@@ -194,14 +195,13 @@ const StyledInfoPen = styled(Pen)`
 
 export default function MemberProfile({
   familyMember,
+  mutateMember,
   user,
   onAddPhoto,
   mutateUser,
-  familyMembers,
-  mutate,
-  mutateMembers,
 }) {
   const { _id, name, role, profilePhoto, email } = familyMember;
+  const { familyMembers, mutateMembers } = useData(null, _id);
   const [isPhotoEditMode, setIsPhotoEditMode] = useState(false);
   const [isInfoEditMode, setIsInfoEditMode] = useState(false);
   const { showModal, openModal, closeModal } = useModal();
@@ -225,7 +225,7 @@ export default function MemberProfile({
     if (response.ok) {
       closeModal();
       setIsInfoEditMode(false);
-      await mutate();
+      await mutateMember();
       await mutateUser();
       await mutateMembers();
     }

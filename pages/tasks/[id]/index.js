@@ -3,12 +3,11 @@ import { useRouter } from "next/router";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
 import styled from "styled-components";
 import StyledBackLink from "@/components/StyledBackLink";
-import useSWR from "swr";
-import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import CommentForm from "@/components/CommentForm";
 import Comments from "@/components/Comments";
 import { useState } from "react";
+import { useData } from "@/context/dataContext";
 
 const StyledMessage = styled.p`
   text-align: center;
@@ -36,28 +35,20 @@ export default function DetailsPage({ detailsBackLinkRef }) {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data: task, isLoading, mutate } = useSWR(`/api/tasks/${id}`);
-
-  if (isLoading) {
-    return <StyledLoadingAnimation />;
-  }
-
-  if (!task) {
-    return;
-  }
+  const { task, mutateTask } = useData(id);
 
   function handleChangeModalMode(mode) {
     setModalMode(mode);
   }
 
   async function handleUpdateComment() {
-    mutate();
+    mutateTask();
   }
 
   async function handleCheckboxChange(task, event) {
     const updatedTaskData = { ...task, isDone: event.target.checked };
     const response = await toast.promise(
-      fetch(`/api/tasks/${task._id}`, {
+      fetch(`/api/tasks/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -72,7 +63,7 @@ export default function DetailsPage({ detailsBackLinkRef }) {
     );
 
     if (response.ok) {
-      mutate();
+      mutateTask();
     }
   }
 

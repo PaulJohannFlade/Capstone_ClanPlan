@@ -3,13 +3,12 @@ import styled from "styled-components";
 import { StyledMessage } from "..";
 import MemberForm from "@/components/MemberForm";
 import Modal from "@/components/Modal";
-import useSWR from "swr";
-import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import StyledPlus from "@/components/StyledPlus";
 import emailjs from "@emailjs/browser";
 import { useRef } from "react";
 import { useModal } from "@/context/modalContext";
+import { useData } from "@/context/dataContext";
 
 const StyledMenu = styled.menu`
   display: grid;
@@ -25,18 +24,10 @@ const StyledHeading = styled.h2`
   text-align: left;
 `;
 
-export default function FamilyPage({ user }) {
-  const { data: familyMembers, isLoading, mutate } = useSWR("/api/members");
+export default function FamilyPage() {
+  const { familyMembers, mutateMembers, user } = useData();
   const form = useRef();
   const { showModal, openModal, closeModal } = useModal();
-
-  if (isLoading) {
-    return <StyledLoadingAnimation />;
-  }
-
-  if (!familyMembers) {
-    return;
-  }
 
   async function handleAddMember(newMemberData) {
     const response = await toast.promise(
@@ -56,7 +47,7 @@ export default function FamilyPage({ user }) {
 
     if (response.ok) {
       closeModal();
-      mutate();
+      mutateMembers();
 
       emailjs
         .sendForm("service_tcxz2ti", "template_uc0996j", form.current, {

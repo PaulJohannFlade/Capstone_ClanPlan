@@ -8,6 +8,7 @@ import FamilyRegisterForm from "./FamilyRegisterForm";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useModal } from "@/context/modalContext";
+import { useData } from "@/context/dataContext";
 
 const StyledSignButton = styled(StyledButton)`
   width: 6rem;
@@ -35,10 +36,11 @@ const StyledParagraph = styled.p`
   right: 4%;
 `;
 
-export default function AuthGate({ children, user, mutateUser }) {
+export default function AuthGate({ children }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const { showModal, openModal, closeModal } = useModal();
+  const { user, mutateUser } = useData();
 
   async function handleAddFamily(newFamily) {
     const response = await toast.promise(

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import User from "@/public/assets/images/user.svg";
 import { signIn, useSession } from "next-auth/react";
 import StyledButton from "./StyledButton";
+import { useData } from "@/context/dataContext";
 
 const StyledHeader = styled.header`
   background-color: var(--color-background);
@@ -80,8 +81,9 @@ const StyledSignButton = styled(StyledButton)`
   justify-content: center;
 `;
 
-export default function Header({ user }) {
+export default function Header() {
   const { data: session } = useSession();
+  const { user } = useData();
 
   return (
     <StyledHeader>

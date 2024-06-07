@@ -3,27 +3,18 @@ import Modal from "@/components/Modal";
 import CategoriesList from "@/components/CategoriesList";
 import CategoryForm from "@/components/CategoryForm";
 import StyledPlus from "@/components/StyledPlus";
-import useSWR from "swr";
 import { useState } from "react";
-import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import { StyledMenu } from "../family";
 import { useModal } from "@/context/modalContext";
+import { useData } from "@/context/dataContext";
 
-export default function CategoriesPage({ familyMembers, user }) {
+export default function CategoriesPage() {
   const [modalMode, setModalMode] = useState("");
 
-  const { data: categories, isLoading, mutate } = useSWR("/api/categories");
+  const { user, familyMembers, categories, mutateCategories } = useData();
 
   const { showModal, openModal, closeModal } = useModal();
-
-  if (isLoading) {
-    return <StyledLoadingAnimation />;
-  }
-
-  if (!categories) {
-    return;
-  }
 
   async function handleAddCategory(newCategoryData) {
     const response = await toast.promise(
@@ -42,7 +33,7 @@ export default function CategoriesPage({ familyMembers, user }) {
     );
     if (response.ok) {
       closeModal();
-      mutate();
+      mutateCategories();
     }
   }
 
@@ -69,7 +60,7 @@ export default function CategoriesPage({ familyMembers, user }) {
         modalMode={modalMode}
         setModalMode={setModalMode}
         categories={categories}
-        mutate={mutate}
+        mutateCategories={mutateCategories}
       />
 
       <Modal $top="7rem" $open={showModal && modalMode === "add"}>
