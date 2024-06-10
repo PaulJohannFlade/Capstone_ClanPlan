@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import { toast } from "react-toastify";
+import { useData } from "@/context/dataContext";
 
 const StyledLabel = styled.label`
   font-size: 0.9rem;
@@ -52,6 +53,8 @@ export default function CommentForm({
   onCancelEditComment,
 }) {
   const [isValidMessage, setIsValidMessage] = useState(true);
+  const { user } = useData();
+
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -74,6 +77,7 @@ export default function CommentForm({
         ...commentToEdit,
         message: data.message.trim(),
         updatedDate: new Date(),
+        member: user._id,
       };
 
       const response = await toast.promise(
@@ -95,7 +99,11 @@ export default function CommentForm({
         onUpdateComment();
       }
     } else {
-      const commentData = { message: data.message.trim(), date: new Date() };
+      const commentData = {
+        message: data.message.trim(),
+        date: new Date(),
+        member: user._id,
+      };
 
       const response = await toast.promise(
         fetch("/api/comments", {
