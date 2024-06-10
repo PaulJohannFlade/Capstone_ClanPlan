@@ -67,6 +67,17 @@ const StyledTabs = styled.div`
   grid-template-columns: 1fr 1fr;
 `;
 
+const StyledTabButton = styled.button`
+  background-color: ${({ $isActive }) =>
+    $isActive ? "var(--color-button-active)" : "var(--color-button)"};
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.7rem 2rem;
+  transition: 0.3s;
+  font-weight: 700;
+`;
+
 export default function HomePage({
   onSetDetailsBackLinkRef,
   filters,

@@ -47,6 +47,7 @@ export default function Filter({
   onApplyFilters,
   filters,
   onDeleteFilterOption,
+  myTasksSelection,
 }) {
   const { showModal, openModal } = useModal();
   const { familyMembers, categories } = useData();
@@ -55,7 +56,11 @@ export default function Filter({
     <StyledFilterSection>
       <Modal $top="6rem" $open={showModal}>
         {showModal && (
-          <FilterWindow onApply={onApplyFilters} filters={filters} />
+          <FilterWindow
+            onApply={onApplyFilters}
+            filters={filters}
+            myTasksSelection={myTasksSelection}
+          />
         )}
       </Modal>
       <StyledFilterButton $width="2.5rem" onClick={openModal}>
