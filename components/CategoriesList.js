@@ -5,11 +5,12 @@ import UpArrow from "@/public/assets/images/up-arrow.svg";
 import StyledTrash from "./StyledTrash";
 import Modal from "./Modal";
 import CategoryForm from "./CategoryForm";
-import useSWR from "swr";
 import StyledLoadingAnimation from "./StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import StyledPen from "./StyledPen";
 import ConfirmBox from "./ConfirmBox";
+import { useModal } from "@/context/modalContext";
+import { useData } from "@/context/dataContext";
 
 const StyledList = styled.ul`
   display: flex;
@@ -63,18 +64,16 @@ const StyledDownArrow = styled(DownArrow)`
 `;
 
 export default function CategoriesList({
-  showModal,
-  setShowModal,
   modalMode,
   setModalMode,
   familyMembers,
   categories,
-  mutate,
+  mutateCategories,
 }) {
   const [selected, setSelected] = useState(null);
   const [categoryToHandle, setCategoryToHandle] = useState(null);
-
-  const { data: tasks, isLoading } = useSWR("/api/tasks");
+  const { showModal, openModal, closeModal } = useModal();
+  const { tasks } = useData();
 
   if (isLoading) {
     return <StyledLoadingAnimation />;
@@ -93,7 +92,7 @@ export default function CategoriesList({
   function handleTrashClick(category, event) {
     setCategoryToHandle(category);
     setModalMode("delete");
-    setShowModal(true);
+    openModal();
     event.stopPropagation();
   }
 
@@ -109,8 +108,8 @@ export default function CategoriesList({
       }
     );
     if (response.ok) {
-      setShowModal(false);
-      mutate();
+      closeModal();
+      mutateCategories();
     }
   }
 
@@ -131,8 +130,8 @@ export default function CategoriesList({
     );
 
     if (response.ok) {
-      setShowModal(false);
-      mutate();
+      closeModal();
+      mutateCategories();
     }
   }
 
@@ -145,10 +144,10 @@ export default function CategoriesList({
       ).length > 0;
     if (categoryIsUsed) {
       setModalMode("confirm-edit");
-      setShowModal(true);
+      openModal();
     } else {
       setModalMode("edit");
-      setShowModal(true);
+      openModal();
     }
     event.stopPropagation();
   }
@@ -191,11 +190,7 @@ export default function CategoriesList({
           </StyledListItem>
         ))}
       </StyledList>
-      <Modal
-        $top="12rem"
-        setShowModal={setShowModal}
-        $open={showModal && modalMode === "delete"}
-      >
+      <Modal $top="12rem" $open={showModal && modalMode === "delete"}>
         {showModal && modalMode === "delete" && (
           <ConfirmBox
             message={
@@ -203,29 +198,22 @@ export default function CategoriesList({
                 ? `Category "${categoryToHandle.title}" is used in active tasks. Are you sure you want to delete "${categoryToHandle.title}"?`
                 : `Are you sure you want to delete "${categoryToHandle.title}"?`
             }
-            setShowModal={setShowModal}
             onConfirm={() => handleDeleteCategory(categoryToHandle._id)}
           />
         )}
       </Modal>
       <Modal
         $top="13rem"
-        setShowModal={setShowModal}
         $open={showModal && modalMode === "confirm-edit" && categoryIsUsed}
       >
         {showModal && modalMode === "confirm-edit" && categoryIsUsed && (
           <ConfirmBox
             message={`Category "${categoryToHandle.title}" is used in active tasks. Are you sure you want to edit "${categoryToHandle.title}"?`}
-            setShowModal={setShowModal}
             onConfirm={() => setModalMode("edit")}
           />
         )}
       </Modal>
-      <Modal
-        $top="8rem"
-        setShowModal={setShowModal}
-        $open={showModal && modalMode === "edit"}
-      >
+      <Modal $top="8rem" $open={showModal && modalMode === "edit"}>
         {showModal && modalMode === "edit" && (
           <CategoryForm
             formHeading="Edit a category"

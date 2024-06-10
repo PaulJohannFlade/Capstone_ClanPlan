@@ -3,13 +3,12 @@ import styled from "styled-components";
 import { StyledMessage } from "..";
 import MemberForm from "@/components/MemberForm";
 import Modal from "@/components/Modal";
-import useSWR from "swr";
-import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import StyledPlus from "@/components/StyledPlus";
 import emailjs from "@emailjs/browser";
 import { useRef } from "react";
-import FetchFamilyName from "@/components/FetchFamilyName";
+import { useModal } from "@/context/modalContext";
+import { useData } from "@/context/dataContext";
 
 const StyledMenu = styled.menu`
   display: grid;
@@ -17,30 +16,18 @@ const StyledMenu = styled.menu`
   align-items: center;
   justify-content: center;
   @media (min-width: 900px) {
-    margin-left: 6rem;
     grid-template-columns: 1fr 1.7fr;
-  }
-  @media (min-width: 1200px) {
-    margin-left: 6rem;
-    grid-template-columns: 1fr 1.6fr;
-  }
-  @media (min-width: 1536px) {
-    margin-left: 6rem;
-    grid-template-columns: 1fr 1.4fr;
   }
 `;
 
-export default function FamilyPage({ showModal, setShowModal, user }) {
-  const { data: familyMembers, isLoading, mutate } = useSWR("/api/members");
+const StyledHeading = styled.h2`
+  text-align: left;
+`;
+
+export default function FamilyPage() {
+  const { familyMembers, mutateMembers, user } = useData();
   const form = useRef();
-
-  if (isLoading) {
-    return <StyledLoadingAnimation />;
-  }
-
-  if (!familyMembers) {
-    return;
-  }
+  const { showModal, openModal, closeModal } = useModal();
 
   async function handleAddMember(newMemberData) {
     const response = await toast.promise(
@@ -59,8 +46,8 @@ export default function FamilyPage({ showModal, setShowModal, user }) {
     );
 
     if (response.ok) {
-      setShowModal(false);
-      mutate();
+      closeModal();
+      mutateMembers();
 
       emailjs
         .sendForm("service_tcxz2ti", "template_uc0996j", form.current, {
@@ -80,15 +67,15 @@ export default function FamilyPage({ showModal, setShowModal, user }) {
   return (
     <>
       <StyledMenu>
-        <StyledPlus onClick={() => setShowModal(true)} $right={true} />
-        <FetchFamilyName user={user} />
+        <StyledPlus onClick={openModal} $right={true} />
+        <StyledHeading>Family: {user?.family?.name}</StyledHeading>
       </StyledMenu>
       {!familyMembers.length && (
         <StyledMessage>The list is empty. Add members to begin!</StyledMessage>
       )}
       <FamilyMembersList familyMembers={familyMembers} />
 
-      <Modal $top="7rem" setShowModal={setShowModal} $open={showModal}>
+      <Modal $top="7rem" $open={showModal}>
         {showModal && (
           <MemberForm
             onAddMember={handleAddMember}

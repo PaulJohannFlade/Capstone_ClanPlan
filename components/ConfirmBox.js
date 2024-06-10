@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
-import CloseButton from "./CloseButton";
 
 const ButtonContainer = styled.div`
   display: flex;

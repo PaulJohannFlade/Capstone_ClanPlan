@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import { useRouter } from "next/router";
+import { useData } from "@/context/dataContext";
 
 const StyledForm = styled.form`
   display: flex;
@@ -28,12 +29,8 @@ const StyledSelect = styled.select`
   padding: 0.3rem;
 `;
 
-export default function FilterWindow({
-  onApply,
-  familyMembers,
-  filters,
-  categories,
-}) {
+export default function FilterWindow({ onApply, filters }) {
+  const { familyMembers, categories } = useData();
   const router = useRouter();
   const { listType } = router.query;
   function handleApplyFilter(event) {
@@ -54,7 +51,7 @@ export default function FilterWindow({
   return (
     <StyledForm onSubmit={handleApplyFilter} onReset={handleReset}>
       <StyledHeading>Filter</StyledHeading>
-      <StyledButton $clear type="reset">
+      <StyledButton $red $absolute type="reset">
         Clear all
       </StyledButton>
       <StyledLabel htmlFor="priority">Priority:</StyledLabel>

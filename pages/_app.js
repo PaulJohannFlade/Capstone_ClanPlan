@@ -1,92 +1,28 @@
 import { useState } from "react";
-import GlobalStyle from "../styles";
+import GlobalStyle from "@/styles";
 import Layout from "@/components/Layout";
-import { SWRConfig } from "swr";
-import useSWR from "swr";
-import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { ThemeProvider } from "styled-components";
-import { darkTheme, lightTheme } from "../styles";
+import { darkTheme, lightTheme } from "@/styles";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SessionProvider } from "next-auth/react";
 import AuthGate from "@/components/AuthGate";
-
-const fetcher = (url) => fetch(url).then((response) => response.json());
+import { ModalProvider } from "@/context/modalContext";
+import { DataProvider } from "@/context/dataContext";
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }) {
-  const [showModal, setShowModal] = useState(false);
   const [detailsBackLinkRef, setDetailsBackLinkRef] = useState("/");
   const [filters, setFilters] = useState({});
   const [listType, setListType] = useState("today");
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentView, setCurrentView] = useState("month");
-
-  const { data: categories, isLoading: isCategoryLoading } = useSWR(
-    "/api/categories",
-    fetcher
-  );
-  const { data: familyMembers, isLoading: isFamilyLoading } = useSWR(
-    "/api/members",
-    fetcher
-  );
-  const { data: tasks, isLoading: isTaskLoading } = useSWR(
-    "/api/tasks",
-    fetcher
-  );
-
-  const {
-    data: user,
-    isLoading: isUserLoading,
-    mutate: mutateUser,
-  } = useSWR(`/api/members/auth`, fetcher);
-
-  if (isTaskLoading) {
-    return <StyledLoadingAnimation />;
-  }
-
-  if (!tasks) {
-    return;
-  }
-
-  if (isCategoryLoading) {
-    return <StyledLoadingAnimation />;
-  }
-  if (!categories) {
-    return;
-  }
-
-  if (isFamilyLoading) {
-    return <StyledLoadingAnimation />;
-  }
-  if (!familyMembers) {
-    return;
-  }
-
-  if (isUserLoading) {
-    return <StyledLoadingAnimation />;
-  }
-  if (!user) {
-    return;
-  }
-
-  const isDarkTheme = user
-    ? user.isDarkTheme
-    : window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   function handleSetDetailsBackLinkRef(link) {
     setDetailsBackLinkRef(link);
-  }
-
-  function handleApplyFilters(formData) {
-    setFilters(formData);
-    setShowModal(false);
-  }
-
-  function handleDeleteFilterOption(key) {
-    setFilters({ ...filters, [key]: "" });
   }
 
   function handleHomePageButtonClick(listType) {
@@ -96,10 +32,10 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-        <Layout user={user}>
-          <GlobalStyle />
-          <SWRConfig value={{ fetcher }}>
+      <DataProvider setTheme={setIsDarkTheme}>
+        <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+          <Layout>
+            <GlobalStyle />
             <ToastContainer
               position="top-center"
               autoClose={2000}
@@ -112,39 +48,27 @@ export default function App({
               pauseOnHover
               theme={isDarkTheme ? "dark" : "light"}
             />
-            <AuthGate
-              user={user}
-              setShowModal={setShowModal}
-              showModal={showModal}
-              mutateUser={mutateUser}
-            >
-              <Component
-                {...pageProps}
-                tasks={tasks}
-                familyMembers={familyMembers}
-                setShowModal={setShowModal}
-                showModal={showModal}
-                categories={categories}
-                detailsBackLinkRef={detailsBackLinkRef}
-                onSetDetailsBackLinkRef={handleSetDetailsBackLinkRef}
-                onApplyFilters={handleApplyFilters}
-                onDeleteFilterOption={handleDeleteFilterOption}
-                filters={filters}
-                setFilters={setFilters}
-                onButtonClick={handleHomePageButtonClick}
-                listType={listType}
-                currentDate={currentDate}
-                setCurrentDate={setCurrentDate}
-                currentView={currentView}
-                setCurrentView={setCurrentView}
-                isDarkTheme={isDarkTheme}
-                user={user}
-                mutateUser={mutateUser}
-              />
-            </AuthGate>
-          </SWRConfig>
-        </Layout>
-      </ThemeProvider>
+            <ModalProvider>
+              <AuthGate>
+                <Component
+                  {...pageProps}
+                  detailsBackLinkRef={detailsBackLinkRef}
+                  onSetDetailsBackLinkRef={handleSetDetailsBackLinkRef}
+                  filters={filters}
+                  setFilters={setFilters}
+                  onButtonClick={handleHomePageButtonClick}
+                  listType={listType}
+                  currentDate={currentDate}
+                  setCurrentDate={setCurrentDate}
+                  currentView={currentView}
+                  setCurrentView={setCurrentView}
+                  isDarkTheme={isDarkTheme}
+                />
+              </AuthGate>
+            </ModalProvider>
+          </Layout>
+        </ThemeProvider>
+      </DataProvider>
     </SessionProvider>
   );
 }

@@ -2,7 +2,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Head from "next/head";
 
-export default function Layout({ children, user }) {
+export default function Layout({ children }) {
   return (
     <>
       <Head>
@@ -26,7 +26,7 @@ export default function Layout({ children, user }) {
         />
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
-      <Header user={user} />
+      <Header />
       {children}
       <Footer />
     </>

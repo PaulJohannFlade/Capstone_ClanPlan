@@ -10,6 +10,9 @@ import Pen from "@/public/assets/images/edit-pen-icon.svg";
 import Modal from "./Modal";
 import MemberForm from "./MemberForm";
 import { toast } from "react-toastify";
+import ConfirmBox from "./ConfirmBox";
+import { useModal } from "@/context/modalContext";
+import { useData } from "@/context/dataContext";
 
 const StyledSection = styled.section`
   position: relative;
@@ -18,18 +21,19 @@ const StyledSection = styled.section`
   display: flex;
   flex-direction: column;
   border-radius: 2rem;
-  padding: 2rem;
-  gap: 1rem;
+  padding: 1.8rem;
+  gap: 2rem;
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   box-shadow: 1px 1px 10px -1px var(--color-font);
   align-items: center;
   ${({ $settings }) =>
     !$settings &&
     `
-    padding-top: 4rem;
-    @media (min-width: 900px) {
+    padding-top: 4.3rem;
+    @media (min-width: 600px) {
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: flex-start;
+    align-items: start;
   }`}
 `;
 
@@ -39,23 +43,30 @@ const StyledContainer = styled.div`
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-  max-width: 80vw;
+  max-width: 70vw;
+
+  @media (min-width: 600px) {
+    max-width: 300px;
+  }
 
   @media (min-width: 900px) {
-    max-width: 50vw;
+    max-width: 350px;
+  }
+
+  @media (min-width: 1200px) {
+    max-width: 400px;
+  }
+  @media (min-width: 1536px) {
+    max-width: 450px;
   }
 `;
 
 const ImageContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 80vw;
+  max-width: 70vw;
   aspect-ratio: 1;
   overflow: hidden;
-
-  @media (min-width: 900px) {
-    max-width: 50vw;
-  }
 `;
 
 const StyledImage = styled(Image)`
@@ -69,18 +80,34 @@ const StyledUser = styled(User)`
   align-self: center;
 `;
 
+const StyledEditContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+`;
+
 const UserInfoContainer = styled.div`
   position: relative;
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   align-items: center;
-  padding: 3rem 2.5rem 2rem 2rem;
+  padding: 3rem 2rem 2rem 2rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #808080;
   max-width: 100%;
+  align-self: stretch;
+
+  @media (min-width: 600px) {
+    align-items: flex-start;
+    margin-top: 1rem;
+    max-width: calc(75vw - 300px);
+    align-items: flex-start;
+    align-self: flex-start;
+  }
+
   @media (min-width: 900px) {
-    flex-direction: column;
-    max-width: 30%;
+    max-width: calc(75vw - 350px);
   }
 `;
 
@@ -91,7 +118,7 @@ const StyledParagraph = styled.p`
 const StyledContent = styled.p`
   font-size: large;
   font-weight: 600;
-  max-width: 10rem;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: wrap;
@@ -107,8 +134,8 @@ const StyledSignButton = styled(StyledButton)`
   margin: 0;
   align-self: flex-end;
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1.3rem;
+  right: 1.3rem;
 `;
 
 const StyledEditButton = styled.button`
@@ -118,16 +145,34 @@ const StyledEditButton = styled.button`
   background-color: var(color-background);
   position: absolute;
   top: 12vw;
-  left: 68vw;
-  transform: translate(-50%, -50%);
+  right: 9vw;
+  transform: translate(50%, -50%);
   opacity: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     opacity: 1;
   }
+
+  @media (min-width: 600px) {
+    top: 45px;
+    right: 40px;
+  }
+
   @media (min-width: 900px) {
-    top: 7vw;
-    left: 42.5vw;
+    top: 55px;
+    right: 45px;
+  }
+
+  @media (min-width: 1200px) {
+    top: 75px;
+    right: 45px;
+  }
+  @media (min-width: 1536px) {
+    top: 85px;
+    right: 50px;
   }
 `;
 
@@ -150,17 +195,16 @@ const StyledInfoPen = styled(Pen)`
 
 export default function MemberProfile({
   familyMember,
+  mutateMember,
   user,
   onAddPhoto,
   mutateUser,
-  familyMembers,
-  showModal,
-  setShowModal,
-  mutate,
 }) {
   const { _id, name, role, profilePhoto, email } = familyMember;
+  const { familyMembers, mutateMembers } = useData(null, _id);
   const [isPhotoEditMode, setIsPhotoEditMode] = useState(false);
   const [isInfoEditMode, setIsInfoEditMode] = useState(false);
+  const { showModal, openModal, closeModal } = useModal();
 
   async function handleEditMember(updatedMemberData) {
     const response = await toast.promise(
@@ -179,10 +223,53 @@ export default function MemberProfile({
     );
 
     if (response.ok) {
-      setShowModal(false);
+      closeModal();
       setIsInfoEditMode(false);
-      await mutate();
+      await mutateMember();
       await mutateUser();
+      await mutateMembers();
+    }
+  }
+
+  function handleDeleteButtonClick() {
+    openModal();
+    setIsInfoEditMode(false);
+  }
+
+  async function handleDeleteImage(id, imageUrl) {
+    try {
+      const cloudinaryResponse = await fetch("/api/deleteImage", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ imageUrl }),
+      });
+
+      if (!cloudinaryResponse.ok) {
+        throw new Error("Failed to delete image from Cloudinary");
+      }
+
+      const updatedMemberData = { ...familyMember, profilePhoto: "" };
+      const memberResponse = await fetch(`/api/members/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedMemberData),
+      });
+
+      if (!memberResponse.ok) {
+        throw new Error("Failed to update member data");
+      }
+
+      toast.success("Photo deleted successfully");
+      closeModal();
+      setIsPhotoEditMode(false);
+      await mutateMember();
+      await mutateUser();
+    } catch (error) {
+      toast.error(error.message || "Failed to delete photo");
     }
   }
 
@@ -218,17 +305,28 @@ export default function MemberProfile({
             )}
           </ImageContainer>
           {_id === user._id && isPhotoEditMode && (
-            <FileUploadForm
-              onAddPhoto={onAddPhoto}
-              setIsPhotoEditMode={setIsPhotoEditMode}
-            />
+            <StyledEditContainer>
+              <StyledButton
+                $red
+                $top={"0"}
+                $width={"8rem"}
+                onClick={handleDeleteButtonClick}
+                disabled={!profilePhoto}
+              >
+                Delete image
+              </StyledButton>
+              <FileUploadForm
+                onAddPhoto={onAddPhoto}
+                setIsPhotoEditMode={setIsPhotoEditMode}
+              />
+            </StyledEditContainer>
           )}
         </StyledContainer>
         <UserInfoContainer>
           {_id === user._id && (
             <StyledInfoPen
               onClick={() => {
-                setShowModal(true);
+                openModal();
                 setIsInfoEditMode(true);
               }}
             />
@@ -247,14 +345,22 @@ export default function MemberProfile({
           <ThemeToggle familyMember={familyMember} mutateUser={mutateUser} />
         </StyledSection>
       )}
-      <Modal $top="8rem" setShowModal={setShowModal} $open={showModal}>
-        {showModal && (
+      <Modal $top="8rem" $open={showModal && isInfoEditMode}>
+        {showModal && isInfoEditMode && (
           <MemberForm
             onAddMember={handleEditMember}
             familyMembers={familyMembers}
             user={user}
             isInfoEditMode={isInfoEditMode}
             heading={"Edit family member"}
+          />
+        )}
+      </Modal>
+      <Modal $top="13.5rem" $open={showModal && !isInfoEditMode}>
+        {showModal && !isInfoEditMode && (
+          <ConfirmBox
+            onConfirm={() => handleDeleteImage(_id, profilePhoto)}
+            message="Are you sure you want to delete profile image?"
           />
         )}
       </Modal>

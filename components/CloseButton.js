@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Close from "@/public/assets/images/close-icon.svg";
+import { useModal } from "@/context/modalContext";
 
 const StyledClose = styled(Close)`
   width: 2rem;
@@ -12,6 +13,8 @@ const StyledClose = styled(Close)`
   stroke: var(--color-alert);
 `;
 
-export default function CloseButton({ setShowModal }) {
-  return <StyledClose onClick={() => setShowModal(false)} />;
+export default function CloseButton() {
+  const { closeModal } = useModal();
+
+  return <StyledClose onClick={closeModal} />;
 }

@@ -1,7 +1,7 @@
 import TaskPreview from "./TaskPreview";
 import styled from "styled-components";
-import useSWR from "swr";
 import { toast } from "react-toastify";
+import { useData } from "@/context/dataContext";
 
 const StyledList = styled.ul`
   list-style: none;
@@ -37,7 +37,7 @@ export default function TasksList({
   onSetDetailsBackLinkRef,
   allTasks,
 }) {
-  const { mutate } = useSWR("/api/tasks");
+  const { mutate } = useData();
 
   async function handleCheckboxChange(task, event) {
     const updatedTaskData = { ...task, isDone: event.target.checked };

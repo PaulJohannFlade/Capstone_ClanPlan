@@ -4,6 +4,7 @@ import styled from "styled-components";
 import User from "@/public/assets/images/user.svg";
 import { signIn, useSession } from "next-auth/react";
 import StyledButton from "./StyledButton";
+import { useData } from "@/context/dataContext";
 
 const StyledHeader = styled.header`
   background-color: var(--color-background);
@@ -30,7 +31,7 @@ const StyledHeader = styled.header`
 
 const StyledLink = styled(Link)`
   position: absolute;
-  padding: 0.5rem;
+  padding: 0.6rem;
   top: 0;
   right: 0.5rem;
   display: flex;
@@ -39,7 +40,7 @@ const StyledLink = styled(Link)`
 `;
 
 const StyledUser = styled(User)`
-  width: 35px;
+  width: 100%;
 `;
 
 const StyledParagraph = styled.p`
@@ -57,15 +58,15 @@ const StyledH1 = styled.h1`
 
 const ImageContainer = styled.div`
   position: relative;
-  width: 35px;
-  height: 35px;
+  width: 2.3rem;
+  height: 2.3rem;
   border-radius: 50%;
-  border: 0.3px solid var(--color-font);
 `;
 
 const StyledImage = styled(Image)`
   object-fit: cover;
   border-radius: 50%;
+  border: 0.3px solid var(--color-font);
 `;
 
 const StyledSignButton = styled(StyledButton)`
@@ -80,30 +81,30 @@ const StyledSignButton = styled(StyledButton)`
   justify-content: center;
 `;
 
-export default function Header({ user }) {
+export default function Header() {
   const { data: session } = useSession();
+  const { user } = useData();
 
   return (
     <StyledHeader>
       <StyledH1>ClanPlan</StyledH1>
       {session ? (
         <StyledLink href={`/family/${user._id}`}>
-          {user?.profilePhoto ? (
+          {!(user?.status === "Member not found") && (
             <ImageContainer>
-              <StyledImage
-                src={user.profilePhoto}
-                alt="user profile image"
-                fill={true}
-                sizes="20vw"
-                priority={true}
-              />
+              {user?.profilePhoto ? (
+                <StyledImage
+                  src={user.profilePhoto}
+                  alt="user profile image"
+                  fill={true}
+                  sizes="20vw"
+                  priority={true}
+                />
+              ) : (
+                <StyledUser />
+              )}
             </ImageContainer>
-          ) : user?.status === "Member not found" ? (
-            ""
-          ) : (
-            <StyledUser />
           )}
-
           <StyledParagraph>{user?.name}</StyledParagraph>
         </StyledLink>
       ) : (

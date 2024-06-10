@@ -5,11 +5,11 @@ import globalize from "globalize";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useRouter } from "next/router";
-import useSWR from "swr";
 import CalendarEvent from "@/components/CalendarEvent";
 import CalendarAgendaEvent from "@/components/CalendarAgendaEvent";
 import { toast } from "react-toastify";
 import convertDateToString from "@/utils/convertDateToString";
+import { useData } from "@/context/dataContext";
 
 const localizer = globalizeLocalizer(globalize);
 const DnDCalendar = withDragAndDrop(Calendar);
@@ -44,14 +44,13 @@ const StyledCalendar = styled(DnDCalendar)`
 `;
 
 export default function CalendarPage({
-  tasks,
   onSetDetailsBackLinkRef,
   currentDate,
   setCurrentDate,
   currentView,
   setCurrentView,
 }) {
-  const { mutate } = useSWR(`/api/tasks`);
+  const { tasks, mutateTasks } = useData();
 
   const router = useRouter();
 
@@ -107,7 +106,7 @@ export default function CalendarPage({
       }
     );
     if (response.ok) {
-      mutate();
+      mutateTasks();
     }
   }
   return (

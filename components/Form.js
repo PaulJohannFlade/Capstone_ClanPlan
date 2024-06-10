@@ -7,6 +7,8 @@ import ConfirmBox from "./ConfirmBox";
 import convertDateToString from "@/utils/convertDateToString";
 import getWeekRange from "@/utils/getWeekRange";
 import MultiselectContainer from "./MultiselectContainer";
+import { useModal } from "@/context/modalContext";
+import { useData } from "@/context/dataContext";
 
 const StyledForm = styled.form`
   display: flex;
@@ -28,7 +30,7 @@ const StyledLabel = styled.label`
 `;
 
 const StyledSpan = styled.span`
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: red;
   float: ${({ $left }) => ($left ? "left" : "right")};
 `;
@@ -57,12 +59,8 @@ export default function Form({
   value,
   isEdit,
   allocatedMembersList,
-  categories,
-  familyMembers,
-  setShowModal,
-  showModal,
-  user,
 }) {
+  const { categories, familyMembers, user } = useData();
   const [enteredTitle, setEnteredTitle] = useState(value?.title || "");
   const [isValid, setIsValid] = useState(true);
   const [allocatedMembers, setAllocatedMembers] = useState(
@@ -73,8 +71,8 @@ export default function Form({
   const [displayEndDate, setDisplayEndDate] = useState(false);
   const [isEndDateValid, setIsEndDateValid] = useState(true);
   const [endDate, setEndDate] = useState(value?.endDate);
-
   const formattedTodayDate = convertDateToString(new Date());
+  const { showModal, openModal, closeModal } = useModal();
 
   let minDate = null;
   let maxDate = null;
@@ -159,7 +157,7 @@ export default function Form({
       };
 
       if (value?.groupId) {
-        setShowModal(true);
+        openModal();
         setTaskToUpdate(updatedTask);
       } else {
         onTaskSubmit(updatedTask);
@@ -178,12 +176,12 @@ export default function Form({
 
   function handleUpdateOneTask() {
     onTaskSubmit(taskToUpdate);
-    setShowModal(false);
+    closeModal();
   }
 
   function handleUpdateTasks(action) {
     onTasksSubmit(taskToUpdate, action);
-    setShowModal(false);
+    closeModal();
   }
 
   function handleFamilyMembersSelection(event) {
@@ -228,10 +226,9 @@ export default function Form({
 
   return (
     <>
-      <Modal $top="13.5rem" setShowModal={setShowModal} $open={showModal}>
+      <Modal $top="13.5rem" $open={showModal}>
         {showModal && (
           <ConfirmBox
-            setShowModal={setShowModal}
             onConfirm={handleUpdateOneTask}
             onConfirmFurtherTasks={() => handleUpdateTasks("future")}
             onConfirmAllTasks={() => handleUpdateTasks("all")}

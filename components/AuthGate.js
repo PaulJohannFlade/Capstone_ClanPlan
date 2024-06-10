@@ -7,6 +7,8 @@ import Modal from "./Modal";
 import FamilyRegisterForm from "./FamilyRegisterForm";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { useModal } from "@/context/modalContext";
+import { useData } from "@/context/dataContext";
 
 const StyledSignButton = styled(StyledButton)`
   width: 6rem;
@@ -34,15 +36,11 @@ const StyledParagraph = styled.p`
   right: 4%;
 `;
 
-export default function AuthGate({
-  children,
-  user,
-  setShowModal,
-  showModal,
-  mutateUser,
-}) {
+export default function AuthGate({ children }) {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { showModal, openModal, closeModal } = useModal();
+  const { user, mutateUser } = useData();
 
   async function handleAddFamily(newFamily) {
     const response = await toast.promise(
@@ -61,7 +59,7 @@ export default function AuthGate({
     );
 
     if (response.ok) {
-      setShowModal(false);
+      closeModal();
       mutateUser();
       router.push("/");
     }
@@ -81,11 +79,11 @@ export default function AuthGate({
         <StyledSignButton onClick={() => signOut()}>Log out</StyledSignButton>
         <StyledMessage>
           Please create a family to proceed further ! <br />
-          <StyledButton $width="10rem" onClick={() => setShowModal(true)}>
+          <StyledButton $width="10rem" onClick={openModal}>
             Click here
           </StyledButton>
         </StyledMessage>
-        <Modal $top="7rem" setShowModal={setShowModal} $open={showModal}>
+        <Modal $top="7rem" $open={showModal}>
           {showModal && <FamilyRegisterForm onAddFamily={handleAddFamily} />}
         </Modal>
       </>
