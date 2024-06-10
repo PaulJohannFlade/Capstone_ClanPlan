@@ -20,6 +20,7 @@ export default function App({
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentView, setCurrentView] = useState("month");
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [myTasksSelection, setMyTasksSelection] = useState(true);
 
   function handleSetDetailsBackLinkRef(link) {
     setDetailsBackLinkRef(link);
@@ -28,6 +29,16 @@ export default function App({
   function handleHomePageButtonClick(listType) {
     setListType(listType);
     setFilters({});
+  }
+
+  function handleMyTasksSelection() {
+    if (
+      (listType === "notAssigned" && !myTasksSelection) ||
+      (listType === "progress" && myTasksSelection)
+    ) {
+      setListType("today");
+    }
+    setMyTasksSelection(!myTasksSelection);
   }
 
   return (
@@ -63,6 +74,8 @@ export default function App({
                   currentView={currentView}
                   setCurrentView={setCurrentView}
                   isDarkTheme={isDarkTheme}
+                  myTasksSelection={myTasksSelection}
+                  onMyTasksSelection={handleMyTasksSelection}
                 />
               </AuthGate>
             </ModalProvider>

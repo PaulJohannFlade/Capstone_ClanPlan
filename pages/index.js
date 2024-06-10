@@ -6,6 +6,8 @@ import checkForMissedDate from "@/utils/checkForMissedDate";
 import checkForToday from "@/utils/checkForToday";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
+import ProgressPieChart from "@/components/ProgressPieChart";
+import getTasksForUser from "@/utils/getTasksForUser";
 
 const StyledSection = styled.section`
   display: flex;
@@ -50,15 +52,36 @@ const StyledMessage = styled.p`
   padding-top: 4rem;
 `;
 
+const StyledGreetings = styled.h2`
+  text-align: center;
+  cursor: pointer;
+  margin-top: 8rem;
+`;
+
+const StyledTabs = styled.div`
+  position: absolute;
+  top: 4.5rem;
+  width: 100%;
+  background-color: var(--color-button);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;
+
 export default function HomePage({
   onSetDetailsBackLinkRef,
   filters,
   setFilters,
   onButtonClick,
   listType,
+  onMyTasksSelection,
+  myTasksSelection,
 }) {
   const { closeModal } = useModal();
-  const { tasks } = useData();
+  const { tasks, user } = useData();
+
+  const tasksToDisplay = myTasksSelection
+    ? getTasksForUser(tasks, user)
+    : tasks;
 
   const isFilterSet =
     (filters.priority !== "0" && filters.priority) ||
@@ -67,21 +90,21 @@ export default function HomePage({
       ? true
       : false;
 
-  const missedTasks = tasks.filter(
+  const missedTasks = tasksToDisplay.filter(
     (task) => task?.dueDate && checkForMissedDate(task.dueDate) && !task.isDone
   );
 
-  const todaysTasks = tasks.filter(
+  const todaysTasks = tasksToDisplay.filter(
     (task) => task?.dueDate && checkForToday(task.dueDate) && !task.isDone
   );
 
-  const notAssignedTasks = tasks.filter(
+  const notAssignedTasks = tasksToDisplay.filter(
     (task) => !task?.assignedTo.length && !task.isDone
   );
 
-  const completedTasks = tasks.filter((task) => task.isDone);
+  const completedTasks = tasksToDisplay.filter((task) => task.isDone);
 
-  let tasksAfterListTypeSelection = tasks;
+  let tasksAfterListTypeSelection = tasksToDisplay;
   if (listType === "today") {
     tasksAfterListTypeSelection = todaysTasks;
   } else if (listType === "missed") {
@@ -110,6 +133,25 @@ export default function HomePage({
 
   return (
     <>
+      <StyledTabs>
+        <StyledTabButton
+          $isActive={myTasksSelection}
+          onClick={onMyTasksSelection}
+        >
+          My Tasks
+        </StyledTabButton>
+        <StyledTabButton
+          $isActive={!myTasksSelection}
+          onClick={onMyTasksSelection}
+        >
+          Family Tasks
+        </StyledTabButton>
+      </StyledTabs>
+      <StyledGreetings>
+        {myTasksSelection
+          ? `Hello ${user?.name}`
+          : `Hello "${user?.family?.name}" family`}
+      </StyledGreetings>
       <StyledSection>
         <StyledButton
           onClick={() => onButtonClick("today")}
@@ -137,14 +179,23 @@ export default function HomePage({
             Missed {missedTasks.length}
           </StyledSpan>
         </StyledButton>
-        <StyledButton
-          onClick={() => onButtonClick("notAssigned")}
-          $isActive={listType === "notAssigned"}
-        >
-          <StyledSpan $redColor={notAssignedTasks.length}>
-            Not assigned {notAssignedTasks.length}
-          </StyledSpan>
-        </StyledButton>
+        {myTasksSelection ? (
+          <StyledButton
+            onClick={() => onButtonClick("progress")}
+            $isActive={listType === "progress"}
+          >
+            <StyledSpan>Progress</StyledSpan>
+          </StyledButton>
+        ) : (
+          <StyledButton
+            onClick={() => onButtonClick("notAssigned")}
+            $isActive={listType === "notAssigned"}
+          >
+            <StyledSpan $redColor={notAssignedTasks.length}>
+              Not assigned {notAssignedTasks.length}
+            </StyledSpan>
+          </StyledButton>
+        )}
       </StyledSection>
       {listType === "today" && (
         <StyledHeading>
@@ -154,9 +205,7 @@ export default function HomePage({
         </StyledHeading>
       )}
       {listType === "all" && <StyledHeading>My Family Tasks</StyledHeading>}
-      {listType === "done" && (
-        <StyledHeading>Completed Tasks </StyledHeading>
-      )}{" "}
+      {listType === "done" && <StyledHeading>Completed Tasks </StyledHeading>}
       {listType === "notAssigned" && (
         <StyledHeading>Not assigned Tasks </StyledHeading>
       )}
@@ -166,17 +215,23 @@ export default function HomePage({
           {missedTasks.length === 1 ? " Task" : " Tasks"}
         </StyledHeading>
       )}
-      {tasksAfterListTypeSelection.length > 0 && (
+      {listType === "progress" && <StyledHeading>Your Progress</StyledHeading>}
+
+      {listType !== "progress" && tasksAfterListTypeSelection.length > 0 && (
         <Filter
           onApplyFilters={handleApplyFilters}
           filters={filters}
           onDeleteFilterOption={handleDeleteFilterOption}
           setFilters={setFilters}
+          myTasksSelection={myTasksSelection}
         />
       )}
-      {!filteredTasks.length && !isFilterSet && listType !== "today" && (
-        <StyledMessage>No tasks to display.</StyledMessage>
-      )}
+      {!filteredTasks.length &&
+        !isFilterSet &&
+        listType !== "today" &&
+        listType !== "progress" && (
+          <StyledMessage>No tasks to display.</StyledMessage>
+        )}
       {!filteredTasks.length && !isFilterSet && listType === "today" && (
         <StyledMessage>
           <span>Relax!</span>
@@ -187,7 +242,7 @@ export default function HomePage({
       {!filteredTasks.length && isFilterSet && (
         <StyledMessage>No tasks with this search criteria.</StyledMessage>
       )}
-      {listType !== "all" && (
+      {listType !== "all" && listType !== "progress" && (
         <TasksList
           tasks={filteredTasks}
           onSetDetailsBackLinkRef={onSetDetailsBackLinkRef}
@@ -198,6 +253,9 @@ export default function HomePage({
           tasks={filteredTasks}
           onSetDetailsBackLinkRef={onSetDetailsBackLinkRef}
         />
+      )}
+      {listType === "progress" && (
+        <ProgressPieChart tasks={tasks} user={user} />
       )}
     </>
   );
