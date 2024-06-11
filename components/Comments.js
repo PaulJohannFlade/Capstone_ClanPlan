@@ -39,6 +39,11 @@ const StyledLink = styled(Link)`
   justify-content: flex-start;
   gap: 0.5rem;
   align-items: flex-end;
+  ${({ $disabled }) =>
+    $disabled &&
+    `
+      pointer-events: none;
+    `}
 `;
 
 const StyledUser = styled(User)`
@@ -127,7 +132,10 @@ export default function Comments({
       <StyledList>
         {comments?.map((comment) => (
           <StyledListItem key={comment._id}>
-            <StyledLink href={`/family/${comment.member?._id}`}>
+            <StyledLink
+              href={`/family/${comment.member?._id}`}
+              $disabled={!comment.member}
+            >
               <ImageContainer>
                 {comment.member?.profilePhoto ? (
                   <StyledImage

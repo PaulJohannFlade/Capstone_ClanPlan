@@ -37,7 +37,7 @@ export default function TasksList({
   onSetDetailsBackLinkRef,
   allTasks,
 }) {
-  const { mutate } = useData();
+  const { mutateTasks } = useData();
 
   async function handleCheckboxChange(task, event) {
     const updatedTaskData = { ...task, isDone: event.target.checked };
@@ -56,7 +56,7 @@ export default function TasksList({
       }
     );
     if (response.ok) {
-      mutate();
+      mutateTasks();
     }
   }
 
