@@ -5,7 +5,6 @@ import UpArrow from "@/public/assets/images/up-arrow.svg";
 import StyledTrash from "./StyledTrash";
 import Modal from "./Modal";
 import CategoryForm from "./CategoryForm";
-import StyledLoadingAnimation from "./StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import StyledPen from "./StyledPen";
 import ConfirmBox from "./ConfirmBox";
@@ -74,14 +73,6 @@ export default function CategoriesList({
   const [categoryToHandle, setCategoryToHandle] = useState(null);
   const { showModal, openModal, closeModal } = useModal();
   const { tasks } = useData();
-
-  if (isLoading) {
-    return <StyledLoadingAnimation />;
-  }
-
-  if (!tasks) {
-    return;
-  }
 
   const categoryIsUsed =
     categoryToHandle &&

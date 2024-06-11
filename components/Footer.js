@@ -20,6 +20,7 @@ const StyledFooter = styled.footer`
   margin: 0;
   min-width: 330px;
   z-index: 5;
+  padding: 0.5rem;
 
   @media (min-width: 900px) {
     top: 0;
@@ -82,7 +83,7 @@ const StyledLink = styled(Link)`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 0.6rem;
+  /* padding: 0.6rem; */
   flex-direction: column;
 `;
 
