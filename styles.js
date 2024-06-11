@@ -163,12 +163,21 @@ a:hover {
 display: none;
 }
 .rbc-allday-cell {
-height: auto;
+height: 100%;
 max-height: unset;
 }
 .rbc-time-content {
 display: none;
 }
+}
+
+.rbc-time-header {
+  min-height: 310px;
+  height: 44vh;
+  @media (min-width: 900px) {
+    min-height: 637px;
+    height: 72vh;
+  }
 }
 
 .rbc-button-link span {
@@ -177,8 +186,8 @@ display: none;
 }
 
 .rbc-addons-dnd-row-body {
-  min-height: 310px;
-  height: 63vh;
+  min-height: 290px;
+  height: 45vh;
   @media (min-width: 900px) {
     min-height: 637px;
     height: 72vh;
