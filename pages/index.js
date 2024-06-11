@@ -148,12 +148,14 @@ export default function HomePage({
         <StyledTabButton
           $isActive={myTasksSelection}
           onClick={onMyTasksSelection}
+          disabled={myTasksSelection}
         >
           My Tasks
         </StyledTabButton>
         <StyledTabButton
           $isActive={!myTasksSelection}
           onClick={onMyTasksSelection}
+          disabled={!myTasksSelection}
         >
           Family Tasks
         </StyledTabButton>
