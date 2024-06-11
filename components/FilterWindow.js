@@ -30,7 +30,7 @@ const StyledSelect = styled.select`
 `;
 
 export default function FilterWindow({ onApply, filters, myTasksSelection }) {
-  const { familyMembers, categories } = useData();
+  const { familyMembers, categories, user } = useData();
   const router = useRouter();
   const { listType } = router.query;
   function handleApplyFilter(event) {

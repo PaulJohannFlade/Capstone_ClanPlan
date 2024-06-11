@@ -226,7 +226,6 @@ export default function HomePage({
           {missedTasks.length === 1 ? " Task" : " Tasks"}
         </StyledHeading>
       )}
-      {listType === "progress" && <StyledHeading>Your Progress</StyledHeading>}
 
       {listType !== "progress" && tasksAfterListTypeSelection.length > 0 && (
         <Filter
@@ -265,11 +264,9 @@ export default function HomePage({
           onSetDetailsBackLinkRef={onSetDetailsBackLinkRef}
         />
       )}
-      {listType === "progress" && (
-        <ProgressPieChart tasks={tasks} user={user} />
-      )}
+      {listType === "progress" && <ProgressPieChart />}
     </>
   );
 }
 
-export { StyledMessage };
+export { StyledMessage, StyledTabs, StyledTabButton };

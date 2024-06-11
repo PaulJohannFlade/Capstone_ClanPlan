@@ -1,8 +1,14 @@
-import checkForMissedDate from "@/utils/checkForMissedDate";
+import { useData } from "@/context/dataContext";
+import convertDateToString from "@/utils/convertDateToString";
+import formatDate from "@/utils/formatDate";
+import getTasksCount from "@/utils/getTasksCount";
+import getTasksForCurrentWeek from "@/utils/getTasksForCurrentWeek";
 import getTasksForUser from "@/utils/getTasksForUser";
+import getWeekRange from "@/utils/getWeekRange";
 import { useCallback, useState } from "react";
-import { PieChart, Pie, Sector } from "recharts";
+import { PieChart, Pie } from "recharts";
 import styled from "styled-components";
+import renderActiveShape from "@/utils/renderActiveShape";
 
 const StyledInnerContainer = styled.div`
   display: grid;
@@ -27,48 +33,18 @@ const StyledSection = styled.section`
   align-items: flex-start;
 `;
 
-function renderActiveShape(props) {
-  const {
-    cx,
-    cy,
-    payload,
-    percent,
-    innerRadius,
-    outerRadius,
-    startAngle,
-    endAngle,
-    fill,
-  } = props;
+const StyledHeading = styled.h2`
+  margin-top: 1rem;
+  text-align: center;
+`;
 
-  return (
-    <g>
-      <text x={cx} y={cy} dy={8} textAnchor="middle" fill="var(--color-font)">
-        {payload.name} {`(${(percent * 100).toFixed(2)}%)`}
-      </text>
+const StyledContent = styled.p`
+  text-align: center;
+  font-weight: 700;
+`;
 
-      <Sector
-        cx={cx}
-        cy={cy}
-        innerRadius={innerRadius}
-        outerRadius={outerRadius}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        fill={fill}
-      />
-      <Sector
-        cx={cx}
-        cy={cy}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        innerRadius={outerRadius + 6}
-        outerRadius={outerRadius + 10}
-        fill={fill}
-      />
-    </g>
-  );
-}
-
-export default function ProgressPieChart({ tasks, user }) {
+export default function ProgressPieChart() {
+  const { tasks, user } = useData();
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = useCallback(
     (_, index) => {
@@ -77,17 +53,18 @@ export default function ProgressPieChart({ tasks, user }) {
     [setActiveIndex]
   );
   const usersTasks = getTasksForUser(tasks, user);
+  const startOfWeek = getWeekRange(convertDateToString(new Date())).startOfWeek;
+  const endOfWeek = getWeekRange(convertDateToString(new Date())).endOfWeek;
 
-  const missedTasks = usersTasks.filter(
-    (task) => task?.dueDate && checkForMissedDate(task.dueDate) && !task.isDone
+  const tasksForCurrentWeek = getTasksForCurrentWeek(
+    usersTasks,
+    startOfWeek,
+    endOfWeek
   );
 
-  const activeTasks = usersTasks.filter(
-    (task) =>
-      !task.isDone && !(task?.dueDate && checkForMissedDate(task.dueDate))
-  );
-
-  const completedTasks = usersTasks.filter((task) => task.isDone);
+  const missedTasks = getTasksCount(tasksForCurrentWeek).missedTasks;
+  const activeTasks = getTasksCount(tasksForCurrentWeek).activeTasks;
+  const completedTasks = getTasksCount(tasksForCurrentWeek).completedTasks;
 
   const data = [
     {
@@ -108,31 +85,38 @@ export default function ProgressPieChart({ tasks, user }) {
   ];
 
   return (
-    <StyledOuterContainer>
-      <StyledInnerContainer>
-        {data.map((element) => (
-          <StyledSection key={element.name}>
-            <span> {element.name}</span>{" "}
-            <span>
-              : {element.value}
-              {element.value === 1 ? " task" : " tasks"}
-            </span>
-          </StyledSection>
-        ))}
-      </StyledInnerContainer>
-      <PieChart width={375} height={400}>
-        <Pie
-          activeIndex={activeIndex}
-          activeShape={renderActiveShape}
-          data={data}
-          cx={200}
-          cy={150}
-          innerRadius={70}
-          outerRadius={110}
-          dataKey="value"
-          onMouseEnter={onPieEnter}
-        />
-      </PieChart>
-    </StyledOuterContainer>
+    <>
+      <StyledHeading>Your Progress for the current week</StyledHeading>
+      <StyledContent>{`(${formatDate(startOfWeek)} - ${formatDate(
+        endOfWeek
+      )})`}</StyledContent>
+      <br />
+      <StyledOuterContainer>
+        <StyledInnerContainer>
+          {data.map((element) => (
+            <StyledSection key={element.name}>
+              <span> {element.name}</span>{" "}
+              <span>
+                : {element.value}
+                {element.value === 1 ? " task" : " tasks"}
+              </span>
+            </StyledSection>
+          ))}
+        </StyledInnerContainer>
+        <PieChart width={375} height={400}>
+          <Pie
+            activeIndex={activeIndex}
+            activeShape={renderActiveShape}
+            data={data}
+            cx={200}
+            cy={150}
+            innerRadius={70}
+            outerRadius={110}
+            dataKey="value"
+            onMouseEnter={onPieEnter}
+          />
+        </PieChart>
+      </StyledOuterContainer>
+    </>
   );
 }
