@@ -6,6 +6,7 @@ import checkForMissedDate from "@/utils/checkForMissedDate";
 import checkForToday from "@/utils/checkForToday";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
+import RandomImage from "@/components/RandomImage";
 
 const StyledSection = styled.section`
   display: flex;
@@ -182,6 +183,7 @@ export default function HomePage({
           <span>Relax!</span>
           <br />
           <span>No tasks for today.</span>
+          <RandomImage />
         </StyledMessage>
       )}
       {!filteredTasks.length && isFilterSet && (
