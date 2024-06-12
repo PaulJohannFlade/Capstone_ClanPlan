@@ -39,6 +39,7 @@ export default function App({
       setListType("today");
     }
     setMyTasksSelection(!myTasksSelection);
+    setFilters({});
   }
 
   return (
