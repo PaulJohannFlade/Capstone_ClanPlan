@@ -6,10 +6,8 @@ import checkForMissedDate from "@/utils/checkForMissedDate";
 import checkForToday from "@/utils/checkForToday";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
-import RandomImage from "@/components/RandomImage";
 import ProgressPieChart from "@/components/ProgressPieChart";
 import getTasksForUser from "@/utils/getTasksForUser";
-
 
 const StyledSection = styled.section`
   display: flex;
@@ -49,7 +47,7 @@ const StyledHeading = styled.h2`
   text-align: center;
 `;
 
-const StyledMessage = styled.div`
+const StyledMessage = styled.p`
   text-align: center;
   padding-top: 4rem;
 `;
@@ -251,7 +249,6 @@ export default function HomePage({
           <span>Relax!</span>
           <br />
           <span>No tasks for today.</span>
-          <RandomImage />
         </StyledMessage>
       )}
       {!filteredTasks.length && isFilterSet && (
