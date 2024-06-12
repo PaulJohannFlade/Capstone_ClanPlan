@@ -39,7 +39,7 @@ export default createGlobalStyle`
     --color-font:${(props) => props.theme.text};
     --color-icon:#cccaca;
     --color-footer-signature:#a7a3a3;
-    --color-alert:#ff0000;
+    --color-alert:#d32f2f;
     --color-button-active:${(props) => props.theme.buttonActive};
     --color-button:${(props) => props.theme.button};
     --font-handlee:${handlee.style.fontFamily};

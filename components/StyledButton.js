@@ -15,7 +15,7 @@ const StyledButton = styled.button`
   ${({ $absolute }) =>
     $absolute &&
     `position: absolute;
-  margin-top: 0.5rem;
+  top: 0.5rem;
   right: 0.5rem;`}
   &:disabled {
     background-color: #808080;

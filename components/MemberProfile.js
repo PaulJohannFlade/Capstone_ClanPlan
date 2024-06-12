@@ -30,10 +30,11 @@ const StyledSection = styled.section`
     !$settings &&
     `
     padding-top: 4.3rem;
+    padding-bottom: 5rem;
     @media (min-width: 600px) {
     flex-direction: row;
     justify-content: flex-start;
-    align-items: start;
+    align-items: start;    
   }`}
 `;
 
@@ -132,7 +133,6 @@ const StyledHeading = styled.h3`
 
 const StyledSignButton = styled(StyledButton)`
   margin: 0;
-  align-self: flex-end;
   position: absolute;
   top: 1.3rem;
   right: 1.3rem;
@@ -145,7 +145,7 @@ const StyledEditButton = styled.button`
   background-color: var(color-background);
   position: absolute;
   top: 12vw;
-  right: 9vw;
+  right: 11vw;
   transform: translate(50%, -50%);
   opacity: 0.5;
   display: flex;
@@ -191,6 +191,13 @@ const StyledInfoPen = styled(Pen)`
     cursor: pointer;
     opacity: 0.5;
   }
+`;
+
+const StyledDeleteAccountButton = styled(StyledButton)`
+  margin: 0;
+  position: absolute;
+  bottom: 1.3rem;
+  right: 1.3rem;
 `;
 
 export default function MemberProfile({
@@ -338,6 +345,13 @@ export default function MemberProfile({
           <StyledParagraph>Email:</StyledParagraph>
           <StyledContent>{email}</StyledContent>
         </UserInfoContainer>
+        <StyledDeleteAccountButton
+          $red={true}
+          $width={"auto"}
+          onClick={() => openModal()}
+        >
+          Delete account
+        </StyledDeleteAccountButton>
       </StyledSection>
       {_id === user._id && (
         <StyledSection $settings={true}>
