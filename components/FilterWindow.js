@@ -29,8 +29,8 @@ const StyledSelect = styled.select`
   padding: 0.3rem;
 `;
 
-export default function FilterWindow({ onApply, filters }) {
-  const { familyMembers, categories } = useData();
+export default function FilterWindow({ onApply, filters, myTasksSelection }) {
+  const { familyMembers, categories, user } = useData();
   const router = useRouter();
   const { listType } = router.query;
   function handleApplyFilter(event) {
@@ -85,10 +85,19 @@ export default function FilterWindow({ onApply, filters }) {
       {listType !== "notAssigned" && (
         <>
           <StyledLabel htmlFor="member">Assigned member:</StyledLabel>
-          <StyledSelect id="member" name="member" defaultValue={filters.member}>
+          <StyledSelect
+            id="member"
+            name="member"
+            defaultValue={filters.member}
+            disabled={myTasksSelection}
+          >
             <option value="">Choose a member</option>
             {familyMembers.map((member) => (
-              <option key={member._id} value={member._id}>
+              <option
+                key={member._id}
+                value={member._id}
+                selected={myTasksSelection && user?._id === member._id}
+              >
                 {member.name}
               </option>
             ))}

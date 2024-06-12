@@ -35,7 +35,7 @@ export default function DetailsPage({ detailsBackLinkRef }) {
   const router = useRouter();
   const { id } = router.query;
 
-  const { task, mutateTask } = useData(id);
+  const { task, mutateTask, mutateTasks } = useData(id);
 
   function handleChangeModalMode(mode) {
     setModalMode(mode);
@@ -64,6 +64,7 @@ export default function DetailsPage({ detailsBackLinkRef }) {
 
     if (response.ok) {
       mutateTask();
+      mutateTasks();
     }
   }
 
