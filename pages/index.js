@@ -46,7 +46,7 @@ const StyledHeading = styled.h2`
   text-align: center;
 `;
 
-const StyledMessage = styled.p`
+const StyledMessage = styled.div`
   text-align: center;
   padding-top: 4rem;
 `;
