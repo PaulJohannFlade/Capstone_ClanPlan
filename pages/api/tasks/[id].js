@@ -21,11 +21,11 @@ export default async function handler(request, response) {
     const familyId = user?.family;
     const task = await Task.findOne({ _id: id, family: familyId })
       .populate("category")
-      .populate("assignedTo");
-
-    if (task?.comments) {
-      await task.populate("comments");
-    }
+      .populate("assignedTo")
+      .populate({
+        path: "comments",
+        populate: { path: "member" },
+      });
 
     if (!task) {
       return response.status(404).json({ status: "Task not found" });

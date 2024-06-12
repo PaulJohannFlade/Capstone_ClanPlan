@@ -2,7 +2,6 @@ import { useState } from "react";
 import styled from "styled-components";
 import StyledButton from "./StyledButton";
 import Multiselect from "multiselect-react-dropdown";
-import StyledLoadingAnimation from "./StyledLoadingAnimation";
 import MultiselectContainer from "./MultiselectContainer";
 import { useData } from "@/context/dataContext";
 

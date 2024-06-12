@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import BackArrow from "@/public/assets/images/back-arrow.svg";
 import styled from "styled-components";
 import MemberProfile from "@/components/MemberProfile";
-import StyledBackLink from "@/components/StyledBackLink";
 import { toast } from "react-toastify";
 import { useData } from "@/context/dataContext";
 
@@ -62,15 +61,9 @@ export default function MemberProfilePage() {
 
   return (
     <>
-      {familyMember?._id === user._id ? (
-        <StyledBackButton onClick={handleGoBack}>
-          <BackArrow />
-        </StyledBackButton>
-      ) : (
-        <StyledBackLink href="/family">
-          <BackArrow />
-        </StyledBackLink>
-      )}
+      <StyledBackButton onClick={handleGoBack}>
+        <BackArrow />
+      </StyledBackButton>
       <StyledHeading>Family Member Profile</StyledHeading>
       {familyMember ? (
         <MemberProfile

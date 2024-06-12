@@ -289,7 +289,7 @@ export default function MemberProfile({
               <StyledImage
                 src={profilePhoto}
                 alt="user profile image"
-                sizes="80vw"
+                sizes="75vw"
                 fill
                 priority={true}
               />

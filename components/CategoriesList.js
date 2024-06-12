@@ -5,7 +5,6 @@ import UpArrow from "@/public/assets/images/up-arrow.svg";
 import StyledTrash from "./StyledTrash";
 import Modal from "./Modal";
 import CategoryForm from "./CategoryForm";
-import StyledLoadingAnimation from "./StyledLoadingAnimation";
 import { toast } from "react-toastify";
 import StyledPen from "./StyledPen";
 import ConfirmBox from "./ConfirmBox";
