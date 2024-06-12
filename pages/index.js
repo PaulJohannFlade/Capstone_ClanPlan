@@ -10,7 +10,6 @@ import RandomImage from "@/components/RandomImage";
 import ProgressPieChart from "@/components/ProgressPieChart";
 import getTasksForUser from "@/utils/getTasksForUser";
 
-
 const StyledSection = styled.section`
   display: flex;
   gap: 1rem;
@@ -248,9 +247,6 @@ export default function HomePage({
         )}
       {!filteredTasks.length && !isFilterSet && listType === "today" && (
         <StyledMessage>
-          <span>Relax!</span>
-          <br />
-          <span>No tasks for today.</span>
           <RandomImage />
         </StyledMessage>
       )}
