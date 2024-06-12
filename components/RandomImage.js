@@ -36,7 +36,7 @@ const RandomImage = () => {
       {randomImage && (
         <Image
           src={randomImage.src}
-          alt="Random"
+          alt="random picture of a relaxing turtle"
           width={randomImage.width}
           height={randomImage.height}
           priority
