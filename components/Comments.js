@@ -40,7 +40,8 @@ const StyledLink = styled(Link)`
   gap: 0.5rem;
   align-items: flex-end;
   ${({ $disabled }) =>
-    $disabled`
+    $disabled &&
+    `
       pointer-events: none;
     `}
 `;
