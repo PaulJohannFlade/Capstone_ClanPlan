@@ -75,14 +75,6 @@ export default function CategoriesList({
   const { showModal, openModal, closeModal } = useModal();
   const { tasks } = useData();
 
-  if (isLoading) {
-    return <StyledLoadingAnimation />;
-  }
-
-  if (!tasks) {
-    return;
-  }
-
   const categoryIsUsed =
     categoryToHandle &&
     tasks.filter(

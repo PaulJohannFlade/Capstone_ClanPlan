@@ -44,6 +44,9 @@ export default createGlobalStyle`
     --color-button:${(props) => props.theme.button};
     --font-handlee:${handlee.style.fontFamily};
     --color-scheme-date:${(props) => props.theme.colorScheme};
+    --color-progress-missed:#ff0000;
+    --color-progress-active:${(props) => props.theme.buttonActive};
+    --color-progress-done:#d3d3d3ff;
   }
 
   html {
