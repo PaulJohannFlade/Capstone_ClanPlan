@@ -10,7 +10,6 @@ import RandomImage from "@/components/RandomImage";
 import ProgressPieChart from "@/components/ProgressPieChart";
 import getTasksForUser from "@/utils/getTasksForUser";
 
-
 const StyledSection = styled.section`
   display: flex;
   gap: 1rem;
@@ -67,6 +66,7 @@ const StyledTabs = styled.div`
   background-color: var(--color-button);
   display: grid;
   grid-template-columns: 1fr 1fr;
+  min-width: 330px;
 `;
 
 const StyledTabButton = styled.button`
@@ -164,8 +164,8 @@ export default function HomePage({
       </StyledTabs>
       <StyledGreetings>
         {myTasksSelection
-          ? `Hello ${user?.name}`
-          : `Hello "${user?.family?.name}" family`}
+          ? `Hello ${user?.name}!`
+          : `"${user?.family?.name}" Tasks`}
       </StyledGreetings>
       <StyledSection>
         <StyledButton

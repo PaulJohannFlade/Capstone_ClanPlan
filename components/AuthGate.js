@@ -33,7 +33,11 @@ const StyledParagraph = styled.p`
   font-size: 0.9rem;
   text-shadow: none;
   position: absolute;
-  right: 4%;
+  right: 5%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 30vw;
 `;
 
 export default function AuthGate({ children }) {
@@ -78,7 +82,7 @@ export default function AuthGate({ children }) {
         <StyledParagraph>{session.user.name}</StyledParagraph>
         <StyledSignButton onClick={() => signOut()}>Log out</StyledSignButton>
         <StyledMessage>
-          Please create a family to proceed further ! <br />
+          Please create a family to proceed further! <br />
           <StyledButton $width="10rem" onClick={openModal}>
             Click here
           </StyledButton>

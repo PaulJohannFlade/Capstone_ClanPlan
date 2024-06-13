@@ -1,11 +1,16 @@
 import dbConnect from "@/db/connect";
 import Member from "@/db/models/Member";
+import Family from "@/db/models/Family";
+import Task from "@/db/models/Task";
+import Comment from "@/db/models/Comment";
+import Category from "@/db/models/Category";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
 
 export default async function handler(request, response) {
   await dbConnect();
   const { id } = request.query;
+  console.log(id);
 
   const session = await getServerSession(request, response, authOptions);
   if (!session) {
@@ -41,5 +46,46 @@ export default async function handler(request, response) {
       console.error(error);
       return response.status(400).json({ error: error.message });
     }
+  }
+
+  if (request.method === "DELETE") {
+    try {
+      const { isOnlyMember, categoriesIdsWithOnlyThisMember } = request.body;
+      const deletedMember = await Member.findById(id);
+      if (!deletedMember) {
+        return response.status(404).json({ error: "Member not found." });
+      }
+      if (isOnlyMember) {
+        const familyId = deletedMember.family;
+        await Family.findByIdAndDelete(familyId);
+        await Category.deleteMany({
+          family: familyId,
+        });
+        const tasksToDelete = await Task.find({
+          family: familyId,
+        });
+        deleteComments(tasksToDelete);
+        await Task.deleteMany({
+          family: familyId,
+        });
+      } else if (categoriesIdsWithOnlyThisMember.length) {
+        await Category.deleteMany({
+          _id: { $in: categoriesIdsWithOnlyThisMember },
+        });
+      }
+      await Member.findByIdAndDelete(id);
+      response.status(200).json({ status: "Member deleted successfully." });
+    } catch (error) {
+      console.error(error);
+      return response.status(400).json({ error: error.message });
+    }
+  }
+
+  async function deleteComments(tasksToDelete) {
+    const commentIdsToDelete = [];
+    for (const task of tasksToDelete) {
+      commentIdsToDelete.push(...task.comments);
+    }
+    await Comment.deleteMany({ _id: { $in: commentIdsToDelete } });
   }
 }

@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import ConfirmBox from "./ConfirmBox";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
+import { useRouter } from "next/router";
 
 const StyledSection = styled.section`
   position: relative;
@@ -208,10 +209,34 @@ export default function MemberProfile({
   mutateUser,
 }) {
   const { _id, name, role, profilePhoto, email } = familyMember;
-  const { familyMembers, mutateMembers } = useData(null, _id);
+  const { categories, familyMembers, mutateMembers, mutateCategories } =
+    useData(null, _id);
   const [isPhotoEditMode, setIsPhotoEditMode] = useState(false);
-  const [isInfoEditMode, setIsInfoEditMode] = useState(false);
+  const [modalMode, setModalMode] = useState("");
   const { showModal, openModal, closeModal } = useModal();
+  const router = useRouter();
+
+  const isOnlyMember = familyMembers.length === 1 && user._id === _id;
+  const categoriesWithOnlyThisMember = categories.filter(
+    (categorie) =>
+      categorie.selectedMembers.length === 1 &&
+      categorie.selectedMembers[0]._id === _id
+  );
+  const categoriesIdsWithOnlyThisMember = categoriesWithOnlyThisMember.map(
+    (categorie) => categorie._id
+  );
+
+  const deleteAccountMessage =
+    "Are you sure you want to delete the account?" +
+    (isOnlyMember
+      ? " You are the only member from your family. If you delete your account, all associated tasks, family data, and categories will be permanently deleted from the database."
+      : categoriesWithOnlyThisMember.length > 0
+      ? " If you delete the account, all categories associated only with it will be permanently deleted from the database."
+      : "");
+
+  console.log(isOnlyMember);
+  console.log(categoriesWithOnlyThisMember);
+  console.log(deleteAccountMessage);
 
   async function handleEditMember(updatedMemberData) {
     const response = await toast.promise(
@@ -231,26 +256,36 @@ export default function MemberProfile({
 
     if (response.ok) {
       closeModal();
-      setIsInfoEditMode(false);
+      setModalMode("");
       await mutateMember();
       await mutateUser();
       await mutateMembers();
     }
   }
 
-  function handleDeleteButtonClick() {
+  function handleEditInfoButtonClick() {
     openModal();
-    setIsInfoEditMode(false);
+    setModalMode("edit-info");
   }
 
-  async function handleDeleteImage(id, imageUrl) {
+  function handleDeleteImageButtonClick() {
+    openModal();
+    setModalMode("delete-image");
+  }
+
+  function handleDeleteAccountButtonClick() {
+    openModal();
+    setModalMode("delete-account");
+  }
+
+  async function handleDeleteImage() {
     try {
       const cloudinaryResponse = await fetch("/api/deleteImage", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ imageUrl }),
+        body: JSON.stringify({ profilePhoto }),
       });
 
       if (!cloudinaryResponse.ok) {
@@ -258,7 +293,7 @@ export default function MemberProfile({
       }
 
       const updatedMemberData = { ...familyMember, profilePhoto: "" };
-      const memberResponse = await fetch(`/api/members/${id}`, {
+      const memberResponse = await fetch(`/api/members/${_id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -277,6 +312,56 @@ export default function MemberProfile({
       await mutateUser();
     } catch (error) {
       toast.error(error.message || "Failed to delete photo");
+    }
+  }
+
+  async function handleDeleteAccount() {
+    try {
+      if (profilePhoto) {
+        const cloudinaryResponse = await fetch("/api/deleteImage", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ profilePhoto }),
+        });
+
+        if (!cloudinaryResponse.ok) {
+          throw new Error("Failed to delete image from Cloudinary");
+        }
+      }
+      const memberResponse = await toast.promise(
+        fetch(`/api/members/${_id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            isOnlyMember,
+            categoriesIdsWithOnlyThisMember,
+          }),
+        }),
+        {
+          pending: "Member deletion is pending",
+          success: "Member deleted successfully",
+          error: "Failed to delete member",
+        }
+      );
+      if (!memberResponse.ok) {
+        throw new Error("Failed to delete member data");
+      }
+      if (memberResponse.ok) {
+        closeModal();
+        if (user.id === _id) {
+          router.push("/");
+        } else {
+          await mutateMembers();
+          await mutateCategories();
+          router.push("/family");
+        }
+      }
+    } catch (error) {
+      toast.error(error.message || "Failed to delete account");
     }
   }
 
@@ -317,7 +402,7 @@ export default function MemberProfile({
                 $red
                 $top={"0"}
                 $width={"8rem"}
-                onClick={handleDeleteButtonClick}
+                onClick={handleDeleteImageButtonClick}
                 disabled={!profilePhoto}
               >
                 Delete image
@@ -331,12 +416,7 @@ export default function MemberProfile({
         </StyledContainer>
         <UserInfoContainer>
           {_id === user._id && (
-            <StyledInfoPen
-              onClick={() => {
-                openModal();
-                setIsInfoEditMode(true);
-              }}
-            />
+            <StyledInfoPen onClick={handleEditInfoButtonClick} />
           )}
           <StyledParagraph>Name:</StyledParagraph>
           <StyledContent>{name}</StyledContent>
@@ -345,13 +425,15 @@ export default function MemberProfile({
           <StyledParagraph>Email:</StyledParagraph>
           <StyledContent>{email}</StyledContent>
         </UserInfoContainer>
-        <StyledDeleteAccountButton
-          $red={true}
-          $width={"auto"}
-          onClick={() => openModal()}
-        >
-          Delete account
-        </StyledDeleteAccountButton>
+        {(user.role === "Parent" || user.role === "Caregiver") && (
+          <StyledDeleteAccountButton
+            $red={true}
+            $width={"auto"}
+            onClick={handleDeleteAccountButtonClick}
+          >
+            Delete account
+          </StyledDeleteAccountButton>
+        )}
       </StyledSection>
       {_id === user._id && (
         <StyledSection $settings={true}>
@@ -359,22 +441,30 @@ export default function MemberProfile({
           <ThemeToggle familyMember={familyMember} mutateUser={mutateUser} />
         </StyledSection>
       )}
-      <Modal $top="8rem" $open={showModal && isInfoEditMode}>
-        {showModal && isInfoEditMode && (
+      <Modal $top="8rem" $open={showModal && modalMode === "edit-info"}>
+        {showModal && modalMode === "edit-info" && (
           <MemberForm
             onAddMember={handleEditMember}
             familyMembers={familyMembers}
             user={user}
-            isInfoEditMode={isInfoEditMode}
+            isInfoEditMode={modalMode === "edit-info"}
             heading={"Edit family member"}
           />
         )}
       </Modal>
-      <Modal $top="13.5rem" $open={showModal && !isInfoEditMode}>
-        {showModal && !isInfoEditMode && (
+      <Modal $top="13.5rem" $open={showModal && modalMode === "delete-image"}>
+        {showModal && modalMode === "delete-image" && (
           <ConfirmBox
-            onConfirm={() => handleDeleteImage(_id, profilePhoto)}
+            onConfirm={handleDeleteImage}
             message="Are you sure you want to delete profile image?"
+          />
+        )}
+      </Modal>
+      <Modal $top="13.5rem" $open={showModal && modalMode === "delete-account"}>
+        {showModal && modalMode === "delete-account" && (
+          <ConfirmBox
+            onConfirm={handleDeleteAccount}
+            message={deleteAccountMessage}
           />
         )}
       </Modal>
