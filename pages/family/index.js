@@ -24,7 +24,7 @@ const StyledMenu = styled.menu`
 
 const StyledHeading = styled.h2`
   text-align: center;
-  box-shadow: inset 1px 0px 14px 10px rgba(232, 232, 232, 0.5);
+  box-shadow: inset 1px 0px 14px 10px #e8e8e880;
   padding: 0.5rem;
   border-radius: 0.5rem;
   overflow: hidden;
