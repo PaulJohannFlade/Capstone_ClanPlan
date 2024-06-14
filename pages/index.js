@@ -48,9 +48,14 @@ const StyledHeading = styled.h2`
   text-align: center;
 `;
 
-const StyledMessage = styled.div`
+const StyledMessage = styled.p`
   text-align: center;
   padding-top: 4rem;
+`;
+
+const StyledRandomImage = styled.div`
+  align-content: center;
+  padding-top: 10px;
 `;
 
 const StyledGreetings = styled.h2`
@@ -246,9 +251,9 @@ export default function HomePage({
           <StyledMessage>No tasks to display.</StyledMessage>
         )}
       {!filteredTasks.length && !isFilterSet && listType === "today" && (
-        <StyledMessage>
+        <StyledRandomImage>
           <RandomImage />
-        </StyledMessage>
+        </StyledRandomImage>
       )}
       {!filteredTasks.length && isFilterSet && (
         <StyledMessage>No tasks with this search criteria.</StyledMessage>

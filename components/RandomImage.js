@@ -14,16 +14,29 @@ const CenteredContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  height: 60vh;
   padding: 50px;
 
-  img {
-    max-width: 50%;
-    max-height: auto;
+  @media (max-width: 450px) {
+    padding: 10px;
+    vertical-align: top;
+    align-content: center;
+
+    width: 200px;
+    height: 200px;
   }
 `;
 
-const RandomImage = () => {
+const StyledImage = styled(Image)`
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  max-height: 60vh;
+  object-fit: contain;
+`;
+
+export default function RandomImage() {
   const [randomImage, setRandomImage] = useState("");
 
   useEffect(() => {
@@ -34,17 +47,15 @@ const RandomImage = () => {
   return (
     <CenteredContainer>
       {randomImage && (
-        <Image
+        <StyledImage
           src={randomImage.src}
           alt="random picture of a relaxing turtle"
           width={randomImage.width}
           height={randomImage.height}
           priority
-          style={{ width: "50%", height: "auto" }}
+          style={{ objectFit: "contain" }}
         />
       )}
     </CenteredContainer>
   );
-};
-
-export default RandomImage;
+}
