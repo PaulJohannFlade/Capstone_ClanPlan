@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import StyledTrash from "./StyledTrash";
+import StyledTrash from "@/components/StyledTrash";
 import Pen from "@/public/assets/images/edit-pen-icon.svg";
-import Modal from "./Modal";
+import Modal from "@/components/Modal";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import checkForToday from "@/utils/checkForToday";
 import checkForMissedDate from "@/utils/checkForMissedDate";
 import { toast } from "react-toastify";
 import Flame from "@/public/assets/images/flame.svg";
-import ConfirmBox from "./ConfirmBox";
+import ConfirmBox from "@/components/ConfirmBox";
 import formatTasksDate from "@/utils/formatTasksDate";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";

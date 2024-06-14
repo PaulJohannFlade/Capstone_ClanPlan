@@ -1,7 +1,7 @@
 import dbConnect from "@/db/connect";
 import Category from "@/db/models/Category";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import Member from "@/db/models/Member";
 
 export default async function handler(request, response) {

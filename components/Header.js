@@ -3,7 +3,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import User from "@/public/assets/images/user.svg";
 import { signIn, useSession } from "next-auth/react";
-import StyledButton from "./StyledButton";
+import StyledButton from "@/components/StyledButton";
 import { useData } from "@/context/dataContext";
 
 const StyledHeader = styled.header`

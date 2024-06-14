@@ -37,6 +37,12 @@ export default function DetailsPage({ detailsBackLinkRef }) {
 
   const { task, mutateTask, mutateTasks } = useData(id);
 
+  console.log("task..", task);
+
+  if (!task) {
+    return <p>Page not found</p>;
+  }
+
   function handleChangeModalMode(mode) {
     setModalMode(mode);
   }

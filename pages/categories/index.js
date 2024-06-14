@@ -1,11 +1,11 @@
-import { StyledMessage } from "..";
+import { StyledMessage } from "@/pages";
 import Modal from "@/components/Modal";
 import CategoriesList from "@/components/CategoriesList";
 import CategoryForm from "@/components/CategoryForm";
 import StyledPlus from "@/components/StyledPlus";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { StyledMenu } from "../family";
+import { StyledMenu } from "@/pages/family";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
 

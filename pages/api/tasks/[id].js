@@ -3,7 +3,7 @@ import Comment from "@/db/models/Comment";
 import Task from "@/db/models/Task";
 import convertDateToString from "@/utils/convertDateToString";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import Member from "@/db/models/Member";
 
 export default async function handler(request, response) {
@@ -26,6 +26,8 @@ export default async function handler(request, response) {
         path: "comments",
         populate: { path: "member" },
       });
+
+    console.log("task...", task);
 
     if (!task) {
       return response.status(404).json({ status: "Task not found" });

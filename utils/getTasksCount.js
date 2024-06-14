@@ -1,4 +1,4 @@
-import checkForMissedDate from "./checkForMissedDate";
+import checkForMissedDate from "@/utils/checkForMissedDate";
 
 export default function getTasksCount(tasks) {
   const missedTasks = tasks.filter(

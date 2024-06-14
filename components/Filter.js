@@ -1,7 +1,7 @@
 import { useModal } from "@/context/modalContext";
-import FilterWindow from "./FilterWindow";
-import Modal from "./Modal";
-import StyledButton from "./StyledButton";
+import FilterWindow from "@/components/FilterWindow";
+import Modal from "@/components/Modal";
+import StyledButton from "@/components/StyledButton";
 import FilterIcon from "@/public/assets/images/filter.svg";
 import styled from "styled-components";
 import { useData } from "@/context/dataContext";

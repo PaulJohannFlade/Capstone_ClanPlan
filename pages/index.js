@@ -10,7 +10,6 @@ import RandomImage from "@/components/RandomImage";
 import ProgressPieChart from "@/components/ProgressPieChart";
 import getTasksForUser from "@/utils/getTasksForUser";
 
-
 const StyledSection = styled.section`
   display: flex;
   gap: 1rem;
@@ -34,7 +33,6 @@ const StyledSpan = styled.span`
 const StyledButton = styled.button`
   background-color: ${({ $isActive }) =>
     $isActive ? "var(--color-button-active)" : "var(--color-button)"};
-  margin-top: 1rem;
   color: var(--color-font);
   font-weight: 700;
   padding: 0.5rem 1rem;
@@ -56,7 +54,6 @@ const StyledMessage = styled.div`
 
 const StyledGreetings = styled.h2`
   text-align: center;
-  cursor: pointer;
   margin-top: 8rem;
 `;
 
@@ -64,6 +61,7 @@ const StyledTabs = styled.div`
   position: absolute;
   top: 4.5rem;
   width: 100%;
+  overflow: auto;
   background-color: var(--color-button);
   display: grid;
   grid-template-columns: 1fr 1fr;

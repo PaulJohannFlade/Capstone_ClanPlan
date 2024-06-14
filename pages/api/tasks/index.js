@@ -3,7 +3,7 @@ import Task from "@/db/models/Task";
 import { uid } from "uid";
 import convertDateToString from "@/utils/convertDateToString";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import Member from "@/db/models/Member";
 
 export default async function handler(request, response) {

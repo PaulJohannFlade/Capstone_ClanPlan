@@ -2,7 +2,18 @@ import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { createContext, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 
-const fetcher = (url) => fetch(url).then((response) => response.json());
+/* const fetcher = (url) => fetch(url).then((response) => response.json());
+ */
+async function fetcher(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    const error = new Error("An error occurred while fetching the data.");
+    error.info = await response.json();
+    error.status = response.status;
+    throw error;
+  }
+  return response.json();
+}
 
 const DataContext = createContext();
 

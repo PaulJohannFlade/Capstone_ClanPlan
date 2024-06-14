@@ -1,12 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
-import StyledButton from "./StyledButton";
+import StyledButton from "@/components/StyledButton";
 import Multiselect from "multiselect-react-dropdown";
-import Modal from "./Modal";
-import ConfirmBox from "./ConfirmBox";
+import Modal from "@/components/Modal";
+import ConfirmBox from "@/components/ConfirmBox";
 import convertDateToString from "@/utils/convertDateToString";
 import getWeekRange from "@/utils/getWeekRange";
-import MultiselectContainer from "./MultiselectContainer";
+import MultiselectContainer from "@/components/MultiselectContainer";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
 
