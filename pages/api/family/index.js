@@ -43,4 +43,17 @@ export default async function handler(request, response) {
       return response.status(400).json({ error: error.message });
     }
   }
+  if (request.method === "PATCH") {
+    try {
+      const updatedFamily = request.body;
+      const id = updatedFamily._id;
+      await Family.findByIdAndUpdate(id, updatedFamily, { new: true });
+      response
+        .status(200)
+        .json({ status: "Family Name updated successfully." });
+    } catch (error) {
+      console.error(error);
+      return response.status(400).json({ error: error.message });
+    }
+  }
 }
