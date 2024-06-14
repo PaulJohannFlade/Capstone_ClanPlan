@@ -19,7 +19,7 @@ const CenteredContainer = styled.div`
 
   @media (max-width: 450px) {
     padding: 10px;
-    vertical-align: top;
+
     align-content: center;
 
     width: 200px;
