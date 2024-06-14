@@ -67,6 +67,10 @@ const StyledTabs = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-width: 330px;
+  @media (min-width: 900px) {
+    width: calc(100% - 100px);
+    left: 100px;
+  }
 `;
 
 const StyledTabButton = styled.button`
