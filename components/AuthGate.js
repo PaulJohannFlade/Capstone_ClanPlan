@@ -44,7 +44,7 @@ export default function AuthGate({ children }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const { showModal, openModal, closeModal } = useModal();
-  const { user, mutateUser } = useData();
+  const { user, mutateUser, mutateMembers } = useData();
 
   async function handleAddFamily(newFamily) {
     const response = await toast.promise(
@@ -65,6 +65,7 @@ export default function AuthGate({ children }) {
     if (response.ok) {
       closeModal();
       mutateUser();
+      mutateMembers();
       router.push("/");
     }
   }

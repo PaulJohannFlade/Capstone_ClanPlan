@@ -9,7 +9,8 @@ cloudinary.config({
 
 export default async function handler(request, response) {
   if (request.method === "DELETE") {
-    const { imageUrl } = request.body;
+    const { profilePhoto: imageUrl } = request.body;
+    console.log(imageUrl);
 
     if (!imageUrl) {
       response.status(400).json({ message: "Missing required parameters" });

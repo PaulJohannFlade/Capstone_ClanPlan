@@ -8,10 +8,7 @@ export default async function handler(request, response) {
 
   if (request.method === "DELETE") {
     await Category.findByIdAndDelete(id);
-    await Task.updateMany(
-      { category: id, isDone: { $ne: true } },
-      { $set: { category: null } }
-    );
+    await Task.updateMany({ category: id }, { $set: { category: null } });
     response.status(200).json({ status: "Category deleted successfully." });
   }
 

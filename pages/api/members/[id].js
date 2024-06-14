@@ -10,7 +10,6 @@ import { authOptions } from "../auth/[...nextauth]";
 export default async function handler(request, response) {
   await dbConnect();
   const { id } = request.query;
-  console.log(id);
 
   const session = await getServerSession(request, response, authOptions);
   if (!session) {
@@ -56,6 +55,7 @@ export default async function handler(request, response) {
         return response.status(404).json({ error: "Member not found." });
       }
       if (isOnlyMember) {
+        // if the member to delete is the only member of the family - delete all tasks, categories, comments, family
         const familyId = deletedMember.family;
         await Family.findByIdAndDelete(familyId);
         await Category.deleteMany({
@@ -68,11 +68,37 @@ export default async function handler(request, response) {
         await Task.deleteMany({
           family: familyId,
         });
-      } else if (categoriesIdsWithOnlyThisMember.length) {
-        await Category.deleteMany({
-          _id: { $in: categoriesIdsWithOnlyThisMember },
-        });
+      } else {
+        //if there are categories with only this one selected member, delete the categories
+        if (categoriesIdsWithOnlyThisMember.length) {
+          await Category.deleteMany({
+            _id: { $in: categoriesIdsWithOnlyThisMember },
+          });
+          await Task.updateMany(
+            {
+              category: { $in: categoriesIdsWithOnlyThisMember },
+            },
+            { $set: { category: null } }
+          );
+        }
+        //delete member-id from other categories where he is not only member.
+        await Category.updateMany(
+          {
+            selectedMembers: { $elemMatch: { $eq: id } },
+          },
+          { $pull: { selectedMembers: id } }
+        );
+        //delete all comments from the member
+        await Comment.deleteMany({ member: id });
+        //delete Member from all tasks (done and not) where he is assigned
+        await Task.updateMany(
+          {
+            assignedTo: { $elemMatch: { $eq: id } },
+          },
+          { $pull: { assignedTo: id } }
+        );
       }
+      //delete the member
       await Member.findByIdAndDelete(id);
       response.status(200).json({ status: "Member deleted successfully." });
     } catch (error) {

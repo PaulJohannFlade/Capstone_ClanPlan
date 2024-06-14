@@ -209,8 +209,13 @@ export default function MemberProfile({
   mutateUser,
 }) {
   const { _id, name, role, profilePhoto, email } = familyMember;
-  const { categories, familyMembers, mutateMembers, mutateCategories } =
-    useData(null, _id);
+  const {
+    categories,
+    familyMembers,
+    mutateMembers,
+    mutateCategories,
+    mutateTasks,
+  } = useData(null, _id);
   const [isPhotoEditMode, setIsPhotoEditMode] = useState(false);
   const [modalMode, setModalMode] = useState("");
   const { showModal, openModal, closeModal } = useModal();
@@ -232,11 +237,7 @@ export default function MemberProfile({
       ? " You are the only member from your family. If you delete your account, all associated tasks, family data, and categories will be permanently deleted from the database."
       : categoriesWithOnlyThisMember.length > 0
       ? " If you delete the account, all categories associated only with it will be permanently deleted from the database."
-      : "");
-
-  console.log(isOnlyMember);
-  console.log(categoriesWithOnlyThisMember);
-  console.log(deleteAccountMessage);
+      : " Your account will be permanently deleted from the database.");
 
   async function handleEditMember(updatedMemberData) {
     const response = await toast.promise(
@@ -350,15 +351,15 @@ export default function MemberProfile({
       if (!memberResponse.ok) {
         throw new Error("Failed to delete member data");
       }
-      if (memberResponse.ok) {
-        closeModal();
-        if (user.id === _id) {
-          router.push("/");
-        } else {
-          await mutateMembers();
-          await mutateCategories();
-          router.push("/family");
-        }
+      closeModal();
+      await mutateMembers();
+      await mutateCategories();
+      await mutateTasks();
+      await mutateUser();
+      if (user._id === _id) {
+        router.push("/");
+      } else {
+        router.push("/family");
       }
     } catch (error) {
       toast.error(error.message || "Failed to delete account");

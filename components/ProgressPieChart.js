@@ -103,7 +103,7 @@ export default function ProgressPieChart() {
             </StyledSection>
           ))}
         </StyledInnerContainer>
-        <PieChart width={375} height={400}>
+        <PieChart width={375} height={300}>
           <Pie
             activeIndex={activeIndex}
             activeShape={renderActiveShape}
