@@ -95,7 +95,6 @@ export default function HomePage({
 }) {
   const { closeModal } = useModal();
   const { tasks, user } = useData();
-
   const tasksToDisplay = myTasksSelection
     ? getTasksForUser(tasks, user)
     : tasks;
@@ -107,7 +106,7 @@ export default function HomePage({
       ? true
       : false;
 
-  const missedTasks = tasksToDisplay.filter(
+  const missedTasks = tasksToDisplay?.filter(
     (task) => task?.dueDate && checkForMissedDate(task.dueDate) && !task.isDone
   );
 
