@@ -30,10 +30,10 @@ const StyledSelect = styled.select`
   padding: 0.3rem;
 `;
 
-export default function FamilyRegisterForm({ onAddFamily }) {
+export default function FamilyRegisterForm({ onAddFamily, value, isEdit }) {
   const [isValidName, setIsValidName] = useState(true);
   const [isValidRole, setIsValidRole] = useState(true);
-  const [enteredName, setEnteredName] = useState("");
+  const [enteredName, setEnteredName] = useState(isEdit ? value?.name : "");
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -46,13 +46,20 @@ export default function FamilyRegisterForm({ onAddFamily }) {
       return;
     }
 
-    if (!data.role) {
+    if (!isEdit && !data.role) {
       setIsValidRole(false);
       event.target.role.focus();
       return;
     }
 
-    onAddFamily(data);
+    if (isEdit && value?.name === data.name.trim()) {
+      alert("Nothing changed to update!");
+      return;
+    }
+
+    isEdit
+      ? onAddFamily({ _id: value?._id, name: data.name.trim() })
+      : onAddFamily({ ...data, name: data.name.trim() });
   }
 
   function handleChange(event) {
@@ -62,7 +69,7 @@ export default function FamilyRegisterForm({ onAddFamily }) {
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <StyledHeading>Add family</StyledHeading>
+      <StyledHeading>{isEdit ? "Edit family" : "Add family"}</StyledHeading>
       <StyledLabel htmlFor="name">
         <StyledSpan $left={true}>*</StyledSpan>Family Name:
         {!isValidName && (
@@ -75,21 +82,29 @@ export default function FamilyRegisterForm({ onAddFamily }) {
         id="name"
         onChange={handleChange}
         maxLength={50}
+        defaultValue={value?.name}
       />
-      <StyledSpan>{50 - enteredName.length} characters left</StyledSpan>
+      <StyledSpan>{50 - enteredName?.length} characters left</StyledSpan>
+      {!isEdit && (
+        <>
+          <StyledLabel htmlFor="role">
+            <StyledSpan $left={true}>*</StyledSpan>Your Role
+            {!isValidRole && <StyledSpan>Please select a role!</StyledSpan>}
+          </StyledLabel>
+          <StyledSelect
+            name="role"
+            id="role"
+            onChange={() => setIsValidRole(true)}
+          >
+            <option value="">Please select a role</option>
+            <option value="Parent">Parent</option>
+            <option value="Child">Child</option>
+            <option value="Caregiver">Caregiver</option>
+          </StyledSelect>
+        </>
+      )}
 
-      <StyledLabel htmlFor="role">
-        <StyledSpan $left={true}>*</StyledSpan>Your Role
-        {!isValidRole && <StyledSpan>Please select a role!</StyledSpan>}
-      </StyledLabel>
-      <StyledSelect name="role" id="role" onChange={() => setIsValidRole(true)}>
-        <option value="">Please select a role</option>
-        <option value="Parent">Parent</option>
-        <option value="Child">Child</option>
-        <option value="Caregiver">Caregiver</option>
-      </StyledSelect>
-
-      <StyledButton>Add</StyledButton>
+      <StyledButton>{isEdit ? "Update" : "Add"}</StyledButton>
     </StyledForm>
   );
 }
