@@ -41,12 +41,13 @@ export default function MemberForm({
   form,
   isInfoEditMode,
   heading,
+  familyMember,
 }) {
   const [isValidName, setIsValidName] = useState(true);
   const [isValidRole, setIsValidRole] = useState(true);
   const [isUniqueName, setIsUniqueName] = useState(true);
   const [enteredName, setEnteredName] = useState(
-    isInfoEditMode ? user.name : ""
+    isInfoEditMode ? familyMember.name : ""
   );
 
   function handleSubmit(event) {
@@ -56,9 +57,9 @@ export default function MemberForm({
 
     if (isInfoEditMode) {
       if (
-        data.name.trim() === user.name &&
-        data.role === user.role &&
-        data.email.trim() === user.email
+        data.name.trim() === familyMember.name &&
+        data.role === familyMember.role &&
+        data.email.trim() === familyMember.email
       ) {
         alert("No changes were made to the form.");
         return;
@@ -72,7 +73,7 @@ export default function MemberForm({
     } else {
       setIsValidName(true);
       const uniqueNameCheck = isInfoEditMode
-        ? user.name !== data.name.trim() &&
+        ? familyMember.name !== data.name.trim() &&
           familyMembers.find(
             (member) =>
               member.name.trim().toUpperCase() ===
@@ -120,7 +121,7 @@ export default function MemberForm({
         id="name"
         onChange={handleChange}
         maxLength={50}
-        defaultValue={isInfoEditMode && user.name}
+        defaultValue={isInfoEditMode && familyMember.name}
       />
       <StyledSpan>{50 - enteredName.length} characters left</StyledSpan>
 
@@ -133,7 +134,8 @@ export default function MemberForm({
         name="role"
         id="role"
         onChange={() => setIsValidRole(true)}
-        defaultValue={isInfoEditMode && user.role}
+        defaultValue={isInfoEditMode && familyMember.role}
+        disabled={user.role === "Child"}
       >
         <option value="">Please select a role</option>
         <option value="Parent">Parent</option>
@@ -149,7 +151,7 @@ export default function MemberForm({
         id="email"
         name="email"
         required
-        defaultValue={isInfoEditMode && user.email}
+        defaultValue={isInfoEditMode && familyMember.email}
       />
 
       <StyledInput

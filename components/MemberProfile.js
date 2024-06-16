@@ -388,7 +388,7 @@ export default function MemberProfile({
             ) : (
               <StyledUser />
             )}
-            {_id === user._id && (
+            {(user.role !== "Child" || user._id === _id) && (
               <StyledEditButton
                 onClick={() => setIsPhotoEditMode(!isPhotoEditMode)}
               >
@@ -396,7 +396,7 @@ export default function MemberProfile({
               </StyledEditButton>
             )}
           </ImageContainer>
-          {_id === user._id && isPhotoEditMode && (
+          {(user.role !== "Child" || user._id === _id) && isPhotoEditMode && (
             <StyledEditContainer>
               <StyledButton
                 $red
@@ -415,7 +415,7 @@ export default function MemberProfile({
           )}
         </StyledContainer>
         <UserInfoContainer>
-          {_id === user._id && (
+          {(user.role !== "Child" || user._id === _id) && (
             <StyledInfoPen onClick={handleEditInfoButtonClick} />
           )}
           <StyledParagraph>Name:</StyledParagraph>
@@ -425,7 +425,7 @@ export default function MemberProfile({
           <StyledParagraph>Email:</StyledParagraph>
           <StyledContent>{email}</StyledContent>
         </UserInfoContainer>
-        {(user.role === "Parent" || user.role === "Caregiver") && (
+        {user.role !== "Child" && (
           <StyledDeleteAccountButton
             $red={true}
             $width={"auto"}
@@ -449,6 +449,7 @@ export default function MemberProfile({
             user={user}
             isInfoEditMode={modalMode === "edit-info"}
             heading={"Edit family member"}
+            familyMember={familyMember}
           />
         )}
       </Modal>

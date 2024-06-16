@@ -9,8 +9,12 @@ const StyledClose = styled(Close)`
   right: 1rem;
   background: none;
   border: none;
-  cursor: pointer;
   stroke: var(--color-alert);
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: all 500ms linear;
+  }
 `;
 
 export default function CloseButton() {
