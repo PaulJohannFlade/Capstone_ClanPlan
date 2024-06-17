@@ -12,18 +12,20 @@ const images = [
 
 const CenteredContainer = styled.div`
   display: flex;
-  justify-content: center;
+  vertical-align: top;
   align-items: center;
   height: 60vh;
   padding: 50px;
 
   @media (max-width: 450px) {
     padding: 10px;
+    /* height: 100vh; */
+    /* height: -20vh;
 
-    align-content: center;
-
-    width: 200px;
-    height: 200px;
+    vertical-align: top;
+    width: 100%; */
+    max-width: 200px;
+    max-height: 200px;
   }
 `;
 
@@ -37,7 +39,7 @@ const StyledImage = styled(Image)`
 `;
 
 export default function RandomImage() {
-  const [randomImage, setRandomImage] = useState("");
+  const [randomImage, setRandomImage] = useState(null);
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * images.length);
