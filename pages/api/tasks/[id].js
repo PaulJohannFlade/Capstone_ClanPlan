@@ -27,8 +27,6 @@ export default async function handler(request, response) {
         populate: { path: "member" },
       });
 
-    console.log("task...", task);
-
     if (!task) {
       return response.status(404).json({ status: "Task not found" });
     }

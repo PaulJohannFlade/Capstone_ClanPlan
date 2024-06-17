@@ -61,10 +61,14 @@ const StyledTabs = styled.div`
   position: absolute;
   top: 4.5rem;
   width: 100%;
+  min-width: 330px;
   overflow: auto;
   background-color: var(--color-button);
   display: grid;
   grid-template-columns: 1fr 1fr;
+  @media (min-width: 900px) {
+    width: calc(100% - 99px);
+  }
 `;
 
 const StyledTabButton = styled.button`

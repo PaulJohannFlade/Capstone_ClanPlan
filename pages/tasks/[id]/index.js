@@ -8,6 +8,7 @@ import CommentForm from "@/components/CommentForm";
 import Comments from "@/components/Comments";
 import { useState } from "react";
 import { useData } from "@/context/dataContext";
+import StyledErrorMessage from "@/components/StyledErrorMessage";
 
 const StyledMessage = styled.p`
   text-align: center;
@@ -35,12 +36,20 @@ export default function DetailsPage({ detailsBackLinkRef }) {
   const router = useRouter();
   const { id } = router.query;
 
-  const { task, mutateTask, mutateTasks } = useData(id);
+  const { task, mutateTask, mutateTasks, taskError } = useData(id);
 
-  console.log("task..", task);
+  console.log("taskError", taskError);
+  console.log("id ", id);
+  if (!id) {
+    return;
+  }
 
-  if (!task) {
-    return <p>Page not found</p>;
+  if (taskError) {
+    return (
+      <StyledErrorMessage>
+        {taskError.status} : Task not found
+      </StyledErrorMessage>
+    );
   }
 
   function handleChangeModalMode(mode) {
