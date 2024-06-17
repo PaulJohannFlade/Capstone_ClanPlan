@@ -10,7 +10,6 @@ import RandomImage from "@/components/RandomImage";
 import ProgressPieChart from "@/components/ProgressPieChart";
 import getTasksForUser from "@/utils/getTasksForUser";
 
-
 const StyledSection = styled.section`
   display: flex;
   gap: 1rem;
@@ -49,7 +48,7 @@ const StyledHeading = styled.h2`
   text-align: center;
 `;
 
-const StyledMessage = styled.div`
+const StyledMessage = styled.p`
   text-align: center;
   padding-top: 4rem;
 `;
@@ -247,12 +246,7 @@ export default function HomePage({
           <StyledMessage>No tasks to display.</StyledMessage>
         )}
       {!filteredTasks.length && !isFilterSet && listType === "today" && (
-        <StyledMessage>
-          <span>Relax!</span>
-          <br />
-          <span>No tasks for today.</span>
-          <RandomImage />
-        </StyledMessage>
+        <RandomImage />
       )}
       {!filteredTasks.length && isFilterSet && (
         <StyledMessage>No tasks with this search criteria.</StyledMessage>
