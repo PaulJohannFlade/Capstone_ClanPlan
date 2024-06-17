@@ -8,13 +8,17 @@ import { toast } from "react-toastify";
 import { StyledMenu } from "@/pages/family";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
+import StyledError from "@/components/StyledError";
 
 export default function CategoriesPage() {
   const [modalMode, setModalMode] = useState("");
 
+  const { showModal, openModal, closeModal } = useModal();
   const { user, familyMembers, categories, mutateCategories } = useData();
 
-  const { showModal, openModal, closeModal } = useModal();
+  if (!user || !familyMembers || !categories) {
+    return <StyledError />;
+  }
 
   async function handleAddCategory(newCategoryData) {
     const response = await toast.promise(

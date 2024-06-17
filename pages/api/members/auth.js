@@ -13,14 +13,19 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "GET") {
-    const familyMember = await Member.findOne({
-      email: session.user.email,
-    }).populate("family");
+    try {
+      const familyMember = await Member.findOne({
+        email: session.user.email,
+      }).populate("family");
 
-    if (!familyMember) {
-      return response.status(404).json({ status: "Member not found" });
+      if (!familyMember) {
+        return response.status(404).json({ status: "Member not found" });
+      }
+
+      response.status(200).json(familyMember);
+    } catch (error) {
+      console.error(error);
+      return response.status(400).json({ error: error.message });
     }
-
-    response.status(200).json(familyMember);
   }
 }

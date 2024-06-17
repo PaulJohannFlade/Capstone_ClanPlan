@@ -13,10 +13,15 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "GET") {
-    const user = await Member.findOne({ email: session.user.email });
-    const familyId = user?.family;
-    const members = await Member.find({ family: familyId });
-    return response.status(200).json(members);
+    try {
+      const user = await Member.findOne({ email: session.user.email });
+      const familyId = user?.family;
+      const members = await Member.find({ family: familyId });
+      return response.status(200).json(members);
+    } catch (error) {
+      console.error(error);
+      return response.status(400).json({ error: error.message });
+    }
   }
 
   if (request.method === "POST") {

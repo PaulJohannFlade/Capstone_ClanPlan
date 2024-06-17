@@ -59,8 +59,6 @@ export function DataProvider({ children, setTheme }) {
     error: taskError,
   } = useSWR(taskId ? `/api/tasks/${taskId}` : null, fetcher);
 
-  console.log("taskError", taskError);
-
   const {
     data: familyMember,
     isLoading: isFamilyMemberLoading,
@@ -85,7 +83,7 @@ export function DataProvider({ children, setTheme }) {
     return <StyledLoadingAnimation />;
   }
 
-  if (
+  /* if (
     !tasks ||
     !categories ||
     !familyMembers ||
@@ -94,7 +92,7 @@ export function DataProvider({ children, setTheme }) {
     (memberId && !familyMember)
   ) {
     return;
-  }
+  } */
 
   return (
     <DataContext.Provider

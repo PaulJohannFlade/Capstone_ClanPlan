@@ -8,7 +8,7 @@ import CommentForm from "@/components/CommentForm";
 import Comments from "@/components/Comments";
 import { useState } from "react";
 import { useData } from "@/context/dataContext";
-import StyledErrorMessage from "@/components/StyledErrorMessage";
+import StyledError from "@/components/StyledError";
 
 const StyledMessage = styled.p`
   text-align: center;
@@ -36,20 +36,10 @@ export default function DetailsPage({ detailsBackLinkRef }) {
   const router = useRouter();
   const { id } = router.query;
 
-  const { task, mutateTask, mutateTasks, taskError } = useData(id);
+  const { task, mutateTask, mutateTasks } = useData(id);
 
-  console.log("taskError", taskError);
-  console.log("id ", id);
-  if (!id) {
-    return;
-  }
-
-  if (taskError) {
-    return (
-      <StyledErrorMessage>
-        {taskError.status} : Task not found
-      </StyledErrorMessage>
-    );
+  if (!task) {
+    return <StyledError />;
   }
 
   function handleChangeModalMode(mode) {

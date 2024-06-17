@@ -13,6 +13,7 @@ export const lightTheme = {
   button: "#e6e4e4",
   buttonActive: "#bbf1f9ff",
   colorScheme: "light",
+  errorBorder: "#80808080",
 };
 
 export const darkTheme = {
@@ -21,6 +22,7 @@ export const darkTheme = {
   button: "#626768",
   buttonActive: "#065465",
   colorScheme: "dark",
+  errorBorder: "#808080e9",
 };
 
 export default createGlobalStyle`
@@ -47,6 +49,7 @@ export default createGlobalStyle`
     --color-progress-missed:#f95454ff;
     --color-progress-active:${(props) => props.theme.buttonActive};
     --color-progress-done:#d3d3d3ff;
+    --color-error-border:${(props) => props.theme.errorBorder};
   }
 
   html {

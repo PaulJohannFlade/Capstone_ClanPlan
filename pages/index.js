@@ -9,6 +9,7 @@ import { useData } from "@/context/dataContext";
 import RandomImage from "@/components/RandomImage";
 import ProgressPieChart from "@/components/ProgressPieChart";
 import getTasksForUser from "@/utils/getTasksForUser";
+import StyledError from "@/components/StyledError";
 
 const StyledSection = styled.section`
   display: flex;
@@ -93,6 +94,10 @@ export default function HomePage({
 }) {
   const { closeModal } = useModal();
   const { tasks, user } = useData();
+
+  if (!tasks || !user) {
+    return <StyledError />;
+  }
 
   const tasksToDisplay = myTasksSelection
     ? getTasksForUser(tasks, user)

@@ -17,89 +17,100 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "GET") {
-    const user = await Member.findOne({ email: session.user.email });
-    const familyId = user?.family;
-    const task = await Task.findOne({ _id: id, family: familyId })
-      .populate("category")
-      .populate("assignedTo")
-      .populate({
-        path: "comments",
-        populate: { path: "member" },
-      });
+    try {
+      const user = await Member.findOne({ email: session.user.email });
+      const familyId = user?.family;
+      const task = await Task.findOne({ _id: id, family: familyId })
+        .populate("category")
+        .populate("assignedTo")
+        .populate({
+          path: "comments",
+          populate: { path: "member" },
+        });
 
-    if (!task) {
-      return response.status(404).json({ status: "Task not found" });
+      response.status(200).json(task);
+    } catch (error) {
+      console.error(error);
+      return response.status(400).json({ error: error.message });
     }
-
-    response.status(200).json(task);
   }
 
   if (request.method === "PUT") {
-    const updatedTask = request.body;
-    if (updateRequest === "all" || updateRequest === "future") {
-      const tasks =
-        updateRequest === "all"
-          ? await Task.find({
-              groupId: updatedTask.groupId,
-              isDone: { $ne: true },
-            }).sort({
-              dueDate: 1,
-            })
-          : await Task.find({
-              groupId: updatedTask.groupId,
-              isDone: { $ne: true },
-              dueDate: { $gte: updatedTask.dueDate },
-            }).sort({
-              dueDate: 1,
-            });
+    try {
+      const updatedTask = request.body;
+      if (updateRequest === "all" || updateRequest === "future") {
+        const tasks =
+          updateRequest === "all"
+            ? await Task.find({
+                groupId: updatedTask.groupId,
+                isDone: { $ne: true },
+              }).sort({
+                dueDate: 1,
+              })
+            : await Task.find({
+                groupId: updatedTask.groupId,
+                isDone: { $ne: true },
+                dueDate: { $gte: updatedTask.dueDate },
+              }).sort({
+                dueDate: 1,
+              });
 
-      if (updatedTask.repeat === "Monthly") {
-        for (const task of tasks) {
-          const updatedDueDate = new Date(updatedTask.dueDate);
-          const existingTaskDueDate = new Date(task.dueDate);
+        if (updatedTask.repeat === "Monthly") {
+          for (const task of tasks) {
+            const updatedDueDate = new Date(updatedTask.dueDate);
+            const existingTaskDueDate = new Date(task.dueDate);
 
-          const updatedMonthlyTask = {
-            ...updatedTask,
-            dueDate: convertDateToString(
-              new Date(
-                existingTaskDueDate.getFullYear(),
-                existingTaskDueDate.getMonth(),
-                updatedDueDate.getDate()
-              )
-            ),
-          };
-          await Task.findByIdAndUpdate(task._id, updatedMonthlyTask);
+            const updatedMonthlyTask = {
+              ...updatedTask,
+              dueDate: convertDateToString(
+                new Date(
+                  existingTaskDueDate.getFullYear(),
+                  existingTaskDueDate.getMonth(),
+                  updatedDueDate.getDate()
+                )
+              ),
+            };
+            await Task.findByIdAndUpdate(task._id, updatedMonthlyTask);
+          }
+        } else if (updatedTask.repeat === "Weekly") {
+          const nextWeekDueDate = new Date(updatedTask.dueDate);
+          for (const task of tasks) {
+            const updatedWeeklyTask = {
+              ...updatedTask,
+              dueDate: convertDateToString(nextWeekDueDate),
+            };
+            await Task.findByIdAndUpdate(task._id, updatedWeeklyTask);
+            nextWeekDueDate.setDate(nextWeekDueDate.getDate() + 7);
+          }
+        } else if (updatedTask.repeat === "Daily") {
+          for (const task of tasks) {
+            const updatedDailyTask = {
+              ...updatedTask,
+              dueDate: task.dueDate,
+            };
+            await Task.findByIdAndUpdate(task._id, updatedDailyTask);
+          }
         }
-      } else if (updatedTask.repeat === "Weekly") {
-        const nextWeekDueDate = new Date(updatedTask.dueDate);
-        for (const task of tasks) {
-          const updatedWeeklyTask = {
-            ...updatedTask,
-            dueDate: convertDateToString(nextWeekDueDate),
-          };
-          await Task.findByIdAndUpdate(task._id, updatedWeeklyTask);
-          nextWeekDueDate.setDate(nextWeekDueDate.getDate() + 7);
-        }
-      } else if (updatedTask.repeat === "Daily") {
-        for (const task of tasks) {
-          const updatedDailyTask = {
-            ...updatedTask,
-            dueDate: task.dueDate,
-          };
-          await Task.findByIdAndUpdate(task._id, updatedDailyTask);
-        }
+        response.status(200).json({ status: "Tasks updated successfully." });
+      } else {
+        await Task.findByIdAndUpdate(id, updatedTask);
+        response.status(200).json({ status: "Task updated successfully." });
       }
-      response.status(200).json({ status: "Tasks updated successfully." });
-    } else {
-      await Task.findByIdAndUpdate(id, updatedTask);
-      response.status(200).json({ status: "Task updated successfully." });
+    } catch (error) {
+      console.error(error);
+      return response.status(400).json({ error: error.message });
     }
   }
 
   if (request.method === "PATCH") {
-    const updatedTask = request.body;
-    await Task.findByIdAndUpdate(id, updatedTask, { new: true });
-    response.status(200).json({ status: "Task updated successfully." });
+    try {
+      const updatedTask = request.body;
+      await Task.findByIdAndUpdate(id, updatedTask, { new: true });
+      response.status(200).json({ status: "Task updated successfully." });
+    } catch (error) {
+      console.error(error);
+      return response.status(400).json({ error: error.message });
+    }
   }
 
   async function deleteComments(tasksToDelete) {
@@ -111,37 +122,42 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "DELETE") {
-    if (deleteRequest === "all") {
-      const task = await Task.findById(id);
-      const groupId = task?.groupId;
-      const tasksToDelete = await Task.find({
-        groupId: groupId,
-        isDone: { $ne: true },
-      });
-      deleteComments(tasksToDelete);
-      await Task.deleteMany({ groupId: groupId, isDone: { $ne: true } });
-      response.status(200).json({ status: "Tasks deleted successfully." });
-    } else if (deleteRequest === "future") {
-      const task = await Task.findById(id);
-      const futherTasksToDelete = await Task.find({
-        groupId: task.groupId,
-        dueDate: { $gte: task.dueDate },
-        isDone: { $ne: true },
-      });
-      deleteComments(futherTasksToDelete);
-      await Task.deleteMany({
-        groupId: task.groupId,
-        dueDate: { $gte: task.dueDate },
-        isDone: { $ne: true },
-      });
-      response.status(200).json({ status: "Tasks deleted successfully." });
-    } else {
-      const task = await Task.findById(id);
-      for (const commentId of task.comments) {
-        await Comment.findByIdAndDelete(commentId);
+    try {
+      if (deleteRequest === "all") {
+        const task = await Task.findById(id);
+        const groupId = task?.groupId;
+        const tasksToDelete = await Task.find({
+          groupId: groupId,
+          isDone: { $ne: true },
+        });
+        deleteComments(tasksToDelete);
+        await Task.deleteMany({ groupId: groupId, isDone: { $ne: true } });
+        response.status(200).json({ status: "Tasks deleted successfully." });
+      } else if (deleteRequest === "future") {
+        const task = await Task.findById(id);
+        const futherTasksToDelete = await Task.find({
+          groupId: task.groupId,
+          dueDate: { $gte: task.dueDate },
+          isDone: { $ne: true },
+        });
+        deleteComments(futherTasksToDelete);
+        await Task.deleteMany({
+          groupId: task.groupId,
+          dueDate: { $gte: task.dueDate },
+          isDone: { $ne: true },
+        });
+        response.status(200).json({ status: "Tasks deleted successfully." });
+      } else {
+        const task = await Task.findById(id);
+        for (const commentId of task.comments) {
+          await Comment.findByIdAndDelete(commentId);
+        }
+        await Task.findByIdAndDelete(id);
+        response.status(200).json({ status: "Task deleted successfully." });
       }
-      await Task.findByIdAndDelete(id);
-      response.status(200).json({ status: "Task deleted successfully." });
+    } catch (error) {
+      console.error(error);
+      return response.status(400).json({ error: error.message });
     }
   }
 }
