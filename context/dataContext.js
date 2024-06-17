@@ -1,16 +1,6 @@
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { createContext, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
-import styled from "styled-components";
-
-const StyledErrorMessage = styled.p`
-  position: absolute;
-  text-align: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--color-alert);
-`;
 
 const fetcher = (url) =>
   fetch(url).then((response) => {
@@ -56,7 +46,6 @@ export function DataProvider({ children, setTheme }) {
     data: task,
     isLoading: isTaskLoading,
     mutate: mutateTask,
-    error: taskError,
   } = useSWR(taskId ? `/api/tasks/${taskId}` : null, fetcher);
 
   const {
@@ -83,17 +72,6 @@ export function DataProvider({ children, setTheme }) {
     return <StyledLoadingAnimation />;
   }
 
-  /* if (
-    !tasks ||
-    !categories ||
-    !familyMembers ||
-    !user ||
-    (taskId && !task) ||
-    (memberId && !familyMember)
-  ) {
-    return;
-  } */
-
   return (
     <DataContext.Provider
       value={{
@@ -111,7 +89,6 @@ export function DataProvider({ children, setTheme }) {
         mutateMember,
         setTaskId,
         setMemberId,
-        taskError,
       }}
     >
       {children}
