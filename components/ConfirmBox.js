@@ -10,6 +10,7 @@ const ButtonContainer = styled.div`
 const StyledConfirmButton = styled(StyledButton)`
   min-width: 5rem;
   width: auto;
+  background-color: var(--color-alert);
 `;
 
 const StyledSection = styled.section`

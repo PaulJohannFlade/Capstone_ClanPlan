@@ -66,6 +66,11 @@ const StyledTabs = styled.div`
   background-color: var(--color-button);
   display: grid;
   grid-template-columns: 1fr 1fr;
+  min-width: 330px;
+  @media (min-width: 900px) {
+    width: calc(100% - 100px);
+    left: 100px;
+  }
 `;
 
 const StyledTabButton = styled.button`
@@ -90,7 +95,6 @@ export default function HomePage({
 }) {
   const { closeModal } = useModal();
   const { tasks, user } = useData();
-
   const tasksToDisplay = myTasksSelection
     ? getTasksForUser(tasks, user)
     : tasks;
@@ -102,7 +106,7 @@ export default function HomePage({
       ? true
       : false;
 
-  const missedTasks = tasksToDisplay.filter(
+  const missedTasks = tasksToDisplay?.filter(
     (task) => task?.dueDate && checkForMissedDate(task.dueDate) && !task.isDone
   );
 
@@ -163,8 +167,8 @@ export default function HomePage({
       </StyledTabs>
       <StyledGreetings>
         {myTasksSelection
-          ? `Hello ${user?.name}`
-          : `Hello "${user?.family?.name}" family`}
+          ? `Hello ${user?.name}!`
+          : `"${user?.family?.name}" Tasks`}
       </StyledGreetings>
       <StyledSection>
         <StyledButton
