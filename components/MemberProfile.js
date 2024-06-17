@@ -355,8 +355,6 @@ export default function MemberProfile({
       await mutateMembers();
       await mutateCategories();
       await mutateTasks();
-      await mutateUser();
-      await mutateMember();
       if (user._id === _id) {
         router.push("/");
       } else {
