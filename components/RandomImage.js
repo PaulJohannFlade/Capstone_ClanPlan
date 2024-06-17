@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const images = [
@@ -11,30 +11,18 @@ const images = [
 ];
 
 const CenteredContainer = styled.div`
+  margin: 0 auto;
+  margin-top: 1rem;
+  max-width: 55vw;
   display: flex;
-  vertical-align: top;
-  align-items: center;
-  height: 60vh;
-  padding: 50px;
-
-  @media (max-width: 450px) {
-    padding: 10px;
-    /* height: 100vh; */
-    /* height: -20vh;
-
-    vertical-align: top;
-    width: 100%; */
-    max-width: 200px;
-    max-height: 200px;
-  }
+  justify-content: center;
 `;
 
 const StyledImage = styled(Image)`
-  position: relative;
   width: 100%;
   max-width: 800px;
   height: auto;
-  max-height: 60vh;
+  max-height: 100%;
   object-fit: contain;
 `;
 
@@ -55,7 +43,6 @@ export default function RandomImage() {
           width={randomImage.width}
           height={randomImage.height}
           priority
-          style={{ objectFit: "contain" }}
         />
       )}
     </CenteredContainer>

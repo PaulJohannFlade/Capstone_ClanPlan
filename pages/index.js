@@ -53,11 +53,6 @@ const StyledMessage = styled.p`
   padding-top: 4rem;
 `;
 
-const StyledRandomImage = styled.div`
-  align-content: center;
-  padding-top: 10px;
-`;
-
 const StyledGreetings = styled.h2`
   text-align: center;
   cursor: pointer;
@@ -251,9 +246,7 @@ export default function HomePage({
           <StyledMessage>No tasks to display.</StyledMessage>
         )}
       {!filteredTasks.length && !isFilterSet && listType === "today" && (
-        <StyledRandomImage>
-          <RandomImage />
-        </StyledRandomImage>
+        <RandomImage />
       )}
       {!filteredTasks.length && isFilterSet && (
         <StyledMessage>No tasks with this search criteria.</StyledMessage>
