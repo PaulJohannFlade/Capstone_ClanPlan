@@ -10,6 +10,7 @@ const StyledPen = styled(Pen)`
   &:hover {
     cursor: pointer;
     opacity: 0.5;
+    transition: all 500ms linear;
   }
 `;
 

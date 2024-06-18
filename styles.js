@@ -123,11 +123,14 @@ a {
 }
 a:hover {
   cursor: pointer;
+  opacity: 0.5;
+  transition: all 500ms linear;
 }
 
- button:hover {
+button:hover {
   cursor: pointer;
-  background-color: var(--color-button-active);
+  opacity: 0.5;
+  transition: all 500ms linear;
 }
 
 /* react-big-calendar styles: */
