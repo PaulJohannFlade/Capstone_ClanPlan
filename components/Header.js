@@ -89,7 +89,7 @@ export default function Header() {
     <StyledHeader>
       <StyledH1>ClanPlan</StyledH1>
       {session ? (
-        <StyledLink href={`/family/${user._id}`}>
+        <StyledLink href={`/family/${user?._id}`}>
           {!(user?.status === "Member not found") && (
             <ImageContainer>
               {user?.profilePhoto ? (

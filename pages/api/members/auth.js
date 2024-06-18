@@ -19,10 +19,10 @@ export default async function handler(request, response) {
       }).populate("family");
 
       if (!familyMember) {
-        return response.status(404).json({ status: "Member not found" });
+        return response.status(200).json({ status: "Member not found" });
+      } else {
+        response.status(200).json(familyMember);
       }
-
-      response.status(200).json(familyMember);
     } catch (error) {
       console.error(error);
       return response.status(400).json({ error: error.message });

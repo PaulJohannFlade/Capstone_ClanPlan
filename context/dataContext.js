@@ -5,7 +5,7 @@ import useSWR from "swr";
 const fetcher = (url) =>
   fetch(url).then((response) => {
     if (!response.ok) {
-      const error = new Error("Task not found!");
+      const error = new Error("Data not found!");
       error.status = response.status;
       throw error;
     }
