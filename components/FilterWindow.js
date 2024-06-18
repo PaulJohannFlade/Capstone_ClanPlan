@@ -70,14 +70,14 @@ export default function FilterWindow({ onApply, filters, myTasksSelection }) {
         defaultValue={filters.priority || "0"}
       />
       <StyledLabel htmlFor="category">Category:</StyledLabel>
-      <StyledSelect
-        id="category"
-        name="category"
-        defaultValue={filters.category}
-      >
+      <StyledSelect id="category" name="category">
         <option value="">Choose a category</option>
         {categories.map((category) => (
-          <option key={category._id} value={category._id}>
+          <option
+            key={category._id}
+            value={category._id}
+            selected={category._id === filters.category}
+          >
             {category.title}
           </option>
         ))}
@@ -85,18 +85,17 @@ export default function FilterWindow({ onApply, filters, myTasksSelection }) {
       {listType !== "notAssigned" && (
         <>
           <StyledLabel htmlFor="member">Assigned member:</StyledLabel>
-          <StyledSelect
-            id="member"
-            name="member"
-            defaultValue={filters.member}
-            disabled={myTasksSelection}
-          >
+          <StyledSelect id="member" name="member" disabled={myTasksSelection}>
             <option value="">Choose a member</option>
             {familyMembers.map((member) => (
               <option
                 key={member._id}
                 value={member._id}
-                selected={myTasksSelection && user?._id === member._id}
+                selected={
+                  myTasksSelection
+                    ? user?._id === member._id
+                    : member._id === filters.member
+                }
               >
                 {member.name}
               </option>
