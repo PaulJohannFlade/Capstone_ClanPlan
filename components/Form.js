@@ -31,7 +31,7 @@ const StyledLabel = styled.label`
 
 const StyledSpan = styled.span`
   font-size: 0.9rem;
-  color: red;
+  color: var(--color-alert-font);
   float: ${({ $left }) => ($left ? "left" : "right")};
 `;
 

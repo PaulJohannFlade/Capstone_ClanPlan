@@ -356,6 +356,7 @@ export default function MemberProfile({
       await mutateCategories();
       await mutateTasks();
       if (user._id === _id) {
+        await mutateUser();
         router.push("/");
       } else {
         router.push("/family");
@@ -438,7 +439,11 @@ export default function MemberProfile({
       {_id === user._id && (
         <StyledSection $settings={true}>
           <StyledHeading>Settings</StyledHeading>
-          <ThemeToggle familyMember={familyMember} mutateUser={mutateUser} />
+          <ThemeToggle
+            familyMember={familyMember}
+            mutateUser={mutateUser}
+            mutateMember={mutateMember}
+          />
         </StyledSection>
       )}
       <Modal $top="8rem" $open={showModal && modalMode === "edit-info"}>

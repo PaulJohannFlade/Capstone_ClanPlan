@@ -36,7 +36,7 @@ const StyledFlame = styled(Flame)`
 `;
 
 const StyledSpan = styled.span`
-  color: ${({ $isMissed }) => $isMissed && "var(--color-alert)"};
+  color: ${({ $isMissed }) => $isMissed && "var(--color-alert-font)"};
 `;
 
 const StyledParagraphContent = styled.p`

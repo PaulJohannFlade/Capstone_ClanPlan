@@ -9,7 +9,7 @@ const StyledClose = styled(Close)`
   right: 1rem;
   background: none;
   border: none;
-  stroke: var(--color-alert);
+  stroke: var(--color-alert-font);
   &:hover {
     cursor: pointer;
     opacity: 0.5;

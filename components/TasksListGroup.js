@@ -18,7 +18,7 @@ const StyledContainer = styled.div`
 `;
 
 const StyledGroupHeading = styled.h3`
-  ${({ $red }) => $red && `color: #ff0000;`}
+  color: ${({ $red }) => $red && "var(--color-alert-font)"};
 `;
 
 const StyledUpArrow = styled(UpArrow)`

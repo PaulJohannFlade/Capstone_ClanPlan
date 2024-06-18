@@ -15,7 +15,7 @@ const StyledLabel = styled.label`
 
 const StyledSpan = styled.span`
   font-size: 1rem;
-  color: var(--color-aler);
+  color: var(--color-alert-font);
   float: ${({ $left }) => ($left ? "left" : "right")};
 `;
 

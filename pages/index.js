@@ -24,7 +24,7 @@ const StyledSection = styled.section`
 
 const StyledSpan = styled.span`
   color: ${({ $redColor }) =>
-    $redColor ? "var(--color-alert)" : "var(--color-font)"};
+    $redColor ? "var(--color-alert-font)" : "var(--color-font)"};
   text-align: center;
   display: block;
   width: 100%;

@@ -13,6 +13,8 @@ export const lightTheme = {
   button: "#e6e4e4",
   buttonActive: "#bbf1f9ff",
   colorScheme: "light",
+  colorAlert: "#ff6347",
+  colorAlertFont: "#d32f2f",
 };
 
 export const darkTheme = {
@@ -21,6 +23,8 @@ export const darkTheme = {
   button: "#626768",
   buttonActive: "#065465",
   colorScheme: "dark",
+  colorAlert: "#d32f2f",
+  colorAlertFont: "#ff6347",
 };
 
 export default createGlobalStyle`
@@ -39,7 +43,8 @@ export default createGlobalStyle`
     --color-font:${(props) => props.theme.text};
     --color-icon:#cccaca;
     --color-footer-signature:#a7a3a3;
-    --color-alert:#d32f2f;
+    --color-alert:${(props) => props.theme.colorAlert};
+    --color-alert-font:${(props) => props.theme.colorAlertFont};
     --color-button-active:${(props) => props.theme.buttonActive};
     --color-button:${(props) => props.theme.button};
     --font-handlee:${handlee.style.fontFamily};

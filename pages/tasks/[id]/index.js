@@ -38,16 +38,6 @@ export default function DetailsPage({ detailsBackLinkRef }) {
 
   const { task, mutateTask, mutateTasks } = useData(id);
 
-  useEffect(() => {
-    if (id) {
-      mutateTask(`/api/tasks/${id}`);
-    }
-  }, [id, mutateTask]);
-
-  if (!task) {
-    return <StyledLoadingAnimation />;
-  }
-
   function handleChangeModalMode(mode) {
     setModalMode(mode);
   }

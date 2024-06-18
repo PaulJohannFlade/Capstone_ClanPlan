@@ -4,7 +4,7 @@ const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px; /* Adjust height according to your UI */
+  height: 200px;
 `;
 
 const StyledLoadingSpinner = styled.div`
