@@ -6,9 +6,9 @@ import StyledBackLink from "@/components/StyledBackLink";
 import { toast } from "react-toastify";
 import CommentForm from "@/components/CommentForm";
 import Comments from "@/components/Comments";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useData } from "@/context/dataContext";
-import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
+import StyledError from "@/components/StyledError";
 
 const StyledMessage = styled.p`
   text-align: center;
@@ -38,14 +38,8 @@ export default function DetailsPage({ detailsBackLinkRef }) {
 
   const { task, mutateTask, mutateTasks } = useData(id);
 
-  useEffect(() => {
-    if (id) {
-      mutateTask(`/api/tasks/${id}`);
-    }
-  }, [id, mutateTask]);
-
   if (!task) {
-    return <StyledLoadingAnimation />;
+    return <StyledError />;
   }
 
   function handleChangeModalMode(mode) {

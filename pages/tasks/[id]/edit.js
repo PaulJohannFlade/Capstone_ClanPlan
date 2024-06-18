@@ -4,12 +4,16 @@ import { useRouter } from "next/router";
 import StyledBackLink from "@/components/StyledBackLink";
 import { toast } from "react-toastify";
 import { useData } from "@/context/dataContext";
+import StyledError from "@/components/StyledError";
 
 export default function EditPage() {
   const router = useRouter();
   const { id } = router.query;
 
   const { task, categories, mutateTask, mutateTasks } = useData(id);
+  if (!task || !categories) {
+    return <StyledError />;
+  }
 
   const allocatedMembersList = categories.find(
     (category) => category._id === task?.category?._id

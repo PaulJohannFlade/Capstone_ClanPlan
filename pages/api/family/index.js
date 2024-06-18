@@ -15,12 +15,16 @@ export default async function handler(request, response) {
   const { family } = request.query;
 
   if (request.method === "GET") {
-    const familyName = await Family.findById(family);
-
-    if (!familyName) {
-      return response.status(404).json({ status: "Family not found" });
+    try {
+      const familyName = await Family.findById(family);
+      if (!familyName) {
+        return response.status(404).json({ status: "Family not found" });
+      }
+      response.status(200).json(familyName);
+    } catch (error) {
+      console.error(error);
+      return response.status(400).json({ error: error.message });
     }
-    response.status(200).json(familyName);
   }
 
   if (request.method === "POST") {

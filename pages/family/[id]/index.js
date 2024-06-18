@@ -4,6 +4,7 @@ import styled from "styled-components";
 import MemberProfile from "@/components/MemberProfile";
 import { toast } from "react-toastify";
 import { useData } from "@/context/dataContext";
+import StyledError from "@/components/StyledError";
 
 const StyledBackButton = styled.button`
   position: fixed;
@@ -32,6 +33,10 @@ export default function MemberProfilePage() {
   const { id } = router.query;
 
   const { user, mutateUser, familyMember, mutateMember } = useData(null, id);
+
+  if (!user || !familyMember) {
+    return <StyledError />;
+  }
 
   function handleGoBack() {
     router.back();

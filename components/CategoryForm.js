@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
-import StyledButton from "./StyledButton";
+import StyledButton from "@/components/StyledButton";
 import Multiselect from "multiselect-react-dropdown";
-import MultiselectContainer from "./MultiselectContainer";
+import MultiselectContainer from "@/components/MultiselectContainer";
 import { useData } from "@/context/dataContext";
 
 const StyledHeading = styled.h2`
@@ -15,7 +15,7 @@ const StyledLabel = styled.label`
 
 const StyledSpan = styled.span`
   font-size: 1rem;
-  color: var(--color-aler);
+  color: var(--color-alert);
   float: ${({ $left }) => ($left ? "left" : "right")};
 `;
 

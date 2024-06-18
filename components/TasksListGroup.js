@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import TasksList from "./TasksList";
+import TasksList from "@/components/TasksList";
 import DownArrow from "@/public/assets/images/down-arrow.svg";
 import UpArrow from "@/public/assets/images/up-arrow.svg";
 

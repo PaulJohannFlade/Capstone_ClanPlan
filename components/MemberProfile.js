@@ -1,16 +1,16 @@
 import styled from "styled-components";
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "@/components/ThemeToggle";
 import Image from "next/image";
 import User from "@/public/assets/images/user.svg";
-import FileUploadForm from "./FileUploadForm";
+import FileUploadForm from "@/components/FileUploadForm";
 import { signOut } from "next-auth/react";
-import StyledButton from "./StyledButton";
+import StyledButton from "@/components/StyledButton";
 import { useState } from "react";
 import Pen from "@/public/assets/images/edit-pen-icon.svg";
-import Modal from "./Modal";
-import MemberForm from "./MemberForm";
+import Modal from "@/components/Modal";
+import MemberForm from "@/components/MemberForm";
 import { toast } from "react-toastify";
-import ConfirmBox from "./ConfirmBox";
+import ConfirmBox from "@/components/ConfirmBox";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
 import { useRouter } from "next/router";
@@ -356,6 +356,7 @@ export default function MemberProfile({
       await mutateCategories();
       await mutateTasks();
       if (user._id === _id) {
+        await mutateUser();
         router.push("/");
       } else {
         router.push("/family");

@@ -2,12 +2,12 @@ import styled from "styled-components";
 import { useState } from "react";
 import DownArrow from "@/public/assets/images/down-arrow.svg";
 import UpArrow from "@/public/assets/images/up-arrow.svg";
-import StyledTrash from "./StyledTrash";
-import Modal from "./Modal";
-import CategoryForm from "./CategoryForm";
+import StyledTrash from "@/components/StyledTrash";
+import Modal from "@/components/Modal";
+import CategoryForm from "@/components/CategoryForm";
 import { toast } from "react-toastify";
-import StyledPen from "./StyledPen";
-import ConfirmBox from "./ConfirmBox";
+import StyledPen from "@/components/StyledPen";
+import ConfirmBox from "@/components/ConfirmBox";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
 

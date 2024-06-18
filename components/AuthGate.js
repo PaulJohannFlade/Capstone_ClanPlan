@@ -1,10 +1,10 @@
 import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import StopMessage from "@/components/StopMessage";
 import { useSession, signOut } from "next-auth/react";
-import StyledButton from "./StyledButton";
+import StyledButton from "@/components/StyledButton";
 import styled from "styled-components";
-import Modal from "./Modal";
-import FamilyRegisterForm from "./FamilyRegisterForm";
+import Modal from "@/components/Modal";
+import FamilyRegisterForm from "@/components/FamilyRegisterForm";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useModal } from "@/context/modalContext";

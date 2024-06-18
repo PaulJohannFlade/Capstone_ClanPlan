@@ -11,6 +11,7 @@ import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
 import StyledPen from "@/components/StyledPen";
 import FamilyRegisterForm from "@/components/FamilyRegisterForm";
+import StyledError from "@/components/StyledError";
 
 const StyledMenu = styled.menu`
   display: grid;
@@ -70,6 +71,10 @@ export default function FamilyPage() {
   const form = useRef();
   const { showModal, openModal, closeModal } = useModal();
   const [modalMode, setModalMode] = useState("");
+
+  if (!familyMembers || !user) {
+    return <StyledError />;
+  }
 
   function handleAddFamilyMember() {
     openModal();
