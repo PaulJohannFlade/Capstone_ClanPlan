@@ -56,7 +56,7 @@ export default function CategoryForm({
       if (
         data.title.trim() === value.title &&
         selectedMembers.length === value.selectedMembers.length &&
-        selectedMembers.every((member) =>
+        value.selectedMembers.every((member) =>
           selectedMembersIds.includes(member._id)
         )
       ) {

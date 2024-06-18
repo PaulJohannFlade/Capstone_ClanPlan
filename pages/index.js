@@ -48,7 +48,7 @@ const StyledHeading = styled.h2`
   text-align: center;
 `;
 
-const StyledMessage = styled.div`
+const StyledMessage = styled.p`
   text-align: center;
   padding-top: 4rem;
 `;
@@ -67,8 +67,10 @@ const StyledTabs = styled.div`
   background-color: var(--color-button);
   display: grid;
   grid-template-columns: 1fr 1fr;
+  min-width: 330px;
   @media (min-width: 900px) {
-    width: calc(100% - 99px);
+    width: calc(100% - 100px);
+    left: 100px;
   }
 `;
 
@@ -98,7 +100,6 @@ export default function HomePage({
   if (!tasks || !user) {
     return <StyledError />;
   }
-
   const tasksToDisplay = myTasksSelection
     ? getTasksForUser(tasks, user)
     : tasks;
@@ -110,7 +111,7 @@ export default function HomePage({
       ? true
       : false;
 
-  const missedTasks = tasksToDisplay.filter(
+  const missedTasks = tasksToDisplay?.filter(
     (task) => task?.dueDate && checkForMissedDate(task.dueDate) && !task.isDone
   );
 
@@ -171,8 +172,8 @@ export default function HomePage({
       </StyledTabs>
       <StyledGreetings>
         {myTasksSelection
-          ? `Hello ${user?.name}`
-          : `Hello "${user?.family?.name}" family`}
+          ? `Hello ${user?.name}!`
+          : `"${user?.family?.name}" Tasks`}
       </StyledGreetings>
       <StyledSection>
         <StyledButton
@@ -254,12 +255,7 @@ export default function HomePage({
           <StyledMessage>No tasks to display.</StyledMessage>
         )}
       {!filteredTasks.length && !isFilterSet && listType === "today" && (
-        <StyledMessage>
-          <span>Relax!</span>
-          <br />
-          <span>No tasks for today.</span>
-          <RandomImage />
-        </StyledMessage>
+        <RandomImage />
       )}
       {!filteredTasks.length && isFilterSet && (
         <StyledMessage>No tasks with this search criteria.</StyledMessage>

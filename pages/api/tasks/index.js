@@ -17,12 +17,15 @@ export default async function handler(request, response) {
 
   if (request.method === "GET") {
     try {
-      const user = await Member.findOne({ email: session.user.email });
-      const familyId = user?.family;
-      const tasks = await Task.find({ family: familyId })
-        .populate("category")
-        .sort({ dueDate: 1 });
-      return response.status(200).json(tasks);
+       const user = await Member.findOne({ email: session.user.email });
+    if (!user || !user.family) {
+      return response.status(200).json([]);
+    }
+    const familyId = user?.family;
+    const tasks = await Task.find({ family: familyId })
+      .populate("category")
+      .sort({ dueDate: 1 });
+    return response.status(200).json(tasks);
     } catch (error) {
       console.error(error);
       return response.status(400).json({ error: error.message });
