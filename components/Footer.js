@@ -34,28 +34,6 @@ const StyledFooter = styled.footer`
 
 const StyledPlus = styled(Plus)`
   width: 3rem;
-  stroke: ${({ $isActive }) =>
-    $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
-`;
-
-const StyledHome = styled(Home)`
-  stroke: ${({ $isActive }) =>
-    $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
-`;
-
-const StyledFamily = styled(Family)`
-  stroke: ${({ $isActive }) =>
-    $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
-`;
-
-const StyledCategory = styled(Category)`
-  stroke: ${({ $isActive }) =>
-    $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
-`;
-
-const StyledCalendarIcon = styled(CalendarIcon)`
-  stroke: ${({ $isActive }) =>
-    $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
 `;
 
 const StyledList = styled.ul`
@@ -83,15 +61,16 @@ const StyledLink = styled(Link)`
   align-items: center;
   width: 100%;
   height: 100%;
-  /* padding: 0.6rem; */
   flex-direction: column;
+  transition: all 250ms linear;
+  opacity: ${({ $isActive }) => !$isActive && "0.6"};
+  font-size: 0.8rem;
+  font-weight: ${({ $isActive }) => $isActive && "700"};
+  &:hover {
+    opacity: 1;
+  }
 `;
 
-const StyledSpan = styled.span`
-  font-size: 0.8rem;
-  color: ${({ $isActive }) =>
-    $isActive ? "var(--color-font)" : "var(--color-footer-signature)"};
-`;
 const StyledCreateDiv = styled.div`
   position: absolute;
   left: 50%;
@@ -116,43 +95,55 @@ export default function Footer() {
       <nav>
         <StyledList>
           <li>
-            <StyledLink href="/">
-              <StyledHome $isActive={currentPage === "/"} />
-              <StyledSpan $isActive={currentPage === "/"}>Home</StyledSpan>
+            <StyledLink
+              href="/"
+              $isActive={currentPage === "/"}
+              aria-current={currentPage === "/" ? "page" : undefined}
+            >
+              <Home />
+              <span>Home</span>
             </StyledLink>
           </li>
           <li>
-            <StyledLink href="/family">
-              <StyledFamily $isActive={currentPage === "/family"} />
-              <StyledSpan $isActive={currentPage === "/family"}>
-                Family
-              </StyledSpan>
+            <StyledLink
+              href="/family"
+              $isActive={currentPage === "/family"}
+              aria-current={currentPage === "/family" ? "page" : undefined}
+            >
+              <Family />
+              <span>Family</span>
             </StyledLink>
           </li>
           <li>
             <StyledCreateDiv>
-              <StyledLink href="/create">
-                <StyledPlus $isActive={currentPage === "/create"} />
-                <StyledSpan $isActive={currentPage === "/create"}>
-                  Create
-                </StyledSpan>
+              <StyledLink
+                href="/create"
+                $isActive={currentPage === "/create"}
+                aria-current={currentPage === "/create" ? "page" : undefined}
+              >
+                <StyledPlus />
+                <span>Create</span>
               </StyledLink>
             </StyledCreateDiv>
           </li>
           <li>
-            <StyledLink href="/categories">
-              <StyledCategory $isActive={currentPage === "/categories"} />
-              <StyledSpan $isActive={currentPage === "/categories"}>
-                Category
-              </StyledSpan>
+            <StyledLink
+              href="/categories"
+              $isActive={currentPage === "/categories"}
+              aria-current={currentPage === "/categories" ? "page" : undefined}
+            >
+              <Category />
+              <span>Category</span>
             </StyledLink>
           </li>
           <li>
-            <StyledLink href="/calendar">
-              <StyledCalendarIcon $isActive={currentPage === "/calendar"} />
-              <StyledSpan $isActive={currentPage === "/calendar"}>
-                Calendar
-              </StyledSpan>
+            <StyledLink
+              href="/calendar"
+              $isActive={currentPage === "/calendar"}
+              aria-current={currentPage === "/calendar" ? "page" : undefined}
+            >
+              <CalendarIcon />
+              <span>Calendar</span>
             </StyledLink>
           </li>
         </StyledList>

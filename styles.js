@@ -124,7 +124,7 @@ a {
 a:hover {
   cursor: pointer;
   opacity: 0.5;
-  transition: all 500ms linear;
+  transition: all 500ms linear; */
 }
 
 button:hover {
