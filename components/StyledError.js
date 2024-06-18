@@ -40,7 +40,7 @@ export default function StyledError() {
     <StyledErrorContainer>
       <StyledErrorNumber>404</StyledErrorNumber>
       <StyledDiv>
-        <StyledErrorMessage>This page could not found.</StyledErrorMessage>
+        <StyledErrorMessage>This page could not be found.</StyledErrorMessage>
       </StyledDiv>
     </StyledErrorContainer>
   );

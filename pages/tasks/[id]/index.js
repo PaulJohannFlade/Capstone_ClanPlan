@@ -38,11 +38,11 @@ export default function DetailsPage({ detailsBackLinkRef }) {
 
   const { task, mutateTask, mutateTasks } = useData(id);
 
-  useEffect(() => {
+  /*  useEffect(() => {
     if (id) {
       mutateTask(`/api/tasks/${id}`);
     }
-  }, [id, mutateTask]);
+  }, [id, mutateTask]); */
 
   if (!task) {
     return <StyledError />;
