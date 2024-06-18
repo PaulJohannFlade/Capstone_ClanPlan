@@ -120,17 +120,17 @@ p{
 a {
   text-decoration: none;
   color:inherit;
-}
-a:hover {
-  cursor: pointer;
-  opacity: 0.5;
-  transition: all 500ms linear; */
+  transition: all 500ms linear;
 }
 
-button:hover {
+button {
+  transition: all 500ms linear;
+}
+
+a:hover, button:hover {
   cursor: pointer;
   opacity: 0.5;
-  transition: all 500ms linear;
+  
 }
 
 /* react-big-calendar styles: */
