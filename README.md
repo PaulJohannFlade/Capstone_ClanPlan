@@ -8,7 +8,7 @@ Created Tasks can be filtert by different criteria. The app also has a calendar 
 
 The ClanPlan is provided with a login, so the data of the families and members can only be seen in a password-protected area.
 
-The app can be accessed at [www.clanplan.org](www.clanplan.org).
+The app can be accessed at [www.clanplan.org](https://www.clanplan.org).
 
 ## Features and Tech Stack
 
