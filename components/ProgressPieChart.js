@@ -55,6 +55,12 @@ const StyledContent = styled.p`
   font-weight: 700;
 `;
 
+const StyledNoProgressMessage = styled.p`
+  margin-top: 1.5rem;
+  text-align: center;
+  font-weight: 500;
+`;
+
 export default function ProgressPieChart() {
   const { tasks, user } = useData();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -96,6 +102,9 @@ export default function ProgressPieChart() {
     },
   ];
 
+  const listOfZeroTasks = data.filter((element) => element.value === 0);
+  const noProgressToShow = listOfZeroTasks.length === data.length;
+
   return (
     <>
       <StyledHeading>Your Progress for the current week</StyledHeading>
@@ -111,6 +120,11 @@ export default function ProgressPieChart() {
             </StyledSection>
           ))}
         </StyledInnerContainer>
+        {noProgressToShow && (
+          <StyledNoProgressMessage>
+            No progress chart to display
+          </StyledNoProgressMessage>
+        )}
         <PieChart width={360} height={240}>
           <Pie
             activeIndex={activeIndex}

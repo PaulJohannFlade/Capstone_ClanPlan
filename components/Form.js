@@ -115,8 +115,6 @@ export default function Form({
         data.dueDate === value.dueDate &&
         data.priority === value.priority &&
         assignedTo.length === value.assignedTo.length &&
-        data.repeat === value.repeat &&
-        data.endDate === value.endDate &&
         assignedTo.every((member) => assignedMembersIds.includes(member._id))
       ) {
         alert("No changes were made to the form.");
