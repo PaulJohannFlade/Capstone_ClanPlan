@@ -17,7 +17,7 @@ const StyledInnerContainer = styled.div`
   gap: 0.5rem;
 
   @media (max-width: 900px) {
-    display: flex;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 `;
 
@@ -29,6 +29,10 @@ const StyledOuterContainer = styled.div`
 
   @media (min-width: 900px) {
     flex-direction: row;
+    position: absolute;
+    left: ${({ $noProgressToShow }) =>
+      $noProgressToShow ? "calc(50% + 180px)" : "calc(50% + 100px)"};
+    transform: translateX(-50%);
   }
 `;
 
@@ -59,6 +63,9 @@ const StyledNoProgressMessage = styled.p`
   margin-top: 1.5rem;
   text-align: center;
   font-weight: 500;
+  @media (min-width: 900px) {
+    margin-left: 2rem;
+  }
 `;
 
 export default function ProgressPieChart() {
@@ -111,7 +118,7 @@ export default function ProgressPieChart() {
       <StyledContent>{`(${formatDate(startOfWeek)} - ${formatDate(
         endOfWeek
       )})`}</StyledContent>
-      <StyledOuterContainer>
+      <StyledOuterContainer $noProgressToShow={noProgressToShow}>
         <StyledInnerContainer>
           {data.map((element) => (
             <StyledSection key={element.name} $background={element.fill}>
