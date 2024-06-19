@@ -142,6 +142,7 @@ export default function TaskDetails({
     if (response.ok) {
       router.push(detailsBackLinkRef);
       closeModal();
+      mutateTasks();
     }
   }
 
