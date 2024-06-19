@@ -10,27 +10,27 @@ The ClanPlan is provided with a login, so the data of the families and members c
 
 The app can be accessed at [www.clanplan.org](www.clanplan.org).
 
-## Features and Techstack
+## Features and Tech Stack
 
-- Create Member/User, Family, Categories, Tasks an Comments
-- Read Member/User, Family, Categories, Tasks an Comments
-- Update Member/User, Family, Categories, Tasks an Comments
-- Delete Member/User, Family, Categories, Tasks an Comments
+- Create member, family, categories, tasks and comments
+- Read member, family, categories, tasks and comments
+- Update member, family, categories, tasks and comments
+- Delete member, family, categories, tasks and comments
 
 - Backend with [Mongoose](https://mongoosejs.com/) and [Atlas MongoDB](https://www.mongodb.com/)
-- Save Profile Pictures in [Cloudinary](https://cloudinary.com/)
-- Notification Messages with [React-Toastify](https://fkhadra.github.io/react-toastify/introduction/)
-- LogIn with [NextAuth](https://next-auth.js.org/)
-- Calendarview with [React-Big-Calendar](https://jquense.github.io/react-big-calendar/examples/index.html?path=/story/about-big-calendar--page)
+- Save profile pictures in [Cloudinary](https://cloudinary.com/)
+- Notification messages with [React-Toastify](https://fkhadra.github.io/react-toastify/introduction/)
+- Login with [NextAuth](https://next-auth.js.org/)
+- Calendar view with [React-Big-Calendar](https://jquense.github.io/react-big-calendar/examples/index.html?path=/story/about-big-calendar--page)
 - Styling with [Styled-Components](https://styled-components.com/)
-- Dropdownmenues with [Multiselect-React-Dropdown](https://snyk.io/advisor/npm-package/multiselect-react-dropdown#package-footer)
-- Emailnotifications for joining a Family with [Email JS](https://www.emailjs.com/)
+- Dropdown menues with [Multiselect-React-Dropdown](https://snyk.io/advisor/npm-package/multiselect-react-dropdown#package-footer)
+- Email notifications for joining a family with [Email JS](https://www.emailjs.com/)
 
 ## Authors
 
 - [@Mariia Posselt](https://github.com/mariiaovs)
 - [@Swetha Siddareddydinne Janardhana](https://github.com/SwethaJanardhana)
-- [@PaulJohannFlade](https://github.com/PaulJohannFlade)
+- [@Paul Johann Flade](https://github.com/PaulJohannFlade)
 
 ### Local Development
 
