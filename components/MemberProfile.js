@@ -387,13 +387,13 @@ export default function MemberProfile({
                 priority={true}
               />
             ) : (
-              <StyledUser />
+              <StyledUser role="img" aria-label="default user avatar" />
             )}
             {(user.role !== "Child" || user._id === _id) && (
               <StyledEditButton
                 onClick={() => setIsPhotoEditMode(!isPhotoEditMode)}
               >
-                <StyledImagePen />
+                <StyledImagePen role="img" aria-label="pen icon" />
               </StyledEditButton>
             )}
           </ImageContainer>

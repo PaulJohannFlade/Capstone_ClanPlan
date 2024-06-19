@@ -170,9 +170,13 @@ export default function TaskDetails({
         )}
       </Modal>
       <StyledSection $isDone={isDone}>
-        <StyledTrash onClick={handleTaskTrashClick} />
+        <StyledTrash
+          onClick={handleTaskTrashClick}
+          role="button"
+          aria-label="trash icon"
+        />
         <StyledLink href={`/tasks/${id}/edit`}>
-          <StyledPen />
+          <StyledPen role="img" aria-label="pen icon" />
         </StyledLink>
         <StyledParagraph> What is to do?</StyledParagraph>
         <StyledParagraphContent>{title}</StyledParagraphContent>
@@ -184,7 +188,7 @@ export default function TaskDetails({
         <p>
           {priority &&
             [...Array(Number(priority))].map((_element, index) => (
-              <StyledFlame key={index} />
+              <StyledFlame key={index} role="img" aria-label="flame icon" />
             ))}
         </p>
         <p>Due Date:</p>

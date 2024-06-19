@@ -64,7 +64,7 @@ export default function Filter({
         )}
       </Modal>
       <StyledFilterButton $width="2.5rem" onClick={openModal}>
-        <FilterIcon />
+        <FilterIcon role="img" aria-label="filter icon" />
       </StyledFilterButton>
 
       <StyledList>

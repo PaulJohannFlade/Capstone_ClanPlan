@@ -137,10 +137,19 @@ export default function FamilyPage() {
   return (
     <>
       <StyledMenu>
-        <StyledPlus onClick={handleAddFamilyMember} $right={true} />
+        <StyledPlus
+          onClick={handleAddFamilyMember}
+          $right={true}
+          role="button"
+          aria-label="plus icon"
+        />
         <StyledContainer>
           <StyledHeading>Family: {user?.family?.name}</StyledHeading>
-          <StyledPenUpdated onClick={handleEditFamilyName} />
+          <StyledPenUpdated
+            onClick={handleEditFamilyName}
+            role="button"
+            aria-label="pen icon"
+          />
         </StyledContainer>
       </StyledMenu>
       {!familyMembers.length && (

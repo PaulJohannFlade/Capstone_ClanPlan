@@ -99,7 +99,7 @@ export default function FileUploadForm({ onAddPhoto, setIsPhotoEditMode }) {
     <StyledForm onSubmit={handleSubmit}>
       <PhotoLabel htmlFor="profilePhoto">
         <StyledParagraph>Choose image:</StyledParagraph>
-        <StyledUpload />
+        <StyledUpload role="img" aria-label="file upload icon" />
       </PhotoLabel>
       {imagePreview && <ImagePreview src={imagePreview} alt="Image Preview" />}
       {fileError && <ErrorMessage>Please choose image</ErrorMessage>}

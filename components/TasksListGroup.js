@@ -53,11 +53,21 @@ export default function TasksListGroup({
 }) {
   return (
     <StyledSection>
-      <StyledContainer onClick={() => onHideGroup(groupKey)}>
+      <StyledContainer
+        onClick={() => onHideGroup(groupKey)}
+        role="button"
+        aria-label={
+          hideGroup[groupKey] ? "Expand task group" : "Collapse task group"
+        }
+      >
         <StyledGroupHeading $red={$red}>
           {groupKey} ({tasks.length})
         </StyledGroupHeading>
-        {hideGroup[groupKey] ? <StyledDownArrow /> : <StyledUpArrow />}
+        {hideGroup[groupKey] ? (
+          <StyledDownArrow role="img" aria-label="arrow down icon" />
+        ) : (
+          <StyledUpArrow role="img" aria-label="arrow up icon" />
+        )}
       </StyledContainer>
       <StyledDiv $isHide={hideGroup[groupKey]}>
         <StyledTasksList

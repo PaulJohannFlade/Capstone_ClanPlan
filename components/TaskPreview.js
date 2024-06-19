@@ -70,7 +70,7 @@ export default function TaskPreview({
 
         <StyledParagraph>
           {[...Array(Number(priority))].map((_element, index) => (
-            <StyledFlame key={index} />
+            <StyledFlame key={index} role="img" aria-label="flame icon" />
           ))}
         </StyledParagraph>
         <p>{category?.title}</p>

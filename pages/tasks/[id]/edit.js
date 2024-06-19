@@ -64,8 +64,8 @@ export default function EditPage() {
   return (
     <>
       <div>
-        <StyledBackLink href={`/tasks/${id}`}>
-          <BackArrow />
+        <StyledBackLink href={`/tasks/${id}`} aria-label="Back">
+          <BackArrow role="img" aria-label="left arrow icon" />
         </StyledBackLink>
         <Form
           onTaskSubmit={handleEditTaskData}

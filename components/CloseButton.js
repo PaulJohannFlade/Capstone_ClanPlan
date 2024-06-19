@@ -20,5 +20,7 @@ const StyledClose = styled(Close)`
 export default function CloseButton() {
   const { closeModal } = useModal();
 
-  return <StyledClose onClick={closeModal} />;
+  return (
+    <StyledClose onClick={closeModal} role="button" aria-label="close icon" />
+  );
 }

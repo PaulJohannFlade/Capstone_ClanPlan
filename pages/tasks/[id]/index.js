@@ -6,9 +6,8 @@ import StyledBackLink from "@/components/StyledBackLink";
 import { toast } from "react-toastify";
 import CommentForm from "@/components/CommentForm";
 import Comments from "@/components/Comments";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useData } from "@/context/dataContext";
-import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 
 const StyledMessage = styled.p`
   text-align: center;
@@ -71,8 +70,8 @@ export default function DetailsPage({ detailsBackLinkRef }) {
 
   return (
     <>
-      <StyledBackLink href={detailsBackLinkRef}>
-        <BackArrow />
+      <StyledBackLink href={detailsBackLinkRef} aria-label="Back">
+        <BackArrow role="img" aria-label="left arrow icon" />
       </StyledBackLink>
       {task ? (
         <>

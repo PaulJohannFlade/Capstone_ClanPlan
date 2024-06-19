@@ -146,7 +146,7 @@ export default function Comments({
                     priority={true}
                   />
                 ) : (
-                  <StyledUser />
+                  <StyledUser role="img" aria-label="default user avatar" />
                 )}
               </ImageContainer>
               <StyledParagraph>
@@ -158,10 +158,14 @@ export default function Comments({
                 <StyledPen
                   $small={true}
                   onClick={() => handlePenClick(comment)}
+                  role="button"
+                  aria-label="pen icon"
                 />
                 <StyledTrash
                   $small={true}
                   onClick={() => handleCommentTrashClick(comment._id)}
+                  role="button"
+                  aria-label="trash icon"
                 />
               </>
             )}

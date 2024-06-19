@@ -101,7 +101,7 @@ export default function Header() {
                   priority={true}
                 />
               ) : (
-                <StyledUser />
+                <StyledUser role="img" aria-label="default user avatar" />
               )}
             </ImageContainer>
           )}

@@ -88,8 +88,8 @@ export default function ThemeToggle({
         onChange={handleModeToggle}
         checked={isDarkTheme}
       />
-      <SunIcon />
-      <MoonIcon />
+      <SunIcon role="img" aria-label="sun icon" />
+      <MoonIcon role="img" aria-label="moon with stars icon" />
     </ToggleLabel>
   );
 }

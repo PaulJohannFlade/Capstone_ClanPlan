@@ -46,6 +46,8 @@ export default function CategoriesPage() {
             openModal();
           }}
           $right={true}
+          role="button"
+          aria-label="plus icon"
         />
         <h2>Task Categories</h2>
       </StyledMenu>

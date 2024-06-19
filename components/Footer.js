@@ -100,7 +100,7 @@ export default function Footer() {
               $isActive={currentPage === "/"}
               aria-current={currentPage === "/" ? "page" : undefined}
             >
-              <Home />
+              <Home role="img" aria-label="house icon" />
               <span>Home</span>
             </StyledLink>
           </li>
@@ -110,7 +110,7 @@ export default function Footer() {
               $isActive={currentPage === "/family"}
               aria-current={currentPage === "/family" ? "page" : undefined}
             >
-              <Family />
+              <Family role="img" aria-label="family icon" />
               <span>Family</span>
             </StyledLink>
           </li>
@@ -121,7 +121,7 @@ export default function Footer() {
                 $isActive={currentPage === "/create"}
                 aria-current={currentPage === "/create" ? "page" : undefined}
               >
-                <StyledPlus />
+                <StyledPlus role="img" aria-label="plus icon" />
                 <span>Create</span>
               </StyledLink>
             </StyledCreateDiv>
@@ -132,7 +132,7 @@ export default function Footer() {
               $isActive={currentPage === "/categories"}
               aria-current={currentPage === "/categories" ? "page" : undefined}
             >
-              <Category />
+              <Category role="img" aria-label="categories icon" />
               <span>Category</span>
             </StyledLink>
           </li>
@@ -142,7 +142,7 @@ export default function Footer() {
               $isActive={currentPage === "/calendar"}
               aria-current={currentPage === "/calendar" ? "page" : undefined}
             >
-              <CalendarIcon />
+              <CalendarIcon role="img" aria-label="calendar icon" />
               <span>Calendar</span>
             </StyledLink>
           </li>
