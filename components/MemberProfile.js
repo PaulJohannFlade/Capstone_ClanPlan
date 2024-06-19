@@ -417,7 +417,17 @@ export default function MemberProfile({
         </StyledContainer>
         <UserInfoContainer>
           {(user.role !== "Child" || user._id === _id) && (
-            <StyledInfoPen onClick={handleEditInfoButtonClick} />
+            <StyledInfoPen
+              onClick={handleEditInfoButtonClick}
+              role="button"
+              aria-label="Edit user info"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  handleEditInfoButtonClick();
+                }
+              }}
+            />
           )}
           <StyledParagraph>Name:</StyledParagraph>
           <StyledContent>{name}</StyledContent>

@@ -21,6 +21,16 @@ export default function CloseButton() {
   const { closeModal } = useModal();
 
   return (
-    <StyledClose onClick={closeModal} role="button" aria-label="close icon" />
+    <StyledClose
+      onClick={closeModal}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          closeModal();
+        }
+      }}
+      role="button"
+      aria-label="close icon"
+      tabIndex={0}
+    />
   );
 }

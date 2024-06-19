@@ -41,19 +41,27 @@ export default function MultiselectContainer({ children }) {
 
   return (
     <StyledContainer
-      tabIndex="0"
+      tabIndex={0}
       onClick={openDropdown}
       onBlur={closeDropdown}
       $hidden={!isDropdownOpen}
     >
       {children}
       {isDropdownOpen && (
-        <StyledToggleDropdownButton type="button" onClick={closeDropdown}>
+        <StyledToggleDropdownButton
+          type="button"
+          onClick={closeDropdown}
+          aria-label="Close dropdown menu"
+        >
           ▲
         </StyledToggleDropdownButton>
       )}
       {!isDropdownOpen && (
-        <StyledToggleDropdownButton type="button" onClick={openDropdown}>
+        <StyledToggleDropdownButton
+          type="button"
+          onClick={openDropdown}
+          aria-label="Open dropdown menu"
+        >
           ▼
         </StyledToggleDropdownButton>
       )}

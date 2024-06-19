@@ -59,6 +59,12 @@ export default function TasksListGroup({
         aria-label={
           hideGroup[groupKey] ? "Expand task group" : "Collapse task group"
         }
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            onHideGroup(groupKey);
+          }
+        }}
       >
         <StyledGroupHeading $red={$red}>
           {groupKey} ({tasks.length})

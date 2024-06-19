@@ -158,20 +158,38 @@ export default function CategoriesList({
           <StyledListItem
             key={category._id}
             onClick={() => handleExpand(index)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                handleExpand(index);
+              }
+            }}
             role="button"
+            tabIndex={0}
             aria-label={selected === index ? "Hide members" : "Show members"}
           >
             <StyledPen
               onClick={(event) => handlePenClick(category, event)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  handlePenClick(category, event);
+                }
+              }}
               role="button"
-              aria-label="pen icon"
+              tabIndex={0}
+              aria-label="Edit categorie"
             />
             <StyledTrash
               onClick={(event) => {
                 handleTrashClick(category, event);
               }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  handleTrashClick(category, event);
+                }
+              }}
+              tabIndex={0}
               role="button"
-              aria-label="trash icon"
+              aria-label="Delete categorie"
             />
             <StyleHeading title={category.title}>
               <strong>{category.title}</strong>

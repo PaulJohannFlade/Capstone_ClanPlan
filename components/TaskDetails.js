@@ -173,9 +173,15 @@ export default function TaskDetails({
         <StyledTrash
           onClick={handleTaskTrashClick}
           role="button"
-          aria-label="trash icon"
+          tabIndex={0}
+          aria-label="Delete task"
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              handleTaskTrashClick();
+            }
+          }}
         />
-        <StyledLink href={`/tasks/${id}/edit`}>
+        <StyledLink href={`/tasks/${id}/edit`} aria-label="Edit task">
           <StyledPen role="img" aria-label="pen icon" />
         </StyledLink>
         <StyledParagraph> What is to do?</StyledParagraph>

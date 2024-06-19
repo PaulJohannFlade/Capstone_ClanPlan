@@ -37,7 +37,13 @@ export default function Modal({ children, $top, $open }) {
   return (
     <>
       <Overlay $open={$open} onClick={closeModal} />
-      <StyledSection $top={$top} $open={$open}>
+      <StyledSection
+        $top={$top}
+        $open={$open}
+        role="dialog"
+        aria-modal="true"
+        aria-hidden={!$open}
+      >
         <CloseButton />
         {children}
       </StyledSection>

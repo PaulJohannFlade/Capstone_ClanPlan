@@ -6,7 +6,7 @@ import Modal from "@/components/Modal";
 import { toast } from "react-toastify";
 import StyledPlus from "@/components/StyledPlus";
 import emailjs from "@emailjs/browser";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
 import StyledPen from "@/components/StyledPen";
@@ -67,7 +67,6 @@ const StyledContainer = styled.div`
 
 export default function FamilyPage() {
   const { familyMembers, mutateMembers, user, mutateUser } = useData();
-  const form = useRef();
   const { showModal, openModal, closeModal } = useModal();
   const [modalMode, setModalMode] = useState("");
 
@@ -120,15 +119,18 @@ export default function FamilyPage() {
       mutateMembers();
 
       emailjs
-        .sendForm("service_tcxz2ti", "template_uc0996j", form.current, {
-          publicKey: "jjcfLQQIHPYS7TXeC",
-        })
+        .send(
+          "service_tcxz2ti",
+          "template_uc0996j",
+          newMemberData,
+          "jjcfLQQIHPYS7TXeC"
+        )
         .then(
           () => {
-            console.log("SUCCESS!");
+            toast.success("Email sent successfully!");
           },
           (error) => {
-            console.log("FAILED...", error.text);
+            toast.error(`Email failed to send: ${error.text}`);
           }
         );
     }
@@ -141,14 +143,26 @@ export default function FamilyPage() {
           onClick={handleAddFamilyMember}
           $right={true}
           role="button"
-          aria-label="plus icon"
+          aria-label="Add member"
+          tabIndex={0}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              handleAddFamilyMember();
+            }
+          }}
         />
         <StyledContainer>
           <StyledHeading>Family: {user?.family?.name}</StyledHeading>
           <StyledPenUpdated
             onClick={handleEditFamilyName}
             role="button"
-            aria-label="pen icon"
+            aria-label="Edit family"
+            tabIndex={0}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                handleEditFamilyName();
+              }
+            }}
           />
         </StyledContainer>
       </StyledMenu>
@@ -163,7 +177,6 @@ export default function FamilyPage() {
             onAddMember={handleAddMember}
             familyMembers={familyMembers}
             user={user}
-            form={form}
             heading={"Add new family member"}
           />
         )}

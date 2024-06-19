@@ -35,6 +35,7 @@ const StyledListItem = styled.li`
 `;
 
 const StyledLink = styled(Link)`
+  max-width: 80vw;
   display: flex;
   justify-content: flex-start;
   gap: 0.5rem;
@@ -159,13 +160,25 @@ export default function Comments({
                   $small={true}
                   onClick={() => handlePenClick(comment)}
                   role="button"
-                  aria-label="pen icon"
+                  aria-label="Edit comment"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      handlePenClick(comment);
+                    }
+                  }}
                 />
                 <StyledTrash
                   $small={true}
                   onClick={() => handleCommentTrashClick(comment._id)}
                   role="button"
-                  aria-label="trash icon"
+                  aria-label="Delete comment"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      handleCommentTrashClick(comment._id);
+                    }
+                  }}
                 />
               </>
             )}

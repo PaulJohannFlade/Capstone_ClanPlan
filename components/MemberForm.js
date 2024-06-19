@@ -38,7 +38,6 @@ export default function MemberForm({
   onAddMember,
   familyMembers,
   user,
-  form,
   isInfoEditMode,
   heading,
   familyMember,
@@ -106,13 +105,15 @@ export default function MemberForm({
   }
 
   return (
-    <StyledForm onSubmit={handleSubmit} ref={form}>
-      <StyledHeading>{heading}</StyledHeading>
+    <StyledForm onSubmit={handleSubmit} aria-labelledby="member-form">
+      <StyledHeading id="member-form">{heading}</StyledHeading>
       <StyledLabel htmlFor="name">
         <StyledSpan $left={true}>*</StyledSpan>Name:
         {!isValidName && <StyledSpan>Please enter valid Name!</StyledSpan>}
         {!isUniqueName && (
-          <StyledSpan>Member with this name already exists</StyledSpan>
+          <StyledSpan id="name-error" aria-live="polite">
+            Member with this name already exists
+          </StyledSpan>
         )}
       </StyledLabel>
       <input
@@ -122,20 +123,26 @@ export default function MemberForm({
         onChange={handleChange}
         maxLength={50}
         defaultValue={isInfoEditMode && familyMember.name}
+        aria-invalid={!isValidName}
+        aria-describedby="name-error"
       />
       <StyledSpan>{50 - enteredName.length} characters left</StyledSpan>
-
       <StyledLabel htmlFor="role">
         <StyledSpan $left={true}>*</StyledSpan>Role
-        {!isValidRole && <StyledSpan>Please select a role!</StyledSpan>}
+        {!isValidRole && (
+          <StyledSpan id="role-error" aria-live="polite">
+            Please select a role!
+          </StyledSpan>
+        )}
       </StyledLabel>
-
       <StyledSelect
         name="role"
         id="role"
         onChange={() => setIsValidRole(true)}
         defaultValue={isInfoEditMode && familyMember.role}
-        disabled={user.role === "Child"}
+        disabled={isInfoEditMode && user.role === "Child"}
+        aria-invalid={!isValidRole}
+        aria-describedby="role-error"
       >
         <option value="">Please select a role</option>
         <option value="Parent">Parent</option>
@@ -153,15 +160,6 @@ export default function MemberForm({
         required
         defaultValue={isInfoEditMode && familyMember.email}
       />
-
-      <StyledInput
-        type="text"
-        id="familyName"
-        name="familyName"
-        value={user.family.name}
-        readOnly
-      />
-
       <StyledButton>{isInfoEditMode ? "Update" : "Add"}</StyledButton>
     </StyledForm>
   );

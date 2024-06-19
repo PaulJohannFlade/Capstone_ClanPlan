@@ -75,7 +75,10 @@ export default function Filter({
                 onClick={() => onDeleteFilterOption(key)}
                 key={key}
               >
-                ❌ {key}:{" "}
+                <span aria-label="close emoji" role="img">
+                  ❌
+                </span>{" "}
+                {key}:{" "}
                 {key === "member"
                   ? familyMembers.find((member) => member._id === filters[key])
                       .name
