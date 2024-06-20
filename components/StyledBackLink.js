@@ -5,7 +5,7 @@ const StyledBackLink = styled(Link)`
   position: fixed;
   top: 0.7rem;
   left: 1rem;
-  z-index: 10;
+  z-index: 8;
 
   @media (min-width: 900px) {
     left: calc(100px + 2rem);
