@@ -176,7 +176,7 @@ export default function CategoriesList({
               }}
               role="button"
               tabIndex={0}
-              aria-label="Edit categorie"
+              aria-label="Edit category"
             />
             <StyledTrash
               onClick={(event) => {
@@ -189,7 +189,7 @@ export default function CategoriesList({
               }}
               tabIndex={0}
               role="button"
-              aria-label="Delete categorie"
+              aria-label="Delete category"
             />
             <StyleHeading title={category.title}>
               <strong>{category.title}</strong>
