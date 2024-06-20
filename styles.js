@@ -137,8 +137,11 @@ button {
 
 a:hover, button:hover {
   cursor: pointer;
-  opacity: 0.5;
-  
+  opacity: 0.5;  
+}
+
+a:active, button:active {
+  opacity: 1;  
 }
 
 /* react-big-calendar styles: */

@@ -39,6 +39,10 @@ const StyledListOfMembers = styled.ul`
 
 const StyledMemberItem = styled.li`
   text-align: left;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const StyleHeading = styled.h3`
