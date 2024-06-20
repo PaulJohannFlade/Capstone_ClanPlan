@@ -223,12 +223,12 @@ export default function MemberProfile({
 
   const isOnlyMember = familyMembers.length === 1 && user._id === _id;
   const categoriesWithOnlyThisMember = categories.filter(
-    (categorie) =>
-      categorie.selectedMembers.length === 1 &&
-      categorie.selectedMembers[0]._id === _id
+    (category) =>
+      category.selectedMembers.length === 1 &&
+      category.selectedMembers[0]._id === _id
   );
   const categoriesIdsWithOnlyThisMember = categoriesWithOnlyThisMember.map(
-    (categorie) => categorie._id
+    (category) => category._id
   );
 
   const deleteAccountMessage =
