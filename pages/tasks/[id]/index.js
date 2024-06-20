@@ -75,7 +75,7 @@ export default function DetailsPage({ detailsBackLinkRef }) {
 
   return (
     <>
-      <StyledBackLink href={detailsBackLinkRef} aria-label="Back">
+      <StyledBackLink href={detailsBackLinkRef} aria-label="back">
         <BackArrow role="img" aria-label="left arrow icon" />
       </StyledBackLink>
       {task ? (
