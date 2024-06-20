@@ -45,7 +45,7 @@ const CenteredContainer = styled.div`
 
 const StyledImage = styled(Image)`
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
   height: auto;
   max-height: 100%;
   object-fit: contain;
