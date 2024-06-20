@@ -53,19 +53,18 @@ export const authOptions = {
           response_type: "code",
         },
       },
-      callbacks: {
-        async signIn({ account, profile }) {
-          if (account.provider === "google") {
-            return (
-              profile.email_verified && profile.email.endsWith("@example.com")
-            );
-          }
-          return true; // Do different verification for other providers that don't have `email_verified`
-        },
-      },
     }),
 
     // ...add more providers here
   ],
+  callbacks: {
+    async signIn({ account, profile }) {
+      console.log(profile.email);
+      if (account.provider === "google") {
+        return profile.email_verified;
+      }
+      return true; // Do different verification for other providers that don't have `email_verified`
+    },
+  },
 };
 export default NextAuth(authOptions);
