@@ -114,7 +114,7 @@ export default function ProgressPieChart() {
 
   return (
     <>
-      <StyledHeading>Your Progress for the current week</StyledHeading>
+      <StyledHeading>Your progress for the current week</StyledHeading>
       <StyledContent>{`(${formatDate(startOfWeek)} - ${formatDate(
         endOfWeek
       )})`}</StyledContent>
