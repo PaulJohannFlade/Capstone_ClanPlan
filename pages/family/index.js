@@ -31,6 +31,7 @@ const StyledHeading = styled.h2`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  max-width: 60vw;
 `;
 
 const StyledPenUpdated = styled(StyledPen)`
