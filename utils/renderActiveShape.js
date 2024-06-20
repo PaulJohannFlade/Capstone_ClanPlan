@@ -16,7 +16,8 @@ export default function renderActiveShape(props) {
   return (
     <g>
       <text x={cx} y={cy} dy={8} textAnchor="middle" fill="var(--color-font)">
-        {payload.name} {`(${(percent * 100).toFixed(2)}%)`}
+        {payload.name}
+        {`: ${percent * 100}%`}
       </text>
 
       <Sector
