@@ -1,20 +1,24 @@
-import { StyledMessage } from "..";
+import { StyledMessage } from "@/pages";
 import Modal from "@/components/Modal";
 import CategoriesList from "@/components/CategoriesList";
 import CategoryForm from "@/components/CategoryForm";
 import StyledPlus from "@/components/StyledPlus";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { StyledMenu } from "../family";
+import { StyledMenu } from "@/pages/family";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
+import StyledError from "@/components/StyledError";
 
 export default function CategoriesPage() {
   const [modalMode, setModalMode] = useState("");
 
+  const { showModal, openModal, closeModal } = useModal();
   const { user, familyMembers, categories, mutateCategories } = useData();
 
-  const { showModal, openModal, closeModal } = useModal();
+  if (!user || !familyMembers || !categories) {
+    return <StyledError />;
+  }
 
   async function handleAddCategory(newCategoryData) {
     const response = await toast.promise(

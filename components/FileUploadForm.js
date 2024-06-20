@@ -1,5 +1,5 @@
 import { useState } from "react";
-import StyledButton from "./StyledButton";
+import StyledButton from "@/components/StyledButton";
 import styled from "styled-components";
 import Upload from "@/public/assets/images/upload.svg";
 

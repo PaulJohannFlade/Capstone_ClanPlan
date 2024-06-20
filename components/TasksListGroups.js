@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TasksListGroup from "./TasksListGroup";
+import TasksListGroup from "@/components/TasksListGroup";
 import convertDateToString from "@/utils/convertDateToString";
 import checkForMissedDate from "@/utils/checkForMissedDate";
 import checkForToday from "@/utils/checkForToday";

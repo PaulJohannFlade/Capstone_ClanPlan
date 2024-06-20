@@ -2,7 +2,15 @@ import StyledLoadingAnimation from "@/components/StyledLoadingAnimation";
 import { createContext, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 
-const fetcher = (url) => fetch(url).then((response) => response.json());
+const fetcher = (url) =>
+  fetch(url).then((response) => {
+    if (!response.ok) {
+      const error = new Error("Data not found!");
+      error.status = response.status;
+      throw error;
+    }
+    return response.json();
+  });
 
 const DataContext = createContext();
 
@@ -62,17 +70,6 @@ export function DataProvider({ children, setTheme }) {
     (memberId && isFamilyMemberLoading)
   ) {
     return <StyledLoadingAnimation />;
-  }
-
-  if (
-    !tasks ||
-    !categories ||
-    !familyMembers ||
-    !user ||
-    (taskId && !task) ||
-    (memberId && !familyMember)
-  ) {
-    return;
   }
 
   return (

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import StyledButton from "./StyledButton";
+import StyledButton from "@/components/StyledButton";
 import { useRouter } from "next/router";
 import { useData } from "@/context/dataContext";
 

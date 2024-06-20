@@ -1,4 +1,4 @@
-import convertDateToString from "./convertDateToString";
+import convertDateToString from "@/utils/convertDateToString";
 
 export default function getTasksForCurrentWeek(tasks, startOfWeek, endOfWeek) {
   const currentWeekTasks = tasks.filter(

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import StyledButton from "./StyledButton";
+import StyledButton from "@/components/StyledButton";
 import { useState } from "react";
 
 const StyledHeading = styled.h2`

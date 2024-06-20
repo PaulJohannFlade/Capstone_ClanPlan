@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import CloseButton from "./CloseButton";
+import CloseButton from "@/components/CloseButton";
 import { useModal } from "@/context/modalContext";
 
 const Overlay = styled.div`

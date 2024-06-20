@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import StyledPen from "./StyledPen";
-import StyledTrash from "./StyledTrash";
+import StyledPen from "@/components/StyledPen";
+import StyledTrash from "@/components/StyledTrash";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import Modal from "./Modal";
-import ConfirmBox from "./ConfirmBox";
-import CommentForm from "./CommentForm";
+import Modal from "@/components/Modal";
+import ConfirmBox from "@/components/ConfirmBox";
+import CommentForm from "@/components/CommentForm";
 import formatCommentDate from "@/utils/formatCommentDate";
 import { useModal } from "@/context/modalContext";
 import Image from "next/image";

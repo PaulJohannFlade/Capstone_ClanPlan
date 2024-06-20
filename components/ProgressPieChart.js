@@ -14,6 +14,11 @@ const StyledInnerContainer = styled.div`
   display: grid;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
+
+  @media (max-width: 900px) {
+    display: flex;
+  }
 `;
 
 const StyledOuterContainer = styled.div`
@@ -27,10 +32,17 @@ const StyledOuterContainer = styled.div`
   }
 `;
 
-const StyledSection = styled.section`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: flex-start;
+const StyledSection = styled.ul`
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: ${({ $background }) => $background};
+  padding: 0.3rem 0.5rem;
+  gap: 0.2rem;
+  @media (max-width: 350px) {
+    flex-direction: column;
+  }
 `;
 
 const StyledHeading = styled.h2`
@@ -90,28 +102,24 @@ export default function ProgressPieChart() {
       <StyledContent>{`(${formatDate(startOfWeek)} - ${formatDate(
         endOfWeek
       )})`}</StyledContent>
-      <br />
       <StyledOuterContainer>
         <StyledInnerContainer>
           {data.map((element) => (
-            <StyledSection key={element.name}>
-              <span> {element.name}</span>{" "}
-              <span>
-                : {element.value}
-                {element.value === 1 ? " task" : " tasks"}
-              </span>
+            <StyledSection key={element.name} $background={element.fill}>
+              <li> {element.name}:</li>
+              <li>{element.value}</li>
             </StyledSection>
           ))}
         </StyledInnerContainer>
-        <PieChart width={375} height={300}>
+        <PieChart width={360} height={240}>
           <Pie
             activeIndex={activeIndex}
             activeShape={renderActiveShape}
             data={data}
-            cx={200}
-            cy={150}
+            cx={180}
+            cy={120}
             innerRadius={70}
-            outerRadius={110}
+            outerRadius={100}
             dataKey="value"
             onMouseEnter={onPieEnter}
           />

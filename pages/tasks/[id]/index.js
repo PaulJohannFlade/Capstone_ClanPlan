@@ -8,6 +8,7 @@ import CommentForm from "@/components/CommentForm";
 import Comments from "@/components/Comments";
 import { useState } from "react";
 import { useData } from "@/context/dataContext";
+import StyledError from "@/components/StyledError";
 
 const StyledMessage = styled.p`
   text-align: center;
@@ -36,6 +37,10 @@ export default function DetailsPage({ detailsBackLinkRef }) {
   const { id } = router.query;
 
   const { task, mutateTask, mutateTasks } = useData(id);
+
+  if (!task) {
+    return <StyledError />;
+  }
 
   function handleChangeModalMode(mode) {
     setModalMode(mode);

@@ -10,6 +10,7 @@ import CalendarAgendaEvent from "@/components/CalendarAgendaEvent";
 import { toast } from "react-toastify";
 import convertDateToString from "@/utils/convertDateToString";
 import { useData } from "@/context/dataContext";
+import StyledError from "@/components/StyledError";
 
 const localizer = globalizeLocalizer(globalize);
 const DnDCalendar = withDragAndDrop(Calendar);
@@ -50,9 +51,12 @@ export default function CalendarPage({
   currentView,
   setCurrentView,
 }) {
+  const router = useRouter();
   const { tasks, mutateTasks } = useData();
 
-  const router = useRouter();
+  if (!tasks) {
+    return <StyledError />;
+  }
 
   const events = tasks.map((task) => {
     const dueDate = new Date(task.dueDate);

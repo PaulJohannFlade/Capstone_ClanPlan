@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import StyledButton from "./StyledButton";
+import StyledButton from "@/components/StyledButton";
 
 const StyledHeading = styled.h2`
   align-self: center;
