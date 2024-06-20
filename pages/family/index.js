@@ -31,33 +31,10 @@ const StyledHeading = styled.h2`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  @media (max-width: 400px) {
-    max-width: 230px;
-  }
-
-  @media (min-width: 400px) {
-    max-width: 300px;
-  }
-  @media (min-width: 500px) {
-    max-width: 350px;
-  }
-
-  @media (min-width: 600px) {
-    max-width: 400px;
-  }
-  @media (min-width: 700px) {
-    max-width: 450px;
-  }
-  @media (min-width: 800px) {
-    max-width: 500px;
-  }
-  @media (min-width: 900px) {
-    max-width: 100%;
-  }
 `;
 
 const StyledPenUpdated = styled(StyledPen)`
+  position: absolute;
   right: -0.75rem;
   top: -0.5rem;
 `;

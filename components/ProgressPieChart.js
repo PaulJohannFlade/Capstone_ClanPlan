@@ -17,7 +17,7 @@ const StyledInnerContainer = styled.div`
   gap: 0.5rem;
 
   @media (max-width: 900px) {
-    display: flex;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 `;
 
@@ -29,6 +29,10 @@ const StyledOuterContainer = styled.div`
 
   @media (min-width: 900px) {
     flex-direction: row;
+    position: absolute;
+    left: ${({ $noProgressToShow }) =>
+      $noProgressToShow ? "calc(50% + 180px)" : "calc(50% + 100px)"};
+    transform: translateX(-50%);
   }
 `;
 
@@ -53,6 +57,15 @@ const StyledHeading = styled.h2`
 const StyledContent = styled.p`
   text-align: center;
   font-weight: 700;
+`;
+
+const StyledNoProgressMessage = styled.p`
+  margin-top: 1.5rem;
+  text-align: center;
+  font-weight: 500;
+  @media (min-width: 900px) {
+    margin-left: 2rem;
+  }
 `;
 
 export default function ProgressPieChart() {
@@ -96,13 +109,16 @@ export default function ProgressPieChart() {
     },
   ];
 
+  const listOfZeroTasks = data.filter((element) => element.value === 0);
+  const noProgressToShow = listOfZeroTasks.length === data.length;
+
   return (
     <>
-      <StyledHeading>Your Progress for the current week</StyledHeading>
+      <StyledHeading>Your progress for the current week</StyledHeading>
       <StyledContent>{`(${formatDate(startOfWeek)} - ${formatDate(
         endOfWeek
       )})`}</StyledContent>
-      <StyledOuterContainer>
+      <StyledOuterContainer $noProgressToShow={noProgressToShow}>
         <StyledInnerContainer>
           {data.map((element) => (
             <StyledSection key={element.name} $background={element.fill}>
@@ -111,6 +127,11 @@ export default function ProgressPieChart() {
             </StyledSection>
           ))}
         </StyledInnerContainer>
+        {noProgressToShow && (
+          <StyledNoProgressMessage>
+            No progress chart to display
+          </StyledNoProgressMessage>
+        )}
         <PieChart width={360} height={240}>
           <Pie
             activeIndex={activeIndex}

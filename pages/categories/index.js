@@ -9,6 +9,11 @@ import { StyledMenu } from "@/pages/family";
 import { useModal } from "@/context/modalContext";
 import { useData } from "@/context/dataContext";
 import StyledError from "@/components/StyledError";
+import styled from "styled-components";
+
+const StyledHeading = styled.h2`
+  text-align: center;
+`;
 
 export default function CategoriesPage() {
   const [modalMode, setModalMode] = useState("");
@@ -51,7 +56,7 @@ export default function CategoriesPage() {
           }}
           $right={true}
         />
-        <h2>Task Categories</h2>
+        <StyledHeading>Task Categories</StyledHeading>
       </StyledMenu>
 
       {!categories.length && (
