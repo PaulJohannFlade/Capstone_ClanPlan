@@ -127,7 +127,7 @@ export default function FamilyPage() {
         .send(
           "service_tcxz2ti",
           "template_uc0996j",
-          newMemberData,
+          { ...newMemberData, familyName: user.family.name },
           "jjcfLQQIHPYS7TXeC"
         )
         .then(
