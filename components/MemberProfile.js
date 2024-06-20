@@ -223,12 +223,12 @@ export default function MemberProfile({
 
   const isOnlyMember = familyMembers.length === 1 && user._id === _id;
   const categoriesWithOnlyThisMember = categories.filter(
-    (categorie) =>
-      categorie.selectedMembers.length === 1 &&
-      categorie.selectedMembers[0]._id === _id
+    (category) =>
+      category.selectedMembers.length === 1 &&
+      category.selectedMembers[0]._id === _id
   );
   const categoriesIdsWithOnlyThisMember = categoriesWithOnlyThisMember.map(
-    (categorie) => categorie._id
+    (category) => category._id
   );
 
   const deleteAccountMessage =
@@ -387,13 +387,13 @@ export default function MemberProfile({
                 priority={true}
               />
             ) : (
-              <StyledUser />
+              <StyledUser role="img" aria-label="default user avatar" />
             )}
             {(user.role !== "Child" || user._id === _id) && (
               <StyledEditButton
                 onClick={() => setIsPhotoEditMode(!isPhotoEditMode)}
               >
-                <StyledImagePen />
+                <StyledImagePen role="img" aria-label="pen icon" />
               </StyledEditButton>
             )}
           </ImageContainer>
@@ -417,7 +417,17 @@ export default function MemberProfile({
         </StyledContainer>
         <UserInfoContainer>
           {(user.role !== "Child" || user._id === _id) && (
-            <StyledInfoPen onClick={handleEditInfoButtonClick} />
+            <StyledInfoPen
+              onClick={handleEditInfoButtonClick}
+              role="button"
+              aria-label="Edit user info"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  handleEditInfoButtonClick();
+                }
+              }}
+            />
           )}
           <StyledParagraph>Name:</StyledParagraph>
           <StyledContent>{name}</StyledContent>
@@ -439,7 +449,11 @@ export default function MemberProfile({
       {_id === user._id && (
         <StyledSection $settings={true}>
           <StyledHeading>Settings</StyledHeading>
-          <ThemeToggle familyMember={familyMember} mutateUser={mutateUser} />
+          <ThemeToggle
+            familyMember={familyMember}
+            mutateUser={mutateUser}
+            mutateMember={mutateMember}
+          />
         </StyledSection>
       )}
       <Modal $top="8rem" $open={showModal && modalMode === "edit-info"}>

@@ -3,11 +3,36 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const images = [
-  { src: "/assets/images/turtles/Cyan-turtle1.png", width: 500, height: 500 },
-  { src: "/assets/images/turtles/Cyan-turtle2.png", width: 500, height: 500 },
-  { src: "/assets/images/turtles/Cyan-turtle3.png", width: 500, height: 500 },
-  { src: "/assets/images/turtles/Cyan-turtle4.png", width: 500, height: 500 },
-  { src: "/assets/images/turtles/Cyan-turtle5.png", width: 500, height: 500 },
+  {
+    src: "/assets/images/turtles/Cyan-turtle1.png",
+    width: 500,
+    height: 500,
+    alt: "bathing turtle",
+  },
+  {
+    src: "/assets/images/turtles/Cyan-turtle2.png",
+    width: 500,
+    height: 500,
+    alt: "sliding turtle",
+  },
+  {
+    src: "/assets/images/turtles/Cyan-turtle3.png",
+    width: 500,
+    height: 500,
+    alt: "turtle on the trolley",
+  },
+  {
+    src: "/assets/images/turtles/Cyan-turtle4.png",
+    width: 500,
+    height: 500,
+    alt: "turtle on the trolley",
+  },
+  {
+    src: "/assets/images/turtles/Cyan-turtle5.png",
+    width: 500,
+    height: 500,
+    alt: "turtle on the beach",
+  },
 ];
 
 const CenteredContainer = styled.div`
@@ -20,7 +45,7 @@ const CenteredContainer = styled.div`
 
 const StyledImage = styled(Image)`
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
   height: auto;
   max-height: 100%;
   object-fit: contain;
@@ -39,7 +64,7 @@ export default function RandomImage() {
       {randomImage && (
         <StyledImage
           src={randomImage.src}
-          alt="random picture of a relaxing turtle"
+          alt={randomImage.alt}
           width={randomImage.width}
           height={randomImage.height}
           priority

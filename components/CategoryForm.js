@@ -15,7 +15,7 @@ const StyledLabel = styled.label`
 
 const StyledSpan = styled.span`
   font-size: 1rem;
-  color: var(--color-alert);
+  color: var(--color-alert-font);
   float: ${({ $left }) => ($left ? "left" : "right")};
 `;
 
@@ -116,15 +116,17 @@ export default function CategoryForm({
   }
 
   return (
-    <StyledForm onSubmit={handleSubmit}>
-      <StyledHeading>{formHeading}</StyledHeading>
+    <StyledForm onSubmit={handleSubmit} aria-labelledby="category-form">
+      <StyledHeading id="category-form">{formHeading}</StyledHeading>
       <StyledLabel htmlFor="title">
         <StyledSpan $left={true}>*</StyledSpan>Title:
         {!isValidCategory && (
-          <StyledSpan>Please enter valid category!</StyledSpan>
+          <StyledSpan id="title-error" aria-live="polite">
+            Please enter valid category!
+          </StyledSpan>
         )}
         {!isUniqueCategory && (
-          <StyledSpan>
+          <StyledSpan id="title-unique-error" aria-live="polite">
             Category already exists. Please choose another name.
           </StyledSpan>
         )}
@@ -136,8 +138,15 @@ export default function CategoryForm({
         onChange={handleChange}
         maxLength={50}
         defaultValue={value?.title}
+        aria-invalid={!isValidCategory || !isUniqueCategory}
+        aria-describedby={
+          (!isValidCategory && "title-error") ||
+          (!isUniqueCategory && "title-unique-error")
+        }
       />
-      <StyledSpan>{50 - enteredCategory.length} characters left</StyledSpan>
+      <StyledSpan aria-live="polite">
+        {50 - enteredCategory.length} characters left
+      </StyledSpan>
 
       <StyledLabel htmlFor="members">
         <StyledSpan $left={true}>*</StyledSpan>

@@ -31,7 +31,7 @@ const StyledLabel = styled.label`
 
 const StyledSpan = styled.span`
   font-size: 0.9rem;
-  color: red;
+  color: var(--color-alert-font);
   float: ${({ $left }) => ($left ? "left" : "right")};
 `;
 
@@ -239,11 +239,15 @@ export default function Form({
           />
         )}
       </Modal>
-      <StyledForm onSubmit={handleSubmit}>
-        <StyledHeading>{title}</StyledHeading>
+      <StyledForm onSubmit={handleSubmit} aria-labelledby="task-form">
+        <StyledHeading id="task-form">{title}</StyledHeading>
         <StyledLabel htmlFor="title">
           <StyledSpan $left={true}>*</StyledSpan>Title:
-          {!isValid && <StyledSpan>Please enter valid title!</StyledSpan>}
+          {!isValid && (
+            <StyledSpan id="title-error" aria-live="polite">
+              Please enter valid title!
+            </StyledSpan>
+          )}
         </StyledLabel>
         <input
           type="text"
@@ -252,8 +256,12 @@ export default function Form({
           maxLength="150"
           onChange={handleTitleChange}
           defaultValue={value?.title}
+          aria-invalid={!isValid}
+          aria-describedby="title-error"
         />
-        <StyledSpan>{150 - enteredTitle.length} characters left</StyledSpan>
+        <StyledSpan aria-live="polite">
+          {150 - enteredTitle.length} characters left
+        </StyledSpan>
         <StyledLabel htmlFor="category">Category:</StyledLabel>
         <StyledSelect
           id="category"
@@ -303,6 +311,8 @@ export default function Form({
           defaultValue={value?.repeat}
           onChange={handleRepeat}
           disabled={isEdit}
+          aria-invalid={!isEndDateValid}
+          aria-describedby="end-date-error"
         >
           <option value="None">Don&apos;t repeat</option>
           <option value="Daily">Daily</option>
@@ -314,7 +324,9 @@ export default function Form({
             <StyledLabel htmlFor="endDate">
               Until:
               {!isEndDateValid && (
-                <StyledSpan>Please pick end date!</StyledSpan>
+                <StyledSpan id="end-date-error">
+                  Please pick end date!
+                </StyledSpan>
               )}
             </StyledLabel>
             <StyledDateInput

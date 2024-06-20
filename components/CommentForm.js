@@ -14,7 +14,7 @@ const StyledLabel = styled.label`
 
 const StyledSpan = styled.span`
   font-size: 0.9rem;
-  color: red;
+  color: var(--color-alert-font);
   float: ${({ $left }) => ($left ? "left" : "right")};
 `;
 
@@ -132,14 +132,20 @@ export default function CommentForm({
   }
 
   return (
-    <StyledForm $edit={commentToEdit} onSubmit={handleSubmit}>
+    <StyledForm
+      $edit={commentToEdit}
+      onSubmit={handleSubmit}
+      aria-label="comment-form"
+    >
       <StyledLabel htmlFor="message">
         {!commentToEdit && (
           <p>
             <StyledSpan $left={true}>*</StyledSpan>Your message:
           </p>
         )}
-        {!isValidMessage && <StyledSpan>Please enter the message!</StyledSpan>}
+        {!isValidMessage && (
+          <StyledSpan id="message-error">Please enter the message!</StyledSpan>
+        )}
       </StyledLabel>
       <textarea
         aria-label="message"
@@ -150,6 +156,8 @@ export default function CommentForm({
         maxLength="200"
         defaultValue={commentToEdit?.message}
         onChange={handleChangeMessage}
+        aria-invalid={!isValidMessage}
+        aria-describedby="message-error"
       />
       <StyledButtonContainer>
         {commentToEdit && (

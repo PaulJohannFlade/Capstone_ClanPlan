@@ -18,7 +18,7 @@ const StyledContainer = styled.div`
 `;
 
 const StyledGroupHeading = styled.h3`
-  ${({ $red }) => $red && `color: #ff0000;`}
+  color: ${({ $red }) => $red && "var(--color-alert-font)"};
 `;
 
 const StyledUpArrow = styled(UpArrow)`
@@ -53,11 +53,27 @@ export default function TasksListGroup({
 }) {
   return (
     <StyledSection>
-      <StyledContainer onClick={() => onHideGroup(groupKey)}>
+      <StyledContainer
+        onClick={() => onHideGroup(groupKey)}
+        role="button"
+        aria-label={
+          hideGroup[groupKey] ? "Expand task group" : "Collapse task group"
+        }
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            onHideGroup(groupKey);
+          }
+        }}
+      >
         <StyledGroupHeading $red={$red}>
           {groupKey} ({tasks.length})
         </StyledGroupHeading>
-        {hideGroup[groupKey] ? <StyledDownArrow /> : <StyledUpArrow />}
+        {hideGroup[groupKey] ? (
+          <StyledDownArrow role="img" aria-label="arrow down icon" />
+        ) : (
+          <StyledUpArrow role="img" aria-label="arrow up icon" />
+        )}
       </StyledContainer>
       <StyledDiv $isHide={hideGroup[groupKey]}>
         <StyledTasksList

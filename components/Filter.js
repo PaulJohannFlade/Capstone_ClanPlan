@@ -64,7 +64,7 @@ export default function Filter({
         )}
       </Modal>
       <StyledFilterButton $width="2.5rem" onClick={openModal}>
-        <FilterIcon />
+        <FilterIcon role="img" aria-label="filter icon" />
       </StyledFilterButton>
 
       <StyledList>
@@ -75,7 +75,10 @@ export default function Filter({
                 onClick={() => onDeleteFilterOption(key)}
                 key={key}
               >
-                ❌ {key}:{" "}
+                <span aria-label="close emoji" role="img">
+                  ❌
+                </span>{" "}
+                {key}:{" "}
                 {key === "member"
                   ? familyMembers.find((member) => member._id === filters[key])
                       .name

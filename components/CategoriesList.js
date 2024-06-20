@@ -158,12 +158,38 @@ export default function CategoriesList({
           <StyledListItem
             key={category._id}
             onClick={() => handleExpand(index)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                handleExpand(index);
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label={selected === index ? "Hide members" : "Show members"}
           >
-            <StyledPen onClick={(event) => handlePenClick(category, event)} />
+            <StyledPen
+              onClick={(event) => handlePenClick(category, event)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  handlePenClick(category, event);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label="Edit category"
+            />
             <StyledTrash
               onClick={(event) => {
                 handleTrashClick(category, event);
               }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  handleTrashClick(category, event);
+                }
+              }}
+              tabIndex={0}
+              role="button"
+              aria-label="Delete category"
             />
             <StyleHeading title={category.title}>
               <strong>{category.title}</strong>
@@ -177,7 +203,11 @@ export default function CategoriesList({
                 ))}
               </StyledListOfMembers>
             )}
-            {selected === index ? <StyledUpArrow /> : <StyledDownArrow />}
+            {selected === index ? (
+              <StyledUpArrow role="img" aria-label="arrow up" />
+            ) : (
+              <StyledDownArrow role="img" aria-label="arrow down" />
+            )}
           </StyledListItem>
         ))}
       </StyledList>

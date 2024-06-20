@@ -76,7 +76,7 @@ const StyledFlame = styled(Flame)`
 `;
 
 const StyledSpan = styled.span`
-  color: ${({ $isMissed }) => $isMissed && "var(--color-alert)"};
+  color: ${({ $isMissed }) => $isMissed && "var(--color-alert-font)"};
 `;
 
 export default function TaskDetails({
@@ -171,9 +171,19 @@ export default function TaskDetails({
         )}
       </Modal>
       <StyledSection $isDone={isDone}>
-        <StyledTrash onClick={handleTaskTrashClick} />
-        <StyledLink href={`/tasks/${id}/edit`}>
-          <StyledPen />
+        <StyledTrash
+          onClick={handleTaskTrashClick}
+          role="button"
+          tabIndex={0}
+          aria-label="Delete task"
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              handleTaskTrashClick();
+            }
+          }}
+        />
+        <StyledLink href={`/tasks/${id}/edit`} aria-label="Edit task">
+          <StyledPen role="img" aria-label="pen icon" />
         </StyledLink>
         <StyledParagraph> What is to do?</StyledParagraph>
         <StyledParagraphContent>{title}</StyledParagraphContent>
@@ -185,7 +195,7 @@ export default function TaskDetails({
         <p>
           {priority &&
             [...Array(Number(priority))].map((_element, index) => (
-              <StyledFlame key={index} />
+              <StyledFlame key={index} role="img" aria-label="flame icon" />
             ))}
         </p>
         <p>Due Date:</p>

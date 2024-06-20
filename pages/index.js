@@ -25,7 +25,7 @@ const StyledSection = styled.section`
 
 const StyledSpan = styled.span`
   color: ${({ $redColor }) =>
-    $redColor ? "var(--color-alert)" : "var(--color-font)"};
+    $redColor ? "var(--color-alert-font)" : "var(--color-font)"};
   text-align: center;
   display: block;
   width: 100%;
@@ -78,10 +78,7 @@ const StyledTabButton = styled.button`
   background-color: ${({ $isActive }) =>
     $isActive ? "var(--color-button-active)" : "var(--color-button)"};
   border: none;
-  outline: none;
-  cursor: pointer;
   padding: 0.7rem 2rem;
-  transition: 0.3s;
   font-weight: 700;
 `;
 

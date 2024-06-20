@@ -9,7 +9,7 @@ const StyledClose = styled(Close)`
   right: 1rem;
   background: none;
   border: none;
-  stroke: var(--color-alert);
+  stroke: var(--color-alert-font);
   &:hover {
     cursor: pointer;
     opacity: 0.5;
@@ -20,5 +20,17 @@ const StyledClose = styled(Close)`
 export default function CloseButton() {
   const { closeModal } = useModal();
 
-  return <StyledClose onClick={closeModal} />;
+  return (
+    <StyledClose
+      onClick={closeModal}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          closeModal();
+        }
+      }}
+      role="button"
+      aria-label="close icon"
+      tabIndex={0}
+    />
+  );
 }

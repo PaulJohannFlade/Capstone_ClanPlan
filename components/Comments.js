@@ -35,6 +35,7 @@ const StyledListItem = styled.li`
 `;
 
 const StyledLink = styled(Link)`
+  max-width: 80vw;
   display: flex;
   justify-content: flex-start;
   gap: 0.5rem;
@@ -146,7 +147,7 @@ export default function Comments({
                     priority={true}
                   />
                 ) : (
-                  <StyledUser />
+                  <StyledUser role="img" aria-label="default user avatar" />
                 )}
               </ImageContainer>
               <StyledParagraph>
@@ -158,10 +159,26 @@ export default function Comments({
                 <StyledPen
                   $small={true}
                   onClick={() => handlePenClick(comment)}
+                  role="button"
+                  aria-label="Edit comment"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      handlePenClick(comment);
+                    }
+                  }}
                 />
                 <StyledTrash
                   $small={true}
                   onClick={() => handleCommentTrashClick(comment._id)}
+                  role="button"
+                  aria-label="Delete comment"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      handleCommentTrashClick(comment._id);
+                    }
+                  }}
                 />
               </>
             )}

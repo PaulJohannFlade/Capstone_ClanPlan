@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Sun from "@/public/assets/images/sun.svg";
 import Moon from "@/public/assets/images/moon.svg";
 import { toast } from "react-toastify";
-import useSWR from "swr";
 
 const ToggleLabel = styled.label`
   position: relative;
@@ -51,9 +50,12 @@ const MoonIcon = styled(Moon)`
   right: 6px;
 `;
 
-export default function ThemeToggle({ familyMember, mutateUser }) {
+export default function ThemeToggle({
+  familyMember,
+  mutateUser,
+  mutateMember,
+}) {
   const { isDarkTheme, _id: id } = familyMember;
-  const { mutate } = useSWR(`/api/members/${id}`);
 
   async function handleModeToggle() {
     const updatedMember = { ...familyMember, isDarkTheme: !isDarkTheme };
@@ -73,7 +75,7 @@ export default function ThemeToggle({ familyMember, mutateUser }) {
     );
 
     if (response.ok) {
-      mutate();
+      mutateMember();
       mutateUser();
     }
   }
@@ -86,8 +88,8 @@ export default function ThemeToggle({ familyMember, mutateUser }) {
         onChange={handleModeToggle}
         checked={isDarkTheme}
       />
-      <SunIcon />
-      <MoonIcon />
+      <SunIcon role="img" aria-label="sun icon" />
+      <MoonIcon role="img" aria-label="moon with stars icon" />
     </ToggleLabel>
   );
 }

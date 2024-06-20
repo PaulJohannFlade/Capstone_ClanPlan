@@ -24,7 +24,7 @@ const StyledListItems = styled.li`
   border-radius: 2rem;
   transition: background-color 0.5s ease, color 0.5s ease, opacity 0.5s ease;
   background-color: ${({ $isDone }) =>
-    $isDone ? "lightgray" : "var(--color-background)"};
+    $isDone ? "#d3d3d3" : "var(--color-background)"};
   opacity: ${({ $isDone }) => $isDone && "0.5"};
   padding: 1rem;
   box-shadow: 1px 1px 10px -1px var(--color-font);

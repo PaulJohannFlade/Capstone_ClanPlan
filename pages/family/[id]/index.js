@@ -66,8 +66,8 @@ export default function MemberProfilePage() {
 
   return (
     <>
-      <StyledBackButton onClick={handleGoBack}>
-        <BackArrow />
+      <StyledBackButton onClick={handleGoBack} aria-label="Back">
+        <BackArrow role="img" aria-label="left arrow icon" />
       </StyledBackButton>
       <StyledHeading>Family Member Profile</StyledHeading>
       {familyMember ? (

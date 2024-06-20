@@ -11,7 +11,7 @@ const StyledButton = styled.button`
   padding: 0.4rem;
   width: ${({ $width }) => ($width ? $width : "6rem")};
   align-self: center;
-  border-radius: 0.7rem;
+  border-radius: 0.5rem;
   ${({ $absolute }) =>
     $absolute &&
     `position: absolute;
