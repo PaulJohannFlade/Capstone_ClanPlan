@@ -30,10 +30,6 @@ const StyledForm = styled.form`
   border-radius: 1rem;
 `;
 
-const StyledInput = styled.input`
-  display: none;
-`;
-
 export default function MemberForm({
   onAddMember,
   familyMembers,
@@ -90,12 +86,15 @@ export default function MemberForm({
       }
     }
 
-    if (!data.role) {
+    if (!data.role && !(isInfoEditMode && user.role === "Child")) {
       setIsValidRole(false);
       event.target.role.focus();
       return;
     }
-    onAddMember({ ...data, family: user.family._id });
+    onAddMember({
+      ...data,
+      family: user.family._id,
+    });
   }
 
   function handleChange(event) {
