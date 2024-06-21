@@ -18,7 +18,7 @@ const StyledHeader = styled.header`
   left: 0;
   margin: 0;
   padding: 0.7rem;
-  z-index: 1;
+  z-index: 5;
   width: 100vw;
   min-width: 330px;
 

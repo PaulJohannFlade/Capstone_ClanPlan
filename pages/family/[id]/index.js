@@ -10,7 +10,7 @@ const StyledBackButton = styled.button`
   position: fixed;
   top: 0.7rem;
   left: 1rem;
-  z-index: 2;
+  z-index: 8;
   border: none;
 
   @media (min-width: 900px) {

@@ -7,7 +7,7 @@ const StyledContainer = styled.div`
   .multiSelectContainer .optionListContainer {
     z-index: ${({ $hidden }) => ($hidden ? "-1" : "2")};
     display: ${({ $hidden }) => ($hidden ? "none" : "block")};
-    max-height: 132px;
+    max-height: 95px;
     overflow: scroll;
   }
 `;
