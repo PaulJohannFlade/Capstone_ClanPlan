@@ -237,7 +237,7 @@ export default function MemberProfile({
       ? " You are the only member from your family. If you delete your account, all associated tasks, family data, and categories will be permanently deleted from the database."
       : categoriesWithOnlyThisMember.length > 0
       ? " If you delete the account, all categories associated only with it will be permanently deleted from the database."
-      : " Your account will be permanently deleted from the database.");
+      : " The account will be permanently deleted from the database.");
 
   async function handleEditMember(updatedMemberData) {
     const response = await toast.promise(
