@@ -53,7 +53,7 @@ export default function MemberForm({
     if (isInfoEditMode) {
       if (
         data.name.trim() === familyMember.name &&
-        data.role === familyMember.role &&
+        (familyMember.role === "Child" || data.role === familyMember.role) &&
         data.email.trim() === familyMember.email
       ) {
         alert("No changes were made to the form.");
