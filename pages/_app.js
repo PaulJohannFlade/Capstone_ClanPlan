@@ -9,6 +9,8 @@ import { SessionProvider } from "next-auth/react";
 import AuthGate from "@/components/AuthGate";
 import { ModalProvider } from "@/context/modalContext";
 import { DataProvider } from "@/context/dataContext";
+import NoMemberGate from "@/components/NoMemberGate";
+import UserLink from "@/components/UserLink";
 
 export default function App({
   Component,
@@ -44,45 +46,48 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      <DataProvider setTheme={setIsDarkTheme}>
-        <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-          <Layout>
-            <GlobalStyle />
-            <ToastContainer
-              position="top-center"
-              autoClose={2000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme={isDarkTheme ? "dark" : "light"}
-            />
-            <ModalProvider>
-              <AuthGate>
-                <Component
-                  {...pageProps}
-                  detailsBackLinkRef={detailsBackLinkRef}
-                  onSetDetailsBackLinkRef={handleSetDetailsBackLinkRef}
-                  filters={filters}
-                  setFilters={setFilters}
-                  onButtonClick={handleHomePageButtonClick}
-                  listType={listType}
-                  currentDate={currentDate}
-                  setCurrentDate={setCurrentDate}
-                  currentView={currentView}
-                  setCurrentView={setCurrentView}
-                  isDarkTheme={isDarkTheme}
-                  myTasksSelection={myTasksSelection}
-                  onMyTasksSelection={handleMyTasksSelection}
-                />
-              </AuthGate>
-            </ModalProvider>
-          </Layout>
-        </ThemeProvider>
-      </DataProvider>
+      <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+        <Layout>
+          <GlobalStyle />
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme={isDarkTheme ? "dark" : "light"}
+          />
+          <ModalProvider>
+            <AuthGate>
+              <DataProvider setTheme={setIsDarkTheme}>
+                <UserLink />
+                <NoMemberGate>
+                  <Component
+                    {...pageProps}
+                    detailsBackLinkRef={detailsBackLinkRef}
+                    onSetDetailsBackLinkRef={handleSetDetailsBackLinkRef}
+                    filters={filters}
+                    setFilters={setFilters}
+                    onButtonClick={handleHomePageButtonClick}
+                    listType={listType}
+                    currentDate={currentDate}
+                    setCurrentDate={setCurrentDate}
+                    currentView={currentView}
+                    setCurrentView={setCurrentView}
+                    isDarkTheme={isDarkTheme}
+                    myTasksSelection={myTasksSelection}
+                    onMyTasksSelection={handleMyTasksSelection}
+                  />
+                </NoMemberGate>
+              </DataProvider>
+            </AuthGate>
+          </ModalProvider>
+        </Layout>
+      </ThemeProvider>
     </SessionProvider>
   );
 }
