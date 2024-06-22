@@ -1,8 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
 import styled from "styled-components";
-import User from "@/public/assets/images/user.svg";
-import StyledButton from "@/components/StyledButton";
 
 const StyledHeader = styled.header`
   background-color: var(--color-background);
